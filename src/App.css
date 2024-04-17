@@ -1,38 +1,198 @@
-.App {
+/* Order online page style */
+.order_list {
+  cursor: pointer;
+  padding: 10px;
+}
+
+.order_list ul {
+  padding: 0;
+  margin: 0;
+  text-align: left !important;
+}
+
+.order_list ul li {
+  text-align: left !important;
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: 15px;
+  padding: 10px;
+  min-width: 185px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  background-color: #f8f8f8;
+  /* margin-left: 20px;  */
+}
+
+.menu li.active {
+  background-color: red;
+  color: white;
+}
+.closed{
+  padding-left: 11px;
+}
+.border {
+  border: 1px solid red;
+  /* height: 50px; */
+  /* width: 94%; */
+  margin: 0px auto;
+  font-weight: 600;
+  background: #ffd2d2;
+  border: 0;
+  color: #f00;
+  letter-spacing: 2px;
+  padding-top: 15px;
+  font-size: 16px;
+  padding: 10px;
+}
+
+.order_area {
+  margin-top: 40px;
+}
+
+.available_items {
+  margin: 0px auto;
+  width: 70%;
+  min-width: 300px;
+}
+
+.color_items {
+  background-color: #f8f8f8;
+  padding: 18px;
+  min-width: 450px;
+  /* margin-left: -73px; */
+}
+
+.color_items h5 {
+  color: #1b1b1b;
+  font-family: "Oswald", sans-serif;
+  font-weight: 600;
+  font-size: 17px;
+}
+
+.color_items p {
+  font-size: 14px;
+  line-height: 17px;
+  margin-top: -6px;
+}
+
+/* .price{
+  display: flex;
+ 
+}
+*/
+.qty-in {
+  border: 1px solid #c2c2c2;
+  width: 100%;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.price {
+  color: #e61a16;
+  position: relative;
+  top: 10px;
+  font-weight: 700;
+  font-size: 14px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.order-options {
+  padding: 2px;
+  border-radius: 3px;
+  border: 1px solid #c3c3c3;
+  width: 100%;
+}
+
+.add_btn {
+  font-size: 25px;
+  position: absolute;
+  margin-left: 10px;
+  
+}
+.btn-add{
+  border: 2px solid gray;
+  text-align: center;
+  margin: 0px auto;
+  border-radius: 3px;
+width: 28px;
+cursor: pointer;
+}
+.order_summary{
+  background-color: #f8f8f8; 
+  
+}
+.summary{
+  padding: 17px;
+}
+.summary_title{
+  margin-bottom: 32px;
+}
+.summary_title p{
+  color: #e61a16 !important;   
+  font-weight: 600;
+}
+.radio_btn{
+  margin-right: 5px;
+  cursor: pointer;
+}
+.radio_label{
+  font-family: "Oswald", sans-serif; 
+  color: #1b1b1b;
+  font-weight: 600;
+  text-transform: uppercase;
+  line-height: 0.9em;
+  letter-spacing: 1px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.postal_code{
+  margin-top: 10px;
+  font-size: 14px;
+  color: #3C3C3C;
+}
+.postal_in{
+  width: 100%;
+  padding: 3px 10px !important;
+  border-radius: 0 !important;
+  font-size: 14px !important;
+  min-height: 35px !important;
+  border: 1px solid #444 !important;
+}
+.order_btn{
+  width: 100% !important;
+  border: none !important;
+  background: #EE032B !important;
+  color: #fff !important;
+  border-radius: 0!important;
+  padding: 7px 0 !important;
+  text-align: center !important;
+  min-height: 40px !important;
+  cursor: pointer;
+}
+.summary_content{
+  margin-top: 30px;
+  text-align: center;
+  font-size: 14px;
+}
+
+@media screen and (max-width:768px)  {
+  .color_items{
+     min-width: 300px;
+     width: 90%;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  .order-options{
+      width: 100%;
+      text-align: center;
+      margin-top: 5px;
   }
-  to {
-    transform: rotate(360deg);
+  .btn-add{
+      margin-top: 10px;
+  }
+  /* .available_items{
+      width: 97%;
+  } */
+}
+@media screen and (max-width:500px){
+  .order_area{
+      margin: 0px auto;
+      width: 73%;
   }
 }
