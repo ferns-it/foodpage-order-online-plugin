@@ -12,11 +12,13 @@ export const AppContextProvider = (prpos) => {
 
   return (
     <AppContext.Provider
-      return={{
+      value={{
         fetchMenuList,
         menuList,
         menuLoading,
       }}
-    >{prpos.children}</AppContext.Provider>
+    >
+      {prpos.children}
+    </AppContext.Provider>
   );
 };

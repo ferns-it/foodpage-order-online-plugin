@@ -11,32 +11,32 @@ const api = axios.create({
         }`
       : null,
   },
-  withCredentials: true,
+  // withCredentials: true,
   timeout: 10000,
 });
 
 //Interceptor for handle the response
-api.interceptors.response.use(
-  function (response) {
-    let errorResponse = { message: "Someting Went Wrong", error: true };
-    if (
-      response.data != null &&
-      response.data.error != null &&
-      response.data.error === false
-    ) {
-      return response.data;
-    }
+// api.interceptors.response.use(
+//   function (response) {
+//     let errorResponse = { message: "Someting Went Wrong", error: true };
+//     if (
+//       response.data != null &&
+//       response.data.error != null &&
+//       response.data.error === false
+//     ) {
+//       return response.data;
+//     }
 
-    return Promise.reject(errorResponse);
-  },
-  function (res) {
-    let errorResponse = { message: "Someting Went Wrong", error: true };
-    if (res != null && res.response != null && res.response.data != null) {
-      errorResponse = res.response.data;
-    }
-    return Promise.reject(errorResponse);
-  }
-);
+//     return Promise.reject(errorResponse);
+//   },
+//   function (res) {
+//     let errorResponse = { message: "Someting Went Wrong", error: true };
+//     if (res != null && res.response != null && res.response.data != null) {
+//       errorResponse = res.response.data;
+//     }
+//     return Promise.reject(errorResponse);
+//   }
+// );
 
 class BaseClient {
   //Get Method
