@@ -119,7 +119,7 @@ function Order() {
             </button>
           </div>
         </div>
-        <div className="wrapper">
+        <div className="wrapper_102322">
           <div className="container">
             <div className="food_order_area">
               <div className="order_block">
@@ -464,6 +464,7 @@ function Order() {
             </div>
           </div>
         </div>
+          <div className="footer_98_"></div>
       </section>
     </Fragment>
   );
