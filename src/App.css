@@ -289,7 +289,7 @@
 }
 .billing_block {
   width: 30%;
-  max-height: 500px;
+  max-height: 537px;
   background-color: #fff;
   padding: 10px;
   margin-left: 10px;
@@ -519,6 +519,7 @@
 .opt_label_827{
   font-size: 13px;
   font-weight: 700;
+  margin-top: 20px;
 }
 .opt_input_827{
   width: 100%;
@@ -528,6 +529,26 @@
   border: 1px solid #7777;
   outline: none;
 }
-.opt_input_827:focus{
-  border: 1px solid #ee032b;
+.order_now_192{
+  width: 100%;
+  margin-top: 20px;
+  padding: 7px 0;
+  border: none;
+  outline: none;
+  background-color: #FD4645;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius:5px ;
+  transition: all 0.2s ease-in-out;
+}
+.order_now_192:hover{
+  background-color: #e03f3f;
+}
+.order_now_192:disabled{
+  background-color: #da6d6d;
+}
+.summary_item_wrapper_029{
+  max-height: 250px;
+  overflow-y: scroll;
 }
