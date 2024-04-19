@@ -378,6 +378,7 @@
   transition: all 0.2s ease-in-out;
 }
 .order_now.added {
+  border-radius: 50%;
   background-color: #028d3e;
 }
 .order_title {
