@@ -9,8 +9,9 @@ const useMenus = () => {
   const fetchMenuList = async () => {
     try {
       setMenuLoading(true);
-      await BaseClient.get(APIEndpoints.testAPI, {
+      await BaseClient.get(APIEndpoints.menulist, {
         onSuccess: (res) => {
+          console.log(res.data.data);
           setMenuList(res?.data);
         },
         onFailed: (err) => {

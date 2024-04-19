@@ -216,3 +216,25 @@
   color: #fd7300;
   font-size: 20px;
 }
+.chip-container {
+  position: absolute;
+  /* display: block; */
+  margin: 0 auto;
+  /* width: 80%; */
+  left: 50%;
+  transform: translateX(-50%);
+}
+.menu-list {
+  display: flex;
+  list-style: none;
+  width: 75%;
+  overflow-x: hidden;
+}
+.menu-list > li {
+  background-color: #f2f2f2;
+  padding: 10px;
+  margin-right: 10px; /* Add margin between chips */
+  border-radius: 5px;
+  width: 100%;
+  white-space: nowrap;
+}
