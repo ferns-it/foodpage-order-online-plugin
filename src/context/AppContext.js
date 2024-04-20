@@ -3,7 +3,7 @@ import useMenus from "../hooks/useMenus";
 
 export const AppContext = createContext();
 
-export const AppContextProvider = (prpos) => {
+export const AppContextProvider = (props) => {
   const {
     fetchMenuList,
     menuList,
@@ -31,7 +31,7 @@ export const AppContextProvider = (prpos) => {
         productsList,
       }}
     >
-      {prpos.children}
+      {props.children}
     </AppContext.Provider>
   );
 };

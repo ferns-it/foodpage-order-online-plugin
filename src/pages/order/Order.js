@@ -134,7 +134,9 @@ function Order() {
                     onClick={() => setActiveChipIndex(index)}
                   >
                     {/* {item.charAt(0).toUpperCase() + item.slice(1).toLowerCase()} */}
-                    {item?.name ?? "N/A"}
+                    <a className="nav-link" href={`#${item?.name}`}>
+                      {item?.name ?? "N/A"}
+                    </a>
                   </li>
                 ))}
             </ul>
@@ -149,86 +151,107 @@ function Order() {
           <div className="container">
             <div className="food_order_area">
               <div className="order_block">
-                {categoryList &&
-                  categoryList.map((list, index) => {
+                {products &&
+                  products.map((list, index) => {
+                    const productData = list?.product;
+
                     return (
                       <Fragment>
                         <br />
-                        <h5>{list?.name}</h5>
+                        <h5 id={list?.categoryName}>{list?.categoryName}</h5>
                         <div className="row">
-                          <div className="col-lg-12 col-md-12 col-sm-12 mt-3">
-                            <div className="card food-card">
-                              <div className="row">
-                                <div className="col-lg-4 col-md-4 col-sm-4">
-                                  <div className="food-img">
-                                    <img
-                                      src={require("../../assets/images/food.jpg")}
-                                      alt=""
-                                    />
-                                  </div>
-                                </div>
-                                <div className="col-lg-8 col-md-8 col-sm-8">
-                                  <div className="food_content position-relative">
-                                    <h3>Russian Delight</h3>
-                                    <p className="rest_name">Restaurent Name</p>
-                                    <p className="desc_">
-                                      Lorem ipsum dolor sit amet consectetur
-                                      adipisicing elit. Omnis nam quidem earum
-                                      voluptatibus sunt iusto praesentium, eius
-                                      sapiente provident corrupt. Lorem ipsum
-                                      dolor sit amet consectetur adipisicing
-                                      elit. Error odio illo ipsa, inventore quam
-                                      omnis suscipit, quod est fugiat laborum
-                                      voluptate, architecto velit dicta
-                                      reprehenderit debitis enim perferendis
-                                      dolore voluptatum?
-                                    </p>
-                                    <i className="food_type">
-                                      <div class="box">
-                                        <div class="circle"></div>
+                          {productData &&
+                            productData.length != 0 &&
+                            productData.map((product, key) => {
+                              console.log("product=>", product);
+                              return (
+                                <Fragment>
+                                  <div className="col-lg-12 col-md-12 col-sm-12 mt-3">
+                                    <div className="card food-card">
+                                      <div className="row">
+                                        <div className="col-lg-4 col-md-4 col-sm-4">
+                                          <div className="food-img">
+                                            <img src={product?.photo} alt="" />
+                                          </div>
+                                        </div>
+                                        <div className="col-lg-8 col-md-8 col-sm-8">
+                                          <div className="food_content position-relative">
+                                            <h3>{product?.name ?? "N/A"}</h3>
+                                            {/* <p className="rest_name">
+                                              Restaurent Name
+                                            </p> */}
+                                            <p className="desc_">
+                                              {product?.description ?? "N/A"}
+                                            </p>
+                                            <i className="food_type">
+                                              <div
+                                                class={
+                                                  product.type === "veg"
+                                                    ? "box veg"
+                                                    : "box non"
+                                                }
+                                              >
+                                                <div
+                                                  class={
+                                                    product.type === "veg"
+                                                      ? "circle veg"
+                                                      : "circle non"
+                                                  }
+                                                ></div>
+                                              </div>
+                                            </i>
+                                            <p className="price_">
+                                              {product?.price}
+                                            </p>
+                                            <div className="wrapper__">
+                                              <div className="inc_dec_wrapper">
+                                                <button
+                                                  class="decrement"
+                                                  onClick={() => {
+                                                    itemCount >= 2 &&
+                                                      setItemCount(
+                                                        itemCount - 1
+                                                      );
+                                                  }}
+                                                >
+                                                  -
+                                                </button>
+                                                <p>{itemCount}</p>
+                                                <button
+                                                  class="increment"
+                                                  onClick={() =>
+                                                    setItemCount(itemCount + 1)
+                                                  }
+                                                >
+                                                  +
+                                                </button>
+                                              </div>
+                                              <button
+                                                type="button"
+                                                className={
+                                                  !added
+                                                    ? "order_now"
+                                                    : "order_now added"
+                                                }
+                                                onClick={() => setAdded(!added)}
+                                                disabled={added}
+                                              >
+                                                {added ? (
+                                                  <Fa.FaCheck />
+                                                ) : (
+                                                  <Ti.TiPlus />
+                                                )}
+                                              </button>
+                                            </div>
+                                          </div>
+                                        </div>
                                       </div>
-                                    </i>
-                                    <p className="price_">£190</p>
-                                    <div className="wrapper__">
-                                      <div className="inc_dec_wrapper">
-                                        <button
-                                          class="decrement"
-                                          onClick={() => {
-                                            itemCount >= 2 &&
-                                              setItemCount(itemCount - 1);
-                                          }}
-                                        >
-                                          -
-                                        </button>
-                                        <p>{itemCount}</p>
-                                        <button
-                                          class="increment"
-                                          onClick={() =>
-                                            setItemCount(itemCount + 1)
-                                          }
-                                        >
-                                          +
-                                        </button>
-                                      </div>
-                                      <button
-                                        type="button"
-                                        className={
-                                          !added
-                                            ? "order_now"
-                                            : "order_now added"
-                                        }
-                                        onClick={() => setAdded(!added)}
-                                        disabled={added}
-                                      >
-                                        {added ? <Fa.FaCheck /> : <Ti.TiPlus />}
-                                      </button>
                                     </div>
+                                    {/* Food card end here */}
                                   </div>
-                                </div>
-                              </div>
-                            </div>
-                            {/* Food card end here */}
-                          </div>
+                                </Fragment>
+                              );
+                            })}
                         </div>
                       </Fragment>
                     );
