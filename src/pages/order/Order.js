@@ -6,7 +6,13 @@ import * as Ti from "react-icons/ti";
 import { AppContext } from "../../context/AppContext";
 
 function Order() {
-  const { menuList, menuLoading } = useContext(AppContext);
+  const {
+    menuList,
+    menuLoading,
+    categoryList,
+    fetchProductsList,
+    productsList,
+  } = useContext(AppContext);
   const [selectedItem, setSelectedItem] = useState(null);
   const [delivery, setDelivey] = useState(false);
   const [filteredList, setFilteredList] = useState(null);
@@ -14,6 +20,7 @@ function Order() {
   const [itemCount, setItemCount] = useState(1);
   const [added, setAdded] = useState(false);
   const [deliveryOption, setDeliveryOption] = useState("delivery");
+  const [products, setProducts] = useState(null);
 
   useEffect(() => {
     if (!menuList) return;
@@ -28,11 +35,35 @@ function Order() {
     setFilteredList(data);
   }, [menuList]);
 
-  console.log("filteredList", filteredList);
+  useEffect(() => {
+    if (!categoryList || categoryList.length === 0) return;
 
-  const handleItemClick = (index) => {
-    setSelectedItem(index);
-  };
+    const fetchData = async () => {
+      const productDataArray = await Promise.all(
+        categoryList.map(async (item) => {
+          const data = {
+            shopId: 1,
+            categoryId: item?.cID,
+          };
+
+          const productResp = await fetchProductsList(data);
+          
+          return { productResp, name: item?.name };
+        })
+      );
+
+      // Merge the data into a single object
+      const mergedData = productDataArray.reduce((acc, curr) => {
+        acc[curr.name] = curr.products;
+        return acc;
+      }, {});
+
+      // Save merged data into state
+      setProducts(mergedData);
+    };
+
+    fetchData()
+  }, [categoryList]);
 
   // fetch("https://foodpage.co.uk/development/v2/shop/products/1/0")
   //   .then((response) => {
@@ -102,15 +133,17 @@ function Order() {
               </i>
             </button>
             <ul className="menu-list ">
-              {menuItems.map((item, index) => (
-                <li
-                  className={index === activeChipIndex ? "active" : ""}
-                  key={index}
-                  onClick={() => setActiveChipIndex(index)}
-                >
-                  {item.charAt(0).toUpperCase() + item.slice(1).toLowerCase()}
-                </li>
-              ))}
+              {categoryList &&
+                categoryList.map((item, index) => (
+                  <li
+                    className={index === activeChipIndex ? "active" : ""}
+                    key={index}
+                    onClick={() => setActiveChipIndex(index)}
+                  >
+                    {/* {item.charAt(0).toUpperCase() + item.slice(1).toLowerCase()} */}
+                    {item?.name ?? "N/A"}
+                  </li>
+                ))}
             </ul>
             <button className="nav-btn right" onClick={moveRight}>
               <i>
@@ -123,209 +156,90 @@ function Order() {
           <div className="container">
             <div className="food_order_area">
               <div className="order_block">
-                <div className="row">
-                  <div className="col-lg-12 col-md-12 col-sm-12 mt-3">
-                    <div className="card food-card">
-                      <div className="row">
-                        <div className="col-lg-4 col-md-4 col-sm-4">
-                          <div className="food-img">
-                            <img
-                              src={require("../../assets/images/food.jpg")}
-                              alt=""
-                            />
-                          </div>
-                        </div>
-                        <div className="col-lg-8 col-md-8 col-sm-8">
-                          <div className="food_content position-relative">
-                            <h3>Russian Delight</h3>
-                            <p className="rest_name">Restaurent Name</p>
-                            <p className="desc_">
-                              Lorem ipsum dolor sit amet consectetur adipisicing
-                              elit. Omnis nam quidem earum voluptatibus sunt
-                              iusto praesentium, eius sapiente provident
-                              corrupt. Lorem ipsum dolor sit amet consectetur
-                              adipisicing elit. Error odio illo ipsa, inventore
-                              quam omnis suscipit, quod est fugiat laborum
-                              voluptate, architecto velit dicta reprehenderit
-                              debitis enim perferendis dolore voluptatum?
-                            </p>
-                            <i className="food_type">
-                              <div class="box">
-                                <div class="circle"></div>
+                {categoryList &&
+                  categoryList.map((list, index) => {
+                    return (
+                      <Fragment>
+                        <br />
+                        <h5>{list?.name}</h5>
+                        <div className="row">
+                          <div className="col-lg-12 col-md-12 col-sm-12 mt-3">
+                            <div className="card food-card">
+                              <div className="row">
+                                <div className="col-lg-4 col-md-4 col-sm-4">
+                                  <div className="food-img">
+                                    <img
+                                      src={require("../../assets/images/food.jpg")}
+                                      alt=""
+                                    />
+                                  </div>
+                                </div>
+                                <div className="col-lg-8 col-md-8 col-sm-8">
+                                  <div className="food_content position-relative">
+                                    <h3>Russian Delight</h3>
+                                    <p className="rest_name">Restaurent Name</p>
+                                    <p className="desc_">
+                                      Lorem ipsum dolor sit amet consectetur
+                                      adipisicing elit. Omnis nam quidem earum
+                                      voluptatibus sunt iusto praesentium, eius
+                                      sapiente provident corrupt. Lorem ipsum
+                                      dolor sit amet consectetur adipisicing
+                                      elit. Error odio illo ipsa, inventore quam
+                                      omnis suscipit, quod est fugiat laborum
+                                      voluptate, architecto velit dicta
+                                      reprehenderit debitis enim perferendis
+                                      dolore voluptatum?
+                                    </p>
+                                    <i className="food_type">
+                                      <div class="box">
+                                        <div class="circle"></div>
+                                      </div>
+                                    </i>
+                                    <p className="price_">£190</p>
+                                    <div className="wrapper__">
+                                      <div className="inc_dec_wrapper">
+                                        <button
+                                          class="decrement"
+                                          onClick={() => {
+                                            itemCount >= 2 &&
+                                              setItemCount(itemCount - 1);
+                                          }}
+                                        >
+                                          -
+                                        </button>
+                                        <p>{itemCount}</p>
+                                        <button
+                                          class="increment"
+                                          onClick={() =>
+                                            setItemCount(itemCount + 1)
+                                          }
+                                        >
+                                          +
+                                        </button>
+                                      </div>
+                                      <button
+                                        type="button"
+                                        className={
+                                          !added
+                                            ? "order_now"
+                                            : "order_now added"
+                                        }
+                                        onClick={() => setAdded(!added)}
+                                        disabled={added}
+                                      >
+                                        {added ? <Fa.FaCheck /> : <Ti.TiPlus />}
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
-                            </i>
-                            <p className="price_">£190</p>
-                            <div className="wrapper__">
-                              <div className="inc_dec_wrapper">
-                                <button
-                                  class="decrement"
-                                  onClick={() => {
-                                    itemCount >= 2 &&
-                                      setItemCount(itemCount - 1);
-                                  }}
-                                >
-                                  -
-                                </button>
-                                <p>{itemCount}</p>
-                                <button
-                                  class="increment"
-                                  onClick={() => setItemCount(itemCount + 1)}
-                                >
-                                  +
-                                </button>
-                              </div>
-                              <button
-                                type="button"
-                                className={
-                                  !added ? "order_now" : "order_now added"
-                                }
-                                onClick={() => setAdded(!added)}
-                                disabled={added}
-                              >
-                                {added ? <Fa.FaCheck /> : <Ti.TiPlus />}
-                              </button>
                             </div>
+                            {/* Food card end here */}
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    {/* Food card end here */}
-                  </div>
-                  <div className="col-lg-12 col-md-12 col-sm-12 mt-3">
-                    <div className="card food-card">
-                      <div className="row">
-                        <div className="col-lg-4 col-md-4 col-sm-4">
-                          <div className="food-img">
-                            <img
-                              src={require("../../assets/images/food.jpg")}
-                              alt=""
-                            />
-                          </div>
-                        </div>
-                        <div className="col-lg-8 col-md-8 col-sm-8">
-                          <div className="food_content position-relative">
-                            <h3>Russian Delight</h3>
-                            <p className="rest_name">Restaurent Name</p>
-                            <p className="desc_">
-                              Lorem ipsum dolor sit amet consectetur adipisicing
-                              elit. Omnis nam quidem earum voluptatibus sunt
-                              iusto praesentium, eius sapiente provident
-                              corrupt. Lorem ipsum dolor sit amet consectetur
-                              adipisicing elit. Error odio illo ipsa, inventore
-                              quam omnis suscipit, quod est fugiat laborum
-                              voluptate, architecto velit dicta reprehenderit
-                              debitis enim perferendis dolore voluptatum?
-                            </p>
-                            <i className="food_type">
-                              <div class="box">
-                                <div class="circle"></div>
-                              </div>
-                            </i>
-                            <p className="price_">£190</p>
-                            <div className="wrapper__">
-                              <div className="inc_dec_wrapper">
-                                <button
-                                  class="decrement"
-                                  onClick={() => {
-                                    itemCount >= 2 &&
-                                      setItemCount(itemCount - 1);
-                                  }}
-                                >
-                                  -
-                                </button>
-                                <p>{itemCount}</p>
-                                <button
-                                  class="increment"
-                                  onClick={() => setItemCount(itemCount + 1)}
-                                >
-                                  +
-                                </button>
-                              </div>
-                              <button
-                                type="button"
-                                className={
-                                  !added ? "order_now" : "order_now added"
-                                }
-                                onClick={() => setAdded(!added)}
-                                disabled={added}
-                              >
-                                {added ? <Fa.FaCheck /> : <Ti.TiPlus />}
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    {/* Food card end here */}
-                  </div>
-                  <div className="col-lg-12 col-md-12 col-sm-12 mt-3">
-                    <div className="card food-card">
-                      <div className="row">
-                        <div className="col-lg-4 col-md-4 col-sm-4">
-                          <div className="food-img">
-                            <img
-                              src={require("../../assets/images/food.jpg")}
-                              alt=""
-                            />
-                          </div>
-                        </div>
-                        <div className="col-lg-8 col-md-8 col-sm-8">
-                          <div className="food_content position-relative">
-                            <h3>Russian Delight</h3>
-                            <p className="rest_name">Restaurent Name</p>
-                            <p className="desc_">
-                              Lorem ipsum dolor sit amet consectetur adipisicing
-                              elit. Omnis nam quidem earum voluptatibus sunt
-                              iusto praesentium, eius sapiente provident
-                              corrupt. Lorem ipsum dolor sit amet consectetur
-                              adipisicing elit. Error odio illo ipsa, inventore
-                              quam omnis suscipit, quod est fugiat laborum
-                              voluptate, architecto velit dicta reprehenderit
-                              debitis enim perferendis dolore voluptatum?
-                            </p>
-                            <i className="food_type">
-                              <div class="box">
-                                <div class="circle"></div>
-                              </div>
-                            </i>
-                            <p className="price_">£190</p>
-                            <div className="wrapper__">
-                              <div className="inc_dec_wrapper">
-                                <button
-                                  class="decrement"
-                                  onClick={() => {
-                                    itemCount >= 2 &&
-                                      setItemCount(itemCount - 1);
-                                  }}
-                                >
-                                  -
-                                </button>
-                                <p>{itemCount}</p>
-                                <button
-                                  class="increment"
-                                  onClick={() => setItemCount(itemCount + 1)}
-                                >
-                                  +
-                                </button>
-                              </div>
-                              <button
-                                type="button"
-                                className={
-                                  !added ? "order_now" : "order_now added"
-                                }
-                                onClick={() => setAdded(!added)}
-                                disabled={added}
-                              >
-                                {added ? <Fa.FaCheck /> : <Ti.TiPlus />}
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    {/* Food card end here */}
-                  </div>
-                </div>
+                      </Fragment>
+                    );
+                  })}
               </div>
               <div className="billing_block bill-spikes">
                 <h3 className="order_title">Order Summary</h3>
@@ -464,7 +378,7 @@ function Order() {
             </div>
           </div>
         </div>
-          <div className="footer_98_"></div>
+        <div className="footer_98_"></div>
       </section>
     </Fragment>
   );

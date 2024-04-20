@@ -4,12 +4,14 @@ import { APIEndpoints } from "../constants/APIEndpoints";
 
 const useMenus = () => {
   const [menuList, setMenuList] = useState(null);
+  const [categoryList, setCategoryList] = useState(null);
   const [menuLoading, setMenuLoading] = useState(false);
+  const [productsList, setProductList] = useState([]);
 
   const fetchMenuList = async () => {
     try {
       setMenuLoading(true);
-      await BaseClient.get(APIEndpoints.menulist, {
+      await BaseClient.get(APIEndpoints.menulist, [], {
         onSuccess: (res) => {
           console.log(res.data.data);
           setMenuList(res?.data);
@@ -22,9 +24,50 @@ const useMenus = () => {
       setMenuLoading(false);
     }
   };
+  const fetchCategoriesList = async () => {
+    try {
+      setMenuLoading(true);
+      await BaseClient.get(APIEndpoints.categoryList, [], {
+        onSuccess: (res) => {
+          console.log(res?.data?.data?.items);
+          setCategoryList(res?.data?.data?.items);
+        },
+        onFailed: (err) => {
+          console.log("Error on fetching menus", err);
+        },
+      });
+    } finally {
+      setMenuLoading(false);
+    }
+  };
+
+  const fetchProductsList = async (data) => {
+    try {
+      setMenuLoading(true);
+      await BaseClient.get(
+        APIEndpoints.productList + `/${data?.shopId}` + `/${data?.categoryId}`,
+        [],
+        {
+          onSuccess: (res) => {
+            console.log(res?.data?.data?.items);
+            setProductList(res?.data?.data?.items);
+          },
+          onFailed: (err) => {
+            console.log("Error on fetching menus", err);
+          },
+        }
+      );
+    } finally {
+      setMenuLoading(false);
+    }
+  };
   return {
     fetchMenuList,
+    fetchCategoriesList,
+    fetchProductsList,
     menuList,
+    categoryList,
+    productsList,
     menuLoading,
   };
 };

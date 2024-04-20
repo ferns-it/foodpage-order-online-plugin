@@ -4,10 +4,20 @@ import useMenus from "../hooks/useMenus";
 export const AppContext = createContext();
 
 export const AppContextProvider = (prpos) => {
-  const { fetchMenuList, menuList, menuLoading } = useMenus();
+  const {
+    fetchMenuList,
+    menuList,
+    fetchCategoriesList,
+    menuLoading,
+    categoryList,
+    fetchProductsList,
+    productsList,
+  } = useMenus();
 
   useEffect(() => {
     fetchMenuList();
+    fetchCategoriesList();
+    fetchProductsList();
   }, []);
 
   return (
@@ -16,6 +26,9 @@ export const AppContextProvider = (prpos) => {
         fetchMenuList,
         menuList,
         menuLoading,
+        categoryList,
+        fetchProductsList,
+        productsList,
       }}
     >
       {prpos.children}

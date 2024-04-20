@@ -40,9 +40,9 @@ const api = axios.create({
 
 class BaseClient {
   //Get Method
-  static async get(endpoint, { onSuccess, onFailed }) {
+  static async get(endpoint, payload, { onSuccess, onFailed }) {
     await api
-      .get(endpoint)
+      .get(endpoint, payload)
       .then((data) => onSuccess && onSuccess(data))
       .catch((error) => onFailed && onFailed(error));
   }
