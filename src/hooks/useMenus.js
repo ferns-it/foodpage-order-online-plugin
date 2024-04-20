@@ -44,19 +44,26 @@ const useMenus = () => {
   const fetchProductsList = async (data) => {
     try {
       setMenuLoading(true);
-      await BaseClient.get(
-        APIEndpoints.productList + `/${data?.shopId}` + `/${data?.categoryId}`,
-        [],
-        {
-          onSuccess: (res) => {
-            console.log(res?.data?.data?.items);
-            setProductList(res?.data?.data?.items);
-          },
-          onFailed: (err) => {
-            console.log("Error on fetching menus", err);
-          },
-        }
-      );
+      const response = await new Promise((resolve, reject) => {
+        BaseClient.get(
+          APIEndpoints.productList +
+            `/${data?.shopId}` +
+            `/${data?.categoryId}`,
+          null, // No need to pass payload here
+          {
+            onSuccess: (res) => {
+              const items = res?.data?.data?.items;
+              resolve(items);
+            },
+            onFailed: (err) => {
+              console.log("Error on fetching menus", err);
+              reject(err);
+            },
+          }
+        );
+      });
+
+      return response;
     } finally {
       setMenuLoading(false);
     }

@@ -39,31 +39,24 @@ function Order() {
     if (!categoryList || categoryList.length === 0) return;
 
     const fetchData = async () => {
-      const productDataArray = await Promise.all(
+      const pro = await Promise.all(
         categoryList.map(async (item) => {
           const data = {
             shopId: 1,
             categoryId: item?.cID,
           };
 
-          const productResp = await fetchProductsList(data);
-          
-          return { productResp, name: item?.name };
+          const productRespo = await fetchProductsList(data);
+          return { categoryName: item?.name, product: productRespo };
         })
       );
-
-      // Merge the data into a single object
-      const mergedData = productDataArray.reduce((acc, curr) => {
-        acc[curr.name] = curr.products;
-        return acc;
-      }, {});
-
-      // Save merged data into state
-      setProducts(mergedData);
+      setProducts(pro);
     };
 
-    fetchData()
+    fetchData();
   }, [categoryList]);
+
+  // console.log("products", products);
 
   // fetch("https://foodpage.co.uk/development/v2/shop/products/1/0")
   //   .then((response) => {
