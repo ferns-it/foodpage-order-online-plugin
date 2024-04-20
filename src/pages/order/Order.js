@@ -3,6 +3,8 @@ import * as Md from "react-icons/md";
 import * as Pi from "react-icons/pi";
 import * as Fa from "react-icons/fa";
 import * as Ti from "react-icons/ti";
+import * as Lu from "react-icons/lu";
+import * as Bs from "react-icons/bs";
 import { AppContext } from "../../context/AppContext";
 
 function Order() {
@@ -16,7 +18,7 @@ function Order() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [delivery, setDelivey] = useState(false);
   const [filteredList, setFilteredList] = useState(null);
-  const [activeChipIndex, setActiveChipIndex] = useState(0);
+  const [activeChipIndex, setActiveChipIndex] = useState(-1);
   const [itemCount, setItemCount] = useState(1);
   const [added, setAdded] = useState(false);
   const [deliveryOption, setDeliveryOption] = useState("delivery");
@@ -118,144 +120,87 @@ function Order() {
             Mild Medium Hot Gluten Milk NUts Vegetarian We can accommodate most
             allergies, if you have any allergies please inform us when ordering.
           </p>
-
-          <div className="chip-container mt-4 d-flex">
-            <button className="nav-btn left" onClick={moveLeft}>
-              <i>
-                <Fa.FaArrowLeft />
-              </i>
-            </button>
-            <ul className="menu-list ">
-              {categoryList &&
-                categoryList.map((item, index) => (
-                  <li
-                    className={index === activeChipIndex ? "active" : ""}
-                    key={index}
-                    onClick={() => setActiveChipIndex(index)}
-                  >
-                    {/* {item.charAt(0).toUpperCase() + item.slice(1).toLowerCase()} */}
-                    <a className="nav-link" href={`#${item?.name}`}>
-                      {item?.name ?? "N/A"}
-                    </a>
-                  </li>
-                ))}
-            </ul>
-            <button className="nav-btn right" onClick={moveRight}>
-              <i>
-                <Fa.FaArrowRight />
-              </i>
-            </button>
-          </div>
         </div>
         <div className="wrapper_102322">
           <div className="container">
             <div className="food_order_area">
               <div className="order_block">
-                {products &&
-                  products.map((list, index) => {
-                    const productData = list?.product;
-
-                    return (
-                      <Fragment>
-                        <br />
-                        <h5 id={list?.categoryName}>{list?.categoryName}</h5>
-                        <div className="row">
-                          {productData &&
-                            productData.length != 0 &&
-                            productData.map((product, key) => {
-                              console.log("product=>", product);
-                              return (
-                                <Fragment>
-                                  <div className="col-lg-12 col-md-12 col-sm-12 mt-3">
-                                    <div className="card food-card">
-                                      <div className="row">
-                                        <div className="col-lg-4 col-md-4 col-sm-4">
-                                          <div className="food-img">
-                                            <img src={product?.photo} alt="" />
-                                          </div>
+                <div className="row">
+                  <div className="col-lg-4 col-md-4 col-sm-4">
+                    <div className="card category_card_009 p-2">
+                      <ul className="food_category_009">
+                        {categoryList &&
+                          categoryList.length != 0 &&
+                          categoryList.map((list, index) => {
+                            return (
+                              <a
+                                href={`#${list?.name}`}
+                                className={
+                                  index === activeChipIndex
+                                    ? "nav-link active_009"
+                                    : "nav-link"
+                                }
+                                key={index}
+                                onClick={() => setActiveChipIndex(index)}
+                              >
+                                <li>{list?.name}</li>
+                                <i>
+                                  <Lu.LuArrowRightToLine />
+                                </i>
+                              </a>
+                            );
+                          })}
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="col-lg-8 col-md-8 col-sm-8">
+                    {products &&
+                      products.length != 0 &&
+                      products.map((list, key) => {
+                        const productData = list?.product;
+                        return (
+                          <div className="product_wrapper_029" key={key}>
+                            <h3 className="cat_2901">
+                              {list?.categoryName ?? "N/A"}
+                            </h3>
+                            <div className="row">
+                              {productData &&
+                                productData.length != 0 &&
+                                productData.map((product, index) => {
+                                  return (
+                                    <div className="col-lg-6 col-md-6 col-sm-6">
+                                      <div className="food_card_029">
+                                        <div className="prod_img_029">
+                                          <img src={product?.photo} alt="" />
                                         </div>
-                                        <div className="col-lg-8 col-md-8 col-sm-8">
-                                          <div className="food_content position-relative">
-                                            <h3>{product?.name ?? "N/A"}</h3>
-                                            {/* <p className="rest_name">
-                                              Restaurent Name
-                                            </p> */}
-                                            <p className="desc_">
+                                        <div className="food_content_029">
+                                          <div className="content_029">
+                                            <p className="food_name_029">
+                                              {product?.name ?? "N/A"}
+                                            </p>
+                                            <p className="desc_029">
                                               {product?.description ?? "N/A"}
                                             </p>
-                                            <i className="food_type">
-                                              <div
-                                                class={
-                                                  product.type === "veg"
-                                                    ? "box veg"
-                                                    : "box non"
-                                                }
-                                              >
-                                                <div
-                                                  class={
-                                                    product.type === "veg"
-                                                      ? "circle veg"
-                                                      : "circle non"
-                                                  }
-                                                ></div>
-                                              </div>
-                                            </i>
-                                            <p className="price_">
-                                              {product?.price}
-                                            </p>
-                                            <div className="wrapper__">
-                                              <div className="inc_dec_wrapper">
-                                                <button
-                                                  class="decrement"
-                                                  onClick={() => {
-                                                    itemCount >= 2 &&
-                                                      setItemCount(
-                                                        itemCount - 1
-                                                      );
-                                                  }}
-                                                >
-                                                  -
-                                                </button>
-                                                <p>{itemCount}</p>
-                                                <button
-                                                  class="increment"
-                                                  onClick={() =>
-                                                    setItemCount(itemCount + 1)
-                                                  }
-                                                >
-                                                  +
-                                                </button>
-                                              </div>
-                                              <button
-                                                type="button"
-                                                className={
-                                                  !added
-                                                    ? "order_now"
-                                                    : "order_now added"
-                                                }
-                                                onClick={() => setAdded(!added)}
-                                                disabled={added}
-                                              >
-                                                {added ? (
-                                                  <Fa.FaCheck />
-                                                ) : (
-                                                  <Ti.TiPlus />
-                                                )}
-                                              </button>
-                                            </div>
+                                            {/* <button type="button" className="buy_now_029">Buy now</button> */}
                                           </div>
+
                                         </div>
+                                          <button
+                                            type="button"
+                                            className="cart_btn_029"
+                                          >
+                                            <Bs.BsCart3 />
+                                          </button>
                                       </div>
                                     </div>
-                                    {/* Food card end here */}
-                                  </div>
-                                </Fragment>
-                              );
-                            })}
-                        </div>
-                      </Fragment>
-                    );
-                  })}
+                                  );
+                                })}
+                            </div>
+                          </div>
+                        );
+                      })}
+                  </div>
+                </div>
               </div>
               <div className="billing_block bill-spikes">
                 <h3 className="order_title">Order Summary</h3>
