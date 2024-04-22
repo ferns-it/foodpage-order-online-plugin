@@ -21,6 +21,7 @@ function Order() {
   const [added, setAdded] = useState(false);
   const [deliveryOption, setDeliveryOption] = useState("delivery");
   const [isSticky, setIsSticky] = useState(false);
+  const [selectedCategory, setSelectedCatgory] = useState("All");
 
   const handleScroll = () => {
     if (window.pageYOffset >= 100) {
@@ -51,13 +52,15 @@ function Order() {
     setFilteredList(data);
   }, [menuList]);
 
-  const handleChipClick = (index) => {
+  const handleChipClick = (index, catName) => {
     setActiveChipIndex(index);
 
-    const sectionId = document.getElementById(`category-${index}`);
-    if (sectionId) {
-      sectionId.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    // const sectionId = document.getElementById(`category-${index}`);
+    // if (sectionId) {
+    //   sectionId.scrollIntoView({ behavior: "smooth", block: "start" });
+    // }
+
+    setSelectedCatgory(catName);
   };
 
   function moveLeft() {
@@ -107,9 +110,7 @@ function Order() {
                       onClick={() => handleChipClick(index)}
                     >
                       {/* {item.charAt(0).toUpperCase() + item.slice(1).toLowerCase()} */}
-                      <a className="nav-link" href={`#${item?.name}`}>
-                        {item?.name ?? "N/A"}
-                      </a>
+                      <a className="nav-link">{item?.name ?? "N/A"}</a>
                     </li>
                   ))}
               </ul>
@@ -134,14 +135,16 @@ function Order() {
                           categoryList.map((list, index) => {
                             return (
                               <a
-                                href={`#category-${index}`}
+                                // href={`#category-${index}`}
                                 className={
                                   index === activeChipIndex
                                     ? "nav-link active_009"
                                     : "nav-link"
                                 }
                                 key={index}
-                                onClick={() => handleChipClick(index)}
+                                onClick={() =>
+                                  handleChipClick(index, list?.name)
+                                }
                               >
                                 <li>{list?.name}</li>
                                 <i>
@@ -154,12 +157,18 @@ function Order() {
                     </div>
                   </div>
                   <div className="col-lg-9 col-md-12 col-sm-12">
-                    <Foodcard />
+                    <Foodcard category={selectedCategory} />
                   </div>
                 </div>
               </div>
 
-              <div className={isSticky ? "billing_block sticky bill-spikes" : "billing_block bill-spikes"}>
+              <div
+                className={
+                  isSticky
+                    ? "billing_block sticky bill-spikes"
+                    : "billing_block bill-spikes"
+                }
+              >
                 <h3 className="order_title">Order Summary</h3>
                 <div className="summary_item_wrapper_029">
                   {added && (

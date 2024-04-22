@@ -661,6 +661,7 @@ body {
   overflow: hidden;
   margin-bottom: 10px;
   padding: 10px;
+  transition: all 0.2s ease-in-out;
 }
 .cat_2901 {
   position: relative;
