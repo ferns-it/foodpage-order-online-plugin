@@ -3,13 +3,7 @@ import { AppContext } from "../context/AppContext";
 import * as Bs from "react-icons/bs";
 
 function Foodcard() {
-  const {
-    menuList,
-    menuLoading,
-    categoryList,
-    fetchProductsList,
-    productsList,
-  } = useContext(AppContext);
+  const { categoryList, fetchProductsList } = useContext(AppContext);
   const [products, setProducts] = useState(null);
 
   useEffect(() => {
@@ -32,6 +26,7 @@ function Foodcard() {
 
     fetchData();
   }, [categoryList]);
+  
   return (
     <Fragment>
       {products &&
@@ -39,16 +34,19 @@ function Foodcard() {
         products.map((list, key) => {
           const productData = list?.product;
           return (
-            <div className="product_wrapper_029" id={`category-${key}`}>
+            <div
+              className="product_wrapper_029"
+              id={`category-${key}`}
+              key={key}
+            >
               <h3 className="cat_2901"> {list?.categoryName ?? "N/A"}</h3>
               <br />
               <div className="row">
                 {productData &&
                   productData.length != 0 &&
                   productData.map((product, index) => {
-                    console.log("product", product);
                     return (
-                      <div className="col-lg-6 col-md-6 col-sm-6">
+                      <div className="col-lg-4 col-md-4 col-sm-4" key={index}>
                         <div className="food_card_wrapper_029">
                           <div className="upper_pot_029 position-relative">
                             <div className="food_img_029">

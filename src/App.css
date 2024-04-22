@@ -224,10 +224,23 @@ body {
   color: #fd7300;
   font-size: 20px;
 }
-.chip-container {
-  display: block;
-  margin: 0 auto;
-  /* width: 80%; */
+.wrapper_123_category {
+  position: relative;
+}
+.wrapper_123_category.sticky {
+  position: fixed;
+  left: 50%;
+  top: 10px;
+  transform: translateX(-50%);
+  z-index: 99;
+}
+.chip_card_123 {
+  display: none;
+  position: relative;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  transition: all 0.2s ease-in-out;
 }
 .menu-list {
   display: flex;
@@ -235,6 +248,7 @@ body {
   padding-left: 5px;
   overflow-x: hidden;
   transition: all ease-in-out 0.2s;
+  margin: 0;
 }
 .menu-list > li {
   background-color: #f2f2f2;
@@ -250,12 +264,12 @@ body {
   background-color: #c3c3c3;
 }
 .menu-list > li.active {
-  background-color: #e61a16;
-  color: #fff;
+  background-color: #e03f3f;
+  color: #fff !important;
+  font-weight: 600;
 }
 .nav-link {
   text-decoration: none;
-  color: #252525;
 }
 .nav-btn {
   border: none;
@@ -616,8 +630,10 @@ body {
   opacity: 1;
   transform: translate(0, -50%);
 }
+
 .category_card_009 {
-  position: fixed;
+  position: sticky;
+  top: 10px;
   width: 250px;
 }
 .active_009 {
@@ -636,6 +652,7 @@ body {
   border-radius: 5px;
   overflow: hidden;
   margin-bottom: 10px;
+  padding: 10px;
 }
 .cat_2901 {
   position: relative;
@@ -674,10 +691,10 @@ body {
   border-radius: 50%;
   overflow: hidden;
   margin: 0 auto;
-  z-index: 9;
   box-shadow: -5px 0px 5px rgba(0, 0, 0, 0.372),
     5px 0px 5px rgba(0, 0, 0, 0.372), 0px -5px 5px rgba(0, 0, 0, 0.372);
   background-color: #fff;
+  z-index: 9;
 }
 .upper_pot_029 .food_img_029 > img {
   max-width: 100%;
@@ -719,6 +736,7 @@ body {
   text-align: center;
   color: #3c3c3c;
   user-select: none;
+  margin-top: 10px;
 }
 .food_desc_029 {
   overflow: hidden;
@@ -751,4 +769,14 @@ body {
 .cart_btn_029 > span {
   font-weight: 600;
   font-size: 13px;
+}
+
+@media screen and (max-width: 1400px) {
+  .cat_col_0229,
+  .category_card_009 {
+    display: none;
+  }
+  .chip_card_123 {
+    display: flex;
+  }
 }
