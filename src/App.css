@@ -295,7 +295,7 @@ body {
   padding: 20px 0;
 }
 .order_block {
-  width: 100%;
+  width: 70%;
   /* min-width: 300px; */
   /* max-height: 550px;
   overflow-y: scroll;
@@ -303,6 +303,7 @@ body {
   transition: all 0.2s ease-in-out;
 }
 .billing_block {
+  position: relative;
   width: 30%;
   max-height: 537px;
   background-color: #fff;
@@ -311,6 +312,13 @@ body {
   border-radius: 4px;
   transition: all 0.2s ease-in-out;
   margin-top: 15px;
+  right: 20px;
+}
+.billing_block.sticky{
+  position: fixed;
+  top: 0;
+  /* right: 30px; */
+
 }
 .food-card {
   border: none;
