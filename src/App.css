@@ -314,11 +314,10 @@ body {
   margin-top: 15px;
   right: 20px;
 }
-.billing_block.sticky{
+.billing_block.sticky {
   position: fixed;
   top: 0;
   /* right: 30px; */
-
 }
 .food-card {
   border: none;
@@ -788,4 +787,45 @@ body {
   .chip_card_123 {
     display: flex;
   }
+}
+.modal_wrapper_02901 {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 999;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: inset 0 0 0 200px rgba(255, 255, 255, 0.08);
+  transition: all 0.2s ease-in-out;
+}
+.moadl_02901 {
+  position: absolute;
+  display: block;
+  width: 500px;
+  height: auto;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 10px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.2s ease-in-out;
+  overflow: hidden;
+}
+.modal_wrapper_02901.hide {
+  display: none;
+}
+.close_02901 {
+  color: #c30b2a;
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+.food_name_02901{
+  font-size: 23px;
+  text-align: center;
+  font-weight: 700;
+  color: #3c3c3c;
 }

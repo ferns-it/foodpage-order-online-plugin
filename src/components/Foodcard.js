@@ -1,10 +1,13 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { AppContext } from "../context/AppContext";
 import * as Bs from "react-icons/bs";
+import AddOnsModal from "./AddOnsModal";
 
 function Foodcard(category) {
   const { categoryList, fetchProductsList } = useContext(AppContext);
   const [products, setProducts] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [productDataValues, setProductDataValues] = useState(null);
 
   useEffect(() => {
     if (!categoryList || categoryList.length === 0) return;
@@ -27,14 +30,28 @@ function Foodcard(category) {
     fetchData();
   }, [categoryList]);
 
+  const addOnsModalData = (product) =>{
+    console.log("product=>", product);
+    setShowModal(true);
+    setProductDataValues(product)
+  }
+
   return (
     <Fragment>
+      <AddOnsModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        productData={productDataValues}
+      />
       {products &&
         products.length != 0 &&
         products.map((list, key) => {
           const productData = list?.product;
 
-          if (list?.categoryName == category.category || category.category === "All") {
+          if (
+            list?.categoryName == category.category ||
+            category.category === "All"
+          ) {
             return (
               <div
                 className="product_wrapper_029"
@@ -83,7 +100,7 @@ function Foodcard(category) {
                               <p className="food_desc_029">
                                 {product?.description ?? "N/A"}
                               </p>
-                              <button type="button" className="cart_btn_029">
+                              <button type="button" className="cart_btn_029" onClick={()=> addOnsModalData(product)}>
                                 <Bs.BsCart3 /> <span>add cart</span>
                               </button>
                             </div>

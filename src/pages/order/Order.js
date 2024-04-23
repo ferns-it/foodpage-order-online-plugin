@@ -107,7 +107,7 @@ function Order() {
                     <li
                       className={index === activeChipIndex ? "active" : ""}
                       key={index}
-                      onClick={() => handleChipClick(index)}
+                      onClick={() => handleChipClick(index, item?.name)}
                     >
                       {/* {item.charAt(0).toUpperCase() + item.slice(1).toLowerCase()} */}
                       <a className="nav-link">{item?.name ?? "N/A"}</a>
