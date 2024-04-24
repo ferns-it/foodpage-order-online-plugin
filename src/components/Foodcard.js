@@ -10,6 +10,17 @@ function Foodcard(category) {
   const [productDataValues, setProductDataValues] = useState(null);
 
   useEffect(() => {
+    if (showModal == true) {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    }
+    if (showModal == false) {
+      document.body.style.overflow = "auto";
+      document.documentElement.style.overflow = "auto";
+    }
+  }, [showModal]);
+
+  useEffect(() => {
     if (!categoryList || categoryList.length === 0) return;
 
     const fetchData = async () => {
@@ -30,11 +41,10 @@ function Foodcard(category) {
     fetchData();
   }, [categoryList]);
 
-  const addOnsModalData = (product) =>{
-    console.log("product=>", product);
+  const addOnsModalData = (product) => {
     setShowModal(true);
-    setProductDataValues(product)
-  }
+    setProductDataValues(product);
+  };
 
   return (
     <Fragment>
@@ -100,8 +110,12 @@ function Foodcard(category) {
                               <p className="food_desc_029">
                                 {product?.description ?? "N/A"}
                               </p>
-                              <button type="button" className="cart_btn_029" onClick={()=> addOnsModalData(product)}>
-                                <Bs.BsCart3 /> <span>add cart</span>
+                              <button
+                                type="button"
+                                className="cart_btn_029"
+                                onClick={() => addOnsModalData(product)}
+                              >
+                                <Bs.BsCart3 />
                               </button>
                             </div>
                           </div>

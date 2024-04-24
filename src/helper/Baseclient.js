@@ -13,6 +13,7 @@ const api = axios.create({
   },
   // withCredentials: true,
   timeout: 10000,
+  "Content-Type": "application/json",
 });
 
 //Interceptor for handle the response

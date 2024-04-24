@@ -130,6 +130,22 @@ function Order() {
                   <div className="col-lg-3 col-md-none col-sm-none cat_col_0229">
                     <div className="card category_card_009 p-2">
                       <ul className="food_category_009">
+                        <a
+                          className={
+                            activeChipIndex === -1
+                              ? "nav-link active_009"
+                              : "nav-link"
+                          }
+                          onClick={() => {
+                            setActiveChipIndex(-1);
+                            setSelectedCatgory("All");
+                          }}
+                        >
+                          <li>All</li>
+                          <i>
+                            <Lu.LuArrowRightToLine />
+                          </i>
+                        </a>
                         {categoryList &&
                           categoryList.length != 0 &&
                           categoryList.map((list, index) => {
