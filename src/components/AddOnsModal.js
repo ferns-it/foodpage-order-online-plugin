@@ -11,6 +11,14 @@ function AddOnsModal(props) {
       setCount(0);
       setVariationValue("");
     }
+
+    const modalElement = document.querySelector(".moadl_02901");
+    if(!modalElement) return;
+    if (props.openModal) {
+      modalElement.classList.add("animate__backOutDown");
+    } else {
+      modalElement.classList.remove("animate__backInDown");
+    }
   }, [props.showModal]);
 
   if (!props.showModal || !props.productData) return;
