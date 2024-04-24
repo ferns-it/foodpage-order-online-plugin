@@ -767,11 +767,13 @@ body {
   background-color: #e03f3f;
   color: #fff;
   padding: 10px 15px;
-  border-radius: 50%;
+  border-radius: 4px;
   left: 50%;
   bottom: 10px;
   transform: translateX(-50%);
   transition: all 0.2s ease-in-out;
+  font-size: 14px;
+  font-weight: 600;
 }
 .cart_btn_029:hover {
   background-color: #c30b2a;
@@ -804,6 +806,23 @@ body {
   overflow-y: auto;
   padding: 10px 0;
 }
+.modal_wrapper_02901::-webkit-scrollbar {
+  width: 12px;
+  opacity: 0;
+}
+
+.modal_wrapper_02901::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.modal_wrapper_02901::-webkit-scrollbar-thumb {
+  background: #44444499;
+  border-radius: 6px;
+}
+
+.modal_wrapper_02901::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
 .moadl_02901 {
   position: absolute;
   display: block;
@@ -819,6 +838,7 @@ body {
   transition: all 0.2s ease-in-out;
   overflow: hidden;
   margin-bottom: 20px;
+  box-shadow: 0 5px 10px #4444447e;
 }
 .modal_wrapper_02901.hide {
   display: none;
@@ -831,6 +851,7 @@ body {
   background-color: transparent;
   right: 10px;
   top: 10px;
+  font-size: 25px;
 }
 .food_name_02901 {
   font-size: 23px;
@@ -936,7 +957,7 @@ body {
 .increment-button:active,
 .decrement-button:focus,
 .decrement-button:active {
-  transform: scale(0.8);
+  transform: scale(0.7);
 }
 
 .counter-text {
@@ -973,20 +994,20 @@ body {
   width: 30%;
   text-align: right;
 }
-.varient_name{
+.varient_name {
   font-size: 14px;
   font-weight: 600;
   padding-left: 10px;
   white-space: nowrap;
 }
-.btn_grp_8392{
+.btn_grp_8392 {
   display: flex;
   margin: 10px 0;
   align-items: center;
   width: 100%;
   justify-content: center;
 }
-.btn_grp_8392 > .btn_8392{
+.btn_grp_8392 > .btn_8392 {
   border: none;
   outline: none;
   padding: 10px 20px;
@@ -996,19 +1017,19 @@ body {
   font-size: 14px;
   transition: all 0.2s ease-in-out;
 }
-.btn_8392 > i{
+.btn_8392 > i {
   margin: 0 10px;
 }
-.submit_btn_8392{
+.submit_btn_8392 {
   background-color: #e03f3f;
   color: #fff;
 }
-.submit_btn_8392:hover{
+.submit_btn_8392:hover {
   background-color: #ab2e2e;
 }
-.submit_btn_8392:disabled{
+.submit_btn_8392:disabled {
   background-color: rgb(167, 87, 87);
 }
-.cancel_btn_8392:hover{
+.cancel_btn_8392:hover {
   background-color: #d1d1d1;
 }

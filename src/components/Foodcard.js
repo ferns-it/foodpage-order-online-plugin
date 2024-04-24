@@ -9,16 +9,16 @@ function Foodcard(category) {
   const [showModal, setShowModal] = useState(false);
   const [productDataValues, setProductDataValues] = useState(null);
 
-  useEffect(() => {
-    if (showModal == true) {
-      document.body.style.overflow = "hidden";
-      document.documentElement.style.overflow = "hidden";
-    }
-    if (showModal == false) {
-      document.body.style.overflow = "auto";
-      document.documentElement.style.overflow = "auto";
-    }
-  }, [showModal]);
+  // useEffect(() => {
+  //   if (showModal == true) {
+  //     document.body.style.overflow = "hidden";
+  //     document.documentElement.style.overflow = "hidden";
+  //   }
+  //   if (showModal == false) {
+  //     document.body.style.overflow = "auto";
+  //     document.documentElement.style.overflow = "auto";
+  //   }
+  // }, [showModal]);
 
   useEffect(() => {
     if (!categoryList || categoryList.length === 0) return;
@@ -115,7 +115,8 @@ function Foodcard(category) {
                                 className="cart_btn_029"
                                 onClick={() => addOnsModalData(product)}
                               >
-                                <Bs.BsCart3 />
+                                {/* <Bs.BsCart3 /> */}
+                                ADD
                               </button>
                             </div>
                           </div>
