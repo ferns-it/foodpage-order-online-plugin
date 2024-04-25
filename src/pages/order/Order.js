@@ -127,7 +127,7 @@ function Order() {
             <div className="food_order_area">
               <div className="order_block">
                 <div className="row">
-                  <div className="col-lg-3 col-md-none col-sm-none cat_col_0229">
+                  <div className="col-lg-3 col-md-4 col-sm-none cat_col_0229">
                     <div className="card category_card_009 p-2">
                       <ul className="food_category_009">
                         <a
@@ -172,7 +172,7 @@ function Order() {
                       </ul>
                     </div>
                   </div>
-                  <div className="col-lg-9 col-md-12 col-sm-12">
+                  <div className="col-lg-9 col-md-8 col-sm-12">
                     <Foodcard category={selectedCategory} />
                   </div>
                 </div>

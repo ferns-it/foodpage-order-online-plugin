@@ -784,12 +784,12 @@ body {
 }
 
 @media screen and (max-width: 1400px) {
-  .cat_col_0229,
+  /* .cat_col_0229,
   .category_card_009 {
     display: none;
-  }
+  } */
   .chip_card_123 {
-    display: flex;
+    display: none;
   }
 }
 .modal_wrapper_02901 {
@@ -826,14 +826,16 @@ body {
 .moadl_02901 {
   position: absolute;
   display: block;
-  width: 500px;
+  width: auto;
+  min-width: 500px;
+  max-width: 50%;
   /* max-height: 80%; */
   background-color: #fff;
   border: 1px solid #c2c2c2;
   border-radius: 5px;
   padding: 10px;
-  left: 35%;
-  top: 20px;
+  left: 50%;
+  top: 50px;
   transform: translateX(-50%);
   transition: all 0.2s ease-in-out;
   overflow: hidden;
@@ -854,7 +856,7 @@ body {
   font-size: 25px;
 }
 .food_name_02901 {
-  font-size: 23px;
+  font-size: 2rem;
   text-align: center;
   font-weight: 700;
   color: #3c3c3c;
@@ -888,14 +890,17 @@ body {
   object-fit: cover;
 }
 .content_container_02901 {
-  margin-top: 9rem;
+  margin-top: 5rem;
 }
 .food_desc_02901 {
+  display: block;
   font-size: 14px;
   font-weight: 600;
   text-align: center;
   color: #3c3c3c;
   padding: 10px 0;
+  width: 70%;
+  margin: 0 auto;
 }
 .price_02901 {
   font-size: 22px;
@@ -977,6 +982,7 @@ body {
   font-size: 15px;
   font-weight: 700;
   color: #3c3c3c;
+  margin: 10px;
 }
 .menu_table_0291 {
   width: 100%;
@@ -1032,4 +1038,34 @@ body {
 }
 .cancel_btn_8392:hover {
   background-color: #d1d1d1;
+}
+.info_label_0291 {
+  display: block;
+  font-size: 12px;
+  color: #e03f3f;
+  padding: 5px 0;
+  border-radius: 5px;
+  user-select: none;
+  margin: 0;
+}
+.not_available_8392{
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  color: #747474;
+}
+
+@media screen and (max-width:1160px) {
+  .billing_block{
+    display: none;
+  }
+  .order_block{
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .cat_col_0229{
+    display: none;
+  }
 }

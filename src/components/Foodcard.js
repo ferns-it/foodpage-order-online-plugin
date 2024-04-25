@@ -2,6 +2,7 @@ import React, { Fragment, useContext, useEffect, useState } from "react";
 import { AppContext } from "../context/AppContext";
 import * as Bs from "react-icons/bs";
 import AddOnsModal from "./AddOnsModal";
+import Utils from "../utils/Utils";
 
 function Foodcard(category) {
   const { categoryList, fetchProductsList } = useContext(AppContext);
@@ -108,7 +109,7 @@ function Foodcard(category) {
                                 {product?.name ?? "N/A"}
                               </h3>
                               <p className="food_desc_029">
-                                {product?.description ?? "N/A"}
+                                {product?.description && Utils.removeSpecialCharacters(product?.description)}
                               </p>
                               <button
                                 type="button"
