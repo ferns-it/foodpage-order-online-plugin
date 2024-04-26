@@ -13,6 +13,7 @@ import * as Lu from "react-icons/lu";
 import * as Bs from "react-icons/bs";
 import { AppContext } from "../../context/AppContext";
 import Foodcard from "../../components/Foodcard";
+import FoodAccordian from "../../components/FoodAccordian";
 
 function Order() {
   const {
@@ -126,8 +127,9 @@ function Order() {
                       </ul>
                     </div>
                   </div>
-                  <div className="col-lg-9 col-md-8 col-sm-12">
+                  <div className="col-lg-9 col-md-8 col-sm-12 food_area_col">
                     <Foodcard category={selectedCategory} />
+                    <FoodAccordian/>
                   </div>
                 </div>
               </div>
