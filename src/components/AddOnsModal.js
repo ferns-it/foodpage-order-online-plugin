@@ -1,9 +1,10 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import * as Io5 from "react-icons/io5";
 import * as Bs from "react-icons/bs";
 import Utils from "../utils/Utils";
 
 function AddOnsModal(props) {
+  const modalRef = useRef(null);
   const [count, setCount] = useState(0);
   const [variationValue, setVariationValue] = useState("");
   useEffect(() => {
@@ -12,6 +13,32 @@ function AddOnsModal(props) {
       setCount(0);
       setVariationValue("");
     }
+  }, [props.showModal]);
+
+  const handleClickOutside = (event) => {
+    if (modalRef.current && !modalRef.current.contains(event.target)) {
+      props.setShowModal(false);
+    }
+  };
+
+  const handleEscKeyPress = (event) => {
+    if (event.keyCode === 27) {
+      props.setShowModal(false)
+    }
+  };
+
+  useEffect(() => {
+    if (props.showModal) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleEscKeyPress);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscKeyPress);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscKeyPress);
+    };
   }, [props.showModal]);
 
   if (!props.showModal || !props.productData) return;
@@ -33,7 +60,7 @@ function AddOnsModal(props) {
         }
         id="modal_wrapper_02901"
       >
-        <div className="moadl_02901 animate__animated">
+        <div className="moadl_02901 animate__animated" ref={modalRef}>
           <div className="product_img_bg_029">
             <img src={foodValues && foodValues?.photo} alt="" />
           </div>

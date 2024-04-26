@@ -1234,9 +1234,14 @@ body {
     display: block;
   }
   .moadl_02901{
-    min-width: 300px;
+    min-width: 400px;
   }
   .submit_btn_8392 >span{
     display: none;
+  }
+}
+@media screen and (max-width:600px) {
+  .moadl_02901{
+    min-width: 300px;
   }
 }
