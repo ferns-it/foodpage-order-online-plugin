@@ -1,4 +1,10 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, {
+  Fragment,
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+} from "react";
 import * as Md from "react-icons/md";
 import * as Pi from "react-icons/pi";
 import * as Fa from "react-icons/fa";
@@ -21,7 +27,7 @@ function Order() {
   const [added, setAdded] = useState(false);
   const [deliveryOption, setDeliveryOption] = useState("delivery");
   const [isSticky, setIsSticky] = useState(false);
-  const [selectedCategory, setSelectedCatgory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
   const handleScroll = () => {
     if (window.pageYOffset >= 100) {
@@ -54,28 +60,8 @@ function Order() {
 
   const handleChipClick = (index, catName) => {
     setActiveChipIndex(index);
-
-    // const sectionId = document.getElementById(`category-${index}`);
-    // if (sectionId) {
-    //   sectionId.scrollIntoView({ behavior: "smooth", block: "start" });
-    // }
-
-    setSelectedCatgory(catName);
+    setSelectedCategory(catName);
   };
-
-  function moveLeft() {
-    const menuList = document.querySelector(".menu-list");
-    const firstItem = menuList.querySelector("li:first-child");
-
-    menuList.appendChild(firstItem);
-  }
-
-  function moveRight() {
-    const menuList = document.querySelector(".menu-list");
-    const lastItem = menuList.querySelector("li:last-child");
-
-    menuList.insertBefore(lastItem, menuList.firstChild);
-  }
 
   return (
     <Fragment>
@@ -89,39 +75,7 @@ function Order() {
             allergies, if you have any allergies please inform us when ordering.
           </p>
         </div>
-        <div
-          className={
-            isSticky ? "wrapper_123_category sticky" : "wrapper_123_category"
-          }
-        >
-          <div className="container chip-container mt-4">
-            <div className="chip_card_123">
-              <button className="nav-btn left" onClick={moveLeft}>
-                <i>
-                  <Fa.FaArrowLeft />
-                </i>
-              </button>
-              <ul className="menu-list ">
-                {categoryList &&
-                  categoryList.map((item, index) => (
-                    <li
-                      className={index === activeChipIndex ? "active" : ""}
-                      key={index}
-                      onClick={() => handleChipClick(index, item?.name)}
-                    >
-                      {/* {item.charAt(0).toUpperCase() + item.slice(1).toLowerCase()} */}
-                      <a className="nav-link">{item?.name ?? "N/A"}</a>
-                    </li>
-                  ))}
-              </ul>
-              <button className="nav-btn right" onClick={moveRight}>
-                <i>
-                  <Fa.FaArrowRight />
-                </i>
-              </button>
-            </div>
-          </div>
-        </div>
+
         <div className="wrapper_102322">
           <div className="container-fluid">
             <div className="food_order_area">
@@ -138,7 +92,7 @@ function Order() {
                           }
                           onClick={() => {
                             setActiveChipIndex(-1);
-                            setSelectedCatgory("All");
+                            setSelectedCategory("All");
                           }}
                         >
                           <li>All</li>
