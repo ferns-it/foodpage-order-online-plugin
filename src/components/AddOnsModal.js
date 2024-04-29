@@ -13,7 +13,7 @@ import { AppContext } from "../context/AppContext";
 
 function AddOnsModal(props) {
   const modalRef = useRef(null);
-  const { addToCart, fetchCartList } = useContext(AppContext);
+  const { addToCart, fetchCartList, cartLoading } = useContext(AppContext);
   const [count, setCount] = useState(1);
   const [variationValue, setVariationValue] = useState({
     name: "",
@@ -490,11 +490,25 @@ function AddOnsModal(props) {
                   type="button"
                   className="submit_btn_8392 btn_8392"
                   onClick={handleCart}
+                  disabled={cartLoading}
                 >
-                  <i>
-                    <Bs.BsCart3 />
-                  </i>
-                  <span>Add to Cart</span>
+                  {cartLoading ? (
+                    <Fragment>
+                      <span
+                        class="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      <span class="sr-only"> Loading...</span>
+                    </Fragment>
+                  ) : (
+                    <Fragment>
+                      <i>
+                        <Bs.BsCart3 />
+                      </i>
+                      <span>Add to Cart</span>
+                    </Fragment>
+                  )}
                 </button>
               )}
               <button

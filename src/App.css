@@ -479,18 +479,18 @@ body {
 
 .price_summary_1 {
   font-weight: 700;
-  font-size: 18px;
+  font-size: 15px;
   color: #e61a16;
   margin-bottom: 0px;
+  margin-left: auto;
 }
 .remove {
-  position: absolute;
   width: 40px;
   height: auto;
   border: none;
   outline: none;
   background-color: transparent;
-  right: 0;
+  margin-left: auto;
 }
 .line__ {
   width: 100%;
@@ -591,9 +591,9 @@ body {
 .order_now_192:disabled {
   background-color: #da6d6d;
 }
-.summary_item_wrapper_029 {
+/* .summary_item_wrapper_029 {
   max-height: 250px;
-}
+} */
 /* .footer_98_ {
   position: fixed;
   width: 100%;
@@ -1210,8 +1210,9 @@ body {
   user-select: none;
 }
 .addOnsList028 {
+  width: 100%;
   list-style: none;
-  padding: 0;
+  padding-right: 20px;
   margin: 10px 0;
   font-size: 13px;
 }
@@ -1230,7 +1231,6 @@ body {
   overflow: hidden;
   border-radius: 10px;
   border: 1px solid #1b1b1b;
-  margin-left: auto;
 }
 .summary_qty_btn {
   outline: none;
@@ -1241,7 +1241,7 @@ body {
 .summary_qty_btn:hover {
   color: #e03f3f;
 }
-.total_cost_summary{
+.total_cost_summary {
   font-size: 15px;
   font-weight: 700;
   user-select: none;
@@ -1251,6 +1251,7 @@ body {
 }
 
 .total_cost_summary td:last-child {
+  font-size: 18px;
   width: 30%;
   text-align: right;
 }

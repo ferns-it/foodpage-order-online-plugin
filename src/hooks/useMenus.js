@@ -8,6 +8,7 @@ const useMenus = () => {
   const [menuLoading, setMenuLoading] = useState(false);
   const [productsList, setProductList] = useState([]);
   const [cartItems, setCartItems] = useState(null);
+  const [cartLoading, setCartLoading] = useState(false)
 
   const fetchMenuList = async () => {
     try {
@@ -72,13 +73,13 @@ const useMenus = () => {
 
   const addToCart = async (payload, { onSuccess, onFailed }) => {
     try {
-      setMenuLoading(true);
+      setCartLoading(true);
       await BaseClient.post(APIEndpoints.cartCreation, payload, {
         onSuccess: onSuccess,
         onFailed: onFailed,
       });
     } finally {
-      setMenuLoading(false);
+      setCartLoading(false);
     }
   };
 
@@ -108,6 +109,7 @@ const useMenus = () => {
     addToCart,
     fetchCartList,
     cartItems,
+    cartLoading
   };
 };
 
