@@ -81,7 +81,7 @@ function OrderSummary() {
                           );
                         })}
                     </table>
-                    <div className="d-flex">
+                    <div className="d-flex mt-2">
                       <div className="inc_dec_wrapper_order_summary">
                         <button className="summary_qty_btn dec_btn_order_summary">
                           -

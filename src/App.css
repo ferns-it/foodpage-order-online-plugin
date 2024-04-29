@@ -462,6 +462,10 @@ body {
 .decrement:hover {
   color: #252525;
 }
+.summary_item_wrapper_029 {
+  min-height: 250px;
+  overflow-y: scroll;
+}
 
 .summary_card {
   position: relative;
@@ -1213,7 +1217,7 @@ body {
   width: 100%;
   list-style: none;
   padding-right: 20px;
-  margin: 10px 0;
+  /* margin: 10px 0; */
   font-size: 13px;
 }
 .addOnsList028 td:first-child {
