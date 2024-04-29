@@ -14,15 +14,10 @@ import * as Bs from "react-icons/bs";
 import { AppContext } from "../../context/AppContext";
 import Foodcard from "../../components/Foodcard";
 import FoodAccordian from "../../components/FoodAccordian";
+import Utils from "../../utils/Utils";
 
 function Order() {
-  const {
-    menuList,
-    menuLoading,
-    categoryList,
-    fetchProductsList,
-    productsList,
-  } = useContext(AppContext);
+  const { menuList, categoryList, cartItems } = useContext(AppContext);
   const [filteredList, setFilteredList] = useState(null);
   const [activeChipIndex, setActiveChipIndex] = useState(-1);
   const [added, setAdded] = useState(false);
@@ -37,6 +32,8 @@ function Order() {
       setIsSticky(false);
     }
   };
+
+  console.log(cartItems);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -129,7 +126,7 @@ function Order() {
                   </div>
                   <div className="col-lg-9 col-md-8 col-sm-12 food_area_col">
                     <Foodcard category={selectedCategory} />
-                    <FoodAccordian/>
+                    <FoodAccordian />
                   </div>
                 </div>
               </div>

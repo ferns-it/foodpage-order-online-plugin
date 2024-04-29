@@ -53,6 +53,7 @@ function Foodcard(category) {
         showModal={showModal}
         setShowModal={setShowModal}
         productData={productDataValues}
+        shopId="1"
       />
       {products &&
         products.length != 0 &&

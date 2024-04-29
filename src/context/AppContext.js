@@ -12,6 +12,9 @@ export const AppContextProvider = (props) => {
     categoryList,
     fetchProductsList,
     productsList,
+    addToCart,
+    fetchCartList,
+    cartItems,
   } = useMenus();
 
   useEffect(() => {
@@ -29,6 +32,9 @@ export const AppContextProvider = (props) => {
         categoryList,
         fetchProductsList,
         productsList,
+        addToCart,
+        fetchCartList,
+        cartItems,
       }}
     >
       {props.children}

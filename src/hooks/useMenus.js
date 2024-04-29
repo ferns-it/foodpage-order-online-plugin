@@ -7,6 +7,7 @@ const useMenus = () => {
   const [categoryList, setCategoryList] = useState(null);
   const [menuLoading, setMenuLoading] = useState(false);
   const [productsList, setProductList] = useState([]);
+  const [cartItems, setCartItems] = useState(null);
 
   const fetchMenuList = async () => {
     try {
@@ -49,7 +50,7 @@ const useMenus = () => {
           APIEndpoints.productList +
             `/${data?.shopId}` +
             `/${data?.categoryId}`,
-          null, // No need to pass payload here
+          null,
           {
             onSuccess: (res) => {
               const items = res?.data?.data?.items;
@@ -68,6 +69,34 @@ const useMenus = () => {
       setMenuLoading(false);
     }
   };
+
+  const addToCart = async (payload, { onSuccess, onFailed }) => {
+    try {
+      setMenuLoading(true);
+      await BaseClient.post(APIEndpoints.cartCreation, payload, {
+        onSuccess: onSuccess,
+        onFailed: onFailed,
+      });
+    } finally {
+      setMenuLoading(false);
+    }
+  };
+
+  const fetchCartList = async () => {
+    try {
+      setMenuLoading(true);
+      await BaseClient.get(APIEndpoints.getCartItems, [], {
+        onSuccess: (res) => {
+          setCartItems(res?.data?.data?.data);
+        },
+        onFailed: (err) => {
+          console.log("Error on fetching menus", err);
+        },
+      });
+    } finally {
+      setMenuLoading(false);
+    }
+  };
   return {
     fetchMenuList,
     fetchCategoriesList,
@@ -76,6 +105,9 @@ const useMenus = () => {
     categoryList,
     productsList,
     menuLoading,
+    addToCart,
+    fetchCartList,
+    cartItems,
   };
 };
 

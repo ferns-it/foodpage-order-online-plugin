@@ -1,11 +1,19 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, {
+  Fragment,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import * as Io5 from "react-icons/io5";
 import * as Bs from "react-icons/bs";
 import Utils from "../utils/Utils";
 import toast, { Toaster } from "react-hot-toast";
+import { AppContext } from "../context/AppContext";
 
 function AddOnsModal(props) {
   const modalRef = useRef(null);
+  const { addToCart, fetchCartList } = useContext(AppContext);
   const [count, setCount] = useState(1);
   const [variationValue, setVariationValue] = useState({
     name: "",
@@ -14,20 +22,20 @@ function AddOnsModal(props) {
   });
   const [addOns, setAddOns] = useState({});
   const [masterAddons, setMasterAddons] = useState({});
-  const [errorAddOns, setErrorAddOns] = useState({
-    error: false,
-    message: "",
-  });
 
   const foodValues = props.productData;
+
+  const emptyStates = () => {
+    setCount(1);
+    setVariationValue("");
+    setAddOns({});
+    setMasterAddons({});
+  };
 
   useEffect(() => {
     // if (!props.showModal) return;
     if (props.showModal == false) {
-      setCount(1);
-      setVariationValue("");
-      setAddOns({});
-      setMasterAddons({});
+      emptyStates();
     }
   }, [props.showModal]);
 
@@ -66,7 +74,14 @@ function AddOnsModal(props) {
 
   const total = variationValue && variationValue?.price * count;
 
-  const handleCart = () => {
+  const handleCart = async () => {
+    let userId = "";
+    userId = localStorage.getItem("user");
+    if (!userId) {
+      userId = Utils.generateRandomId();
+      localStorage.setItem("user", userId);
+    }
+
     if (count <= 0) {
       toast.error("Least quantity is 1");
       return;
@@ -79,6 +94,34 @@ function AddOnsModal(props) {
       toast.error("Variations are required, Please choose one!");
       return;
     }
+
+    let cOptionObj = {
+      pvID: variationValue?.pvID,
+      addons: addOns,
+      masterAddons: masterAddons,
+    };
+    const payload = {
+      qty: count,
+      rID: props.shopId,
+      pID: foodValues?.pID,
+      cOption: JSON.stringify(cOptionObj),
+    };
+
+    await addToCart(payload, {
+      onSuccess: async (res) => {
+        console.info(res);
+        toast.success("Item Added to cart!");
+        await fetchCartList();
+
+        setTimeout(() => {
+          props.setShowModal(false);
+        }, 1000);
+      },
+      onFailed: (err) => {
+        console.error(err);
+        toast.error("Add to cart Failed!");
+      },
+    });
   };
 
   return (
