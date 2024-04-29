@@ -1244,6 +1244,7 @@ body {
 .total_cost_summary{
   font-size: 15px;
   font-weight: 700;
+  user-select: none;
 }
 .total_cost_summary td:first-child {
   width: 70%;
