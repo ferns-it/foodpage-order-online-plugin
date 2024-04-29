@@ -2,16 +2,32 @@ import React, { Fragment, useEffect, useRef, useState } from "react";
 import * as Io5 from "react-icons/io5";
 import * as Bs from "react-icons/bs";
 import Utils from "../utils/Utils";
+import toast, { Toaster } from "react-hot-toast";
 
 function AddOnsModal(props) {
   const modalRef = useRef(null);
-  const [count, setCount] = useState(0);
-  const [variationValue, setVariationValue] = useState("");
+  const [count, setCount] = useState(1);
+  const [variationValue, setVariationValue] = useState({
+    name: "",
+    pvID: "",
+    price: 0,
+  });
+  const [addOns, setAddOns] = useState({});
+  const [masterAddons, setMasterAddons] = useState({});
+  const [errorAddOns, setErrorAddOns] = useState({
+    error: false,
+    message: "",
+  });
+
+  const foodValues = props.productData;
+
   useEffect(() => {
     // if (!props.showModal) return;
     if (props.showModal == false) {
-      setCount(0);
+      setCount(1);
       setVariationValue("");
+      setAddOns({});
+      setMasterAddons({});
     }
   }, [props.showModal]);
 
@@ -23,35 +39,51 @@ function AddOnsModal(props) {
 
   const handleEscKeyPress = (event) => {
     if (event.keyCode === 27) {
-      props.setShowModal(false)
+      props.setShowModal(false);
     }
   };
 
   useEffect(() => {
     if (props.showModal) {
-      document.addEventListener('mousedown', handleClickOutside);
-      document.addEventListener('keydown', handleEscKeyPress);
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("keydown", handleEscKeyPress);
     } else {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleEscKeyPress);
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscKeyPress);
     }
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleEscKeyPress);
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscKeyPress);
     };
   }, [props.showModal]);
 
   if (!props.showModal || !props.productData) return;
 
-  const foodValues = props.productData;
-
   const handleDecrement = () => {
-    if (count === 0) return;
+    if (count === 1) return;
     setCount(count - 1);
+  };
+
+  const total = variationValue && variationValue?.price * count;
+
+  const handleCart = () => {
+    if (count <= 0) {
+      toast.error("Least quantity is 1");
+      return;
+    }
+    if (
+      !variationValue ||
+      variationValue.name.length === 0 ||
+      variationValue.pvID.length === 0
+    ) {
+      toast.error("Variations are required, Please choose one!");
+      return;
+    }
   };
 
   return (
     <Fragment>
+      <Toaster />
       <div
         className={
           props.showModal
@@ -77,7 +109,9 @@ function AddOnsModal(props) {
               {foodValues?.description &&
                 Utils.removeSpecialCharacters(foodValues?.description)}
             </p>
-            <p className="price_02901">0</p>
+            <p className="price_02901">
+              £{total && total.length != 0 ? total : 0}
+            </p>
             <div className="inc_dec_wrapper_0291">
               <div className="incDec_wrapper_0291">
                 <input type="checkbox" id="toggle" class="toggle-checkbox" />
@@ -108,6 +142,7 @@ function AddOnsModal(props) {
                     foodValues.variations &&
                     foodValues?.variations.length != 0 &&
                     foodValues.variations.map((varient, index) => {
+                      const variationName = varient?.name ?? "N/A";
                       return (
                         <tr key={index}>
                           <td className="d-flex">
@@ -120,9 +155,13 @@ function AddOnsModal(props) {
                                 name="variationOption"
                                 id="variations"
                                 className="delivery_option"
-                                checked={variationValue == varient?.name}
+                                checked={variationValue.name === variationName}
                                 onClick={() => {
-                                  setVariationValue(varient?.name);
+                                  setVariationValue({
+                                    name: varient?.name ?? "N/A",
+                                    pvID: varient?.pvID,
+                                    price: varient?.price,
+                                  });
                                 }}
                               />
                               <span class="checkmark"></span>
@@ -162,12 +201,55 @@ function AddOnsModal(props) {
                                     >
                                       <input
                                         type="checkbox"
-                                        name="addOns"
+                                        name={data}
                                         id="variations"
                                         className="delivery_option"
+                                        disabled={
+                                          variationValue &&
+                                          variationValue.name &&
+                                          variationValue.name.length != 0
+                                            ? false
+                                            : true
+                                        }
+                                        onChange={(e) => {
+                                          const isChecked = e.target.checked;
+                                          const newValue =
+                                            data?.value.toString();
+                                          setAddOns((prev) => {
+                                            if (isChecked) {
+                                              return {
+                                                ...prev,
+                                                [item?.id]: [
+                                                  ...(prev[item?.id] ?? []),
+                                                  data?.value.toString(),
+                                                ],
+                                              };
+                                            } else {
+                                              const updatedAddOns = { ...prev };
+                                              if (updatedAddOns[item?.id]) {
+                                                updatedAddOns[item?.id] =
+                                                  updatedAddOns[
+                                                    item?.id
+                                                  ].filter(
+                                                    (value) =>
+                                                      value !== newValue
+                                                  );
+                                              }
+                                              return updatedAddOns;
+                                            }
+                                          });
+                                        }}
                                       />
                                       <span class="checkmark"></span>
-                                      <span className="varient_name">
+                                      <span
+                                        className={
+                                          variationValue &&
+                                          variationValue.name &&
+                                          variationValue.name.length != 0
+                                            ? "varient_name"
+                                            : "varient_name disabled"
+                                        }
+                                      >
                                         {data?.text ?? "N/A"}
                                       </span>
                                     </label>
@@ -214,40 +296,138 @@ function AddOnsModal(props) {
                                 </span>
                               )}
                             </p>
-                            <table className="menu_table_0291">
-                              {item?.options &&
-                                item?.options.map((data, index) => {
-                                  return (
-                                    <tr key={index}>
-                                      <td className="d-flex">
-                                        <label
-                                          // htmlFor={varient?.name}
-                                          className="delivery_option_container"
+                            <div className={item.name}>
+                              <table className="menu_table_0291">
+                                {item?.options &&
+                                  item?.options.map((data, index) => {
+                                    // const addOnsId =
+                                    //   masterAddons && Object.keys(masterAddons);
+                                    // const dataStr = addOnsId.find(
+                                    //   (x) => x === item?.id
+                                    // );
+                                    // let strLen = 0;
+                                    // const maxValue = parseInt(
+                                    //   item?.maximumRequired
+                                    // );
+                                    // if (dataStr) {
+                                    //   const addonsArray = masterAddons[dataStr];
+                                    //   strLen = addonsArray
+                                    //     ? addonsArray.length
+                                    //     : 0;
+                                    // }
+
+                                    const container = document.querySelectorAll(
+                                      `.${item.name}`
+                                    );
+                                    const checkboxes =
+                                      container.length > 0
+                                        ? container[0].querySelectorAll(
+                                            'input[type="checkbox"]'
+                                          )
+                                        : null;
+
+                                    let checkedCount = 0;
+
+                                    checkboxes &&
+                                      checkboxes.forEach((checkbox) => {
+                                        if (checkbox.checked) {
+                                          checkedCount++;
+                                        }
+                                      });
+
+                                    // enable checked checkboxes
+                                    checkboxes &&
+                                      checkboxes.forEach((checkbox) => {
+                                        if (checkbox.checked) {
+                                          checkbox.disabled = false;
+                                        }
+                                      });
+                                    const isCountCheck =
+                                      checkedCount == item?.maximumRequired;
+                                    const isVariationCheck =
+                                      variationValue &&
+                                      variationValue.name &&
+                                      variationValue.name.length !== 0;
+
+                                    return (
+                                      <tr key={index}>
+                                        <td className="d-flex">
+                                          <label
+                                            // htmlFor={varient?.name}
+                                            className="delivery_option_container"
+                                          >
+                                            <input
+                                              type="checkbox"
+                                              name="addOns"
+                                              id="variations"
+                                              className="delivery_option variation_list"
+                                              disabled={
+                                                !isCountCheck &&
+                                                isVariationCheck
+                                                  ? false
+                                                  : true
+                                              }
+                                              onChange={(e) => {
+                                                const isChecked =
+                                                  e.target.checked;
+                                                const newValue =
+                                                  data?.itemId.toString();
+                                                setMasterAddons((prev) => {
+                                                  if (isChecked) {
+                                                    return {
+                                                      ...prev,
+                                                      [item?.id]: [
+                                                        ...(prev[item?.id] ??
+                                                          []),
+                                                        data?.itemId.toString(),
+                                                      ],
+                                                    };
+                                                  } else {
+                                                    const updatedAddOns = {
+                                                      ...prev,
+                                                    };
+                                                    if (
+                                                      updatedAddOns[item?.id]
+                                                    ) {
+                                                      updatedAddOns[item?.id] =
+                                                        updatedAddOns[
+                                                          item?.id
+                                                        ].filter(
+                                                          (value) =>
+                                                            value !== newValue
+                                                        );
+                                                    }
+                                                    return updatedAddOns;
+                                                  }
+                                                });
+                                              }}
+                                            />
+                                            <span class="checkmark"></span>
+                                            <span
+                                              className={
+                                                !isCountCheck &&
+                                                isVariationCheck
+                                                  ? "varient_name"
+                                                  : "varient_name disabled"
+                                              }
+                                            >
+                                              {data?.text ?? "N/A"}
+                                            </span>
+                                          </label>
+                                        </td>
+                                        <td
+                                          style={{
+                                            whiteSpace: "nowrap",
+                                            userSelect: "none",
+                                          }}
                                         >
-                                          <input
-                                            type="checkbox"
-                                            name="addOns"
-                                            id="variations"
-                                            className="delivery_option"
-                                          />
-                                          <span class="checkmark"></span>
-                                          <span className="varient_name">
-                                            {data?.text ?? "N/A"}
-                                          </span>
-                                        </label>
-                                      </td>
-                                      <td
-                                        style={{
-                                          whiteSpace: "nowrap",
-                                          userSelect: "none",
-                                        }}
-                                      >
-                                        + {data?.price_formatted ?? "N/A"}
-                                      </td>
-                                    </tr>
-                                  );
-                                })}
-                            </table>
+                                          + {data?.price_formatted ?? "N/A"}
+                                        </td>
+                                      </tr>
+                                    );
+                                  })}
+                              </table>
+                            </div>
                           </div>
                         </Fragment>
                       );
@@ -263,7 +443,11 @@ function AddOnsModal(props) {
             )}
             <div className="btn_grp_8392">
               {foodValues?.online === "Yes" && (
-                <button type="button" className="submit_btn_8392 btn_8392">
+                <button
+                  type="button"
+                  className="submit_btn_8392 btn_8392"
+                  onClick={handleCart}
+                >
                   <i>
                     <Bs.BsCart3 />
                   </i>

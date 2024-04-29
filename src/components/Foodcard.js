@@ -109,7 +109,10 @@ function Foodcard(category) {
                                 {product?.name ?? "N/A"}
                               </h3>
                               <p className="food_desc_029">
-                                {product?.description && Utils.removeSpecialCharacters(product?.description)}
+                                {product?.description &&
+                                  Utils.removeSpecialCharacters(
+                                    product?.description
+                                  )}
                               </p>
                               <button
                                 type="button"

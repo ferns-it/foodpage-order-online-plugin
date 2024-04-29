@@ -7,6 +7,7 @@
 body {
   background-color: #e9ecee;
 }
+
 .order_list {
   cursor: pointer;
   padding: 10px;
@@ -1008,6 +1009,10 @@ body {
   padding-left: 10px;
   white-space: nowrap;
 }
+.varient_name.disabled{
+  color: #ababab;
+  cursor: default;
+}
 .btn_grp_8392 {
   display: flex;
   margin: 10px 0;
@@ -1059,6 +1064,7 @@ body {
 
 /* Accordian */
 .accordian_wrapper_001 {
+  display: none;
   position: relative;
   padding: 10px;
 }
@@ -1204,6 +1210,10 @@ body {
   font-size: 20px;
   font-weight: 700;
 }
+.delivery_option:disabled{
+  cursor: default !important;
+  user-select: none;
+}
 
 @media screen and (max-width: 1190px) {
   .category_card_009 {
@@ -1229,6 +1239,9 @@ body {
   }
   .food_area_col {
     width: 100% !important;
+  }
+  .accordian_wrapper_001{
+    display: block;
   }
   .checkout_responsive_area{
     display: block;
