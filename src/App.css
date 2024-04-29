@@ -291,7 +291,7 @@ body {
 
 .food_order_area {
   display: flex;
-  justify-content: normal;
+  justify-content: center;
   align-items: start;
   width: 100%;
   padding: 20px 0;
@@ -305,17 +305,13 @@ body {
   transition: all 0.2s ease-in-out;
 }
 .billing_block {
-  display: none;
   position: relative;
   width: 30%;
-  max-height: 537px;
   background-color: #fff;
   padding: 10px;
-  margin-left: 10px;
   border-radius: 4px;
   transition: all 0.2s ease-in-out;
   margin-top: 15px;
-  right: 20px;
 }
 .billing_block.sticky {
   position: sticky;
@@ -597,7 +593,6 @@ body {
 }
 .summary_item_wrapper_029 {
   max-height: 250px;
-  overflow-y: scroll;
 }
 /* .footer_98_ {
   position: fixed;
@@ -1009,7 +1004,7 @@ body {
   padding-left: 10px;
   white-space: nowrap;
 }
-.varient_name.disabled{
+.varient_name.disabled {
   color: #ababab;
   cursor: default;
 }
@@ -1089,7 +1084,7 @@ body {
 .accor_btn_001 > span {
   user-select: none;
 }
-.accor_btn_001:hover{
+.accor_btn_001:hover {
   color: #fd4645;
 }
 
@@ -1179,11 +1174,11 @@ body {
 .collapse_accordion_001:focus-within {
   box-shadow: 0 0 5px #444;
 }
-.collapse_accordion_001 > span{
+.collapse_accordion_001 > span {
   font-size: 13px;
   font-weight: 600;
 }
-.checkout_responsive_area{
+.checkout_responsive_area {
   display: none;
   position: fixed;
   width: 100%;
@@ -1195,7 +1190,7 @@ body {
   box-shadow: 0 2px 10px #444;
   z-index: 9;
 }
-.checkout_resp_btn_021{
+.checkout_resp_btn_021 {
   width: 100%;
   background-color: #fe4645;
   border: none;
@@ -1205,16 +1200,59 @@ body {
   color: #fff;
   font-weight: 600;
 }
-.checkout_resp_price{
+.checkout_resp_price {
   color: #fff;
   font-size: 20px;
   font-weight: 700;
 }
-.delivery_option:disabled{
+.delivery_option:disabled {
   cursor: default !important;
   user-select: none;
 }
+.addOnsList028 {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+  font-size: 13px;
+}
+.addOnsList028 td:first-child {
+  width: 70%;
+}
 
+.addOnsList028 td:last-child {
+  width: 30%;
+  text-align: right;
+}
+.inc_dec_wrapper_order_summary {
+  display: inline-block;
+  white-space: nowrap;
+  width: 50px;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid #1b1b1b;
+  margin-left: auto;
+}
+.summary_qty_btn {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  transition: all 0.2s ease-in-out;
+}
+.summary_qty_btn:hover {
+  color: #e03f3f;
+}
+.total_cost_summary{
+  font-size: 15px;
+  font-weight: 700;
+}
+.total_cost_summary td:first-child {
+  width: 70%;
+}
+
+.total_cost_summary td:last-child {
+  width: 30%;
+  text-align: right;
+}
 @media screen and (max-width: 1190px) {
   .category_card_009 {
     width: auto;
@@ -1240,21 +1278,21 @@ body {
   .food_area_col {
     width: 100% !important;
   }
-  .accordian_wrapper_001{
+  .accordian_wrapper_001 {
     display: block;
   }
-  .checkout_responsive_area{
+  .checkout_responsive_area {
     display: block;
   }
-  .moadl_02901{
+  .moadl_02901 {
     min-width: 400px;
   }
-  .submit_btn_8392 >span{
+  .submit_btn_8392 > span {
     display: none;
   }
 }
-@media screen and (max-width:600px) {
-  .moadl_02901{
+@media screen and (max-width: 600px) {
+  .moadl_02901 {
     min-width: 300px;
   }
 }
