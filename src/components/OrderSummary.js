@@ -59,12 +59,17 @@ function OrderSummary() {
                       <div className="d-flex">
                         <p className="food_menu m-0">
                           <strong>{item?.productName ?? "N/A"}</strong>
-                          <button
-                            className="summary_addons_collapse_btn"
-                            onClick={() => toggleFoodLists(index)}
-                          >
-                            <Io.IoIosArrowRoundDown /> <span>Know more</span>
-                          </button>
+                          {(addOns && addOns.length != 0) ||
+                          (masterAddons && masterAddons.length != 0) ? (
+                            <button
+                              className="summary_addons_collapse_btn"
+                              onClick={() => toggleFoodLists(index)}
+                            >
+                              <Io.IoIosArrowRoundDown /> <span>Know more</span>
+                            </button>
+                          ) : (
+                            ""
+                          )}
                         </p>
                         <p className="price_summary_1">
                           {item?.product_total_price}

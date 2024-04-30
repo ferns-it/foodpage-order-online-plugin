@@ -338,7 +338,14 @@ function AddOnsModal(props) {
                                 </span>
                               )}
                             </p>
-                            <div className={item.name}>
+                            <div
+                              className={
+                                item.name +
+                                item?.id +
+                                item.minimumRequired +
+                                item?.maximumRequired
+                              }
+                            >
                               <table className="menu_table_0291">
                                 {item?.options &&
                                   item?.options.map((data, index) => {
@@ -359,7 +366,12 @@ function AddOnsModal(props) {
                                     // }
 
                                     const container = document.querySelectorAll(
-                                      `.${item.name}`
+                                      `.${
+                                        item.name +
+                                        item?.id +
+                                        item.minimumRequired +
+                                        item?.maximumRequired
+                                      }`
                                     );
                                     const checkboxes =
                                       container.length > 0
