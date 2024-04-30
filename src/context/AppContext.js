@@ -15,13 +15,15 @@ export const AppContextProvider = (props) => {
     addToCart,
     fetchCartList,
     cartItems,
-    cartLoading
+    cartLoading,
+    deleteSingleCartItem
   } = useMenus();
 
   useEffect(() => {
     fetchMenuList();
     fetchCategoriesList();
     fetchProductsList();
+    fetchCartList();
   }, []);
 
   return (
@@ -36,7 +38,8 @@ export const AppContextProvider = (props) => {
         addToCart,
         fetchCartList,
         cartItems,
-        cartLoading
+        cartLoading,
+        deleteSingleCartItem
       }}
     >
       {props.children}

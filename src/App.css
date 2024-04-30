@@ -462,11 +462,16 @@ body {
 .decrement:hover {
   color: #252525;
 }
-.summary_item_wrapper_029 {
+/* .summary_item_wrapper_029 {
   min-height: 250px;
   overflow-y: scroll;
+} */
+.empty_indic_order_summary{
+  text-align: center;
+  font-weight: 700;
+  color: #7777;
+  user-select: none;
 }
-
 .summary_card {
   position: relative;
   padding: 10px;
@@ -1258,6 +1263,29 @@ body {
   font-size: 18px;
   width: 30%;
   text-align: right;
+}
+.add_ons_wrapper_order_summary{
+  height: 0px;
+  overflow: hidden;
+  transition: all 0.2s ease-in-out;
+}
+.add_ons_wrapper_order_summary.show{
+  height: 100%;
+}
+.summary_addons_collapse_btn {
+  border: none;
+  outline: none;
+  border-radius: 50%;
+  background-color: transparent;
+  color: #252525;
+  transition: all 0.2s ease-in-out;
+}
+.summary_addons_collapse_btn > span{
+  font-size: 13px;
+  font-weight: 600;
+}
+.summary_addons_collapse_btn:hover {
+  color: #e03f3f;
 }
 @media screen and (max-width: 1190px) {
   .category_card_009 {

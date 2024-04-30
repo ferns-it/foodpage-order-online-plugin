@@ -8,7 +8,7 @@ const useMenus = () => {
   const [menuLoading, setMenuLoading] = useState(false);
   const [productsList, setProductList] = useState([]);
   const [cartItems, setCartItems] = useState(null);
-  const [cartLoading, setCartLoading] = useState(false)
+  const [cartLoading, setCartLoading] = useState(false);
 
   const fetchMenuList = async () => {
     try {
@@ -98,6 +98,18 @@ const useMenus = () => {
       setMenuLoading(false);
     }
   };
+
+  const deleteSingleCartItem = async (id, { onSuccess, onFailed }) => {
+    try {
+      setCartLoading(true);
+      await BaseClient.delete(APIEndpoints.deleteCartItem + `/${id}`, {
+        onSuccess: onSuccess,
+        onFailed: onFailed,
+      });
+    } finally {
+      setCartLoading(false);
+    }
+  };
   return {
     fetchMenuList,
     fetchCategoriesList,
@@ -109,7 +121,8 @@ const useMenus = () => {
     addToCart,
     fetchCartList,
     cartItems,
-    cartLoading
+    cartLoading,
+    deleteSingleCartItem,
   };
 };
 
