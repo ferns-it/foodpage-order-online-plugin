@@ -21,4 +21,12 @@ export default class Utils {
     const randomId = `${smallTimestamp}${randomChar}`;
     return randomId;
   }
+
+  static getCurrentTime() {
+    var d = new Date();
+    var hours = d.getHours();
+    var minutes = d.getMinutes();
+
+    return hours + ":" + minutes;
+  }
 }

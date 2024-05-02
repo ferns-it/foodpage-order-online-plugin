@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import useMenus from "../hooks/useMenus";
+import useShop from "../hooks/useShop";
 
 export const AppContext = createContext();
 
@@ -16,8 +17,13 @@ export const AppContextProvider = (props) => {
     fetchCartList,
     cartItems,
     cartLoading,
-    deleteSingleCartItem
+    deleteSingleCartItem,
+    getLocation,
+    locationResponse,
+    deleteCartItem,
   } = useMenus();
+
+  const { settings, getShopSettings, settingsLoading } = useShop();
 
   useEffect(() => {
     fetchMenuList();
@@ -39,7 +45,13 @@ export const AppContextProvider = (props) => {
         fetchCartList,
         cartItems,
         cartLoading,
-        deleteSingleCartItem
+        deleteSingleCartItem,
+        getLocation,
+        locationResponse,
+        settings,
+        getShopSettings,
+        settingsLoading,
+        deleteCartItem,
       }}
     >
       {props.children}

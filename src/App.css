@@ -466,7 +466,7 @@ body {
   min-height: 250px;
   overflow-y: scroll;
 } */
-.empty_indic_order_summary{
+.empty_indic_order_summary {
   text-align: center;
   font-weight: 700;
   color: #7777;
@@ -580,6 +580,9 @@ body {
   border-radius: 4px;
   border: 1px solid #7777;
   outline: none;
+}
+.opt_input_827.err__ {
+  border-color: red;
 }
 .order_now_192 {
   width: 100%;
@@ -1264,12 +1267,12 @@ body {
   width: 30%;
   text-align: right;
 }
-.add_ons_wrapper_order_summary{
+.add_ons_wrapper_order_summary {
   height: 0px;
   overflow: hidden;
   transition: all 0.2s ease-in-out;
 }
-.add_ons_wrapper_order_summary.show{
+.add_ons_wrapper_order_summary.show {
   height: 100%;
 }
 .summary_addons_collapse_btn {
@@ -1280,13 +1283,20 @@ body {
   color: #252525;
   transition: all 0.2s ease-in-out;
 }
-.summary_addons_collapse_btn > span{
+.summary_addons_collapse_btn > span {
   font-size: 13px;
   font-weight: 600;
 }
 .summary_addons_collapse_btn:hover {
   color: #e03f3f;
 }
+.err_msg_order_summary {
+  font-size: 13px;
+  font-weight: 600;
+  color: red;
+  user-select: none;
+}
+
 @media screen and (max-width: 1190px) {
   .category_card_009 {
     width: auto;

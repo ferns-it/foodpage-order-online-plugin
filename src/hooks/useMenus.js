@@ -9,6 +9,7 @@ const useMenus = () => {
   const [productsList, setProductList] = useState([]);
   const [cartItems, setCartItems] = useState(null);
   const [cartLoading, setCartLoading] = useState(false);
+  const [locationResponse, setLocationResponse] = useState(null);
 
   const fetchMenuList = async () => {
     try {
@@ -110,6 +111,44 @@ const useMenus = () => {
       setCartLoading(false);
     }
   };
+
+  const getLocation = async (origin, destination) => {
+    try {
+      setMenuLoading(true);
+      const response = await new Promise((resolve, reject) => {
+        BaseClient.get(
+          `${APIEndpoints.locationSettings}/delivery?origins=${origin}&destinations=${destination}&units=matrix`,
+          null,
+          {
+            onSuccess: (res) => {
+              setLocationResponse(res?.data?.data);
+            },
+            onFailed: (err) => {
+              console.log("Error on fetching menus", err);
+              reject(err);
+            },
+          }
+        );
+      });
+
+      return response;
+    } finally {
+      setMenuLoading(false);
+    }
+  };
+  const deleteCartItem = async (id, { onSuccess, onFailed }) => {
+    try {
+      setSettingsLoaiding(true);
+
+      await BaseClient.delete(APIEndpoints.deleteCartItem + `/${id}`, {
+        onSuccess: onSuccess,
+        onFailed: onFailed,
+      });
+    } finally {
+      setSettingsLoaiding(false);
+    }
+  };
+
   return {
     fetchMenuList,
     fetchCategoriesList,
@@ -123,6 +162,9 @@ const useMenus = () => {
     cartItems,
     cartLoading,
     deleteSingleCartItem,
+    getLocation,
+    locationResponse,
+    deleteCartItem
   };
 };
 
