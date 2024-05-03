@@ -23,6 +23,8 @@ function OrderSummary() {
   const [postalcode, setPostalcode] = useState("");
   const [takeawayTime, setTakeawayTime] = useState("");
   const [error, setError] = useState(false);
+  const [isFreeDelivery, setIsFreeDelivery] = useState(false);
+  const [deliveryCharges, setDeliveryCharges] = useState(null);
 
   useEffect(() => {
     const shopUrl = "le-arabia";
@@ -32,10 +34,6 @@ function OrderSummary() {
     setTakeawayTime(time);
   }, []);
 
-  useEffect(() => {
-    isValidRadiusCheck();
-  }, [locationResponse]);
-
   const getLocationDetails = async () => {
     if (!settings) return;
     const deliveryInfo = settings?.deliveryInfo ?? null;
@@ -44,6 +42,7 @@ function OrderSummary() {
     console.log(postalcode);
     if (!postalcode || postalcode.length == 0) return;
     console.log(shopPostalCode, postalcode);
+    console.log(shopPostalCode);
     await getLocation(shopPostalCode, postalcode);
   };
 
@@ -65,32 +64,6 @@ function OrderSummary() {
     return true;
     // sessionStorage.setItem("postcode", postalcode);
     // sessionStorage.setItem("locationDetails", JSON.stringify(locationResponse));
-  };
-
-  const isValidRadiusCheck = () => {
-    if (!locationResponse || !settings || !settings.deliveryInfo) return;
-
-    const deliveryData = settings?.deliveryInfo;
-    if (!deliveryData) return;
-
-    let distanceType = deliveryData?.distanceType;
-    let freeDelivery = deliveryData?.freeDelivery;
-    let freeDeliveryRadius = deliveryData?.freeDeliveryRadius;
-    let deliveryChargeType = deliveryData?.deliveryChargeType;
-    let ratePerMile = deliveryData?.ratePerMile;
-    let customerDistance = locationResponse?.rows[0]?.elements[0]?.distance;
-    let shopRadius = 0;
-    console.log(distanceType);
-
-    // if mile is the distance type
-    if (distanceType == "Mile") {
-      let custDistParse = parseInt(customerDistance?.text);
-      console.log(custDistParse);
-      shopRadius = custDistParse * 0.62137119;
-    }
-    shopRadius = customerDistance;
-
-    console.log("shopRadius", shopRadius);
   };
 
   const toggleFoodLists = (index) => {
@@ -130,6 +103,8 @@ function OrderSummary() {
         setError(true);
         return;
       }
+
+      console.log(isFreeDelivery, deliveryCharges);
       const postCodeValidation = handleAddress();
 
       if (postCodeValidation === false) return;
@@ -141,7 +116,6 @@ function OrderSummary() {
       toast.error("UNKNOWN DELIVERY OPTION SELECTED!");
     }
   };
-
 
   return (
     <div>
@@ -353,7 +327,7 @@ function OrderSummary() {
         type="button"
         className="order_now_192"
         onClick={handleDelivery}
-        disabled={!cartItems || (cartItems.cartItems.length == 0)}
+        disabled={!cartItems || cartItems.cartItems.length == 0}
       >
         Order Now
       </button>
