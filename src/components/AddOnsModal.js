@@ -117,7 +117,7 @@ function AddOnsModal(props) {
     const addOnsData  =handleMinAddons(masterAddOnsData);
     // console.log(addOns);
     // console.log(masterAddons);
-    return;
+
     let cOptionObj = {
       pvID: variationValue?.pvID,
       addons: addOns,
