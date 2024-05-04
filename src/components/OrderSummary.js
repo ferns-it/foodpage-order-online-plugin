@@ -27,9 +27,6 @@ function OrderSummary() {
   const [allTotal, setAllTotal] = useState(0);
   const [takeaway, setTakeaway] = useState(null);
   const [takeawayTotal, setTakeawayTotal] = useState(null);
-  const [orderCounts, setOrderCounts] = useState([]);
-  // const [isFreeDelivery, setIsFreeDelivery] = useState(false);
-  // const [deliveryCharges, setDeliveryCharges] = useState(null);
 
   let distanceRange = 0;
 
@@ -40,14 +37,6 @@ function OrderSummary() {
     const time = Utils.getCurrentTime();
     setTakeawayTime(time);
   }, []);
-
-  useEffect(() => {
-    if (!cartItems) return;
-    const cartData = cartItems.cartItems;
-    const initialCounts =
-      cartData && cartData.map((item) => parseInt(item.quantity, 10) || 0);
-    setOrderCounts(initialCounts);
-  }, [cartItems]);
 
   useEffect(() => {
     const dis = cartItems?.cartTotal?.cartTotalPrice / 100;
@@ -99,8 +88,6 @@ function OrderSummary() {
       return false;
     }
     return true;
-    // sessionStorage.setItem("postcode", postalcode);
-    // sessionStorage.setItem("locationDetails", JSON.stringify(locationResponse));
   };
 
   const fetchDistanceData = () => {
@@ -114,60 +101,6 @@ function OrderSummary() {
 
     distanceRange = roundedDistanceInMiles;
   };
-
-  const handleDecreaseOrderSummary = (index) => {
-    setOrderCounts((prevCounts) => {
-      const newCounts = [...prevCounts];
-      if (newCounts[index] > 0) {
-        newCounts[index] -= 1;
-      }
-      return [...newCounts];
-    });
-  };
-
-  const handleIncreaseOrderSummary = (index) => {
-    setOrderCounts((prevCounts) => {
-      const newCounts = [...prevCounts];
-      newCounts[index] += 1;
-      return [...newCounts];
-    });
-  };
-
-  // const isValidRadiusCheck = () => {
-  //   if (!locationResponse || !settings || !settings.deliveryInfo) return;
-
-  //   const deliveryData = settings?.deliveryInfo;
-  //   if (!deliveryData) return;
-
-  //   let distanceType = deliveryData?.distanceType;
-  //   let freeDelivery = parseInt(deliveryData?.freeDelivery);
-  //   let freeDeliveryRadius = parseInt(deliveryData?.freeDeliveryRadius);
-  //   let deliveryChargeType = deliveryData?.deliveryChargeType;
-  //   let ratePerMile = deliveryData?.ratePerMile;
-  //   let customerDistance =
-  //     locationResponse?.rows[0]?.elements[0]?.distance?.value;
-
-  //   let km = customerDistance / 1000;
-  //   let distanceInMiles = km * 0.621371;
-  //   let roundedDistanceInMiles = parseInt(distanceInMiles.toFixed(2));
-
-  //   let freeDeliveryCondition =
-  //     freeDelivery == 1 && roundedDistanceInMiles < freeDeliveryRadius;
-
-  //   if (freeDeliveryCondition === true) {
-  //     setIsFreeDelivery(true);
-  //     setDeliveryCharges({ charge: 0, ratePerMile: 0 });
-  //   } else {
-  //     setIsFreeDelivery(false);
-  //   }
-
-  //   if (isFreeDelivery == false) {
-  //     console.log("reached false");
-  //     const excessDistance = distanceInMiles - freeDeliveryRadius;
-  //     const deliveryCharge = excessDistance * ratePerMile;
-  //     setDeliveryCharges({ charge: deliveryCharge.toFixed(2), ratePerMile });
-  //   }
-  // };
 
   const toggleFoodLists = (index) => {
     if (index < 0) return;
@@ -183,8 +116,6 @@ function OrderSummary() {
       return newList;
     });
   };
-
-  console.log(showAddons);
 
   const handleDeleteItem = async (id, index) => {
     if (!id) return;
@@ -202,6 +133,38 @@ function OrderSummary() {
     });
   };
 
+  const validateCurrentTime = () => {
+    const currentTime = new Date();
+    const [hours, minutes] = takeawayTime.split(":");
+    const takeawayTimeData = new Date();
+    takeawayTimeData.setHours(parseInt(hours, 10));
+    takeawayTimeData.setMinutes(parseInt(minutes, 10));
+
+    let status;
+
+    switch (true) {
+      case takeawayTimeData.getTime() === currentTime.getTime():
+        status = { status: false, message: "Current time is not permitted for takeaway!" };
+        break;
+      case takeawayTimeData < currentTime:
+        status = { status: false, message: "Taking away a time earlier than the current time is not allowed!" };
+        break;
+      case takeawayTimeData.getTime() - currentTime.getTime() < 30 * 60 * 1000:
+        status = {
+          status: false,
+          message: "Less than 30 minutes from Current Time",
+        };
+        break;
+      default:
+        status = {
+          status: true,
+          message: "More than 30 minutes from Current Time",
+        };
+    }
+
+    return status;
+  };
+
   const handleDelivery = async () => {
     if (deliveryOption === "delivery") {
       if (!postalcode || postalcode.length == 0) {
@@ -212,11 +175,21 @@ function OrderSummary() {
 
       const postCodeValidation = handleAddress();
 
+      if (postCodeValidation === false) return;
       sessionStorage.setItem("postcode", postalcode);
       sessionStorage.setItem("type", deliveryOption);
       sessionStorage.setItem("distance ", distanceRange);
+    } else if (deliveryOption === "takeaway") {
+      if (!takeawayTime || takeaway.length == 0) return;
 
-      if (postCodeValidation === false) return;
+      const isValidTime = validateCurrentTime();
+
+      if (isValidTime && isValidTime.status === false) {
+        toast.error(isValidTime.message);
+        return;
+      }
+      sessionStorage.setItem("type", deliveryOption);
+      sessionStorage.setItem("distance ", distanceRange);
     }
   };
 
@@ -236,8 +209,9 @@ function OrderSummary() {
                     <div className="position-relative mb-4" key={index}>
                       <div className="d-flex">
                         <p className="food_menu m-0">
-                          <strong>{item?.productName ?? "N/A"}</strong>
+                          <strong>{item?.productName ?? "N/A"} - </strong>
                         </p>
+                        <p className="qty_order_summary">{item?.quantity}</p>
                         <p className="price_summary_1">
                           {item?.product_total_price}
                         </p>
@@ -295,21 +269,6 @@ function OrderSummary() {
                         </table>
                       </div>
                       <div className="d-flex mt-2">
-                        {/* <div className="inc_dec_wrapper_order_summary">
-                          <button
-                            className="summary_qty_btn dec_btn_order_summary"
-                            onClick={() => handleDecreaseOrderSummary(index)}
-                          >
-                            -
-                          </button>
-                          <span>{orderCounts[index]}</span>
-                          <button
-                            className="summary_qty_btn inc_btn_order_summary"
-                            onClick={() => handleIncreaseOrderSummary(index)}
-                          >
-                            +
-                          </button>
-                        </div> */}
                         {(addOns && addOns.length != 0) ||
                         (masterAddons && masterAddons.length != 0) ? (
                           <button
@@ -318,8 +277,7 @@ function OrderSummary() {
                           >
                             {showAddons && showAddons.includes(index) ? (
                               <Fragment>
-                                <Io.IoIosArrowRoundUp />{" "}
-                                <span>Know less</span>
+                                <Io.IoIosArrowRoundUp /> <span>Know less</span>
                               </Fragment>
                             ) : (
                               <Fragment>
@@ -457,7 +415,7 @@ function OrderSummary() {
       {(error && postalcode.length == 0) ||
       (error && takeawayTime.length == 0) ? (
         <span className="err_msg_order_summary">
-          *Please fill required fields!
+          * Please fill required fields!
         </span>
       ) : (
         ""

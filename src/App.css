@@ -1271,6 +1271,7 @@ body {
   height: 0px;
   overflow: hidden;
   transition: all 0.2s ease-in-out;
+  margin: 0;
 }
 .add_ons_wrapper_order_summary.show {
   height: 100%;
@@ -1299,6 +1300,14 @@ body {
 .discount_order_summary > td{
   font-size: 15px !important;
   font-weight: 500;
+}
+.qty_order_summary{
+  margin: 0 7px;
+  padding: 3px 0;
+  font-size: 15px;
+  border-radius: 50%;
+  color: #e03f3f;
+  font-weight: 700;
 }
 
 @media screen and (max-width: 1190px) {
