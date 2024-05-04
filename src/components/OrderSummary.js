@@ -23,8 +23,15 @@ function OrderSummary() {
   const [postalcode, setPostalcode] = useState("");
   const [takeawayTime, setTakeawayTime] = useState("");
   const [error, setError] = useState(false);
-  const [isFreeDelivery, setIsFreeDelivery] = useState(false);
-  const [deliveryCharges, setDeliveryCharges] = useState(null);
+  const [discount, setDiscount] = useState(0);
+  const [allTotal, setAllTotal] = useState(0);
+  const [takeaway, setTakeaway] = useState(null);
+  const [takeawayTotal, setTakeawayTotal] = useState(null);
+  const [orderCounts, setOrderCounts] = useState([]);
+  // const [isFreeDelivery, setIsFreeDelivery] = useState(false);
+  // const [deliveryCharges, setDeliveryCharges] = useState(null);
+
+  let distanceRange = 0;
 
   useEffect(() => {
     const shopUrl = "le-arabia";
@@ -33,6 +40,36 @@ function OrderSummary() {
     const time = Utils.getCurrentTime();
     setTakeawayTime(time);
   }, []);
+
+  useEffect(() => {
+    if (!cartItems) return;
+    const cartData = cartItems.cartItems;
+    const initialCounts =
+      cartData && cartData.map((item) => parseInt(item.quantity, 10) || 0);
+    setOrderCounts(initialCounts);
+  }, [cartItems]);
+
+  useEffect(() => {
+    const dis = cartItems?.cartTotal?.cartTotalPrice / 100;
+    const deliveryInfo = settings?.deliveryInfo;
+
+    if (dis >= deliveryInfo?.minAmtForHomDelvryDiscnt) {
+      const amt = dis * (deliveryInfo?.discountHomeDelivery / 100);
+      setDiscount(amt.toFixed(2));
+      setAllTotal((dis - amt).toFixed(2));
+    } else {
+      setDiscount(0);
+      setAllTotal(dis.toFixed(2));
+    }
+    if (dis >= deliveryInfo?.minAmtForTakAwayDiscnt) {
+      const amt = dis * (deliveryInfo?.discountTakeAway / 100);
+      setTakeaway(amt.toFixed(2));
+      setTakeawayTotal((dis - amt).toFixed(2));
+    } else {
+      setTakeaway(0);
+      setTakeawayTotal(dis.toFixed(2));
+    }
+  }, [cartItems]);
 
   const getLocationDetails = async () => {
     if (!settings) return;
@@ -66,17 +103,8 @@ function OrderSummary() {
     // sessionStorage.setItem("locationDetails", JSON.stringify(locationResponse));
   };
 
-  const isValidRadiusCheck = () => {
+  const fetchDistanceData = () => {
     if (!locationResponse || !settings || !settings.deliveryInfo) return;
-
-    const deliveryData = settings?.deliveryInfo;
-    if (!deliveryData) return;
-
-    let distanceType = deliveryData?.distanceType;
-    let freeDelivery = parseInt(deliveryData?.freeDelivery);
-    let freeDeliveryRadius = parseInt(deliveryData?.freeDeliveryRadius);
-    let deliveryChargeType = deliveryData?.deliveryChargeType;
-    let ratePerMile = deliveryData?.ratePerMile;
     let customerDistance =
       locationResponse?.rows[0]?.elements[0]?.distance?.value;
 
@@ -84,23 +112,62 @@ function OrderSummary() {
     let distanceInMiles = km * 0.621371;
     let roundedDistanceInMiles = parseInt(distanceInMiles.toFixed(2));
 
-    let freeDeliveryCondition =
-      freeDelivery == 1 && roundedDistanceInMiles < freeDeliveryRadius;
-
-    if (freeDeliveryCondition === true) {
-      setIsFreeDelivery(true);
-      setDeliveryCharges({ charge: 0, ratePerMile: 0 });
-    } else {
-      setIsFreeDelivery(false);
-    }
-    
-    if (isFreeDelivery == false) {
-      console.log("reached false");
-      const excessDistance = distanceInMiles - freeDeliveryRadius;
-      const deliveryCharge = excessDistance * ratePerMile;
-      setDeliveryCharges({ charge: deliveryCharge.toFixed(2), ratePerMile });
-    }
+    distanceRange = roundedDistanceInMiles;
   };
+
+  const handleDecreaseOrderSummary = (index) => {
+    setOrderCounts((prevCounts) => {
+      const newCounts = [...prevCounts];
+      if (newCounts[index] > 0) {
+        newCounts[index] -= 1;
+      }
+      return [...newCounts];
+    });
+  };
+
+  const handleIncreaseOrderSummary = (index) => {
+    setOrderCounts((prevCounts) => {
+      const newCounts = [...prevCounts];
+      newCounts[index] += 1;
+      return [...newCounts];
+    });
+  };
+
+  // const isValidRadiusCheck = () => {
+  //   if (!locationResponse || !settings || !settings.deliveryInfo) return;
+
+  //   const deliveryData = settings?.deliveryInfo;
+  //   if (!deliveryData) return;
+
+  //   let distanceType = deliveryData?.distanceType;
+  //   let freeDelivery = parseInt(deliveryData?.freeDelivery);
+  //   let freeDeliveryRadius = parseInt(deliveryData?.freeDeliveryRadius);
+  //   let deliveryChargeType = deliveryData?.deliveryChargeType;
+  //   let ratePerMile = deliveryData?.ratePerMile;
+  //   let customerDistance =
+  //     locationResponse?.rows[0]?.elements[0]?.distance?.value;
+
+  //   let km = customerDistance / 1000;
+  //   let distanceInMiles = km * 0.621371;
+  //   let roundedDistanceInMiles = parseInt(distanceInMiles.toFixed(2));
+
+  //   let freeDeliveryCondition =
+  //     freeDelivery == 1 && roundedDistanceInMiles < freeDeliveryRadius;
+
+  //   if (freeDeliveryCondition === true) {
+  //     setIsFreeDelivery(true);
+  //     setDeliveryCharges({ charge: 0, ratePerMile: 0 });
+  //   } else {
+  //     setIsFreeDelivery(false);
+  //   }
+
+  //   if (isFreeDelivery == false) {
+  //     console.log("reached false");
+  //     const excessDistance = distanceInMiles - freeDeliveryRadius;
+  //     const deliveryCharge = excessDistance * ratePerMile;
+  //     setDeliveryCharges({ charge: deliveryCharge.toFixed(2), ratePerMile });
+  //   }
+  // };
 
   const toggleFoodLists = (index) => {
     if (index < 0) return;
@@ -116,6 +183,8 @@ function OrderSummary() {
       return newList;
     });
   };
+
+  console.log(showAddons);
 
   const handleDeleteItem = async (id, index) => {
     if (!id) return;
@@ -139,17 +208,15 @@ function OrderSummary() {
         setError(true);
         return;
       }
-      isValidRadiusCheck();
-      console.log(isFreeDelivery, deliveryCharges);
+      fetchDistanceData();
+
       const postCodeValidation = handleAddress();
 
-      if (postCodeValidation === false) return;
+      sessionStorage.setItem("postcode", postalcode);
+      sessionStorage.setItem("type", deliveryOption);
+      sessionStorage.setItem("distance ", distanceRange);
 
-      console.log("reached");
-    } else if (deliveryOption === "takeaway") {
-      console.log("takeaway");
-    } else {
-      toast.error("UNKNOWN DELIVERY OPTION SELECTED!");
+      if (postCodeValidation === false) return;
     }
   };
 
@@ -161,6 +228,7 @@ function OrderSummary() {
           <div className="summary_card card">
             {cartItems &&
               cartItems.cartItems.map((item, index) => {
+                // console.log(item);
                 const addOns = item?.addon_apllied;
                 const masterAddons = item?.master_addon_apllied;
                 return (
@@ -169,17 +237,6 @@ function OrderSummary() {
                       <div className="d-flex">
                         <p className="food_menu m-0">
                           <strong>{item?.productName ?? "N/A"}</strong>
-                          {(addOns && addOns.length != 0) ||
-                          (masterAddons && masterAddons.length != 0) ? (
-                            <button
-                              className="summary_addons_collapse_btn"
-                              onClick={() => toggleFoodLists(index)}
-                            >
-                              <Io.IoIosArrowRoundDown /> <span>Know more</span>
-                            </button>
-                          ) : (
-                            ""
-                          )}
                         </p>
                         <p className="price_summary_1">
                           {item?.product_total_price}
@@ -238,15 +295,42 @@ function OrderSummary() {
                         </table>
                       </div>
                       <div className="d-flex mt-2">
-                        <div className="inc_dec_wrapper_order_summary">
-                          <button className="summary_qty_btn dec_btn_order_summary">
+                        {/* <div className="inc_dec_wrapper_order_summary">
+                          <button
+                            className="summary_qty_btn dec_btn_order_summary"
+                            onClick={() => handleDecreaseOrderSummary(index)}
+                          >
                             -
                           </button>
-                          <span>{item?.quantity}</span>
-                          <button className="summary_qty_btn inc_btn_order_summary">
+                          <span>{orderCounts[index]}</span>
+                          <button
+                            className="summary_qty_btn inc_btn_order_summary"
+                            onClick={() => handleIncreaseOrderSummary(index)}
+                          >
                             +
                           </button>
-                        </div>
+                        </div> */}
+                        {(addOns && addOns.length != 0) ||
+                        (masterAddons && masterAddons.length != 0) ? (
+                          <button
+                            className="summary_addons_collapse_btn"
+                            onClick={() => toggleFoodLists(index)}
+                          >
+                            {showAddons && showAddons.includes(index) ? (
+                              <Fragment>
+                                <Io.IoIosArrowRoundUp />{" "}
+                                <span>Know less</span>
+                              </Fragment>
+                            ) : (
+                              <Fragment>
+                                <Io.IoIosArrowRoundDown />{" "}
+                                <span>Know more</span>
+                              </Fragment>
+                            )}
+                          </button>
+                        ) : (
+                          ""
+                        )}
                         <button
                           type="button"
                           className="remove"
@@ -270,10 +354,29 @@ function OrderSummary() {
               })}
             <hr className="mt-0" />
             <table className="total_cost_summary">
-              <tr>
-                <td>Total Cost</td>
-                <td>{cartItems?.cartTotal?.cartTotalPriceDisplay ?? "N/A"}</td>
-              </tr>
+              {deliveryOption === "takeaway" ? (
+                <Fragment>
+                  <tr className="discount_order_summary">
+                    <td>Discount</td>
+                    <td>{takeaway}</td>
+                  </tr>
+                  <tr>
+                    <td>Total Cost</td>
+                    <td>£{takeawayTotal ?? "N/A"}</td>
+                  </tr>
+                </Fragment>
+              ) : (
+                <Fragment>
+                  <tr className="discount_order_summary">
+                    <td>Discount</td>
+                    <td>{discount}</td>
+                  </tr>
+                  <tr>
+                    <td>Total Cost</td>
+                    <td>£{allTotal ?? "N/A"}</td>
+                  </tr>
+                </Fragment>
+              )}
             </table>
           </div>
         ) : (

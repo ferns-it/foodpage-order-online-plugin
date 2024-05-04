@@ -1296,6 +1296,10 @@ body {
   color: red;
   user-select: none;
 }
+.discount_order_summary > td{
+  font-size: 15px !important;
+  font-weight: 500;
+}
 
 @media screen and (max-width: 1190px) {
   .category_card_009 {
