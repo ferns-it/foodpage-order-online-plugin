@@ -74,6 +74,24 @@ function AddOnsModal(props) {
 
   const total = variationValue && variationValue?.price * count;
 
+  const handleMinAddons = (data) => {
+    if (!data) return;
+
+    const addData = data.map((item) => {
+      const filteredOptions = item.options.filter(
+        (option) =>
+          masterAddons &&
+          masterAddons[item.id] &&
+          masterAddons[item.id].includes(option.itemId)
+      );
+      return {
+        ...item,
+        options: filteredOptions,
+      };
+    });
+    return addData;
+  };
+
   const handleCart = async () => {
     let userId = "";
     userId = localStorage.getItem("user");
@@ -95,6 +113,11 @@ function AddOnsModal(props) {
       return;
     }
 
+    const masterAddOnsData = foodValues?.masterAddons;
+    const addOnsData  =handleMinAddons(masterAddOnsData);
+    // console.log(addOns);
+    // console.log(masterAddons);
+    return;
     let cOptionObj = {
       pvID: variationValue?.pvID,
       addons: addOns,
