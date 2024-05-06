@@ -2,7 +2,7 @@
   "name": "foodpage-order-online-react",
   "version": "0.1.0",
   "private": true,
-  "main": "./dist/foodpage-order-online-react.umd.cjs",
+  "main": "./src/index.js",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
