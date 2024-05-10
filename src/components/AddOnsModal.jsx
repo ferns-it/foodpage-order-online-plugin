@@ -22,6 +22,7 @@ function AddOnsModal(props) {
   });
   const [addOns, setAddOns] = useState({});
   const [masterAddons, setMasterAddons] = useState({});
+  const [masterIds, setMasterIds] = useState([]);
 
   const foodValues = props.productData;
 
@@ -64,6 +65,18 @@ function AddOnsModal(props) {
       document.removeEventListener("keydown", handleEscKeyPress);
     };
   }, [props.showModal]);
+
+  useEffect(() => {
+    if (!foodValues) return;
+    const variationData = foodValues?.variations[0];
+    if (variationData.name == null) {
+      setVariationValue({
+        name: foodValues.name,
+        price: variationData?.price,
+        pvID: variationData?.pvID,
+      });
+    }
+  }, [foodValues]);
 
   if (!props.showModal || !props.productData) return;
 
@@ -114,7 +127,7 @@ function AddOnsModal(props) {
     }
 
     const masterAddOnsData = foodValues?.masterAddons;
-    const addOnsData  =handleMinAddons(masterAddOnsData);
+    const addOnsData = handleMinAddons(masterAddOnsData);
     // console.log(addOns);
     // console.log(masterAddons);
 
@@ -146,7 +159,6 @@ function AddOnsModal(props) {
       },
     });
   };
-
   return (
     <Fragment>
       <div
@@ -200,51 +212,70 @@ function AddOnsModal(props) {
               </div>
             </div>
             <div className="row">
-              <div className="col">
-                <p className="sub_head_0291">Choose One</p>
-                <table className="menu_table_0291">
-                  {foodValues &&
-                    foodValues.variations &&
-                    foodValues?.variations.length != 0 &&
-                    foodValues.variations.map((varient, index) => {
-                      const variationName = varient?.name ?? "N/A";
-                      return (
-                        <tr key={index}>
-                          <td className="d-flex">
-                            <label
-                              // htmlFor={varient?.name}
-                              className="delivery_option_container"
-                            >
-                              <input
-                                type="radio"
-                                name="variationOption"
-                                id="variations"
-                                className="delivery_option"
-                                checked={variationValue.name === variationName}
-                                onClick={() => {
-                                  setVariationValue({
-                                    name: varient?.name ?? "N/A",
-                                    pvID: varient?.pvID,
-                                    price: varient?.price,
-                                  });
-                                }}
-                              />
-                              <span class="checkmark"></span>
-                              <span className="varient_name">
-                                {varient?.name ?? "N/A"}
-                              </span>
-                            </label>
-                          </td>
-                          <td style={{ userSelect: "none" }}>
-                            {varient?.displayPrice ?? "N/A"}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                </table>
-              </div>
+              {foodValues &&
+                foodValues.variations &&
+                foodValues?.variations[0].name != null && (
+                  <div className="col">
+                    <p className="sub_head_0291">Choose One</p>
+                    <table className="menu_table_0291">
+                      {foodValues &&
+                        foodValues.variations &&
+                        foodValues?.variations.length != 0 &&
+                        foodValues.variations.map((varient, index) => {
+                          const variationName = varient?.name
+                            ? varient?.name
+                            : foodValues?.name;
 
-              {/* {foodValues.addons && foodValues.addons.length != 0 && <hr />} */}
+                          return (
+                            <Fragment>
+                              {varient.name != null ? (
+                                <Fragment>
+                                  <tr key={index}>
+                                    <td className="d-flex">
+                                      <label
+                                        // htmlFor={varient?.name}
+                                        className="delivery_option_container"
+                                      >
+                                        <input
+                                          type="radio"
+                                          name="variationOption"
+                                          id="variations"
+                                          className="delivery_option"
+                                          checked={
+                                            variationValue.name ===
+                                            variationName
+                                          }
+                                          onClick={() => {
+                                            setVariationValue({
+                                              name: varient?.name
+                                                ? varient?.name
+                                                : foodValues.name,
+                                              pvID: varient?.pvID,
+                                              price: varient?.price,
+                                            });
+                                          }}
+                                        />
+                                        <span class="checkmark"></span>
+                                        <span className="varient_name">
+                                          {varient?.name ?? "N/A"}
+                                        </span>
+                                      </label>
+                                    </td>
+                                    <td style={{ userSelect: "none" }}>
+                                      {varient?.displayPrice ?? "N/A"}
+                                    </td>
+                                  </tr>
+                                </Fragment>
+                              ) : (
+                                ""
+                              )}
+                            </Fragment>
+                          );
+                        })}
+                    </table>
+                  </div>
+                )}
+
               {foodValues.addons &&
                 foodValues.addons.length != 0 &&
                 foodValues.addons.map((item, index) => {
@@ -258,7 +289,7 @@ function AddOnsModal(props) {
                           {item?.options &&
                             item?.options.map((data, index) => {
                               return (
-                                <tr>
+                                <tr key={index}>
                                   <td className="d-flex">
                                     <label
                                       // htmlFor={varient?.name}
@@ -338,8 +369,6 @@ function AddOnsModal(props) {
 
               <div className="col-auto">
                 <div className="row">
-                  {/* {foodValues?.masterAddons &&
-              foodValues?.masterAddons.length != 0 && <hr />} */}
                   {foodValues?.masterAddons &&
                     foodValues?.masterAddons.length != 0 &&
                     foodValues?.masterAddons.map((item, index) => {
@@ -420,11 +449,18 @@ function AddOnsModal(props) {
                                         }
                                       });
                                     const isCountCheck =
-                                      checkedCount == item?.maximumRequired;
+                                      checkedCount ==
+                                      parseInt(item?.maximumRequired);
                                     const isVariationCheck =
                                       variationValue &&
                                       variationValue.name &&
                                       variationValue.name.length !== 0;
+
+                                    const maximum = parseInt(
+                                      item?.maximumRequired
+                                    );
+
+                                    // console.log(masterAddons);
 
                                     return (
                                       <tr key={index}>
@@ -439,8 +475,9 @@ function AddOnsModal(props) {
                                               id="variations"
                                               className="delivery_option variation_list"
                                               disabled={
-                                                !isCountCheck &&
-                                                isVariationCheck
+                                                (!isCountCheck &&
+                                                  isVariationCheck) ||
+                                                maximum == 0
                                                   ? false
                                                   : true
                                               }
@@ -449,6 +486,7 @@ function AddOnsModal(props) {
                                                   e.target.checked;
                                                 const newValue =
                                                   data?.itemId.toString();
+
                                                 setMasterAddons((prev) => {
                                                   if (isChecked) {
                                                     return {
@@ -456,7 +494,7 @@ function AddOnsModal(props) {
                                                       [item?.id]: [
                                                         ...(prev[item?.id] ??
                                                           []),
-                                                        data?.itemId.toString(),
+                                                        newValue,
                                                       ],
                                                     };
                                                   } else {

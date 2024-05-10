@@ -5,7 +5,7 @@
 
 /* Order online page style */
 body {
-  background-color: #e9ecee;
+  background-color: #fff;
 }
 
 .order_list {
@@ -507,7 +507,7 @@ body {
   border: 1px dashed #7777;
 }
 .bill-spikes {
-  background: #fff;
+  background: #faf3cc;
   width: 22rem;
   padding: 1rem 1rem 2rem;
   --mask: conic-gradient(
@@ -734,7 +734,7 @@ body {
   border-top: 1px solid #ddd; /* Border on top */
   border-left: 1px solid #ddd; /* Border on left */
   border-right: 1px solid #ddd; /* Border on right */
-  border-radius: 10px 10px 0 0;
+  border-radius: 20px 20px 0 0;
 }
 
 .bottom_pot_029 {
@@ -747,7 +747,7 @@ body {
   border-bottom: 1px solid #ddd; /* Border on bottom */
   border-left: 1px solid #ddd; /* Border on left */
   border-right: 1px solid #ddd; /* Border on right */
-  border-radius: 0 0 10px 10px;
+  border-radius: 0 0 20px 20px;
 }
 
 .food_name_029 {
@@ -1297,11 +1297,11 @@ body {
   color: red;
   user-select: none;
 }
-.discount_order_summary > td{
+.discount_order_summary > td {
   font-size: 15px !important;
   font-weight: 500;
 }
-.qty_order_summary{
+.qty_order_summary {
   margin: 0 7px;
   padding: 3px 0;
   font-size: 15px;
