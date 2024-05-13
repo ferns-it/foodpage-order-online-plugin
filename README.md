@@ -36,6 +36,8 @@ This project aims to streamline the process of integrating an online order page 
     </OrderOnlineContextProvider>
     </AppContextProvider>
 
+# Shop Id is important!  
+
 ## main
 
     - OrderOnlinePage.jsx
