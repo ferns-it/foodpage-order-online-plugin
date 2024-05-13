@@ -12,6 +12,8 @@ This project aims to streamline the process of integrating an online order page 
 
      REACT_APP_API_BASE_URL="https://foodpage.co.uk/development/"
 
+# Checkout to current branch.
+
 # Third-party packages are used. Run this command before initializing:
 
     npm install react-icons axios react-hot-toast
