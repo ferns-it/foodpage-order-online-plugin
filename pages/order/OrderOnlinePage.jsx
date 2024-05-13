@@ -17,14 +17,18 @@ import Foodcard from "../../components/Foodcard";
 import FoodAccordian from "../../components/FoodAccordian";
 import Utils from "../../utils/Utils";
 import OrderSummary from "../../components/OrderSummary";
+import { useParams } from "react-router-dom";
 
-function OrderOnlinePage({ shopId, shopUrl }) {
+function OrderOnlinePage() {
+  const { shopId, shopUrl } = useParams();
+
   const {
     menuList,
     categoryList,
     cartItems,
     fetchMenuList,
     fetchCategoriesList,
+    setParamsValues,
   } = useContext(OrderOnlineContext);
   const [filteredList, setFilteredList] = useState(null);
   const [activeChipIndex, setActiveChipIndex] = useState(-1);
@@ -33,9 +37,9 @@ function OrderOnlinePage({ shopId, shopUrl }) {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   useEffect(() => {
-    fetchMenuList(shopId);
-    fetchCategoriesList(shopUrl);
-  }, []);
+    if (!shopId || !shopUrl) return;
+    setParamsValues({ shopId, shopUrl });
+  }, [shopId, shopUrl]);
 
   const handleScroll = () => {
     if (window.pageYOffset >= 100) {

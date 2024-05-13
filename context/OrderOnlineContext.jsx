@@ -5,6 +5,7 @@ import useShop from "../hooks/useShop";
 export const OrderOnlineContext = createContext();
 
 export const OrderOnlineContextProvider = (props) => {
+  const [paramsValues, setParamsValues] = useState(null);
   const {
     fetchMenuList,
     menuList,
@@ -30,6 +31,12 @@ export const OrderOnlineContextProvider = (props) => {
     fetchCartList();
   }, []);
 
+  useEffect(() => {
+    if (!paramsValues) return;
+    fetchMenuList(paramsValues.shopId);
+    fetchCategoriesList(paramsValues.shopUrl);
+  }, [paramsValues]);
+
   return (
     <OrderOnlineContext.Provider
       value={{
@@ -51,6 +58,8 @@ export const OrderOnlineContextProvider = (props) => {
         getShopSettings,
         settingsLoading,
         deleteCartItem,
+        paramsValues,
+        setParamsValues,
       }}
     >
       {props.children}

@@ -13,10 +13,12 @@ const useMenus = () => {
 
   const fetchMenuList = async (shopId) => {
     try {
+      if(!shopId) return;
+      console.log(shopId);
       setMenuLoading(true);
       await BaseClient.get(APIEndpoints.menulist + `/${shopId}/0`, [], {
         onSuccess: (res) => {
-          console.log(res.data.data);
+          console.log("menu-response",res.data);
           setMenuList(res?.data);
         },
         onFailed: (err) => {
@@ -29,10 +31,12 @@ const useMenus = () => {
   };
   const fetchCategoriesList = async (shopUrl) => {
     try {
+      if(!shopUrl) return;
       setMenuLoading(true);
       await BaseClient.get(APIEndpoints.categoryList + `/${shopUrl}`, [], {
         onSuccess: (res) => {
-          console.log(res?.data?.data?.items);
+          console.log(res?.data);
+          console.log("category-response",res.data);
           setCategoryList(res?.data?.data?.items);
         },
         onFailed: (err) => {
