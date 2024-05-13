@@ -39,6 +39,7 @@ export const OrderOnlineContextProvider = (props) => {
         categoryList,
         fetchProductsList,
         productsList,
+        fetchCategoriesList,
         addToCart,
         fetchCartList,
         cartItems,
