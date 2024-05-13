@@ -1,6 +1,6 @@
-Foodpage Order Online Plugin
+# Foodpage Order Online Plugin
 
-# Online Order Page Integration
+# Online Order Page
 
 This project simplifies the integration of an online order page into existing projects.
 
@@ -16,7 +16,7 @@ This project aims to streamline the process of integrating an online order page 
 
     npm install react-icons axios react-hot-toast
 
-# Bootstrap CDN was used here, if not used in your client side please paste it. (use the latest one)
+# Bootstrap CDN was used here, if not used in your client side please paste it. [use the latest one]
 
     <link
       rel="stylesheet"
@@ -24,8 +24,6 @@ This project aims to streamline the process of integrating an online order page 
       integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
       crossorigin="anonymous"
 
-      
-****Feel free to customize this README further with additional information about your project.****
 
 
 ## main
@@ -33,7 +31,6 @@ This project aims to streamline the process of integrating an online order page 
     - OrderOnlinePage.jsx
         -> OrderOnlineApp.css [For style]
 
-
-
+\***\*Feel free to customize this README further with additional information about your project.\*\***
 
 🌿 Ferns IT 🌿
