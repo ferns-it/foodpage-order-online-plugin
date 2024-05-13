@@ -18,9 +18,14 @@ import FoodAccordian from "../../components/FoodAccordian";
 import Utils from "../../utils/Utils";
 import OrderSummary from "../../components/OrderSummary";
 
-function OrderOnlinePage({ shopId }) {
-  const { menuList, categoryList, cartItems, fetchMenuList } =
-    useContext(OrderOnlineContext);
+function OrderOnlinePage({ shopId, shopUrl }) {
+  const {
+    menuList,
+    categoryList,
+    cartItems,
+    fetchMenuList,
+    fetchCategoriesList,
+  } = useContext(OrderOnlineContext);
   const [filteredList, setFilteredList] = useState(null);
   const [activeChipIndex, setActiveChipIndex] = useState(-1);
 
@@ -29,6 +34,7 @@ function OrderOnlinePage({ shopId }) {
 
   useEffect(() => {
     fetchMenuList(shopId);
+    fetchCategoriesList(shopUrl);
   }, []);
 
   const handleScroll = () => {

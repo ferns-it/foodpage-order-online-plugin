@@ -27,10 +27,10 @@ const useMenus = () => {
       setMenuLoading(false);
     }
   };
-  const fetchCategoriesList = async () => {
+  const fetchCategoriesList = async (shopUrl) => {
     try {
       setMenuLoading(true);
-      await BaseClient.get(APIEndpoints.categoryList, [], {
+      await BaseClient.get(APIEndpoints.categoryList + `/${shopUrl}`, [], {
         onSuccess: (res) => {
           console.log(res?.data?.data?.items);
           setCategoryList(res?.data?.data?.items);
