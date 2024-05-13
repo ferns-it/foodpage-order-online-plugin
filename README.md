@@ -1,6 +1,6 @@
 # Foodpage Order Online Plugin
 
-# Online Order Page
+## Online Order Page
 
 This project simplifies the integration of an online order page into existing projects.
 
@@ -12,13 +12,13 @@ This project aims to streamline the process of integrating an online order page 
 
      REACT_APP_API_BASE_URL="https://foodpage.co.uk/development/"
 
-# Checkout to current branch.
+## Checkout to current branch.
 
-# Third-party packages are used. Run this command before initializing:
+## Third-party packages are used. Run this command before initializing:
 
     npm install react-icons axios react-hot-toast
 
-# Bootstrap CDN was used here, if not used in your client side please paste it. [use the latest one]
+## Bootstrap CDN was used here, if not used in your client side please paste it. [use the latest one]
 
     <link
       rel="stylesheet"
@@ -33,6 +33,6 @@ This project aims to streamline the process of integrating an online order page 
     - OrderOnlinePage.jsx
         -> OrderOnlineApp.css [For style]
 
-\***\*Feel free to customize this README further with additional information about your project.\*\***
+# Feel free to customize this README further with additional information about your project.
 
 🌿 Ferns IT 🌿
