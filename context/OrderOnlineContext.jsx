@@ -2,9 +2,9 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import useMenus from "../hooks/useMenus";
 import useShop from "../hooks/useShop";
 
-export const AppContext = createContext();
+export const OrderOnlineContext = createContext();
 
-export const AppContextProvider = (props) => {
+export const OrderOnlineContextProvider = (props) => {
   const {
     fetchMenuList,
     menuList,
@@ -33,7 +33,7 @@ export const AppContextProvider = (props) => {
   }, []);
 
   return (
-    <AppContext.Provider
+    <OrderOnlineContext.Provider
       value={{
         fetchMenuList,
         menuList,
@@ -55,6 +55,6 @@ export const AppContextProvider = (props) => {
       }}
     >
       {props.children}
-    </AppContext.Provider>
+    </OrderOnlineContext.Provider>
   );
 };

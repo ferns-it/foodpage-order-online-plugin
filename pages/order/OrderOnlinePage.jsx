@@ -5,20 +5,21 @@ import React, {
   useState,
   useRef,
 } from "react";
+import "./OrderOnlineApp.css";
 import * as Md from "react-icons/md";
 import * as Pi from "react-icons/pi";
 import * as Fa from "react-icons/fa";
 import * as Ti from "react-icons/ti";
 import * as Lu from "react-icons/lu";
 import * as Bs from "react-icons/bs";
-import { AppContext } from "../../context/AppContext";
+import { OrderOnlineContext } from "../../context/OrderOnlineContext";
 import Foodcard from "../../components/Foodcard";
 import FoodAccordian from "../../components/FoodAccordian";
 import Utils from "../../utils/Utils";
 import OrderSummary from "../../components/OrderSummary";
 
-function Order() {
-  const { menuList, categoryList, cartItems } = useContext(AppContext);
+function OrderOnlinePage() {
+  const { menuList, categoryList, cartItems } = useContext(OrderOnlineContext);
   const [filteredList, setFilteredList] = useState(null);
   const [activeChipIndex, setActiveChipIndex] = useState(-1);
 
@@ -147,4 +148,4 @@ function Order() {
   );
 }
 
-export default Order;
+export default OrderOnlinePage;

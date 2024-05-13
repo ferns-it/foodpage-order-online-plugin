@@ -1,7 +1,8 @@
+import "./OrderOnlineApp.css";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import * as Fa from "react-icons/fa";
 import * as Io from "react-icons/io";
-import { AppContext } from "../context/AppContext";
+import { OrderOnlineContext } from "../context/OrderOnlineContext";
 import toast from "react-hot-toast";
 import Utils from "../utils/Utils";
 
@@ -15,7 +16,7 @@ function OrderSummary() {
     locationResponse,
     settings,
     getShopSettings,
-  } = useContext(AppContext);
+  } = useContext(OrderOnlineContext);
 
   const [deliveryOption, setDeliveryOption] = useState("delivery");
   const [showAddons, setShowAddons] = useState(null);

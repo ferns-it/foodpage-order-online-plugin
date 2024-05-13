@@ -1,11 +1,11 @@
+import "./OrderOnlineApp.css";
 import React, { Fragment, useContext, useEffect, useState } from "react";
-import { AppContext } from "../context/AppContext";
-import * as Bs from "react-icons/bs";
-import AddOnsModal from "./AddOnsModal";
+import { OrderOnlineContext } from "../context/OrderOnlineContext";
 import Utils from "../utils/Utils";
+import AddOnsModal from "./AddOnsModal";
 
 function Foodcard(category) {
-  const { categoryList, fetchProductsList } = useContext(AppContext);
+  const { categoryList, fetchProductsList } = useContext(OrderOnlineContext);
   const [products, setProducts] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [productDataValues, setProductDataValues] = useState(null);

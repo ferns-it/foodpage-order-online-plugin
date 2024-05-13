@@ -1,3 +1,4 @@
+import "./OrderOnlineApp.css";
 import React, {
   Fragment,
   useContext,
@@ -9,11 +10,12 @@ import * as Io5 from "react-icons/io5";
 import * as Bs from "react-icons/bs";
 import Utils from "../utils/Utils";
 import toast, { Toaster } from "react-hot-toast";
-import { AppContext } from "../context/AppContext";
+import { OrderOnlineContext } from "../context/OrderOnlineContext";
 
 function AddOnsModal(props) {
   const modalRef = useRef(null);
-  const { addToCart, fetchCartList, cartLoading } = useContext(AppContext);
+  const { addToCart, fetchCartList, cartLoading } =
+    useContext(OrderOnlineContext);
   const [count, setCount] = useState(1);
   const [variationValue, setVariationValue] = useState({
     name: "",

@@ -1,13 +1,13 @@
+import "./OrderOnlineApp.css";
 import React, { Fragment, useContext, useEffect, useState } from "react";
-import placeholderImg from "../assets/images/food.jpg";
 import * as Lu from "react-icons/lu";
 import * as Tb from "react-icons/tb";
-import { AppContext } from "../context/AppContext";
+import { OrderOnlineContext } from "../context/OrderOnlineContext";
 import Utils from "../utils/Utils";
 import AddOnsModal from "./AddOnsModal";
 
 function FoodAccordian() {
-  const { categoryList, fetchProductsList } = useContext(AppContext);
+  const { categoryList, fetchProductsList } = useContext(OrderOnlineContext);
   const [accordionStates, setAccordionStates] = useState(null);
   const [products, setProducts] = useState(null);
   const [showRespModal, setShowRespModal] = useState(false);
@@ -52,14 +52,14 @@ function FoodAccordian() {
   const isAnyAccordionOpen =
     accordionStates && accordionStates.some((state) => state);
 
-    const addOnsModalData = (product) => {
-      setShowRespModal(true);
-      setProductRespDataValues(product);
-    };
+  const addOnsModalData = (product) => {
+    setShowRespModal(true);
+    setProductRespDataValues(product);
+  };
 
   return (
     <Fragment>
-       <AddOnsModal
+      <AddOnsModal
         showModal={showRespModal}
         setShowModal={setShowRespModal}
         productData={productRespDataValues}
@@ -110,10 +110,9 @@ function FoodAccordian() {
                     productData.map((product, index) => {
                       return (
                         <a
-                          
                           className="accord_food_anchor mb-2"
                           key={index}
-                          onClick={()=> addOnsModalData(product)}
+                          onClick={() => addOnsModalData(product)}
                         >
                           <div className="card accord_food_card_19">
                             <div className="row">
