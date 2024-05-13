@@ -26,7 +26,15 @@ This project aims to streamline the process of integrating an online order page 
       integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
       crossorigin="anonymous"
 
+## Wrap the App tag with OrderOnlineContextProvider
 
+    <AppContextProvider> 
+    <OrderOnlineContextProvider>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </OrderOnlineContextProvider>
+    </AppContextProvider>
 
 ## main
 
