@@ -11,10 +11,10 @@ const useMenus = () => {
   const [cartLoading, setCartLoading] = useState(false);
   const [locationResponse, setLocationResponse] = useState(null);
 
-  const fetchMenuList = async () => {
+  const fetchMenuList = async (shopId) => {
     try {
       setMenuLoading(true);
-      await BaseClient.get(APIEndpoints.menulist, [], {
+      await BaseClient.get(APIEndpoints.menulist + `/${shopId}/0`, [], {
         onSuccess: (res) => {
           console.log(res.data.data);
           setMenuList(res?.data);

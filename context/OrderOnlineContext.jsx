@@ -26,7 +26,6 @@ export const OrderOnlineContextProvider = (props) => {
   const { settings, getShopSettings, settingsLoading } = useShop();
 
   useEffect(() => {
-    fetchMenuList();
     fetchCategoriesList();
     fetchProductsList();
     fetchCartList();
