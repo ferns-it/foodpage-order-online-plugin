@@ -1309,6 +1309,13 @@ body {
   color: #e03f3f;
   font-weight: 700;
 }
+.sub_total_order_summary {
+  font-weight: 400;
+  font-size: 14px;
+}
+#sub_total_amt_order_summary{
+  font-size: 14px;
+}
 
 @media screen and (max-width: 1190px) {
   .category_card_009 {

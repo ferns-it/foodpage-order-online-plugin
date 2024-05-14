@@ -317,7 +317,7 @@ function OrderSummary() {
                 <Fragment>
                   <tr className="discount_order_summary">
                     <td>Discount</td>
-                    <td>{takeaway}</td>
+                    <td>-£{takeaway}</td>
                   </tr>
                   <tr>
                     <td>Total Cost</td>
@@ -326,13 +326,17 @@ function OrderSummary() {
                 </Fragment>
               ) : (
                 <Fragment>
+                  <tr className="sub_total_order_summary">
+                    <td>Sub Total</td>
+                    <td id="sub_total_amt_order_summary">{cartItems?.cartTotal?.cartTotalPriceDisplay}</td>
+                  </tr>
                   <tr className="discount_order_summary">
                     <td>Discount</td>
-                    <td>{discount}</td>
+                    <td>-£ {discount}</td>
                   </tr>
                   <tr>
                     <td>Total Cost</td>
-                    <td>£{allTotal ?? "N/A"}</td>
+                    <td>£ {allTotal ?? "N/A"}</td>
                   </tr>
                 </Fragment>
               )}

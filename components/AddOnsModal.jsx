@@ -82,8 +82,6 @@ function AddOnsModal(props) {
     }
   }, [foodValues]);
 
-  console.log(variationValue);
-
   if (!props.showModal || !props.productData) return;
 
   const handleDecrement = () => {
@@ -231,7 +229,7 @@ function AddOnsModal(props) {
                           const variationName = varient?.name
                             ? varient?.name
                             : foodValues?.name;
-                          console.log("varien",varient?.name);
+                          console.log("varien", varient?.name);
                           if (variationName == null) {
                             setVariationValue({
                               name: foodValues.name,
@@ -239,7 +237,7 @@ function AddOnsModal(props) {
                               // pvID: variationData?.pvID,
                             });
                           }
-                          console.log("variationValue",variationValue);
+                          console.log("variationValue", variationValue);
                           return (
                             <Fragment>
                               {varient.name != null ? (
