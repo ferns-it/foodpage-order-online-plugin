@@ -71,7 +71,9 @@ function AddOnsModal(props) {
   useEffect(() => {
     if (!foodValues) return;
     const variationData = foodValues?.variations[0];
-    if (variationData.name == null) {
+    console.log(variationData.name);
+    if (!variationData || variationData.name == null) {
+      console.log(variationData);
       setVariationValue({
         name: foodValues.name,
         price: variationData?.price,
@@ -79,6 +81,8 @@ function AddOnsModal(props) {
       });
     }
   }, [foodValues]);
+
+  console.log(variationValue);
 
   if (!props.showModal || !props.productData) return;
 
@@ -227,7 +231,15 @@ function AddOnsModal(props) {
                           const variationName = varient?.name
                             ? varient?.name
                             : foodValues?.name;
-
+                          console.log("varien",varient?.name);
+                          if (variationName == null) {
+                            setVariationValue({
+                              name: foodValues.name,
+                              // price: variationData?.price,
+                              // pvID: variationData?.pvID,
+                            });
+                          }
+                          console.log("variationValue",variationValue);
                           return (
                             <Fragment>
                               {varient.name != null ? (
@@ -461,8 +473,6 @@ function AddOnsModal(props) {
                                     const maximum = parseInt(
                                       item?.maximumRequired
                                     );
-
-                                    // console.log(masterAddons);
 
                                     return (
                                       <tr key={index}>
