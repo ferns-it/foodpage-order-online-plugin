@@ -10,15 +10,16 @@ const useMenus = () => {
   const [cartItems, setCartItems] = useState(null);
   const [cartLoading, setCartLoading] = useState(false);
   const [locationResponse, setLocationResponse] = useState(null);
+  const [settingsLoading, setSettingsLoading] = useState(false);
 
   const fetchMenuList = async (shopId) => {
     try {
-      if(!shopId) return;
+      if (!shopId) return;
       console.log(shopId);
       setMenuLoading(true);
       await BaseClient.get(APIEndpoints.menulist + `/${shopId}/0`, [], {
         onSuccess: (res) => {
-          console.log("menu-response",res.data);
+          console.log("menu-response", res.data);
           setMenuList(res?.data);
         },
         onFailed: (err) => {
@@ -31,12 +32,12 @@ const useMenus = () => {
   };
   const fetchCategoriesList = async (shopUrl) => {
     try {
-      if(!shopUrl) return;
+      if (!shopUrl) return;
       setMenuLoading(true);
       await BaseClient.get(APIEndpoints.categoryList + `/${shopUrl}`, [], {
         onSuccess: (res) => {
           console.log(res?.data);
-          console.log("category-response",res.data);
+          console.log("category-response", res.data);
           setCategoryList(res?.data?.data?.items);
         },
         onFailed: (err) => {
@@ -142,14 +143,14 @@ const useMenus = () => {
   };
   const deleteCartItem = async (id, { onSuccess, onFailed }) => {
     try {
-      setSettingsLoaiding(true);
+      setSettingsLoading(true);
 
       await BaseClient.delete(APIEndpoints.deleteCartItem + `/${id}`, {
         onSuccess: onSuccess,
         onFailed: onFailed,
       });
     } finally {
-      setSettingsLoaiding(false);
+      setSettingsLoading(false);
     }
   };
 
@@ -168,7 +169,7 @@ const useMenus = () => {
     deleteSingleCartItem,
     getLocation,
     locationResponse,
-    deleteCartItem
+    deleteCartItem,
   };
 };
 
