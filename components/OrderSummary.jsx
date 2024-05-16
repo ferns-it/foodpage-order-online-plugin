@@ -107,18 +107,40 @@ function OrderSummary() {
     setConvertedDistance(actualDistance);
     return actualDistance;
   };
-  const getLocationDetails = async () => {
-    if (!settings) return;
-    const deliveryInfo = settings?.deliveryInfo ?? null;
-    if (!deliveryInfo) return;
-    let shopPostalCode = deliveryInfo?.shopPostcode;
-    console.log(postalcode);
-    if (!postalcode || postalcode.length == 0) return;
-    console.log(shopPostalCode, postalcode);
-    console.log(shopPostalCode);
-    await getLocation(shopPostalCode, postalcode);
-  };
+  // const getLocationDetails = async () => {
+  //   if (!settings) return;
+  //   const deliveryInfo = settings?.deliveryInfo ?? null;
+  //   if (!deliveryInfo) return;
+  //   let shopPostalCode = deliveryInfo?.shopPostcode;
+  //   console.log(postalcode);
+  //   if (!postalcode || postalcode.length == 0) return;
+  //   console.log(shopPostalCode, postalcode);
+  //   console.log(shopPostalCode);
+  //   await getLocation(shopPostalCode, postalcode);
+  // };
 
+  useEffect(() => {
+    const fetchDistance = async () => {
+      if (deliveryInfo?.shopPostcode && postalCode) {
+        try {
+          const res = await getLocation(deliveryInfo?.shopPostcode, postalCode);
+          if (res.error) {
+            console.error("Failed to fetch distance");
+          } else {
+            // console.log(res.data);
+          }
+        } catch (error) {
+          console.error("Error fetching distance: " + error.message);
+        }
+      } else {
+        // toast.error("Postcodes not available.");
+        return;
+      }
+    };
+
+    fetchDistance();
+  }, [deliveryInfo?.shopPostcode, postalCode]);
+console.log(postalcode,"code")
   const handleAddress = () => {
     if (cartItems?.cartItems?.length === 0) {
       toast("Your cart is empty!");
@@ -127,6 +149,7 @@ function OrderSummary() {
     if (delivery === false) {
       if (!locationResponse) {
         toast.error("Location data not loaded or invalid!");
+        
         return;
       }
 
@@ -135,10 +158,13 @@ function OrderSummary() {
 
       if (elementStatus === "NOT_FOUND") {
         toast.error("Postal code Not Found!");
+       
         return;
       } else if (elementStatus === "ZERO_RESULTS") {
         toast.error("Delivery Not Available in this Location!");
+      
         return;
+      
       } else if (elementStatus === "OK") {
         setLocationData(element);
         const actualDistance = processLocationData(element);
@@ -154,6 +180,7 @@ function OrderSummary() {
           // navigate("/guest_login");
         } else {
           toast.error("Location is outside the delivery radius.");
+          
         }
       } else {
         toast.error("Error with location data!");
@@ -272,6 +299,7 @@ function OrderSummary() {
 
       if (isValidTime && isValidTime.status === false) {
         toast.error(isValidTime.message);
+        
         return;
       }
       sessionStorage.setItem("type", deliveryOption);
