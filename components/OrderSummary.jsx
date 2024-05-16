@@ -4,7 +4,7 @@ import * as Io from "react-icons/io";
 import { OrderOnlineContext } from "../context/OrderOnlineContext";
 import toast from "react-hot-toast";
 import Utils from "../utils/Utils";
-import "../pages/order/OrderOnlineApp.css";
+import "../style/OrderOnlineApp.css"
 
 function OrderSummary() {
   const {

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import BaseClient from "../Helpers/BaseClient";
+import BaseClient from "../helper/Baseclient";
 import { loadStripe } from "@stripe/stripe-js";
 import { APIEndpoints } from "../constants/APIEndpoints";
 
@@ -12,6 +12,7 @@ export default function usePayment() {
   const [paymentData, setPaymentData] = useState(null);
   const [type, setType] = useState(null);
   const [amount, setAmount] = useState(0);
+  
   const initialValue = {
     fullName: "",
     email: "",
