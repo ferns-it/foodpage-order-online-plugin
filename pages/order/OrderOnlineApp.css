@@ -304,7 +304,7 @@ body {
   overflow-x: hidden; */
   transition: all 0.2s ease-in-out;
 }
-.billing_block {
+.billing_block_order_plugin {
   position: relative;
   width: 30%;
   background-color: #fff;
@@ -313,7 +313,7 @@ body {
   transition: all 0.2s ease-in-out;
   margin-top: 15px;
 }
-.billing_block.sticky {
+.billing_block_order_plugin.sticky {
   position: sticky;
   top: 10px;
 
@@ -1317,11 +1317,28 @@ body {
 }
 
 @media screen and (max-width: 1160px) {
-  .billing_block {
+  /* .billing_block_order_plugin {
     display: none;
-  }
+  } */
   .order_block {
     width: 100%;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .billing_block_order_plugin,
+  .product_wrapper_029,
+  .category_card_009 {
+    display: none;
+  }
+   .food_area_col {
+    width: 100% !important;
+  }
+  .accordian_wrapper_001 {
+    display: block;
+  }
+  .checkout_responsive_area {
+    display: block;
   }
 }
 

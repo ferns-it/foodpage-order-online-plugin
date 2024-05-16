@@ -1,10 +1,10 @@
-import "./OrderOnlineApp.css";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import * as Lu from "react-icons/lu";
 import * as Tb from "react-icons/tb";
 import { OrderOnlineContext } from "../context/OrderOnlineContext";
 import Utils from "../utils/Utils";
 import AddOnsModal from "./AddOnsModal";
+import "../pages/order/OrderOnlineApp.css";
 
 function FoodAccordian() {
   const { categoryList, fetchProductsList } = useContext(OrderOnlineContext);

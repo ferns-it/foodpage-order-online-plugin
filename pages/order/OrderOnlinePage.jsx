@@ -148,8 +148,8 @@ function OrderOnlinePage() {
               <div
                 className={
                   isSticky
-                    ? "billing_block sticky bill-spikes"
-                    : "billing_block bill-spikes"
+                    ? "billing_block_order_plugin sticky bill-spikes"
+                    : "billing_block_order_plugin bill-spikes"
                 }
               >
                 <OrderSummary />

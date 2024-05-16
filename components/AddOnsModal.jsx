@@ -1,4 +1,3 @@
-import "./OrderOnlineApp.css";
 import React, {
   Fragment,
   useContext,
@@ -11,6 +10,7 @@ import * as Bs from "react-icons/bs";
 import Utils from "../utils/Utils";
 import toast, { Toaster } from "react-hot-toast";
 import { OrderOnlineContext } from "../context/OrderOnlineContext";
+import "../pages/order/OrderOnlineApp.css";
 
 function AddOnsModal(props) {
   const modalRef = useRef(null);

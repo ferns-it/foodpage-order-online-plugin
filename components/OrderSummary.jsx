@@ -1,10 +1,10 @@
-import "./OrderOnlineApp.css";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import * as Fa from "react-icons/fa";
 import * as Io from "react-icons/io";
 import { OrderOnlineContext } from "../context/OrderOnlineContext";
 import toast from "react-hot-toast";
 import Utils from "../utils/Utils";
+import "../pages/order/OrderOnlineApp.css";
 
 function OrderSummary() {
   const {
