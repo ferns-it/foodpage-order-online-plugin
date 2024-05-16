@@ -1309,6 +1309,15 @@ body {
   color: #e03f3f;
   font-weight: 700;
 }
+.order_summary_checkout{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-color: #e9ecee;
+  z-index: 0;
+}
 
 @media screen and (max-width: 1190px) {
   .category_card_009 {
