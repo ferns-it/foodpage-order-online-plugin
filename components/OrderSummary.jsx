@@ -1,10 +1,11 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, {Fragment, useContext, useEffect, useState} from "react";
 import * as Fa from "react-icons/fa";
 import * as Io from "react-icons/io";
-import { OrderOnlineContext } from "../context/OrderOnlineContext";
-import toast from "react-hot-toast";
+import {OrderOnlineContext} from "../context/OrderOnlineContext";
 import Utils from "../utils/Utils";
 import "../style/OrderOnlineApp.css"
+import { toast, Toaster } from "react-hot-toast";
+import moment from "moment";
 
 function OrderSummary() {
   const {
@@ -14,6 +15,7 @@ function OrderSummary() {
     fetchCartList,
     getLocation,
     locationResponse,
+    menuList,
     settings,
     getShopSettings,
   } = useContext(OrderOnlineContext);
@@ -21,13 +23,19 @@ function OrderSummary() {
   const [deliveryOption, setDeliveryOption] = useState("delivery");
   const [showAddons, setShowAddons] = useState(null);
   const [deleteIndex, setDeleteIndex] = useState(-1);
+  const [locationData, setLocationData] = useState(null);
   const [postalcode, setPostalcode] = useState("");
   const [takeawayTime, setTakeawayTime] = useState("");
   const [error, setError] = useState(false);
   const [discount, setDiscount] = useState(0);
   const [allTotal, setAllTotal] = useState(0);
+  const [convertedDistance, setConvertedDistance] = useState(null);
+  const [time, setTime] = useState(moment().utc(true));
   const [takeaway, setTakeaway] = useState(null);
   const [takeawayTotal, setTakeawayTotal] = useState(null);
+  const [delivery, setDelivey] = useState(false);
+  const [deliveryInfo, setDeliveryInfo] = useState(null);
+  const [postalCode, setPostalCode] = useState("");
 
   let distanceRange = 0;
 
@@ -40,27 +48,65 @@ function OrderSummary() {
   }, []);
 
   useEffect(() => {
-    const dis = cartItems?.cartTotal?.cartTotalPrice / 100;
-    const deliveryInfo = settings?.deliveryInfo;
+    if (!menuList) return;
+    const info = settings != null && settings?.deliveryInfo;
+    setDeliveryInfo(info);
+  }, [menuList]);
 
-    if (dis >= deliveryInfo?.minAmtForHomDelvryDiscnt) {
-      const amt = dis * (deliveryInfo?.discountHomeDelivery / 100);
-      setDiscount(amt.toFixed(2));
-      setAllTotal((dis - amt).toFixed(2));
-    } else {
-      setDiscount(0);
-      setAllTotal(dis.toFixed(2));
-    }
-    if (dis >= deliveryInfo?.minAmtForTakAwayDiscnt) {
-      const amt = dis * (deliveryInfo?.discountTakeAway / 100);
-      setTakeaway(amt.toFixed(2));
-      setTakeawayTotal((dis - amt).toFixed(2));
-    } else {
-      setTakeaway(0);
-      setTakeawayTotal(dis.toFixed(2));
-    }
-  }, [cartItems]);
+  useEffect(() => {
+    const calculateDiscounts = () => {
+      const subtotal = cartItems?.cartTotal?.cartTotalPrice / 100;
 
+      let homeDeliveryDiscount = 0;
+      let takeawayDiscount = 0;
+
+      if (subtotal >= deliveryInfo?.minAmtForHomDelvryDiscnt) {
+        homeDeliveryDiscount =
+          subtotal * (deliveryInfo?.discountHomeDelivery / 100);
+      }
+
+      if (subtotal >= deliveryInfo?.minAmtForTakAwayDiscnt) {
+        takeawayDiscount = subtotal * (deliveryInfo?.discountTakeAway / 100);
+      }
+
+      setDiscount(homeDeliveryDiscount.toFixed(2));
+      setTakeaway(takeawayDiscount.toFixed(2));
+      setAllTotal((subtotal - homeDeliveryDiscount).toFixed(2));
+      setTakeawayTotal((subtotal - takeawayDiscount).toFixed(2));
+    };
+
+    if (cartItems && deliveryInfo) {
+      calculateDiscounts();
+    }
+  }, [cartItems, deliveryInfo]);
+
+  const processLocationData = (locationData) => {
+    const mileToKMConversionFactor = 0.62137119;
+    const distanceText = locationData?.distance?.text;
+
+    if (!distanceText) {
+      // console.log("Unavailable distance text");
+      return "Data Unavailable";
+    }
+
+    const numericDistanceKM = parseFloat(distanceText.match(/[\d\.]+/)[0]);
+    if (isNaN(numericDistanceKM)) {
+      // console.log("Invalid distance data");
+      return "Invalid Distance Data";
+    }
+
+    let actualDistance;
+    if (deliveryInfo?.distanceType === "Mile") {
+      actualDistance = (numericDistanceKM * mileToKMConversionFactor).toFixed(
+        2
+      );
+    } else {
+      actualDistance = numericDistanceKM.toFixed(2);
+    }
+
+    setConvertedDistance(actualDistance);
+    return actualDistance;
+  };
   const getLocationDetails = async () => {
     if (!settings) return;
     const deliveryInfo = settings?.deliveryInfo ?? null;
@@ -74,21 +120,53 @@ function OrderSummary() {
   };
 
   const handleAddress = () => {
-    getLocationDetails();
-
-    if (!locationResponse) return;
-
-    const elementStatus = locationResponse.rows[0].elements[0].status;
-
-    if (elementStatus === "NOT_FOUND") {
-      toast.error("Postal code Not Found!");
-      return false;
+    if (cartItems?.cartItems?.length === 0) {
+      toast("Your cart is empty!");
+      return;
     }
-    if (elementStatus === "ZERO_RESULTS") {
-      toast.error("Delivery Not Available in this Location!");
-      return false;
+    if (delivery === false) {
+      if (!locationResponse) {
+        toast.error("Location data not loaded or invalid!");
+        return;
+      }
+
+      const element = locationResponse.rows[0].elements[0];
+      const elementStatus = element.status;
+
+      if (elementStatus === "NOT_FOUND") {
+        toast.error("Postal code Not Found!");
+        return;
+      } else if (elementStatus === "ZERO_RESULTS") {
+        toast.error("Delivery Not Available in this Location!");
+        return;
+      } else if (elementStatus === "OK") {
+        setLocationData(element);
+        const actualDistance = processLocationData(element);
+        sessionStorage.setItem("postcode", postalCode);
+        sessionStorage.setItem("type", delivery);
+        sessionStorage.setItem("distance", actualDistance.toString());
+
+        if (
+          actualDistance !== undefined &&
+          parseFloat(deliveryInfo?.maxDeliveryRadius) >=
+            parseFloat(actualDistance)
+        ) {
+          // navigate("/guest_login");
+        } else {
+          toast.error("Location is outside the delivery radius.");
+        }
+      } else {
+        toast.error("Error with location data!");
+      }
+    } else {
+      if (time == null) {
+        toast.error("Please Choose Takeaway Time!");
+        return;
+      } else {
+        sessionStorage.setItem("type", delivery);
+        // navigate("/guest_login");
+      }
     }
-    return true;
   };
 
   const fetchDistanceData = () => {
@@ -145,10 +223,17 @@ function OrderSummary() {
 
     switch (true) {
       case takeawayTimeData.getTime() === currentTime.getTime():
-        status = { status: false, message: "Current time is not permitted for takeaway!" };
+        status = {
+          status: false,
+          message: "Current time is not permitted for takeaway!",
+        };
         break;
       case takeawayTimeData < currentTime:
-        status = { status: false, message: "Taking away a time earlier than the current time is not allowed!" };
+        status = {
+          status: false,
+          message:
+            "Taking away a time earlier than the current time is not allowed!",
+        };
         break;
       case takeawayTimeData.getTime() - currentTime.getTime() < 30 * 60 * 1000:
         status = {
@@ -193,9 +278,10 @@ function OrderSummary() {
       sessionStorage.setItem("distance ", distanceRange);
     }
   };
-
+  console.log("delivery", typeof delivery);
   return (
     <div>
+      <Toaster position="top-center" reverseOrder={false} />
       <h3 className="order_title">Order Summary</h3>
       <div className="summary_item_wrapper_029">
         {cartItems && cartItems.cartItems.length != 0 ? (
@@ -313,32 +399,44 @@ function OrderSummary() {
               })}
             <hr className="mt-0" />
             <table className="total_cost_summary">
-              {deliveryOption === "takeaway" ? (
-                <Fragment>
+              {delivery == true ? (
+                <>
+                  <Fragment>
                   <tr className="discount_order_summary">
-                    <td>Discount</td>
-                    <td>-£{takeaway}</td>
-                  </tr>
-                  <tr>
-                    <td>Total Cost</td>
-                    <td>£{takeawayTotal ?? "N/A"}</td>
-                  </tr>
-                </Fragment>
+                      <td>Sub Total</td>
+                      <td >
+                        {cartItems?.cartTotal?.cartTotalPriceDisplay}
+                      </td>
+                    </tr>
+                    <tr className="discount_order_summary">
+                      <td>Discount</td>
+                      <td>-£{takeaway}</td>
+                    </tr>
+                    <tr>
+                      <td>Total Cost</td>
+                      <td>£{takeawayTotal ?? "N/A"}</td>
+                    </tr>
+                  </Fragment>
+                </>
               ) : (
-                <Fragment>
-                  <tr className="sub_total_order_summary">
-                    <td>Sub Total</td>
-                    <td id="sub_total_amt_order_summary">{cartItems?.cartTotal?.cartTotalPriceDisplay}</td>
-                  </tr>
-                  <tr className="discount_order_summary">
-                    <td>Discount</td>
-                    <td>-£ {discount}</td>
-                  </tr>
-                  <tr>
-                    <td>Total Cost</td>
-                    <td>£ {allTotal ?? "N/A"}</td>
-                  </tr>
-                </Fragment>
+                <>
+                  <Fragment>
+                    <tr className="discount_order_summary">
+                      <td>Sub Total</td>
+                      <td id="sub_total_amt_order_summary">
+                        {cartItems?.cartTotal?.cartTotalPriceDisplay}
+                      </td>
+                    </tr>
+                    <tr className="discount_order_summary">
+                      <td>Discount</td>
+                      <td>-£ {discount}</td>
+                    </tr>
+                    <tr>
+                      <td>Total Cost</td>
+                      <td>£ {allTotal ?? "N/A"}</td>
+                    </tr>
+                  </Fragment>
+                </>
               )}
             </table>
           </div>
@@ -349,57 +447,53 @@ function OrderSummary() {
 
       <br />
       <div className="line__"></div>
-      <div className="d-flex mt-4">
-        <label htmlFor="delivery" className="delivery_option_container">
+      <div className="row mt-3 mx-auto text-center">
+        <div className="col-md-5 col-sm-12">
           <input
             type="radio"
-            name="deliveryOption"
-            id="delivery"
-            className="delivery_option"
-            checked={deliveryOption === "delivery"}
-            onClick={() => setDeliveryOption("delivery")}
+            className="radio_btn"
+            checked={!delivery}
+            onChange={() => setDelivey(false)}
           />
-          <span class="checkmark"></span>
-          Delivery
-        </label>
-        <label htmlFor="takeAway" className="delivery_option_container">
-          <input
-            type="radio"
-            name="deliveryOption"
-            id="takeAway"
-            className="ms-3 delivery_option"
-            onClick={() => setDeliveryOption("takeaway")}
-            checked={deliveryOption === "takeaway"}
-          />
-          <span class="checkmark"></span>
-          Take away
-        </label>
+          <label className="radio_label">Delivery</label>
+        </div>
+        {deliveryInfo?.takeAway == 1 && (
+          <>
+            <div className="col-md-7 col-sm-12">
+              <input
+                type="radio"
+                className="radio_btn"
+                onClick={() => setDelivey(true)}
+                checked={delivery}
+                onChange={() => setDelivey(true)}
+              />
+              <label className="radio_label">Take away</label>
+            </div>
+          </>
+        )}
       </div>
-      {deliveryOption === "delivery" ? (
-        <Fragment>
-          <label htmlFor="" className="opt_label_827">
-            Postal Code
-          </label>
-          <div className="inp_wrapper_827">
-            <input
-              type="text"
-              name=""
-              id=""
-              className={
-                error && postalcode.length == 0
-                  ? "opt_input_827 err__"
-                  : "opt_input_827"
-              }
-              placeholder="Please enter postal code!"
-              value={postalcode}
-              onChange={(e) => setPostalcode(e.target.value)}
-            />
+      <div className="row">
+        {delivery == false ? (
+          <div>
+            <label htmlFor="" className="opt_label_827">
+              Postal Code
+            </label>
+            <div className="inp_wrapper_827">
+              <input
+                type="text"
+                name=""
+                id=""
+               className="opt_input_827"
+                placeholder="Please enter postal code!"
+                onChange={(e) => setPostalCode(e.target.value)}
+              />
+            </div>
           </div>
-        </Fragment>
-      ) : (
-        <Fragment>
-          <label htmlFor="" className="opt_label_827">
-            Picup Time
+        ) : (
+          <div>
+          
+            <label htmlFor="" className="opt_label_827">
+            Pickup Time
           </label>
           <div className="inp_wrapper_827">
             <input
@@ -411,12 +505,14 @@ function OrderSummary() {
                   ? "opt_input_827 err__"
                   : "opt_input_827"
               }
-              value={takeawayTime}
               onChange={(e) => setTakeawayTime(e.target.value)}
             />
           </div>
-        </Fragment>
-      )}
+          </div>
+        )}
+      </div>
+
+     
       {(error && postalcode.length == 0) ||
       (error && takeawayTime.length == 0) ? (
         <span className="err_msg_order_summary">
@@ -428,7 +524,7 @@ function OrderSummary() {
       <button
         type="button"
         className="order_now_192"
-        onClick={handleDelivery}
+        onClick={handleAddress}
         disabled={!cartItems || cartItems.cartItems.length == 0}
       >
         Order Now

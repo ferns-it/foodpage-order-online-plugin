@@ -1338,7 +1338,7 @@ body {
   .billing_block_order_plugin,
   .product_wrapper_029,
   .category_card_009 {
-    display: none;
+    /* display: none; */
   }
    .food_area_col {
     width: 100% !important;

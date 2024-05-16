@@ -15,7 +15,7 @@ import Foodcard from "../../components/Foodcard";
 import FoodAccordian from "../../components/FoodAccordian";
 import OrderSummary from "../../components/OrderSummary";
 import { useParams } from "react-router-dom";
-import "../../style/OrderOnlineApp.css"
+import "../../style/OrderOnlineApp.css";
 
 function OrderOnlinePage() {
   const { shopId, shopUrl } = useParams();
