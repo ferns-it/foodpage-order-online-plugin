@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import useMenus from "../hooks/useMenus";
 import useShop from "../hooks/useShop";
+import usePayment from "../hooks/usePayment";
 
 export const OrderOnlineContext = createContext();
 
@@ -25,6 +26,34 @@ export const OrderOnlineContextProvider = (props) => {
   } = useMenus();
 
   const { settings, getShopSettings, settingsLoading } = useShop();
+
+  const {
+    isAuthenticated,
+    setIsSignUp,
+    isSignup,
+    therapies,
+    createPaymentIntent,
+    stripePaymentClientSecret,
+    setStripeClientSecret,
+    stripePromise,
+    options,
+    setSelectedScheduleSlot,
+    selectedScheduleSlot,
+    onPaymentElementReady,
+    billingAddress,
+    setBillingAddress,
+    selectedBookingDate,
+    confirmPayment,
+    amount,
+    setAmount,
+    completeCheckout,
+    type,
+    setType,
+    deliveryFee,
+    setDeliveryFee,
+    paymentData,
+    orderDetails,
+  } = usePayment();
 
   useEffect(() => {
     fetchProductsList();
@@ -60,6 +89,31 @@ export const OrderOnlineContextProvider = (props) => {
         deleteCartItem,
         paramsValues,
         setParamsValues,
+        isAuthenticated,
+        setIsSignUp,
+        isSignup,
+        therapies,
+        createPaymentIntent,
+        stripePaymentClientSecret,
+        setStripeClientSecret,
+        stripePromise,
+        options,
+        setSelectedScheduleSlot,
+        selectedScheduleSlot,
+        onPaymentElementReady,
+        billingAddress,
+        setBillingAddress,
+        selectedBookingDate,
+        confirmPayment,
+        amount,
+        setAmount,
+        completeCheckout,
+        type,
+        setType,
+        deliveryFee,
+        setDeliveryFee,
+        paymentData,
+        orderDetails,
       }}
     >
       {props.children}
