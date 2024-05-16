@@ -2,6 +2,30 @@
 * {
   font-family: "Open Sans", sans-serif;
 }
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+input[type="file"]:focus,
+input[type="radio"]:focus,
+input[type="checkbox"]:focus textarea,
+.form-control:focus,
+.uneditable-input:focus {
+  box-shadow: none;
+  outline: 0 none;
+  border-color: #e03f3f !important;
+}
 
 /* Order online page style */
 body {
@@ -1310,14 +1334,65 @@ body {
   color: #e03f3f;
   font-weight: 700;
 }
-.order_summary_checkout{
+.order_summary_checkout {
   position: fixed;
   width: 100%;
   height: 100%;
   left: 0;
   top: 0;
   background-color: #e9ecee;
+  padding-top: 8rem;
+  overflow-y: scroll;
   z-index: 0;
+}
+.login_summary_card_0928 {
+  position: relative;
+  padding: 2rem;
+  border: none;
+  border-radius: 2px;
+  margin: 20px 0;
+}
+.login_summary_card_ico_0928{
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background-color: #fff;
+  /* box-shadow: 2px 0 10px #7777; */
+  background-color: #e03f3f;
+  color: #fff;
+  right: 20px;
+  top: -20px;
+  border-radius: 5px;
+  padding: 4px 15px;
+  font-size: 1.5rem;
+}
+.login_summary_card_0928 > h4 {
+  font-size: 20px;
+  font-weight: 600;
+  user-select: none;
+}
+.login_summary_card_0928 > p {
+  color: #747474;
+  font-size: 14px;
+  user-select: none;
+}
+#sub_summary_txt {
+  font-size: 13px;
+  color: #3c3c3c;
+}
+.online_order_plugin_label_2939 {
+  font-size: 13px;
+}
+.online_order_plugin_input_2939 {
+  border-radius: 2px;
+}
+.online_order_plugin_txtarea_2939 {
+  font-size: 15px;
+  min-height: 250px;
+}
+.online_order_plugin_login_btn{
+  width: 200px;
+  
 }
 
 @media screen and (max-width: 1190px) {
@@ -1341,7 +1416,7 @@ body {
   .category_card_009 {
     /* display: none; */
   }
-   .food_area_col {
+  .food_area_col {
     width: 100% !important;
   }
   .accordian_wrapper_001 {
