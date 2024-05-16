@@ -3,9 +3,9 @@ import * as Fa from "react-icons/fa";
 import * as Io from "react-icons/io";
 import {OrderOnlineContext} from "../context/OrderOnlineContext";
 import Utils from "../utils/Utils";
-import "../pages/order/OrderOnlineApp.css";
-import moment from "moment";
+import "../style/OrderOnlineApp.css"
 import { toast, Toaster } from "react-hot-toast";
+import moment from "moment";
 
 function OrderSummary() {
   const {

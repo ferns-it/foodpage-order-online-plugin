@@ -2,7 +2,7 @@ import React, { Fragment, useContext, useEffect, useState } from "react";
 import { OrderOnlineContext } from "../context/OrderOnlineContext";
 import Utils from "../utils/Utils";
 import AddOnsModal from "./AddOnsModal";
-import "../pages/order/OrderOnlineApp.css";
+import "../style/OrderOnlineApp.css"
 
 function Foodcard(category) {
   const { categoryList, fetchProductsList } = useContext(OrderOnlineContext);

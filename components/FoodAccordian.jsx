@@ -4,7 +4,7 @@ import * as Tb from "react-icons/tb";
 import { OrderOnlineContext } from "../context/OrderOnlineContext";
 import Utils from "../utils/Utils";
 import AddOnsModal from "./AddOnsModal";
-import "../pages/order/OrderOnlineApp.css";
+import "../style/OrderOnlineApp.css"
 
 function FoodAccordian() {
   const { categoryList, fetchProductsList } = useContext(OrderOnlineContext);
