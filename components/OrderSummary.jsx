@@ -20,17 +20,15 @@ function OrderSummary() {
     getShopSettings,
   } = useContext(OrderOnlineContext);
 
-  const [deliveryOption, setDeliveryOption] = useState("delivery");
   const [showAddons, setShowAddons] = useState(null);
   const [deleteIndex, setDeleteIndex] = useState(-1);
   const [locationData, setLocationData] = useState(null);
-  const [postalcode, setPostalcode] = useState("");
   const [takeawayTime, setTakeawayTime] = useState("");
   const [error, setError] = useState(false);
   const [discount, setDiscount] = useState(0);
   const [allTotal, setAllTotal] = useState(0);
   const [convertedDistance, setConvertedDistance] = useState(null);
-  const [time, setTime] = useState(moment().utc(true));
+  const [time, setTime] = useState("");
   const [takeaway, setTakeaway] = useState(null);
   const [takeawayTotal, setTakeawayTotal] = useState(null);
   const [delivery, setDelivey] = useState(false);
@@ -44,7 +42,7 @@ function OrderSummary() {
     getShopSettings(shopUrl);
 
     const time = Utils.getCurrentTime();
-    setTakeawayTime(time);
+    setTime(time);
   }, []);
 
   useEffect(() => {
@@ -107,40 +105,38 @@ function OrderSummary() {
     setConvertedDistance(actualDistance);
     return actualDistance;
   };
-  // const getLocationDetails = async () => {
-  //   if (!settings) return;
-  //   const deliveryInfo = settings?.deliveryInfo ?? null;
-  //   if (!deliveryInfo) return;
-  //   let shopPostalCode = deliveryInfo?.shopPostcode;
-  //   console.log(postalcode);
-  //   if (!postalcode || postalcode.length == 0) return;
-  //   console.log(shopPostalCode, postalcode);
-  //   console.log(shopPostalCode);
-  //   await getLocation(shopPostalCode, postalcode);
-  // };
 
   useEffect(() => {
     const fetchDistance = async () => {
-      if (deliveryInfo?.shopPostcode && postalCode) {
-        try {
-          const res = await getLocation(deliveryInfo?.shopPostcode, postalCode);
-          if (res.error) {
-            console.error("Failed to fetch distance");
-          } else {
-            // console.log(res.data);
-          }
-        } catch (error) {
-          console.error("Error fetching distance: " + error.message);
-        }
-      } else {
-        // toast.error("Postcodes not available.");
-        return;
+      if(postalCode == null){
+        return
       }
+      else{
+        if (deliveryInfo?.shopPostcode && postalCode) {
+          try {
+            const res = await getLocation(deliveryInfo?.shopPostcode, postalCode);
+            if (res.error) {
+              console.error("Failed to fetch distance");
+            } else {
+              // console.log(res.data);
+            }
+          } catch (error) {
+            console.error("Error fetching distance: " + error.message);
+          }
+        } else {
+          // toast.error("Postcodes not available.");
+          return;
+        }
+      }
+     
     };
 
     fetchDistance();
   }, [deliveryInfo?.shopPostcode, postalCode]);
-console.log(postalcode,"code")
+
+
+console.log(postalCode,"code");
+
   const handleAddress = () => {
     if (cartItems?.cartItems?.length === 0) {
       toast("Your cart is empty!");
@@ -178,6 +174,7 @@ console.log(postalcode,"code")
             parseFloat(actualDistance)
         ) {
           // navigate("/guest_login");
+          toast("success")
         } else {
           toast.error("Location is outside the delivery radius.");
           
@@ -192,22 +189,11 @@ console.log(postalcode,"code")
       } else {
         sessionStorage.setItem("type", delivery);
         // navigate("/guest_login");
+        toast("takeaway success");
       }
     }
   };
-
-  const fetchDistanceData = () => {
-    if (!locationResponse || !settings || !settings.deliveryInfo) return;
-    let customerDistance =
-      locationResponse?.rows[0]?.elements[0]?.distance?.value;
-
-    let km = customerDistance / 1000;
-    let distanceInMiles = km * 0.621371;
-    let roundedDistanceInMiles = parseInt(distanceInMiles.toFixed(2));
-
-    distanceRange = roundedDistanceInMiles;
-  };
-
+console.log(time,"time");
   const toggleFoodLists = (index) => {
     if (index < 0) return;
     setShowAddons((prevList) => {
@@ -241,13 +227,13 @@ console.log(postalcode,"code")
 
   const validateCurrentTime = () => {
     const currentTime = new Date();
-    const [hours, minutes] = takeawayTime.split(":");
+    const [hours, minutes] = time.split(":");
     const takeawayTimeData = new Date();
     takeawayTimeData.setHours(parseInt(hours, 10));
     takeawayTimeData.setMinutes(parseInt(minutes, 10));
-
+  
     let status;
-
+  
     switch (true) {
       case takeawayTimeData.getTime() === currentTime.getTime():
         status = {
@@ -258,8 +244,7 @@ console.log(postalcode,"code")
       case takeawayTimeData < currentTime:
         status = {
           status: false,
-          message:
-            "Taking away a time earlier than the current time is not allowed!",
+          message: "Taking away a time earlier than the current time is not allowed!",
         };
         break;
       case takeawayTimeData.getTime() - currentTime.getTime() < 30 * 60 * 1000:
@@ -274,39 +259,20 @@ console.log(postalcode,"code")
           message: "More than 30 minutes from Current Time",
         };
     }
+  
+    setError(status.message);
+    setTime(takeawayTime); // Set the time to the state
+  };
+  
 
-    return status;
+  const handleTimeChange = (event) => {
+    const newTime = event.target.value;
+    setTime(newTime);
   };
 
-  const handleDelivery = async () => {
-    if (deliveryOption === "delivery") {
-      if (!postalcode || postalcode.length == 0) {
-        setError(true);
-        return;
-      }
-      fetchDistanceData();
 
-      const postCodeValidation = handleAddress();
-
-      if (postCodeValidation === false) return;
-      sessionStorage.setItem("postcode", postalcode);
-      sessionStorage.setItem("type", deliveryOption);
-      sessionStorage.setItem("distance ", distanceRange);
-    } else if (deliveryOption === "takeaway") {
-      if (!takeawayTime || takeaway.length == 0) return;
-
-      const isValidTime = validateCurrentTime();
-
-      if (isValidTime && isValidTime.status === false) {
-        toast.error(isValidTime.message);
-        
-        return;
-      }
-      sessionStorage.setItem("type", deliveryOption);
-      sessionStorage.setItem("distance ", distanceRange);
-    }
-  };
-  console.log("delivery", typeof delivery);
+ 
+  console.log(settings,"settings")
   return (
     <div>
       <Toaster position="top-center" reverseOrder={false} />
@@ -519,13 +485,12 @@ console.log(postalcode,"code")
           </div>
         ) : (
           <div>
-          
-            <label htmlFor="" className="opt_label_827">
-            Pickup Time
-          </label>
-          <div className="inp_wrapper_827">
-            <input
-              type="time"
+      <label htmlFor="takeaway-time" className="opt_label_827">
+        Pickup Time
+      </label>
+      <div className="inp_wrapper_827">
+      <input
+       type="time"
               name=""
               id=""
               className={
@@ -533,15 +498,17 @@ console.log(postalcode,"code")
                   ? "opt_input_827 err__"
                   : "opt_input_827"
               }
-              onChange={(e) => setTakeawayTime(e.target.value)}
-            />
-          </div>
+            onChange={validateCurrentTime}
+      />
+      </div>
+      {error && <div className="error-message">{error}</div>}
+    
           </div>
         )}
       </div>
 
      
-      {(error && postalcode.length == 0) ||
+      {(error && postalCode.length == 0) ||
       (error && takeawayTime.length == 0) ? (
         <span className="err_msg_order_summary">
           * Please fill required fields!
