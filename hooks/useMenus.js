@@ -141,6 +141,7 @@ const useMenus = () => {
       setMenuLoading(false);
     }
   };
+
   const deleteCartItem = async (id, { onSuccess, onFailed }) => {
     try {
       setSettingsLoading(true);
