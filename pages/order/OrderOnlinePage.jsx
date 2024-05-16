@@ -16,6 +16,7 @@ import FoodAccordian from "../../components/FoodAccordian";
 import OrderSummary from "../../components/OrderSummary";
 import { useParams } from "react-router-dom";
 import "../../style/OrderOnlineApp.css";
+import toast from "react-hot-toast";
 
 function OrderOnlinePage() {
   const { shopId, shopUrl } = useParams();
@@ -72,6 +73,7 @@ function OrderOnlinePage() {
     setActiveChipIndex(index);
     setSelectedCategory(catName);
   };
+
 
   return (
     <Fragment>
