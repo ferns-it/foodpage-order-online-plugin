@@ -3,8 +3,8 @@ import * as Fa from "react-icons/fa";
 import * as Io from "react-icons/io";
 import {OrderOnlineContext} from "../context/OrderOnlineContext";
 import Utils from "../utils/Utils";
-import "../style/OrderOnlineApp.css"
-import { toast, Toaster } from "react-hot-toast";
+import "../style/OrderOnlineApp.css";
+import {toast, Toaster} from "react-hot-toast";
 import moment from "moment";
 
 function OrderSummary() {
@@ -108,13 +108,15 @@ function OrderSummary() {
 
   useEffect(() => {
     const fetchDistance = async () => {
-      if(postalCode == null){
-        return
-      }
-      else{
+      if (postalCode == null) {
+        return;
+      } else {
         if (deliveryInfo?.shopPostcode && postalCode) {
           try {
-            const res = await getLocation(deliveryInfo?.shopPostcode, postalCode);
+            const res = await getLocation(
+              deliveryInfo?.shopPostcode,
+              postalCode
+            );
             if (res.error) {
               console.error("Failed to fetch distance");
             } else {
@@ -128,24 +130,27 @@ function OrderSummary() {
           return;
         }
       }
-     
     };
 
     fetchDistance();
   }, [deliveryInfo?.shopPostcode, postalCode]);
 
-
-console.log(postalCode,"code");
+  console.log(postalCode, "code");
 
   const handleAddress = () => {
+   
+
     if (cartItems?.cartItems?.length === 0) {
       toast("Your cart is empty!");
       return;
     }
     if (delivery === false) {
+      if (postalCode == "" || postalCode == null) {
+        toast.error("Please add Details of Delivery!");
+        return;
+      }
       if (!locationResponse) {
         toast.error("Location data not loaded or invalid!");
-        
         return;
       }
 
@@ -154,13 +159,12 @@ console.log(postalCode,"code");
 
       if (elementStatus === "NOT_FOUND") {
         toast.error("Postal code Not Found!");
-       
+
         return;
       } else if (elementStatus === "ZERO_RESULTS") {
         toast.error("Delivery Not Available in this Location!");
-      
+
         return;
-      
       } else if (elementStatus === "OK") {
         setLocationData(element);
         const actualDistance = processLocationData(element);
@@ -174,10 +178,9 @@ console.log(postalCode,"code");
             parseFloat(actualDistance)
         ) {
           // navigate("/guest_login");
-          toast("success")
+          toast("success");
         } else {
           toast.error("Location is outside the delivery radius.");
-          
         }
       } else {
         toast.error("Error with location data!");
@@ -193,7 +196,7 @@ console.log(postalCode,"code");
       }
     }
   };
-console.log(time,"time");
+  console.log(time, "time");
   const toggleFoodLists = (index) => {
     if (index < 0) return;
     setShowAddons((prevList) => {
@@ -231,9 +234,9 @@ console.log(time,"time");
     const takeawayTimeData = new Date();
     takeawayTimeData.setHours(parseInt(hours, 10));
     takeawayTimeData.setMinutes(parseInt(minutes, 10));
-  
+
     let status;
-  
+
     switch (true) {
       case takeawayTimeData.getTime() === currentTime.getTime():
         status = {
@@ -244,7 +247,8 @@ console.log(time,"time");
       case takeawayTimeData < currentTime:
         status = {
           status: false,
-          message: "Taking away a time earlier than the current time is not allowed!",
+          message:
+            "Taking away a time earlier than the current time is not allowed!",
         };
         break;
       case takeawayTimeData.getTime() - currentTime.getTime() < 30 * 60 * 1000:
@@ -257,22 +261,20 @@ console.log(time,"time");
         status = {
           status: true,
           message: "More than 30 minutes from Current Time",
+          
         };
     }
-  
+
     setError(status.message);
     setTime(takeawayTime); // Set the time to the state
   };
-  
 
   const handleTimeChange = (event) => {
     const newTime = event.target.value;
     setTime(newTime);
   };
 
-
- 
-  console.log(settings,"settings")
+  console.log(settings, "settings");
   return (
     <div>
       <Toaster position="top-center" reverseOrder={false} />
@@ -396,11 +398,9 @@ console.log(time,"time");
               {delivery == true ? (
                 <>
                   <Fragment>
-                  <tr className="discount_order_summary">
+                    <tr className="discount_order_summary">
                       <td>Sub Total</td>
-                      <td >
-                        {cartItems?.cartTotal?.cartTotalPriceDisplay}
-                      </td>
+                      <td>{cartItems?.cartTotal?.cartTotalPriceDisplay}</td>
                     </tr>
                     <tr className="discount_order_summary">
                       <td>Discount</td>
@@ -477,7 +477,7 @@ console.log(time,"time");
                 type="text"
                 name=""
                 id=""
-               className="opt_input_827"
+                className="opt_input_827"
                 placeholder="Please enter postal code!"
                 onChange={(e) => setPostalCode(e.target.value)}
               />
@@ -485,29 +485,27 @@ console.log(time,"time");
           </div>
         ) : (
           <div>
-      <label htmlFor="takeaway-time" className="opt_label_827">
-        Pickup Time
-      </label>
-      <div className="inp_wrapper_827">
-      <input
-       type="time"
-              name=""
-              id=""
-              className={
-                error && takeawayTime.length == 0
-                  ? "opt_input_827 err__"
-                  : "opt_input_827"
-              }
-            onChange={validateCurrentTime}
-      />
-      </div>
-      {error && <div className="error-message">{error}</div>}
-    
+            <label htmlFor="takeaway-time" className="opt_label_827">
+              Pickup Time
+            </label>
+            <div className="inp_wrapper_827">
+              <input
+                type="time"
+                name=""
+                id=""
+                className={
+                  error && takeawayTime.length == 0
+                    ? "opt_input_827 err__"
+                    : "opt_input_827"
+                }
+                onChange={validateCurrentTime}
+              />
+            </div>
+            {error && <div className="error-message">{error}</div>}
           </div>
         )}
       </div>
 
-     
       {(error && postalCode.length == 0) ||
       (error && takeawayTime.length == 0) ? (
         <span className="err_msg_order_summary">
