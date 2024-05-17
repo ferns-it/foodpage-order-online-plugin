@@ -126,7 +126,7 @@ const useMenus = () => {
           null,
           {
             onSuccess: (res) => {
-              setLocationResponse(res?.data?.data);
+              setLocationResponse(res.data);
             },
             onFailed: (err) => {
               console.log("Error on fetching menus", err);

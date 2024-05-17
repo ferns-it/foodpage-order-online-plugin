@@ -1,10 +1,10 @@
-import React, {Fragment, useContext, useEffect, useState} from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import * as Fa from "react-icons/fa";
 import * as Io from "react-icons/io";
-import {OrderOnlineContext} from "../context/OrderOnlineContext";
+import { OrderOnlineContext } from "../context/OrderOnlineContext";
 import Utils from "../utils/Utils";
 import "../style/OrderOnlineApp.css";
-import {toast, Toaster} from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 import moment from "moment";
 
 function OrderSummary() {
@@ -88,6 +88,7 @@ function OrderSummary() {
     }
 
     const numericDistanceKM = parseFloat(distanceText.match(/[\d\.]+/)[0]);
+    console.log(numericDistanceKM, "numeric");
     if (isNaN(numericDistanceKM)) {
       // console.log("Invalid distance data");
       return "Invalid Distance Data";
@@ -135,26 +136,26 @@ function OrderSummary() {
     fetchDistance();
   }, [deliveryInfo?.shopPostcode, postalCode]);
 
-  console.log(postalCode, "code");
+  console.log(locationResponse, "response");
 
   const handleAddress = () => {
-   
-
     if (cartItems?.cartItems?.length === 0) {
       toast("Your cart is empty!");
       return;
     }
+
     if (delivery === false) {
       if (postalCode == "" || postalCode == null) {
         toast.error("Please add Details of Delivery!");
         return;
       }
-      if (!locationResponse) {
+      if (!locationResponse?.data) {
         toast.error("Location data not loaded or invalid!");
         return;
       }
 
-      const element = locationResponse.rows[0].elements[0];
+      const element = locationResponse?.data?.rows[0].elements[0];
+      console.log(element, "elemeny");
       const elementStatus = element.status;
 
       if (elementStatus === "NOT_FOUND") {
@@ -166,8 +167,9 @@ function OrderSummary() {
 
         return;
       } else if (elementStatus === "OK") {
-        setLocationData(element);
-        const actualDistance = processLocationData(element);
+        setLocationData(locationResponse?.data?.rows[0].elements[0]);
+        console.log(locationData, "logged");
+        const actualDistance = processLocationData(locationData);
         sessionStorage.setItem("postcode", postalCode);
         sessionStorage.setItem("type", delivery);
         sessionStorage.setItem("distance", actualDistance.toString());
@@ -196,7 +198,7 @@ function OrderSummary() {
       }
     }
   };
-  console.log(time, "time");
+
   const toggleFoodLists = (index) => {
     if (index < 0) return;
     setShowAddons((prevList) => {
@@ -218,19 +220,18 @@ function OrderSummary() {
     await deleteSingleCartItem(id, {
       onSuccess: async (res) => {
         await fetchCartList();
-        console.log("Success response", res);
+
         toast.success("Item removed from your cart");
       },
       onFailed: (err) => {
-        console.log("Error on delete cart item", err);
         toast.error("Delete cart item failed!");
       },
     });
   };
 
-  const validateCurrentTime = () => {
+  const validateCurrentTime = (event) => {
     const currentTime = new Date();
-    const [hours, minutes] = time.split(":");
+    const [hours, minutes] = event.target.value.split(":");
     const takeawayTimeData = new Date();
     takeawayTimeData.setHours(parseInt(hours, 10));
     takeawayTimeData.setMinutes(parseInt(minutes, 10));
@@ -250,31 +251,33 @@ function OrderSummary() {
           message:
             "Taking away a time earlier than the current time is not allowed!",
         };
+        toast.error("Less than 30 minutes from Current Time is not allowed!");
+        return;
         break;
       case takeawayTimeData.getTime() - currentTime.getTime() < 30 * 60 * 1000:
         status = {
           status: false,
           message: "Less than 30 minutes from Current Time",
         };
+        toast.error("Less than 30 minutes from Current Time is not allowed!");
+        return;
         break;
       default:
         status = {
           status: true,
-          message: "More than 30 minutes from Current Time",
-          
+          message: "",
         };
     }
 
     setError(status.message);
-    setTime(takeawayTime); // Set the time to the state
+    setTime(event.target.value);
   };
-
+  console.log(error);
   const handleTimeChange = (event) => {
     const newTime = event.target.value;
     setTime(newTime);
   };
 
-  console.log(settings, "settings");
   return (
     <div>
       <Toaster position="top-center" reverseOrder={false} />
@@ -518,7 +521,9 @@ function OrderSummary() {
         type="button"
         className="order_now_192"
         onClick={handleAddress}
-        disabled={!cartItems || cartItems.cartItems.length == 0}
+        disabled={
+          !cartItems || cartItems.cartItems.length == 0 || error.length != 0
+        }
       >
         Order Now
       </button>

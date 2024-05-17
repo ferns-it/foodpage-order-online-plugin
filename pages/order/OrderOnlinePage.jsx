@@ -67,13 +67,12 @@ function OrderOnlinePage() {
       });
 
     setFilteredList(data);
-  }, [menuList]);
+  }, [menuList, categoryList]);
 
   const handleChipClick = (index, catName) => {
     setActiveChipIndex(index);
     setSelectedCategory(catName);
   };
-
 
   return (
     <Fragment>
