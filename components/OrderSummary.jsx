@@ -85,7 +85,7 @@ function OrderSummary() {
   const processLocationData = (locationData) => {
     const mileToKMConversionFactor = 0.62137119;
     const distanceText = locationData?.distance?.text;
-
+    console.log("distanceText", distanceText);
     if (!distanceText) {
       // console.log("Unavailable distance text");
       return "Data Unavailable";
@@ -124,10 +124,48 @@ function OrderSummary() {
           `https://foodpage.co.uk/development/v2/shop/service/delivery?origins=${origin}&destinations=${destination}&units=matrix`
         );
 
-        console.log(response);
-
         if (response.data) {
           setLocationResponseData(response.data);
+
+          const locationDataValue = response.data;
+
+          if (!locationDataValue?.data) {
+            toast.error("Location data not loaded or invalid!");
+            return;
+          }
+
+          const element = locationDataValue?.data?.rows[0].elements[0];
+          const elementStatus = element.status;
+
+          if (elementStatus === "NOT_FOUND") {
+            toast.error("Postal code Not Found!");
+            return;
+          }
+
+          if (elementStatus === "ZERO_RESULTS") {
+            toast.error("Delivery Not Available in this Location!");
+            return;
+          }
+
+          if (elementStatus === "OK") {
+            setLocationData(element);
+
+            const actualDistance = processLocationData(locationData);
+
+            // sessionStorage.setItem("postcode", postalCode);
+            // sessionStorage.setItem("type", delivery);
+            // sessionStorage.setItem("distance", actualDistance.toString());
+
+            if (
+              actualDistance !== undefined &&
+              parseFloat(deliveryInfo?.maxDeliveryRadius) >=
+                parseFloat(actualDistance)
+            ) {
+              toast("success");
+            } else {
+              toast.error("Location is outside the delivery radius.");
+            }
+          }
         } else {
           toast.error("Error on fetching location data");
         }
@@ -156,45 +194,6 @@ function OrderSummary() {
       if (postalCode == "" || postalCode == null) {
         toast.error("Please add Details of Delivery!");
         return;
-      }
-      if (!locationResponseData?.data) {
-        toast.error("Location data not loaded or invalid!");
-        return;
-      }
-
-      const element = locationResponseData?.data?.rows[0].elements[0];
-      const elementStatus = element.status;
-
-      console.log("element Status", elementStatus, element);
-
-      if (elementStatus === "NOT_FOUND") {
-        toast.error("Postal code Not Found!");
-
-        return;
-      } else if (elementStatus === "ZERO_RESULTS") {
-        toast.error("Delivery Not Available in this Location!");
-
-        return;
-      } else if (elementStatus === "OK") {
-        setLocationData(element);
-        console.log(locationData, "logged");
-        const actualDistance = processLocationData(locationData);
-        sessionStorage.setItem("postcode", postalCode);
-        sessionStorage.setItem("type", delivery);
-        sessionStorage.setItem("distance", actualDistance.toString());
-
-        if (
-          actualDistance !== undefined &&
-          parseFloat(deliveryInfo?.maxDeliveryRadius) >=
-            parseFloat(actualDistance)
-        ) {
-          // navigate("/guest_login");
-          toast("success");
-        } else {
-          toast.error("Location is outside the delivery radius.");
-        }
-      } else {
-        toast.error("Error with location data!");
       }
     } else {
       if (time == null) {
