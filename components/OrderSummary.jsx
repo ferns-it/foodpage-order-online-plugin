@@ -38,6 +38,8 @@ function OrderSummary() {
 
   let distanceRange = 0;
 
+  console.log(locationResponse);
+
   useEffect(() => {
     const shopUrl = "le-arabia";
     getShopSettings(shopUrl);
@@ -108,42 +110,30 @@ function OrderSummary() {
     return actualDistance;
   };
 
-  useEffect(() => {
-    const fetchDistance = async () => {
-      if (postalCode == null) {
-        return;
-      } else {
-        if (deliveryInfo?.shopPostcode && postalCode) {
-          try {
-            const res = await getLocation(
-              deliveryInfo?.shopPostcode,
-              postalCode
-            );
-            if (res.error) {
-              console.error("Failed to fetch distance");
-            } else {
-              // console.log(res.data);
-            }
-          } catch (error) {
-            console.error("Error fetching distance: " + error.message);
-          }
-        } else {
-          // toast.error("Postcodes not available.");
-          return;
+  const fetchDistance = async () => {
+    if (postalCode == null) return;
+
+    if (deliveryInfo?.shopPostcode && postalCode) {
+      try {
+        const res = await getLocation(deliveryInfo?.shopPostcode, postalCode);
+        if (res.error) {
+          console.error("Failed to fetch distance");
         }
+      } catch (error) {
+        console.error("Error fetching distance: " + error.message);
       }
-    };
-
-    fetchDistance();
-  }, [deliveryInfo?.shopPostcode, postalCode]);
-
-  console.log(locationResponse, "response");
+    } else {
+      return;
+    }
+  };
 
   const handleAddress = () => {
     if (cartItems?.cartItems?.length === 0) {
       toast("Your cart is empty!");
       return;
     }
+
+    fetchDistance();
 
     if (delivery === false) {
       if (postalCode == "" || postalCode == null) {
@@ -522,9 +512,7 @@ function OrderSummary() {
         type="button"
         className="order_now_192"
         onClick={handleAddress}
-        disabled={
-          !cartItems || cartItems.cartItems.length == 0 || error.length != 0
-        }
+        disabled={!cartItems || cartItems.cartItems.length == 0}
       >
         Order Now
       </button>

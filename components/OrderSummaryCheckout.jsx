@@ -24,8 +24,6 @@ function OrderSummaryCheckout() {
     notes: "",
   });
 
-  console.log(cartItems);
-
   const [fieldError, setFieldError] = useState(false);
 
   useEffect(() => {
