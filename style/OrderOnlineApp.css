@@ -1351,6 +1351,7 @@ body {
   border: none;
   border-radius: 2px;
   margin: 30px 0;
+  padding-right: 80px;
 }
 .login_summary_card_ico_0928 {
   position: absolute;
@@ -1365,6 +1366,7 @@ body {
   border-radius: 5px;
   padding: 4px 15px;
   font-size: 1.5rem;
+  z-index: 2;
 }
 .login_summary_card_0928 > h4 {
   font-size: 20px;
@@ -1385,6 +1387,9 @@ body {
 }
 .online_order_plugin_input_2939 {
   border-radius: 2px;
+}
+.online_order_plugin_input_2939.error___{
+  border-color: #e61a16 !important;
 }
 .login_order_online_form_0283 {
   transition: all 0.3s ease-in-out;
@@ -1446,6 +1451,23 @@ body {
 }
 .payment_card_order_online_093.selected > i{
   color: #252525;
+}
+.checkout_order_online_form_0283{
+  height: 100%;
+  overflow: hidden;
+}
+.order_online_horiz_line{
+  position: absolute;
+  height: 80%;
+  width: 1px;
+  border: 1px dashed #7777;
+  top: 10px;
+  right: 55px;
+}
+.oos_err_29102{
+  font-size: 12px;
+  font-weight: 600;
+  color: #e61a16;
 }
 @media screen and (max-width: 1190px) {
   .category_card_009 {
