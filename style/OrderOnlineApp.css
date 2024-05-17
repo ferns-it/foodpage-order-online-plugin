@@ -1456,6 +1456,9 @@ body {
   height: 100%;
   overflow: hidden;
 }
+.checkout_order_online_form_0283.hide{
+  height: 0 !important;
+}
 .order_online_horiz_line{
   position: absolute;
   height: 80%;

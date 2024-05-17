@@ -1,12 +1,14 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import { PiKey } from "react-icons/pi";
 import { RiMoneyEuroCircleLine } from "react-icons/ri";
 import * as Bs from "react-icons/bs";
 
 import "../style/OrderOnlineApp.css";
 import toast from "react-hot-toast";
+import { OrderOnlineContext } from "../context/OrderOnlineContext";
 
 function OrderSummaryCheckout() {
+  const { delivery, cartItems } = useContext(OrderOnlineContext);
   const [paymentOption, setPaymentOption] = useState("");
   const [activeCard, setActiveCard] = useState("login");
 
@@ -22,10 +24,11 @@ function OrderSummaryCheckout() {
     notes: "",
   });
 
+  console.log(cartItems);
+
   const [fieldError, setFieldError] = useState(false);
 
   useEffect(() => {
-    // sessionStorage.setItem("postcode", "CM1 1SL");
     const postalCode = sessionStorage.getItem("postcode");
     if (!postalCode) {
       toast.error("Postal code is undefined");
@@ -33,6 +36,12 @@ function OrderSummaryCheckout() {
     }
     setFormState({ ...formState, postalCode });
   }, []);
+
+  useEffect(() => {
+    if (delivery === null) return;
+
+    setActiveCard(delivery ? "login" : "payment");
+  }, [delivery]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,8 +70,6 @@ function OrderSummaryCheckout() {
     }
   };
 
-
-
   return (
     <Fragment>
       <section className="order_summary_checkout">
@@ -78,9 +85,9 @@ function OrderSummaryCheckout() {
 
                 <div
                   className={
-                    "login_order_online_form_0283 " + activeCard == "login"
-                      ? "hide"
-                      : ""
+                    activeCard === "login" && delivery === true
+                      ? "login_order_online_form_0283 "
+                      : "login_order_online_form_0283 hide"
                   }
                 >
                   <p id="sub_summary_txt">Enter your details</p>
@@ -193,7 +200,8 @@ function OrderSummaryCheckout() {
                             id=""
                             className={
                               fieldError &&
-                              (!formState.phone || formState?.phone.length === 0)
+                              (!formState.phone ||
+                                formState?.phone.length === 0)
                                 ? "form-control online_order_plugin_input_2939 error___"
                                 : "form-control online_order_plugin_input_2939 "
                             }
@@ -367,7 +375,13 @@ function OrderSummaryCheckout() {
 
                 <h4>Payment</h4>
                 <p>Secure Payment Options</p>
-                <div className="checkout_order_online_form_0283">
+                <div
+                  className={
+                    activeCard === "payment" && delivery === false
+                      ? "checkout_order_online_form_0283"
+                      : "checkout_order_online_form_0283 hide"
+                  }
+                >
                   <div className="row">
                     <div className="col-6">
                       <div

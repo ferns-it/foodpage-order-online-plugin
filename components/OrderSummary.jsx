@@ -1,10 +1,10 @@
-import React, {Fragment, useContext, useEffect, useState} from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import * as Fa from "react-icons/fa";
 import * as Io from "react-icons/io";
-import {OrderOnlineContext} from "../context/OrderOnlineContext";
+import { OrderOnlineContext } from "../context/OrderOnlineContext";
 import Utils from "../utils/Utils";
 import "../style/OrderOnlineApp.css";
-import {toast, Toaster} from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 import moment from "moment";
 
 function OrderSummary() {
@@ -18,6 +18,8 @@ function OrderSummary() {
     menuList,
     settings,
     getShopSettings,
+    delivery,
+    setDelivery,
   } = useContext(OrderOnlineContext);
 
   const [showAddons, setShowAddons] = useState(null);
@@ -31,7 +33,6 @@ function OrderSummary() {
   const [time, setTime] = useState("");
   const [takeaway, setTakeaway] = useState(null);
   const [takeawayTotal, setTakeawayTotal] = useState(null);
-  const [delivery, setDelivey] = useState(false);
   const [deliveryInfo, setDeliveryInfo] = useState(null);
   const [postalCode, setPostalCode] = useState("");
 
@@ -138,8 +139,6 @@ function OrderSummary() {
   console.log(postalCode, "code");
 
   const handleAddress = () => {
-   
-
     if (cartItems?.cartItems?.length === 0) {
       toast("Your cart is empty!");
       return;
@@ -261,7 +260,6 @@ function OrderSummary() {
         status = {
           status: true,
           message: "More than 30 minutes from Current Time",
-          
         };
     }
 
@@ -447,7 +445,7 @@ function OrderSummary() {
             type="radio"
             className="radio_btn"
             checked={!delivery}
-            onChange={() => setDelivey(false)}
+            onChange={() => setDelivery(false)}
           />
           <label className="radio_label">Delivery</label>
         </div>
@@ -457,9 +455,9 @@ function OrderSummary() {
               <input
                 type="radio"
                 className="radio_btn"
-                onClick={() => setDelivey(true)}
+                onClick={() => setDelivery(true)}
                 checked={delivery}
-                onChange={() => setDelivey(true)}
+                onChange={() => setDelivery(true)}
               />
               <label className="radio_label">Take away</label>
             </div>

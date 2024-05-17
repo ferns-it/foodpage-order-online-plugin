@@ -7,6 +7,7 @@ export const OrderOnlineContext = createContext();
 
 export const OrderOnlineContextProvider = (props) => {
   const [paramsValues, setParamsValues] = useState(null);
+  const [delivery, setDelivery] = useState(false);
   const {
     fetchMenuList,
     menuList,
@@ -114,6 +115,8 @@ export const OrderOnlineContextProvider = (props) => {
         setDeliveryFee,
         paymentData,
         orderDetails,
+        delivery,
+        setDelivery,
       }}
     >
       {props.children}
