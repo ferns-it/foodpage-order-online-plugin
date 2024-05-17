@@ -6,6 +6,7 @@ import Utils from "../utils/Utils";
 import "../style/OrderOnlineApp.css";
 import { toast, Toaster } from "react-hot-toast";
 import moment from "moment";
+import axios from "axios";
 
 function OrderSummary() {
   const {
@@ -13,13 +14,14 @@ function OrderSummary() {
     deleteSingleCartItem,
     cartLoading,
     fetchCartList,
-    getLocation,
     locationResponse,
     menuList,
     settings,
     getShopSettings,
     delivery,
     setDelivery,
+    locationResponseData,
+    setLocationResponseData,
   } = useContext(OrderOnlineContext);
 
   const [showAddons, setShowAddons] = useState(null);
@@ -35,10 +37,9 @@ function OrderSummary() {
   const [takeawayTotal, setTakeawayTotal] = useState(null);
   const [deliveryInfo, setDeliveryInfo] = useState(null);
   const [postalCode, setPostalCode] = useState("");
+  const [locationLoading, setLocationLoading] = useState(false);
 
   let distanceRange = 0;
-
-  console.log(locationResponse);
 
   useEffect(() => {
     const shopUrl = "le-arabia";
@@ -114,20 +115,34 @@ function OrderSummary() {
     if (postalCode == null) return;
 
     if (deliveryInfo?.shopPostcode && postalCode) {
+      let origin = deliveryInfo?.shopPostcode;
+      let destination = postalCode;
+
       try {
-        const res = await getLocation(deliveryInfo?.shopPostcode, postalCode);
-        if (res.error) {
-          console.error("Failed to fetch distance");
+        setLocationLoading(true);
+        const response = await axios.get(
+          `https://foodpage.co.uk/development/v2/shop/service/delivery?origins=${origin}&destinations=${destination}&units=matrix`
+        );
+
+        console.log(response);
+
+        if (response.data) {
+          setLocationResponseData(response.data);
+        } else {
+          toast.error("Error on fetching location data");
         }
       } catch (error) {
-        console.error("Error fetching distance: " + error.message);
+        console.error("Error on fetching location:", error);
+        toast.error("Failed to fetch location data");
+      } finally {
+        setLocationLoading(false);
       }
     } else {
       return;
     }
   };
 
-  const handleAddress = () => {
+  const handleAddress = async () => {
     if (cartItems?.cartItems?.length === 0) {
       toast("Your cart is empty!");
       return;
@@ -135,19 +150,22 @@ function OrderSummary() {
 
     fetchDistance();
 
+    if (!locationResponseData) return;
+
     if (delivery === false) {
       if (postalCode == "" || postalCode == null) {
         toast.error("Please add Details of Delivery!");
         return;
       }
-      if (!locationResponse?.data) {
+      if (!locationResponseData?.data) {
         toast.error("Location data not loaded or invalid!");
         return;
       }
 
-      const element = locationResponse?.data?.rows[0].elements[0];
-      console.log(element, "elemeny");
+      const element = locationResponseData?.data?.rows[0].elements[0];
       const elementStatus = element.status;
+
+      console.log("element Status", elementStatus, element);
 
       if (elementStatus === "NOT_FOUND") {
         toast.error("Postal code Not Found!");
@@ -158,7 +176,7 @@ function OrderSummary() {
 
         return;
       } else if (elementStatus === "OK") {
-        setLocationData(locationResponse?.data?.rows[0].elements[0]);
+        setLocationData(element);
         console.log(locationData, "logged");
         const actualDistance = processLocationData(locationData);
         sessionStorage.setItem("postcode", postalCode);
@@ -263,7 +281,7 @@ function OrderSummary() {
     setError(status.message);
     setTime(event.target.value);
   };
-  console.log(error);
+  // console.log(error);
   const handleTimeChange = (event) => {
     const newTime = event.target.value;
     setTime(newTime);
@@ -512,7 +530,11 @@ function OrderSummary() {
         type="button"
         className="order_now_192"
         onClick={handleAddress}
-        disabled={!cartItems || cartItems.cartItems.length == 0}
+        disabled={
+          !cartItems ||
+          cartItems.cartItems.length == 0 ||
+          locationLoading === true
+        }
       >
         Order Now
       </button>

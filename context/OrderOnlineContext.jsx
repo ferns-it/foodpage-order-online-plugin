@@ -8,6 +8,8 @@ export const OrderOnlineContext = createContext();
 export const OrderOnlineContextProvider = (props) => {
   const [paramsValues, setParamsValues] = useState(null);
   const [delivery, setDelivery] = useState(false);
+  const [locationResponseData, setLocationResponseData] = useState(null);
+
   const {
     fetchMenuList,
     menuList,
@@ -21,7 +23,6 @@ export const OrderOnlineContextProvider = (props) => {
     cartItems,
     cartLoading,
     deleteSingleCartItem,
-    getLocation,
     locationResponse,
     deleteCartItem,
   } = useMenus();
@@ -82,7 +83,6 @@ export const OrderOnlineContextProvider = (props) => {
         cartItems,
         cartLoading,
         deleteSingleCartItem,
-        getLocation,
         locationResponse,
         settings,
         getShopSettings,
@@ -117,6 +117,8 @@ export const OrderOnlineContextProvider = (props) => {
         orderDetails,
         delivery,
         setDelivery,
+        locationResponseData,
+        setLocationResponseData,
       }}
     >
       {props.children}

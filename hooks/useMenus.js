@@ -12,6 +12,7 @@ const useMenus = () => {
   const [locationResponse, setLocationResponse] = useState(null);
   const [settingsLoading, setSettingsLoading] = useState(false);
 
+
   const fetchMenuList = async (shopId) => {
     try {
       if (!shopId) return;
@@ -117,30 +118,31 @@ const useMenus = () => {
     }
   };
 
-  const getLocation = async (origin, destination) => {
-    try {
-      setMenuLoading(true);
-      const response = await new Promise((resolve, reject) => {
-        BaseClient.get(
-          `${APIEndpoints.locationSettings}/delivery?origins=${origin}&destinations=${destination}&units=matrix`,
-          null,
-          {
-            onSuccess: (res) => {
-              setLocationResponse(res.data);
-            },
-            onFailed: (err) => {
-              console.log("Error on fetching menus", err);
-              reject(err);
-            },
-          }
-        );
-      });
-
-      return response;
-    } finally {
-      setMenuLoading(false);
-    }
-  };
+  // const getLocation = async (origin, destination) => {
+  //   try {
+  //     console.log(origin, destination);
+  //     setMenuLoading(true);
+  //     const response = await new Promise((resolve, reject) => {
+  //       BaseClient.get(
+  //         `${APIEndpoints.locationSettings}/delivery?origins=${origin}&destinations=${destination}&units=matrix`,
+  //         null,
+  //         {
+  //           onSuccess: (res) => {
+  //             resolve(res.data);
+  //           },
+  //           onFailed: (err) => {
+  //             console.log("Error on fetching menus", err);
+  //             reject(err);
+  //           },
+  //         }
+  //       );
+  //     });
+  //     setLocationResponse(response);
+  //     return response;
+  //   } finally {
+  //     setMenuLoading(false);
+  //   }
+  // };
 
   const deleteCartItem = async (id, { onSuccess, onFailed }) => {
     try {
@@ -168,9 +170,8 @@ const useMenus = () => {
     cartItems,
     cartLoading,
     deleteSingleCartItem,
-    getLocation,
     locationResponse,
-    deleteCartItem,
+    deleteCartItem
   };
 };
 
