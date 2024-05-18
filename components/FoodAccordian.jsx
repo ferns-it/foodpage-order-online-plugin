@@ -4,7 +4,7 @@ import * as Tb from "react-icons/tb";
 import { OrderOnlineContext } from "../context/OrderOnlineContext";
 import Utils from "../utils/Utils";
 import AddOnsModal from "./AddOnsModal";
-import "../style/OrderOnlineApp.css"
+import "../style/OrderOnlineApp.css";
 
 function FoodAccordian() {
   const { categoryList, fetchProductsList } = useContext(OrderOnlineContext);
@@ -144,18 +144,7 @@ function FoodAccordian() {
             );
           })}
       </section>
-      <div className="checkout_responsive_area">
-        <div className="container">
-          <div className="row">
-            <div className="col-10">
-              <button className="checkout_resp_btn_021">Checkout</button>
-            </div>
-            <div className="col-2">
-              <span className="checkout_resp_price">£190</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      
     </Fragment>
   );
 }

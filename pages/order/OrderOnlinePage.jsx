@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import * as Md from "react-icons/md";
 import * as Pi from "react-icons/pi";
+import { MdOutlineClose } from "react-icons/md";
 import * as Fa from "react-icons/fa";
 import * as Ti from "react-icons/ti";
 import * as Lu from "react-icons/lu";
@@ -31,7 +32,7 @@ function OrderOnlinePage() {
   } = useContext(OrderOnlineContext);
   const [filteredList, setFilteredList] = useState(null);
   const [activeChipIndex, setActiveChipIndex] = useState(-1);
-
+  const [activeSmallScreen, setActiveSmallScreen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("All");
 
@@ -143,7 +144,33 @@ function OrderOnlinePage() {
                   </div>
                 </div>
               </div>
-
+              <div className="checkout_responsive_area">
+                <div className="container">
+                  <div className="row">
+                    <div className="col-10">
+                      <button
+                        className="checkout_resp_btn_021"
+                        onClick={() => setActiveSmallScreen(!activeSmallScreen)}
+                      >
+                        Order Summary
+                      </button>
+                      {activeSmallScreen && (
+                        <>
+                          <div className="check-res p-3">
+                            <button
+                              className="tog"
+                              onClick={() => setActiveSmallScreen(false)}
+                            >
+                              <MdOutlineClose />
+                            </button>
+                            <OrderSummary />
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div
                 className={
                   isSticky
