@@ -28,7 +28,6 @@ function OrderSummaryCheckout() {
     stripePromise,
     fetchCartList,
     options,
-    loading,
     amount,
     settings,
   } = useContext(OrderOnlineContext);

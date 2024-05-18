@@ -1489,6 +1489,7 @@ body {
   color: #fff !important;
   padding: 10px;
   position: relative;
+  margin: 0;
 }
 .checkout_summary_order_online_heads {
   background-color: #e03f3f;
@@ -1544,6 +1545,41 @@ body {
   background: #1b1b1b;
 }
 
+.order_online_summary_checkout_table {
+  background: #fff;
+  font-size: 14px;
+  font-size: 0.875rem;
+  font-family: "Poppins", Helvetica, sans-serif;
+  color: #444;
+}
+.order_online_food_list_checkout_83 {
+  position: relative;
+  max-height: 313px;
+  overflow: overlay;
+}
+
+/* The entire scrollbar */
+.order_online_food_list_checkout_83::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.order_online_food_list_checkout_83::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.order_online_food_list_checkout_83::-webkit-scrollbar-thumb {
+  background: #7777;
+  border-radius: 6px;
+}
+
+.order_online_food_list_checkout_83::-webkit-scrollbar-thumb:hover {
+  background: #787878;
+}
+
+.order_online_food_list_checkout_83::-webkit-scrollbar-corner {
+  background: #f1f1f1;
+}
 @-webkit-keyframes wait {
   0% {
     left: -7px;
