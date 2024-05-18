@@ -525,14 +525,14 @@ function OrderSummaryCheckout() {
                   <RiMoneyEuroCircleLine />
                 </div>
 
-                {loading ? (
+                {!loading ? (
                   <Fragment>
                     <h4>Payment</h4>
                     <p>Secure Payment Options</p>
 
                     <div
                       className={
-                        activeCard === "payment" && delivery === true
+                        activeCard === "payment" 
                           ? "checkout_order_online_form_0283"
                           : "checkout_order_online_form_0283 hide"
                       }
