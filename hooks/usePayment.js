@@ -12,7 +12,7 @@ export default function usePayment() {
   const [paymentData, setPaymentData] = useState(null);
   const [type, setType] = useState(null);
   const [amount, setAmount] = useState(0);
-  
+
   const initialValue = {
     fullName: "",
     email: "",
@@ -33,23 +33,16 @@ export default function usePayment() {
   };
 
   const createPaymentIntent = async (payload, { onSuccess, onFailed }) => {
-    try {
-      console.log(payload);
-      setLoading(true);
-      await BaseClient.post(APIEndpoints.createPaymentIntent, payload, {
-        onSuccess: (data) => {
-          console.log(data);
-          onSuccess(data);
-          setPaymentData(data);
-        },
-        onFailed: (error) => {
-          console.error("error", error);
-        },
-        // authentication: true,
-      });
-    } finally {
-      setLoading(false);
-    }
+    await BaseClient.post(APIEndpoints.createPaymentIntent, payload, {
+      onSuccess: (data) => {
+        onSuccess(data);
+        setPaymentData(data);
+      },
+      onFailed: (error) => {
+        console.error("error", error);
+      },
+      // authentication: true,
+    });
   };
 
   const onPaymentElementReady = () => {

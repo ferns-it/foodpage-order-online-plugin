@@ -47,6 +47,7 @@ function OrderSummaryCheckout() {
   });
   const [fieldError, setFieldError] = useState(false);
   const [discountData, setDiscountData] = useState(null);
+  const [intentLoading, setIntentLoading] = useState(false);
 
   console.log(activeCard);
 
@@ -121,28 +122,32 @@ function OrderSummaryCheckout() {
     setPaymentOption("stripe");
 
     if (paymentData == null) {
-      await createPaymentIntent(
-        {
-          devliveryCharges: deliveryFee * 100,
-          discountAmount: discount * 100,
-          shopID: restId,
-        },
-
-        {
-          onSuccess: (res) => {
-            const result = res?.data?.data?.paymentIntent?.client_secret;
-            console.log(result);
-            if (result != null) {
-              setStripeClientSecret(result);
-            }
+      try {
+        setIntentLoading(true);
+        await createPaymentIntent(
+          {
+            devliveryCharges: deliveryFee * 100,
+            discountAmount: discount * 100,
+            shopID: restId,
           },
 
-          onFailed: (error) => {
-            toast.error(error?.message);
-          },
-        }
-      );
-      return;
+          {
+            onSuccess: (res) => {
+              const result = res?.data?.data?.paymentIntent?.client_secret;
+              console.log(result);
+              if (result != null) {
+                setStripeClientSecret(result);
+              }
+            },
+
+            onFailed: (error) => {
+              toast.error(error?.message);
+            },
+          }
+        );
+      } finally {
+        setIntentLoading(false);
+      }
     }
   };
 
@@ -525,14 +530,14 @@ function OrderSummaryCheckout() {
                   <RiMoneyEuroCircleLine />
                 </div>
 
-                {loading ? (
+                {!intentLoading ? (
                   <Fragment>
                     <h4>Payment</h4>
                     <p>Secure Payment Options</p>
 
                     <div
                       className={
-                        activeCard === "payment" && delivery === true
+                        activeCard === "payment"
                           ? "checkout_order_online_form_0283"
                           : "checkout_order_online_form_0283 hide"
                       }
