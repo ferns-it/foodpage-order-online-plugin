@@ -161,9 +161,7 @@ function CheckoutSummaryComp() {
     }
   }, [cartItems, deliveryInfo, discount]);
 
-  useEffect(() => {
-    console.log(deliveryCharge);
-  }, [deliveryCharge]);
+
   return (
     <Fragment>
       <div className="m-0 p-0">

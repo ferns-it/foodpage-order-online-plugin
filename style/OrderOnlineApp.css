@@ -1494,6 +1494,10 @@ body {
   height: auto;
   color: #fff;
 }
+.checkout_btn_order_online{
+  background-color: #e03f3f;
+  color: #ffff;
+}
 
 @media screen and (max-width: 1190px) {
   .category_card_009 {

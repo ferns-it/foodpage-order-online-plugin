@@ -7,10 +7,12 @@ import "../style/OrderOnlineApp.css";
 import toast from "react-hot-toast";
 import { OrderOnlineContext } from "../context/OrderOnlineContext";
 import CheckoutSummaryComp from "./CheckoutSummaryComp";
-import StripePaymentElement from "../../../Component/StripePaymentElement";
 import { Elements } from "@stripe/react-stripe-js";
+import StripePaymentElementOrderOnline from "./StripePaymentElementOrderOnline";
+import { useNavigate } from "react-router-dom";
 
 function OrderSummaryCheckout() {
+  const navigate = useNavigate();
   const {
     delivery,
     cartItems,
@@ -50,7 +52,7 @@ function OrderSummaryCheckout() {
     notes: "",
   });
   const [fieldError, setFieldError] = useState(false);
-  const [discountData, setDiscountData] = useState(null)
+  const [discountData, setDiscountData] = useState(null);
 
   console.log(stripePaymentClientSecret);
 
@@ -121,7 +123,7 @@ function OrderSummaryCheckout() {
     const discount = sessionStorage.getItem("discount");
     const fees = sessionStorage.getItem("delFee");
     const restId = sessionStorage.getItem("restaurantId");
-    setDiscountData(discount)
+    setDiscountData(discount);
     setPaymentOption("stripe");
 
     if (paymentData == null) {
@@ -150,7 +152,63 @@ function OrderSummaryCheckout() {
     }
   };
 
-  console.log(stripePaymentClientSecret);
+  const completeOrder = async () => {
+    const data = paymentData?.data?.data;
+
+    let deliveryType;
+    if (delivery == false) {
+      deliveryType = "Home Delivery";
+    } else {
+      deliveryType = "Take Away";
+    }
+    const paymentMethod = paymentOption === "card" ? "STRIPE" : "COD";
+
+    if (paymentData != null) {
+      const payload = {
+        shopID: data?.shopID,
+        discount: discountData * 100,
+        amount: amount * 100,
+        deliveryType: deliveryType,
+        deliveryCharge: data?.deliveryCharge,
+        couponCode: "",
+        couponType: "",
+        couponValue: "",
+        couponAmount: "",
+        paymentStatus: "1",
+        paymentGatway: paymentMethod,
+        transactionID: data?.paymentIntent?.id,
+        approxDeliveryTime: settings?.deliveryInfo?.minWaitingTime,
+        deliveryNotes: formState?.notes,
+        deliveryLocation: formState?.postalCode,
+        takeawayTime: "",
+        customer: {
+          customerName: formState?.firstNameLastName,
+          line1: formState?.addressLine1,
+          line2: formState?.addressLine2,
+          town: formState?.townCity,
+          postcode: formState?.postalCode,
+          county: formState?.county,
+          landmark: "",
+          email: formState?.emailAddress,
+          phone: formState?.phone,
+        },
+      };
+
+      await completeCheckout(payload, {
+        onSuccess: async (res) => {
+          toast.success("Order Confirmed!");
+          await fetchCartList();
+
+          setTimeout(() => {
+            navigate("/");
+          }, 1000);
+        },
+        onFailed: (err) => {
+          toast.error(err.message);
+        },
+      });
+    }
+  };
 
   return (
     <Fragment>
@@ -517,8 +575,9 @@ function OrderSummaryCheckout() {
                   {paymentOption === "stripe" && stripePaymentClientSecret && (
                     <div className="payement_method checkout_form mt-3 pt-3 card p-3 m-1">
                       <Elements stripe={stripePromise} options={options}>
-                        <StripePaymentElement
+                        <StripePaymentElementOrderOnline
                           paymentSuccess={async (intentResult) => {
+                            console.log(intentResult);
                             await completeOrder();
                           }}
                           paymentFailure={(err) => {
