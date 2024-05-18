@@ -22,6 +22,7 @@ function OrderSummary() {
     setDelivery,
     locationResponseData,
     setLocationResponseData,
+    setisCheckoutActive,
   } = useContext(OrderOnlineContext);
 
   const [showAddons, setShowAddons] = useState(null);
@@ -83,9 +84,10 @@ function OrderSummary() {
   }, [cartItems, deliveryInfo]);
 
   const processLocationData = (locationData) => {
+    if (!locationData) return;
     const mileToKMConversionFactor = 0.62137119;
     const distanceText = locationData?.distance?.text;
-    console.log("distanceText", distanceText);
+
     if (!distanceText) {
       // console.log("Unavailable distance text");
       return "Data Unavailable";
@@ -112,7 +114,10 @@ function OrderSummary() {
   };
 
   const fetchDistance = async () => {
-    if (postalCode == null) return;
+    if (postalCode == null) {
+      console.log("Invalid postcode!");
+      return;
+    }
 
     if (deliveryInfo?.shopPostcode && postalCode) {
       let origin = deliveryInfo?.shopPostcode;
@@ -128,10 +133,10 @@ function OrderSummary() {
           setLocationResponseData(response.data);
 
           const locationDataValue = response.data;
-
+          console.log(locationDataValue);
           if (!locationDataValue?.data) {
             toast.error("Location data not loaded or invalid!");
-            return;
+            return true;
           }
 
           const element = locationDataValue?.data?.rows[0].elements[0];
@@ -139,39 +144,43 @@ function OrderSummary() {
 
           if (elementStatus === "NOT_FOUND") {
             toast.error("Postal code Not Found!");
-            return;
+            return true;
           }
 
           if (elementStatus === "ZERO_RESULTS") {
             toast.error("Delivery Not Available in this Location!");
-            return;
+            return true;
           }
 
           if (elementStatus === "OK") {
             setLocationData(element);
 
-            const actualDistance = processLocationData(locationData);
+            console.log(element);
 
-            // sessionStorage.setItem("postcode", postalCode);
-            // sessionStorage.setItem("type", delivery);
-            // sessionStorage.setItem("distance", actualDistance.toString());
+            const actualDistance = processLocationData(element);
+
+            console.log(actualDistance);
 
             if (
               actualDistance !== undefined &&
               parseFloat(deliveryInfo?.maxDeliveryRadius) >=
                 parseFloat(actualDistance)
             ) {
-              toast("success");
+              sessionStorage.setItem("distance", actualDistance.toString());
+              return false;
             } else {
               toast.error("Location is outside the delivery radius.");
+              return true;
             }
           }
         } else {
           toast.error("Error on fetching location data");
+          return true;
         }
       } catch (error) {
         console.error("Error on fetching location:", error);
         toast.error("Failed to fetch location data");
+        return true;
       } finally {
         setLocationLoading(false);
       }
@@ -186,23 +195,33 @@ function OrderSummary() {
       return;
     }
 
-    fetchDistance();
-
-    if (!locationResponseData) return;
-
     if (delivery === false) {
+      console.log(postalCode);
       if (postalCode == "" || postalCode == null) {
         toast.error("Please add Details of Delivery!");
         return;
       }
-    } else {
+      const isLocationValidationErr = await fetchDistance();
+
+      if (isLocationValidationErr === false) {
+        toast.success("success");
+        sessionStorage.setItem("postcode", postalCode);
+        sessionStorage.setItem("type", delivery);
+        setisCheckoutActive(true);
+      } else {
+        setisCheckoutActive(false);
+      }
+      return;
+    }
+
+    if (delivery === true) {
       if (time == null) {
         toast.error("Please Choose Takeaway Time!");
+        setisCheckoutActive(false);
         return;
       } else {
         sessionStorage.setItem("type", delivery);
-        // navigate("/guest_login");
-        toast("takeaway success");
+        setisCheckoutActive(true);
       }
     }
   };
@@ -279,11 +298,6 @@ function OrderSummary() {
 
     setError(status.message);
     setTime(event.target.value);
-  };
-  // console.log(error);
-  const handleTimeChange = (event) => {
-    const newTime = event.target.value;
-    setTime(newTime);
   };
 
   return (
@@ -535,7 +549,14 @@ function OrderSummary() {
           locationLoading === true
         }
       >
-        Order Now
+        {!locationLoading ? (
+          "Order Now"
+        ) : (
+          <div
+            class="spinner-border spinner-border-sm text-light"
+            role="status"
+          ></div>
+        )}
       </button>
     </div>
   );

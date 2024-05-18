@@ -34,9 +34,11 @@ export default function usePayment() {
 
   const createPaymentIntent = async (payload, { onSuccess, onFailed }) => {
     try {
+      console.log(payload);
       setLoading(true);
       await BaseClient.post(APIEndpoints.createPaymentIntent, payload, {
         onSuccess: (data) => {
+          console.log(data);
           onSuccess(data);
           setPaymentData(data);
         },

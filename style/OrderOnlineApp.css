@@ -1388,7 +1388,7 @@ body {
 .online_order_plugin_input_2939 {
   border-radius: 2px;
 }
-.online_order_plugin_input_2939.error___{
+.online_order_plugin_input_2939.error___ {
   border-color: #e61a16 !important;
 }
 .login_order_online_form_0283 {
@@ -1397,7 +1397,7 @@ body {
   margin-top: 20px;
   overflow: hidden;
 }
-.login_order_online_form_0283.hide{
+.login_order_online_form_0283.hide {
   height: 0;
 }
 .online_order_plugin_txtarea_2939 {
@@ -1425,11 +1425,11 @@ body {
 .online_order_plugin_login_btn:disabled {
   background-color: #da6d6d;
 }
-.payment_card_order_online_093{
+.payment_card_order_online_093 {
   padding: 15px 0 12px 0;
   cursor: pointer;
 }
-.payment_card_order_online_093 > i{
+.payment_card_order_online_093 > i {
   display: flex;
   font-size: 1.5rem;
   text-align: center !important;
@@ -1438,28 +1438,28 @@ body {
   color: #777777dd;
   transition: all 0.2s ease-in-out;
 }
-.payment_card_order_online_093 i > h4{
+.payment_card_order_online_093 i > h4 {
   font-size: 18px;
   text-align: center;
   padding: 0 10px;
 }
-.payment_card_order_online_093:hover > i{
+.payment_card_order_online_093:hover > i {
   color: #3c3c3c;
 }
-.payment_card_order_online_093.selected{
+.payment_card_order_online_093.selected {
   border-color: #e03f3f;
 }
-.payment_card_order_online_093.selected > i{
+.payment_card_order_online_093.selected > i {
   color: #252525;
 }
-.checkout_order_online_form_0283{
+.checkout_order_online_form_0283 {
   height: 100%;
   overflow: hidden;
 }
-.checkout_order_online_form_0283.hide{
+.checkout_order_online_form_0283.hide {
   height: 0 !important;
 }
-.order_online_horiz_line{
+.order_online_horiz_line {
   position: absolute;
   height: 80%;
   width: 1px;
@@ -1467,11 +1467,34 @@ body {
   top: 10px;
   right: 55px;
 }
-.oos_err_29102{
+.order_online_horiz_line.short{
+  height: 30%;
+}
+.oos_err_29102 {
   font-size: 12px;
   font-weight: 600;
   color: #e61a16;
 }
+.checkout_summary_order_online_heads h5 {
+  color: #fff !important;
+  font-size: 17px;
+  padding: 10px;
+  position: relative;
+  text-align: center;
+}
+.checkout_summary_order_online_heads h4 {
+  color: #fff !important;
+  padding: 10px;
+  position: relative;
+}
+.checkout_summary_order_online_heads {
+  background-color: #e03f3f;
+  border-right: 10px;
+  border-left: 15px;
+  height: auto;
+  color: #fff;
+}
+
 @media screen and (max-width: 1190px) {
   .category_card_009 {
     width: auto;

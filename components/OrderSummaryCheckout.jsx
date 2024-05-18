@@ -6,12 +6,38 @@ import * as Bs from "react-icons/bs";
 import "../style/OrderOnlineApp.css";
 import toast from "react-hot-toast";
 import { OrderOnlineContext } from "../context/OrderOnlineContext";
+import CheckoutSummaryComp from "./CheckoutSummaryComp";
+import StripePaymentElement from "../../../Component/StripePaymentElement";
+import { Elements } from "@stripe/react-stripe-js";
 
 function OrderSummaryCheckout() {
-  const { delivery, cartItems } = useContext(OrderOnlineContext);
-  const [paymentOption, setPaymentOption] = useState("");
-  const [activeCard, setActiveCard] = useState("login");
+  const {
+    delivery,
+    cartItems,
+    isCheckoutActive,
+    setisCheckoutActive,
+    completeCheckout,
+    activeCard,
+    setActiveCard,
+    deliveryFee,
+    createPaymentIntent,
+    paymentData,
+    setStripeClientSecret,
+    stripePaymentClientSecret,
+    setDeliveryFee,
+    stripePromise,
+    fetchCartList,
+    options,
+    loading,
+    amount,
+    type,
+    setType,
+    orderDetails,
+    settings,
+    setAmount,
+  } = useContext(OrderOnlineContext);
 
+  const [paymentOption, setPaymentOption] = useState("");
   const [formState, setFormState] = useState({
     fullname: "",
     postalCode: "",
@@ -23,8 +49,24 @@ function OrderSummaryCheckout() {
     county: "",
     notes: "",
   });
-
   const [fieldError, setFieldError] = useState(false);
+  const [discountData, setDiscountData] = useState(null)
+
+  console.log(stripePaymentClientSecret);
+
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      event.preventDefault();
+
+      event.returnValue = "Are you sure you want to leave?";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
 
   useEffect(() => {
     const postalCode = sessionStorage.getItem("postcode");
@@ -38,7 +80,7 @@ function OrderSummaryCheckout() {
   useEffect(() => {
     if (delivery === null) return;
 
-    setActiveCard(delivery ? "login" : "payment");
+    setActiveCard(!delivery ? "login" : "payment");
   }, [delivery]);
 
   const handleChange = (e) => {
@@ -48,7 +90,6 @@ function OrderSummaryCheckout() {
   };
 
   const handleEmptyValidation = () => {
-    console.log(formState);
     for (const key in formState) {
       if (typeof formState[key] !== "string" || formState[key].trim() === "") {
         return true;
@@ -57,33 +98,86 @@ function OrderSummaryCheckout() {
     return false;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    let deliveryTypeData;
+    if (delivery == false) {
+      deliveryTypeData = "Home Delivery";
 
-    const isValid = handleEmptyValidation();
+      const isValid = handleEmptyValidation();
 
-    if (isValid === true) {
-      setFieldError(true);
+      if (isValid === true) {
+        setFieldError(true);
+        return;
+      }
+    } else {
+      deliveryTypeData = "Take Away";
+    }
+
+    setActiveCard("payment");
+  };
+
+  const createPaymentIntentRequest = async () => {
+    const discount = sessionStorage.getItem("discount");
+    const fees = sessionStorage.getItem("delFee");
+    const restId = sessionStorage.getItem("restaurantId");
+    setDiscountData(discount)
+    setPaymentOption("stripe");
+
+    if (paymentData == null) {
+      await createPaymentIntent(
+        {
+          devliveryCharges: deliveryFee * 100,
+          discountAmount: discount * 100,
+          shopID: restId,
+        },
+
+        {
+          onSuccess: (res) => {
+            const result = res?.data?.data?.paymentIntent?.client_secret;
+            console.log(result);
+            if (result != null) {
+              setStripeClientSecret(result);
+            }
+          },
+
+          onFailed: (error) => {
+            toast.error(error?.message);
+          },
+        }
+      );
       return;
     }
   };
+
+  console.log(stripePaymentClientSecret);
 
   return (
     <Fragment>
       <section className="order_summary_checkout">
         <div className="container">
+          <button
+            className="back_btn_order_online_828"
+            onClick={() => setisCheckoutActive(false)}
+          >
+            Back
+          </button>
           <div className="row ">
             <div className="col-lg-8 col-md-8 col-sm-8 position-relative">
               <div className="card login_summary_card_0928">
                 <div className="login_summary_card_ico_0928">
                   <PiKey />
                 </div>
-                <h4>Account</h4>
-                <p>To proceed with your order, please register with us!</p>
+                <h4>Delivery Address</h4>
+                {activeCard === "login" ? (
+                  <p>To proceed with your order, please register with us!</p>
+                ) : (
+                  <p>Complete your payement</p>
+                )}
 
                 <div
                   className={
-                    activeCard === "login" && delivery === true
+                    activeCard === "login" && delivery === false
                       ? "login_order_online_form_0283 "
                       : "login_order_online_form_0283 hide"
                   }
@@ -141,8 +235,10 @@ function OrderSummaryCheckout() {
                                 ? "form-control online_order_plugin_input_2939 error___"
                                 : "form-control online_order_plugin_input_2939 "
                             }
+                            style={{ textTransform: "uppercase" }}
                             onChange={handleChange}
                             value={formState.postalCode}
+                            disabled
                           />
                         </div>
                         {fieldError == true &&
@@ -360,12 +456,18 @@ function OrderSummaryCheckout() {
                       type="submit"
                       className="online_order_plugin_login_btn"
                     >
-                      Login
+                      Submit
                     </button>
                   </form>
                 </div>
               </div>
-              <div className="order_online_horiz_line"></div>
+              <div
+                className={
+                  activeCard == "login"
+                    ? "order_online_horiz_line"
+                    : "order_online_horiz_line short"
+                }
+              ></div>
               <div className="card login_summary_card_0928">
                 <div className="login_summary_card_ico_0928">
                   <RiMoneyEuroCircleLine />
@@ -384,11 +486,11 @@ function OrderSummaryCheckout() {
                     <div className="col-6">
                       <div
                         className={
-                          paymentOption === "card"
+                          paymentOption === "stripe"
                             ? "card payment_card_order_online_093 selected"
                             : "card payment_card_order_online_093"
                         }
-                        onClick={() => setPaymentOption("card")}
+                        onClick={createPaymentIntentRequest}
                       >
                         <i>
                           <Bs.BsCreditCard />
@@ -412,10 +514,29 @@ function OrderSummaryCheckout() {
                       </div>
                     </div>
                   </div>
+                  {paymentOption === "stripe" && stripePaymentClientSecret && (
+                    <div className="payement_method checkout_form mt-3 pt-3 card p-3 m-1">
+                      <Elements stripe={stripePromise} options={options}>
+                        <StripePaymentElement
+                          paymentSuccess={async (intentResult) => {
+                            await completeOrder();
+                          }}
+                          paymentFailure={(err) => {
+                            console.log(err);
+                          }}
+                          discount={discountData}
+                          formState={formState}
+                          paymentMethod={paymentOption}
+                        />
+                      </Elements>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
-            <div className="col-lg-4 col-md-4 col-sm-4"></div>
+            <div className="col-lg-4 col-md-4 col-sm-4">
+              <CheckoutSummaryComp />
+            </div>
           </div>
         </div>
       </section>

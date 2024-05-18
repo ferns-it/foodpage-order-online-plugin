@@ -9,6 +9,9 @@ export const OrderOnlineContextProvider = (props) => {
   const [paramsValues, setParamsValues] = useState(null);
   const [delivery, setDelivery] = useState(false);
   const [locationResponseData, setLocationResponseData] = useState(null);
+  const [isCheckoutActive, setisCheckoutActive] = useState(false);
+  const [activeCard, setActiveCard] = useState("login");
+  const [deliveryFee, setDeliveryFee] = useState(null) 
 
   const {
     fetchMenuList,
@@ -51,8 +54,6 @@ export const OrderOnlineContextProvider = (props) => {
     completeCheckout,
     type,
     setType,
-    deliveryFee,
-    setDeliveryFee,
     paymentData,
     orderDetails,
   } = usePayment();
@@ -119,6 +120,10 @@ export const OrderOnlineContextProvider = (props) => {
         setDelivery,
         locationResponseData,
         setLocationResponseData,
+        isCheckoutActive,
+        setisCheckoutActive,
+        activeCard,
+        setActiveCard,
       }}
     >
       {props.children}
