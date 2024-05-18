@@ -1582,13 +1582,29 @@ body {
   .check-res {
     position: fixed;
     width: 100%;
-    height: auto;
+    /* height: auto; */
+    overflow-y: scroll !important;
     background-color: #fff;
     padding: 10px;
     left: 0;
+    height: 500px;
+
     bottom: 0;
     box-shadow: 0 2px 10px #444;
     z-index: 9;
+  }
+  .check-res::-webkit-scrollbar {
+    width: 6px;
+    opacity: 0;
+  }
+
+  .check-res::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  .check-res::-webkit-scrollbar-thumb {
+    background: #44444499;
+    border-radius: 6px;
   }
   .tog {
     border: none;
