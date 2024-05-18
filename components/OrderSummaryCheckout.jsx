@@ -10,13 +10,12 @@ import CheckoutSummaryComp from "./CheckoutSummaryComp";
 import { Elements } from "@stripe/react-stripe-js";
 import StripePaymentElementOrderOnline from "./StripePaymentElementOrderOnline";
 import { useNavigate } from "react-router-dom";
+import PleaseWait from "./PleaseWait";
 
 function OrderSummaryCheckout() {
   const navigate = useNavigate();
   const {
     delivery,
-    cartItems,
-    isCheckoutActive,
     setisCheckoutActive,
     completeCheckout,
     activeCard,
@@ -26,17 +25,12 @@ function OrderSummaryCheckout() {
     paymentData,
     setStripeClientSecret,
     stripePaymentClientSecret,
-    setDeliveryFee,
     stripePromise,
     fetchCartList,
     options,
     loading,
     amount,
-    type,
-    setType,
-    orderDetails,
     settings,
-    setAmount,
   } = useContext(OrderOnlineContext);
 
   const [paymentOption, setPaymentOption] = useState("");
@@ -54,7 +48,7 @@ function OrderSummaryCheckout() {
   const [fieldError, setFieldError] = useState(false);
   const [discountData, setDiscountData] = useState(null);
 
-  console.log(stripePaymentClientSecret);
+  console.log(activeCard);
 
   useEffect(() => {
     const handleBeforeUnload = (event) => {
@@ -531,66 +525,74 @@ function OrderSummaryCheckout() {
                   <RiMoneyEuroCircleLine />
                 </div>
 
-                <h4>Payment</h4>
-                <p>Secure Payment Options</p>
-                <div
-                  className={
-                    activeCard === "payment" && delivery === false
-                      ? "checkout_order_online_form_0283"
-                      : "checkout_order_online_form_0283 hide"
-                  }
-                >
-                  <div className="row">
-                    <div className="col-6">
-                      <div
-                        className={
-                          paymentOption === "stripe"
-                            ? "card payment_card_order_online_093 selected"
-                            : "card payment_card_order_online_093"
-                        }
-                        onClick={createPaymentIntentRequest}
-                      >
-                        <i>
-                          <Bs.BsCreditCard />
-                          <h4>Card Payment</h4>
-                        </i>
+                {loading ? (
+                  <Fragment>
+                    <h4>Payment</h4>
+                    <p>Secure Payment Options</p>
+
+                    <div
+                      className={
+                        activeCard === "payment" && delivery === true
+                          ? "checkout_order_online_form_0283"
+                          : "checkout_order_online_form_0283 hide"
+                      }
+                    >
+                      <div className="row">
+                        <div className="col-6">
+                          <div
+                            className={
+                              paymentOption === "stripe"
+                                ? "card payment_card_order_online_093 selected"
+                                : "card payment_card_order_online_093"
+                            }
+                            onClick={createPaymentIntentRequest}
+                          >
+                            <i>
+                              <Bs.BsCreditCard />
+                              <h4>Card Payment</h4>
+                            </i>
+                          </div>
+                        </div>
+                        <div className="col-6">
+                          <div
+                            className={
+                              paymentOption === "cash"
+                                ? "card payment_card_order_online_093 selected"
+                                : "card payment_card_order_online_093"
+                            }
+                            onClick={() => setPaymentOption("cash")}
+                          >
+                            <i>
+                              <Bs.BsCashCoin />
+                              <h4>Cash Payment</h4>
+                            </i>
+                          </div>
+                        </div>
                       </div>
+                      {paymentOption === "stripe" &&
+                        stripePaymentClientSecret && (
+                          <div className="payement_method checkout_form mt-3 pt-3 card p-3 m-1">
+                            <Elements stripe={stripePromise} options={options}>
+                              <StripePaymentElementOrderOnline
+                                paymentSuccess={async (intentResult) => {
+                                  console.log(intentResult);
+                                  await completeOrder();
+                                }}
+                                paymentFailure={(err) => {
+                                  console.log(err);
+                                }}
+                                discount={discountData}
+                                formState={formState}
+                                paymentMethod={paymentOption}
+                              />
+                            </Elements>
+                          </div>
+                        )}
                     </div>
-                    <div className="col-6">
-                      <div
-                        className={
-                          paymentOption === "cash"
-                            ? "card payment_card_order_online_093 selected"
-                            : "card payment_card_order_online_093"
-                        }
-                        onClick={() => setPaymentOption("cash")}
-                      >
-                        <i>
-                          <Bs.BsCashCoin />
-                          <h4>Cash Payment</h4>
-                        </i>
-                      </div>
-                    </div>
-                  </div>
-                  {paymentOption === "stripe" && stripePaymentClientSecret && (
-                    <div className="payement_method checkout_form mt-3 pt-3 card p-3 m-1">
-                      <Elements stripe={stripePromise} options={options}>
-                        <StripePaymentElementOrderOnline
-                          paymentSuccess={async (intentResult) => {
-                            console.log(intentResult);
-                            await completeOrder();
-                          }}
-                          paymentFailure={(err) => {
-                            console.log(err);
-                          }}
-                          discount={discountData}
-                          formState={formState}
-                          paymentMethod={paymentOption}
-                        />
-                      </Elements>
-                    </div>
-                  )}
-                </div>
+                  </Fragment>
+                ) : (
+                  <PleaseWait />
+                )}
               </div>
             </div>
             <div className="col-lg-4 col-md-4 col-sm-4">
