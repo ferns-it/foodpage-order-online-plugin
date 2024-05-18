@@ -1223,10 +1223,13 @@ body {
   background-color: #e03f3f;
   padding: 10px;
   left: 0;
+  transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  opacity: 1;
   bottom: 0;
   box-shadow: 0 2px 10px #444;
   z-index: 9;
 }
+
 .checkout_resp_btn_021 {
   width: 100%;
   background-color: #fe4645;
@@ -1494,7 +1497,7 @@ body {
   height: auto;
   color: #fff;
 }
-.checkout_btn_order_online{
+.checkout_btn_order_online {
   background-color: #e03f3f;
   color: #ffff;
 }
@@ -1653,13 +1656,11 @@ body {
   .check-res {
     position: fixed;
     width: 100%;
-    /* height: auto; */
-    overflow-y: scroll !important;
+    height: auto;
     background-color: #fff;
     padding: 10px;
+    transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
     left: 0;
-    height: 500px;
-
     bottom: 0;
     box-shadow: 0 2px 10px #444;
     z-index: 9;

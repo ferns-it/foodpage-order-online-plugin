@@ -4,11 +4,14 @@ import * as Tb from "react-icons/tb";
 import { OrderOnlineContext } from "../context/OrderOnlineContext";
 import Utils from "../utils/Utils";
 import AddOnsModal from "./AddOnsModal";
+import { MdOutlineClose } from "react-icons/md";
 import "../style/OrderOnlineApp.css";
+import OrderSummary from "./OrderSummary";
 
 function FoodAccordian() {
   const { categoryList, fetchProductsList } = useContext(OrderOnlineContext);
   const [accordionStates, setAccordionStates] = useState(null);
+  const [activeSmallScreen, setActiveSmallScreen] = useState(true);
   const [products, setProducts] = useState(null);
   const [showRespModal, setShowRespModal] = useState(false);
   const [productRespDataValues, setProductRespDataValues] = useState(null);
@@ -144,7 +147,34 @@ function FoodAccordian() {
             );
           })}
       </section>
-      
+      <div
+        className={activeSmallScreen ? "checkout_responsive_area" : "check-res"}
+      >
+        <div className="container">
+          <div className="row">
+            <div className="col-10">
+              {activeSmallScreen ? (
+                <button
+                  className="checkout_resp_btn_021"
+                  onClick={() => setActiveSmallScreen(!activeSmallScreen)}
+                >
+                  Checkout
+                </button>
+              ) : (
+                <button
+                  className="tog"
+                  onClick={() => setActiveSmallScreen(true)}
+                >
+                  <MdOutlineClose />
+                </button>
+              )}
+            </div>
+          </div>
+          <div className="row">
+            <OrderSummary />
+          </div>
+        </div>
+      </div>
     </Fragment>
   );
 }
