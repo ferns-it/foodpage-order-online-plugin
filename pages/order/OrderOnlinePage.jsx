@@ -144,7 +144,7 @@ function OrderOnlinePage() {
                   </div>
                 </div>
               </div>
-              <div className="checkout_responsive_area">
+              {/* <div className="checkout_responsive_area">
                 <div className="container">
                   <div className="row">
                     <div className="col-10">
@@ -170,7 +170,7 @@ function OrderOnlinePage() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div
                 className={
                   isSticky
