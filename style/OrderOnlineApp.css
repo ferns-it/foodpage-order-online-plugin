@@ -1545,28 +1545,60 @@ body {
 }
 
 @-webkit-keyframes wait {
-  0%   { left: -7px  }
-  30%  { left: 52px  }
-  60%  { left: 22px  }
-  100% { left: 100px }
+  0% {
+    left: -7px;
+  }
+  30% {
+    left: 52px;
+  }
+  60% {
+    left: 22px;
+  }
+  100% {
+    left: 100px;
+  }
 }
 @-moz-keyframes wait {
-  0%   { left: -7px  }
-  30%  { left: 52px  }
-  60%  { left: 22px  }
-  100% { left: 100px }
+  0% {
+    left: -7px;
+  }
+  30% {
+    left: 52px;
+  }
+  60% {
+    left: 22px;
+  }
+  100% {
+    left: 100px;
+  }
 }
 @-o-keyframes wait {
-  0%   { left: -7px  }
-  30%  { left: 52px  }
-  60%  { left: 22px  }
-  100% { left: 100px }
+  0% {
+    left: -7px;
+  }
+  30% {
+    left: 52px;
+  }
+  60% {
+    left: 22px;
+  }
+  100% {
+    left: 100px;
+  }
 }
 @keyframes wait {
-  0%   { left: -7px  }
-  30%  { left: 52px  }
-  60%  { left: 22px  }
-  100% { left: 100px }
+  0% {
+    left: -7px;
+  }
+  30% {
+    left: 52px;
+  }
+  60% {
+    left: 22px;
+  }
+  100% {
+    left: 100px;
+  }
 }
 
 @media screen and (max-width: 1190px) {
@@ -1656,7 +1688,8 @@ body {
   .check-res {
     position: fixed;
     width: 100%;
-    height: auto;
+    height: 570px;
+    overflow-y: scroll;
     background-color: #fff;
     padding: 10px;
     transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
