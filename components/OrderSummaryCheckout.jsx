@@ -163,7 +163,7 @@ function OrderSummaryCheckout() {
     }
     const paymentMethod = paymentOption === "card" ? "STRIPE" : "COD";
 
-    if (paymentData != null) {
+    if (paymentMethod === "STRIPE" && paymentData != null) {
       const payload = {
         shopID: data?.shopID,
         discount: discountData * 100,
