@@ -152,7 +152,7 @@ function FoodAccordian() {
       >
         <div className="container">
           <div className="row">
-            <div className="col-10">
+            <div className="col-12">
               {activeSmallScreen ? (
                 <button
                   className="checkout_resp_btn_021"

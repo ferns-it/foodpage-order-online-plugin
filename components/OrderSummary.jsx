@@ -466,31 +466,31 @@ function OrderSummary() {
 
       <br />
       <div className="line__"></div>
-      <div className="row mt-3 mx-auto text-center">
-        <div className="col-md-5 col-sm-12">
+
+      <div className="row mt-3 mx-auto mx-auto" style={{ display: "flex" }}>
+        <div className="col-md-6" style={{ flex: 1 }}>
           <input
             type="radio"
             className="radio_btn"
             checked={!delivery}
             onChange={() => setDelivery(false)}
           />
-          <label className="radio_label">Delivery</label>
+          <label onClick={() => setDelivery(false)}> Delivery</label>
         </div>
         {deliveryInfo?.takeAway == 1 && (
-          <>
-            <div className="col-md-7 col-sm-12">
-              <input
-                type="radio"
-                className="radio_btn"
-                onClick={() => setDelivery(true)}
-                checked={delivery}
-                onChange={() => setDelivery(true)}
-              />
-              <label className="radio_label">Take away</label>
-            </div>
-          </>
+          <div className="col-md-6" style={{ flex: 1 }}>
+            <input
+              type="radio"
+              className="radio_btn"
+              onClick={() => setDelivery(true)}
+              checked={delivery}
+              onChange={() => setDelivery(true)}
+            />
+            <label onClick={() => setDelivery(true)}> Takeaway</label>
+          </div>
         )}
       </div>
+
       <div className="row">
         {delivery == false ? (
           <div>
