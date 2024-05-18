@@ -1,6 +1,5 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { OrderOnlineContext } from "../context/OrderOnlineContext";
-import { MdOutlineArrowDownward } from "react-icons/md";
 
 function CheckoutSummaryComp() {
   const {
@@ -266,7 +265,6 @@ function CheckoutSummaryComp() {
                     </>
                   );
                 })}
-             
             </div>
             <>
               <div className="d-flex justify-content-between align-items-center mt-3">

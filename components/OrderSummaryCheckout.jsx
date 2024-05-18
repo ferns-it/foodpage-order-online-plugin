@@ -11,6 +11,8 @@ import { Elements } from "@stripe/react-stripe-js";
 import StripePaymentElementOrderOnline from "./StripePaymentElementOrderOnline";
 import { useNavigate } from "react-router-dom";
 import PleaseWait from "./PleaseWait";
+import { FiArrowLeft } from "react-icons/fi";
+import { IoInformationCircleOutline } from "react-icons/io5";
 
 function OrderSummaryCheckout() {
   const navigate = useNavigate();
@@ -30,6 +32,7 @@ function OrderSummaryCheckout() {
     options,
     amount,
     settings,
+    loading,
   } = useContext(OrderOnlineContext);
 
   const [paymentOption, setPaymentOption] = useState("");
@@ -47,8 +50,6 @@ function OrderSummaryCheckout() {
   const [fieldError, setFieldError] = useState(false);
   const [discountData, setDiscountData] = useState(null);
   const [intentLoading, setIntentLoading] = useState(false);
-
-  console.log(activeCard);
 
   useEffect(() => {
     const handleBeforeUnload = (event) => {
@@ -140,6 +141,7 @@ function OrderSummaryCheckout() {
             },
 
             onFailed: (error) => {
+              console.log(error);
               toast.error(error?.message);
             },
           }
@@ -216,7 +218,7 @@ function OrderSummaryCheckout() {
             className="back_btn_order_online_828"
             onClick={() => setisCheckoutActive(false)}
           >
-            Back
+            <FiArrowLeft />
           </button>
           <div className="row ">
             <div className="col-lg-8 col-md-8 col-sm-8 position-relative">
@@ -593,6 +595,37 @@ function OrderSummaryCheckout() {
                           </div>
                         )}
                     </div>
+                    {paymentOption === "cash" && (
+                      <Fragment>
+                        <p className="cash_payment_info_939">
+                          <IoInformationCircleOutline />{" "}
+                          <span>
+                            You are Choosing Cash on Delivery Press Submit
+                            Button to Continue
+                          </span>
+                        </p>
+                        <br />
+                        <button
+                          type="button"
+                          className="cash_payment_submit_btn_order_online"
+                          onClick={completeOrder}
+                          disabled={loading}
+                        >
+                          {!loading ? (
+                            "Submit"
+                          ) : (
+                            <Fragment>
+                              <span
+                                class="spinner-border spinner-border-sm"
+                                role="status"
+                                aria-hidden="true"
+                              ></span>
+                              <span class="sr-only"> Loading...</span>
+                            </Fragment>
+                          )}
+                        </button>
+                      </Fragment>
+                    )}
                   </Fragment>
                 ) : (
                   <PleaseWait />
