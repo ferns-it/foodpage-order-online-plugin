@@ -178,23 +178,28 @@ function OrderSummaryCheckout() {
       (paymentMethod === "COD" && paymentData === null)
     ) {
       const payload = {
-        shopID: data?.shopID,
+        shopID: data?.shopID != null ? data?.shopID : shopId,
         discount: discountData * 100,
         amount: amount * 100,
         deliveryType: deliveryType,
-        deliveryCharge: data?.deliveryCharge,
+        deliveryCharge:
+          deliveryType === "Take Away"
+            ? sessionStorage.getItem("deliveryFee")
+            : data?.deliveryCharge,
         couponCode: "",
         couponType: "",
         couponValue: "",
         couponAmount: "",
         paymentStatus: "1",
         paymentGatway: paymentMethod,
-        transactionID:
-        paymentMethod === "COD" ? data?.paymentIntent?.id : "",
+        transactionID: paymentMethod === "COD" ? "" : data?.paymentIntent?.id,
         approxDeliveryTime: settings?.deliveryInfo?.minWaitingTime,
         deliveryNotes: formState?.notes,
         deliveryLocation: formState?.postalCode,
-        takeawayTime: "",
+        takeawayTime:
+          deliveryType === "Take Away"
+            ? sessionStorage.getItem("takeawaytime")
+            : "",
         customer: {
           customerName: formState?.fullname,
           line1: formState?.addressLine1,
