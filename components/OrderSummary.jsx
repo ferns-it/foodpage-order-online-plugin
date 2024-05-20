@@ -299,7 +299,7 @@ function OrderSummary() {
     setError(status.message);
     setTime(event.target.value);
   };
-
+  console.log(deliveryInfo, "info");
   return (
     <div>
       <Toaster position="top-center" reverseOrder={false} />
@@ -527,6 +527,12 @@ function OrderSummary() {
               />
             </div>
             {error && <div className="error-message">{error}</div>}
+            <div className="mt-2 text-center">
+              <small className="">
+                Your Food will be ready in just
+                {" " + deliveryInfo?.minWaitingTime} minutes!{" "}
+              </small>
+            </div>
           </div>
         )}
       </div>

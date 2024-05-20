@@ -1733,6 +1733,11 @@ body {
     min-width: 300px;
   }
 }
+.red {
+  color: #e03f3f;
+  font-size: 13px;
+  font-weight: 600;
+}
 .resp-btn {
   position: fixed;
   width: 100%;
