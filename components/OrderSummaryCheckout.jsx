@@ -210,7 +210,6 @@ function OrderSummaryCheckout() {
 
       await completeCheckout(payload, {
         onSuccess: async (res) => {
-          console.log(res);
           toast.success("Order Confirmed!");
           await fetchCartList();
 
