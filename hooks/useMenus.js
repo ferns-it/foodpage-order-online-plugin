@@ -16,7 +16,6 @@ const useMenus = () => {
   const fetchMenuList = async (shopId) => {
     try {
       if (!shopId) return;
-      console.log(shopId);
       setMenuLoading(true);
       await BaseClient.get(APIEndpoints.menulist + `/${shopId}/0`, [], {
         onSuccess: (res) => {

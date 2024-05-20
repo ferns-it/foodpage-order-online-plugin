@@ -9,13 +9,15 @@ import { OrderOnlineContext } from "../context/OrderOnlineContext";
 import CheckoutSummaryComp from "./CheckoutSummaryComp";
 import { Elements } from "@stripe/react-stripe-js";
 import StripePaymentElementOrderOnline from "./StripePaymentElementOrderOnline";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PleaseWait from "./PleaseWait";
 import { FiArrowLeft } from "react-icons/fi";
 import { IoInformationCircleOutline } from "react-icons/io5";
+import { AppContext } from "../../../Context/AppContext";
 
 function OrderSummaryCheckout() {
   const navigate = useNavigate();
+  const { shopId } = useParams();
   const {
     delivery,
     setisCheckoutActive,
@@ -33,7 +35,11 @@ function OrderSummaryCheckout() {
     amount,
     settings,
     loading,
+    setPaymentData,
+    paymentError,
   } = useContext(OrderOnlineContext);
+
+  // const { fetchCartList } = useContext(AppContext);
 
   const [paymentOption, setPaymentOption] = useState("");
   const [formState, setFormState] = useState({
@@ -66,13 +72,15 @@ function OrderSummaryCheckout() {
   }, []);
 
   useEffect(() => {
-    const postalCode = sessionStorage.getItem("postcode");
-    if (!postalCode) {
-      toast.error("Postal code is undefined");
-      return;
+    if (delivery === false) {
+      const postalCode = sessionStorage.getItem("postcode");
+      if (!postalCode) {
+        toast.error("Postal code is undefined");
+        return;
+      }
+      setFormState({ ...formState, postalCode });
     }
-    setFormState({ ...formState, postalCode });
-  }, []);
+  }, [delivery]);
 
   useEffect(() => {
     if (delivery === null) return;
@@ -128,11 +136,12 @@ function OrderSummaryCheckout() {
           {
             devliveryCharges: deliveryFee * 100,
             discountAmount: discount * 100,
-            shopID: restId,
+            shopID: restId != null ? restId : shopId,
           },
 
           {
             onSuccess: (res) => {
+              setPaymentData(res);
               const result = res?.data?.data?.paymentIntent?.client_secret;
               console.log(result);
               if (result != null) {
@@ -156,14 +165,18 @@ function OrderSummaryCheckout() {
     const data = paymentData?.data?.data;
 
     let deliveryType;
+
     if (delivery == false) {
       deliveryType = "Home Delivery";
     } else {
       deliveryType = "Take Away";
     }
-    const paymentMethod = paymentOption === "card" ? "STRIPE" : "COD";
+    const paymentMethod = paymentOption === "stripe" ? "STRIPE" : "COD";
 
-    if (paymentMethod === "STRIPE" && paymentData != null) {
+    if (
+      (paymentMethod === "STRIPE" && paymentData != null) ||
+      (paymentMethod === "COD" && paymentData === null)
+    ) {
       const payload = {
         shopID: data?.shopID,
         discount: discountData * 100,
@@ -176,13 +189,14 @@ function OrderSummaryCheckout() {
         couponAmount: "",
         paymentStatus: "1",
         paymentGatway: paymentMethod,
-        transactionID: data?.paymentIntent?.id,
+        transactionID:
+        paymentMethod === "COD" ? data?.paymentIntent?.id : "",
         approxDeliveryTime: settings?.deliveryInfo?.minWaitingTime,
         deliveryNotes: formState?.notes,
         deliveryLocation: formState?.postalCode,
         takeawayTime: "",
         customer: {
-          customerName: formState?.firstNameLastName,
+          customerName: formState?.fullname,
           line1: formState?.addressLine1,
           line2: formState?.addressLine2,
           town: formState?.townCity,
@@ -196,6 +210,7 @@ function OrderSummaryCheckout() {
 
       await completeCheckout(payload, {
         onSuccess: async (res) => {
+          console.log(res);
           toast.success("Order Confirmed!");
           await fetchCartList();
 
@@ -204,6 +219,7 @@ function OrderSummaryCheckout() {
           }, 1000);
         },
         onFailed: (err) => {
+          console.log("error message for confirm payment", err);
           toast.error(err.message);
         },
       });
@@ -213,6 +229,9 @@ function OrderSummaryCheckout() {
   return (
     <Fragment>
       <section className="order_summary_checkout">
+        {/* <button type="button" onClick={completeOrder}>
+          click
+        </button> */}
         <div className="container">
           <button
             className="back_btn_order_online_828"
@@ -585,7 +604,8 @@ function OrderSummaryCheckout() {
                                   await completeOrder();
                                 }}
                                 paymentFailure={(err) => {
-                                  console.log(err);
+                                  console.log(err.message);
+                                  toast.error(err.message);
                                 }}
                                 discount={discountData}
                                 formState={formState}

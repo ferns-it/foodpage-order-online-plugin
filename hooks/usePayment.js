@@ -12,6 +12,7 @@ export default function usePayment() {
   const [paymentData, setPaymentData] = useState(null);
   const [type, setType] = useState(null);
   const [amount, setAmount] = useState(0);
+  const [paymentError, setPaymentError] = useState(null);
 
   const initialValue = {
     fullName: "",
@@ -34,13 +35,8 @@ export default function usePayment() {
 
   const createPaymentIntent = async (payload, { onSuccess, onFailed }) => {
     await BaseClient.post(APIEndpoints.createPaymentIntent, payload, {
-      onSuccess: (data) => {
-        onSuccess(data);
-        setPaymentData(data);
-      },
-      onFailed: (error) => {
-        console.error("error", error);
-      },
+      onSuccess: onSuccess,
+      onFailed: onFailed,
       // authentication: true,
     });
   };
@@ -76,6 +72,7 @@ export default function usePayment() {
       setPaymentStatus(null);
     }
   };
+  
   const completeCheckout = async (payload, { onSuccess, onFailed }) => {
     try {
       setLoading(true);
@@ -85,6 +82,7 @@ export default function usePayment() {
           setOrderDetails(data);
         },
         onFailed: (error) => {
+          setPaymentError(error);
           console.error("error", error);
         },
         // authentication: true,
@@ -118,5 +116,7 @@ export default function usePayment() {
     paymentData,
     deliveryFee,
     setDeliveryFee,
+    paymentError,
+    setPaymentData,
   };
 }

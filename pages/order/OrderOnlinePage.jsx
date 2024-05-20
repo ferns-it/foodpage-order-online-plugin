@@ -36,6 +36,8 @@ function OrderOnlinePage() {
   const [isSticky, setIsSticky] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("All");
 
+  console.log("cartItems",cartItems);
+
   useEffect(() => {
     if (!shopId || !shopUrl) return;
     setParamsValues({ shopId, shopUrl });
