@@ -10,10 +10,11 @@ import * as Bs from "react-icons/bs";
 import Utils from "../utils/Utils";
 import toast, { Toaster } from "react-hot-toast";
 import { OrderOnlineContext } from "../context/OrderOnlineContext";
-import "../style/OrderOnlineApp.css"
+import "../style/OrderOnlineApp.css";
 
 function AddOnsModal(props) {
   const modalRef = useRef(null);
+  const shopId = props.shopId;
   const { addToCart, fetchCartList, cartLoading } =
     useContext(OrderOnlineContext);
   const [count, setCount] = useState(1);
@@ -42,7 +43,7 @@ function AddOnsModal(props) {
     }
   }, [props.showModal]);
 
-  const handleClickOutside = (event) => {
+  const handleClickOutside = async (event) => {
     if (modalRef.current && !modalRef.current.contains(event.target)) {
       props.setShowModal(false);
     }
@@ -69,11 +70,10 @@ function AddOnsModal(props) {
   }, [props.showModal]);
 
   useEffect(() => {
-    if (!foodValues) return;
-    const variationData = foodValues?.variations[0];
-    console.log(variationData.name);
+    if (!props.productData) return;
+    const variationData = props.productData?.variations[0];
+
     if (!variationData || variationData.name == null) {
-      console.log(variationData);
       setVariationValue({
         name: foodValues.name,
         price: variationData?.price,
@@ -149,7 +149,7 @@ function AddOnsModal(props) {
 
     await addToCart(payload, {
       onSuccess: async (res) => {
-        console.info(res);
+        console.log(res);
         toast.success("Item Added to cart!");
         await fetchCartList();
 
@@ -180,7 +180,9 @@ function AddOnsModal(props) {
 
           <button
             className="close_02901"
-            onClick={() => props.setShowModal(false)}
+            onClick={async () => {
+              props.setShowModal(false);
+            }}
           >
             <Io5.IoCloseCircle />
           </button>

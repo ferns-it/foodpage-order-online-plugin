@@ -12,10 +12,12 @@ const useMenus = () => {
   const [locationResponse, setLocationResponse] = useState(null);
   const [settingsLoading, setSettingsLoading] = useState(false);
 
-
   const fetchMenuList = async (shopId) => {
     try {
-      if (!shopId) return;
+      if (!shopId) {
+        console.log("ShopId is undefined!");
+        return;
+      }
       setMenuLoading(true);
       await BaseClient.get(APIEndpoints.menulist + `/${shopId}/0`, [], {
         onSuccess: (res) => {
@@ -170,7 +172,7 @@ const useMenus = () => {
     cartLoading,
     deleteSingleCartItem,
     locationResponse,
-    deleteCartItem
+    deleteCartItem,
   };
 };
 

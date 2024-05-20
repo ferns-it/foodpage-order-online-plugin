@@ -2,9 +2,11 @@ import React, { Fragment, useContext, useEffect, useState } from "react";
 import { OrderOnlineContext } from "../context/OrderOnlineContext";
 import Utils from "../utils/Utils";
 import AddOnsModal from "./AddOnsModal";
-import "../style/OrderOnlineApp.css"
+import "../style/OrderOnlineApp.css";
+import { useParams } from "react-router-dom";
 
 function Foodcard(category) {
+  const { shopId } = useParams();
   const { categoryList, fetchProductsList } = useContext(OrderOnlineContext);
   const [products, setProducts] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -43,6 +45,7 @@ function Foodcard(category) {
   }, [categoryList]);
 
   const addOnsModalData = (product) => {
+    if(!product) return;
     setShowModal(true);
     setProductDataValues(product);
   };
@@ -53,7 +56,7 @@ function Foodcard(category) {
         showModal={showModal}
         setShowModal={setShowModal}
         productData={productDataValues}
-        shopId="1"
+        shopId={shopId}
       />
       {products &&
         products.length != 0 &&
