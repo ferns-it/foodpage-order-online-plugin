@@ -102,21 +102,13 @@ function OrderOnlinePage() {
     <Fragment>
       <section className="order-online">
         <div className="container position-relative">
-          <p className="info-header">
-            <i>
-              <Pi.PiCallBellFill />
-            </i>
-            Mild Medium Hot Gluten Milk NUts Vegetarian We can accommodate most
-            allergies, if you have any allergies please inform us when ordering.
-          </p>
           {settings?.shopStatus == "close" && (
-            <div className="col-md-12">
-              <div className="closed">
-                <div className="border text-center">
-                  Sorry We're Temporarily Closed! Be Back Soon...
-                </div>
-              </div>
-            </div>
+            <p className="info-header">
+              <i>
+                <Pi.PiCallBellFill />
+              </i>
+              Sorry We're Temporarily Closed! Be Back Soon.
+            </p>
           )}
         </div>
 
