@@ -7,8 +7,11 @@ import "../style/OrderOnlineApp.css";
 import { toast, Toaster } from "react-hot-toast";
 import moment from "moment";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 function OrderSummary() {
+  const { shopUrl } = useParams();
+
   const {
     cartItems,
     deleteSingleCartItem,
@@ -43,9 +46,8 @@ function OrderSummary() {
   let distanceRange = 0;
 
   useEffect(() => {
-    const shopUrl = "le-arabia";
+    if (!shopUrl) return;
     getShopSettings(shopUrl);
-
     const time = Utils.getCurrentTime();
     setTime(time);
   }, []);

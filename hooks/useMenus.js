@@ -11,6 +11,7 @@ const useMenus = () => {
   const [cartLoading, setCartLoading] = useState(false);
   const [locationResponse, setLocationResponse] = useState(null);
   const [settingsLoading, setSettingsLoading] = useState(false);
+  const [responseError, setResponseError] = useState(null);
 
   const fetchMenuList = async (shopId) => {
     try {
@@ -25,6 +26,7 @@ const useMenus = () => {
           setMenuList(res?.data);
         },
         onFailed: (err) => {
+          setResponseError(err);
           console.log("Error on fetching menus", err);
         },
       });
@@ -32,13 +34,12 @@ const useMenus = () => {
       setMenuLoading(false);
     }
   };
-  const fetchCategoriesList = async (shopUrl) => {
+  const fetchCategoriesList = async (shopId) => {
     try {
-      if (!shopUrl) return;
+      if (!shopId) return;
       setMenuLoading(true);
-      await BaseClient.get(APIEndpoints.categoryList + `/${shopUrl}`, [], {
+      await BaseClient.get(APIEndpoints.categoryList + `/${shopId}-shop`, [], {
         onSuccess: (res) => {
-          console.log(res?.data);
           console.log("category-response", res.data);
           setCategoryList(res?.data?.data?.items);
         },
@@ -173,6 +174,7 @@ const useMenus = () => {
     deleteSingleCartItem,
     locationResponse,
     deleteCartItem,
+    responseError,
   };
 };
 

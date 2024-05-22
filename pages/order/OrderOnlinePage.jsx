@@ -24,11 +24,15 @@ function OrderOnlinePage() {
 
   const {
     menuList,
+    settings,
     categoryList,
-    cartItems,
-    fetchMenuList,
-    fetchCategoriesList,
     setParamsValues,
+    responseError,
+    isPageLoading,
+    setIsPageLoading,
+    filterLoading,
+    menuLoading,
+    cartLoading,
   } = useContext(OrderOnlineContext);
   const [filteredList, setFilteredList] = useState(null);
   const [activeChipIndex, setActiveChipIndex] = useState(-1);
@@ -36,12 +40,29 @@ function OrderOnlinePage() {
   const [isSticky, setIsSticky] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  console.log("cartItems",cartItems);
-
   useEffect(() => {
     if (!shopId || !shopUrl) return;
     setParamsValues({ shopId, shopUrl });
   }, [shopId, shopUrl]);
+
+  useEffect(() => {
+    if (
+      filterLoading === true ||
+      menuLoading === true ||
+      cartLoading === true
+    ) {
+      setIsPageLoading(true);
+      return;
+    }
+    setIsPageLoading(false);
+  }, [filterLoading, menuLoading, cartLoading]);
+
+  useEffect(() => {
+    if (!responseError) return;
+    if (responseError?.code === "ECONNABORTED") {
+      window.location.reload();
+    }
+  }, [responseError]);
 
   const handleScroll = () => {
     if (window.pageYOffset >= 100) {
@@ -88,6 +109,15 @@ function OrderOnlinePage() {
             Mild Medium Hot Gluten Milk NUts Vegetarian We can accommodate most
             allergies, if you have any allergies please inform us when ordering.
           </p>
+          {settings?.shopStatus == "close" && (
+            <div className="col-md-12">
+              <div className="closed">
+                <div className="border text-center">
+                  Sorry We're Temporarily Closed! Be Back Soon...
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="wrapper_102322">

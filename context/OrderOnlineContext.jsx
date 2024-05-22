@@ -12,6 +12,8 @@ export const OrderOnlineContextProvider = (props) => {
   const [isCheckoutActive, setisCheckoutActive] = useState(false);
   const [activeCard, setActiveCard] = useState("login");
   const [deliveryFee, setDeliveryFee] = useState(null);
+  const [isPageLoading, setIsPageLoading] = useState(false);
+  const [filterLoading, setFilterLoading] = useState(false);
 
   const {
     fetchMenuList,
@@ -28,6 +30,7 @@ export const OrderOnlineContextProvider = (props) => {
     deleteSingleCartItem,
     locationResponse,
     deleteCartItem,
+    responseError,
   } = useMenus();
 
   const { settings, getShopSettings, settingsLoading } = useShop();
@@ -68,7 +71,7 @@ export const OrderOnlineContextProvider = (props) => {
   useEffect(() => {
     if (!paramsValues) return;
     fetchMenuList(paramsValues.shopId);
-    fetchCategoriesList(paramsValues.shopUrl);
+    fetchCategoriesList(paramsValues.shopId);
   }, [paramsValues]);
 
   return (
@@ -128,6 +131,11 @@ export const OrderOnlineContextProvider = (props) => {
         setActiveCard,
         paymentError,
         setPaymentData,
+        responseError,
+        isPageLoading,
+        setIsPageLoading,
+        filterLoading,
+        setFilterLoading,
       }}
     >
       {props.children}

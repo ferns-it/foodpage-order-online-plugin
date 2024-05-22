@@ -7,8 +7,10 @@ import AddOnsModal from "./AddOnsModal";
 import { MdOutlineClose } from "react-icons/md";
 import "../style/OrderOnlineApp.css";
 import OrderSummary from "./OrderSummary";
+import { useParams } from "react-router-dom";
 
 function FoodAccordian() {
+  const { shopId } = useParams();
   const { categoryList, fetchProductsList } = useContext(OrderOnlineContext);
   const [accordionStates, setAccordionStates] = useState(null);
   const [activeSmallScreen, setActiveSmallScreen] = useState(true);
@@ -23,7 +25,7 @@ function FoodAccordian() {
       const pro = await Promise.all(
         categoryList.map(async (item) => {
           const data = {
-            shopId: 1,
+            shopId: shopId,
             categoryId: item?.cID,
           };
 

@@ -4,10 +4,12 @@ import Utils from "../utils/Utils";
 import AddOnsModal from "./AddOnsModal";
 import "../style/OrderOnlineApp.css";
 import { useParams } from "react-router-dom";
+import SkeltLoader from "./SkeltLoader";
 
 function Foodcard(category) {
   const { shopId } = useParams();
-  const { categoryList, fetchProductsList } = useContext(OrderOnlineContext);
+  const { categoryList, fetchProductsList, setFilterLoading, filterLoading } =
+    useContext(OrderOnlineContext);
   const [products, setProducts] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [productDataValues, setProductDataValues] = useState(null);
@@ -24,28 +26,34 @@ function Foodcard(category) {
   // }, [showModal]);
 
   useEffect(() => {
-    if (!categoryList || categoryList.length === 0) return;
+    if (!categoryList || categoryList.length === 0 || !shopId) return;
 
     const fetchData = async () => {
-      const pro = await Promise.all(
-        categoryList.map(async (item) => {
+      try {
+        setFilterLoading(true);
+
+        const promises = categoryList.map(async (item) => {
           const data = {
-            shopId: 1,
+            shopId: shopId,
             categoryId: item?.cID,
           };
 
           const productRespo = await fetchProductsList(data);
           return { categoryName: item?.name, product: productRespo };
-        })
-      );
-      setProducts(pro);
+        });
+
+        const pro = await Promise.all(promises);
+        setProducts(pro);
+      } finally {
+        setFilterLoading(false);
+      }
     };
 
     fetchData();
-  }, [categoryList]);
+  }, [categoryList, shopId]);
 
   const addOnsModalData = (product) => {
-    if(!product) return;
+    if (!product) return;
     setShowModal(true);
     setProductDataValues(product);
   };
@@ -58,84 +66,91 @@ function Foodcard(category) {
         productData={productDataValues}
         shopId={shopId}
       />
-      {products &&
-        products.length != 0 &&
-        products.map((list, key) => {
-          const productData = list?.product;
-
-          if (
-            list?.categoryName == category.category ||
-            category.category === "All"
-          ) {
-            return (
-              <div
-                className="product_wrapper_029"
-                id={`category-${key}`}
-                key={key}
-              >
-                <h3 className="cat_2901"> {list?.categoryName ?? "N/A"}</h3>
-                <br />
-                <div className="row">
-                  {productData &&
-                    productData.length != 0 &&
-                    productData.map((product, index) => {
-                      return (
-                        <div className="col-lg-4 col-md-4 col-sm-4" key={index}>
-                          <div className="food_card_wrapper_029">
-                            <div className="upper_pot_029 position-relative">
-                              <div className="food_img_029">
-                                <img src={product?.photo} alt="" />
-                              </div>
-                              <div className="food_type">
-                                <div
-                                  className={
-                                    product?.type === "veg"
-                                      ? "box veg"
-                                      : product?.type === "non veg"
-                                      ? "box non"
-                                      : "box unkown"
-                                  }
-                                >
+      <Fragment>
+        {products && products.length != 0 && filterLoading ? (
+          products.map((list, key) => {
+            const productData = list?.product;
+            if (
+              productData.length != 0 &&
+              (list?.categoryName == category.category ||
+                category.category === "All")
+            ) {
+              return (
+                <div
+                  className="product_wrapper_029"
+                  id={`category-${key}`}
+                  key={key}
+                >
+                  <h3 className="cat_2901"> {list?.categoryName ?? "N/A"}</h3>
+                  <br />
+                  <div className="row">
+                    {productData &&
+                      productData.length != 0 &&
+                      productData.map((product, index) => {
+                        return (
+                          <div
+                            className="col-lg-4 col-md-4 col-sm-4"
+                            key={index}
+                          >
+                            <div className="food_card_wrapper_029">
+                              <div className="upper_pot_029 position-relative">
+                                <div className="food_img_029">
+                                  <img src={product?.photo} alt="" />
+                                </div>
+                                <div className="food_type">
                                   <div
                                     className={
                                       product?.type === "veg"
-                                        ? "circle veg"
+                                        ? "box veg"
                                         : product?.type === "non veg"
-                                        ? "circle non"
-                                        : "circle unkown"
+                                        ? "box non"
+                                        : "box unkown"
                                     }
-                                  ></div>
+                                  >
+                                    <div
+                                      className={
+                                        product?.type === "veg"
+                                          ? "circle veg"
+                                          : product?.type === "non veg"
+                                          ? "circle non"
+                                          : "circle unkown"
+                                      }
+                                    ></div>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                            <div className="bottom_pot_029">
-                              <h3 className="food_name_029">
-                                {product?.name ?? "N/A"}
-                              </h3>
-                              <p className="food_desc_029">
-                                {product?.description &&
-                                  Utils.removeSpecialCharacters(
-                                    product?.description
-                                  )}
-                              </p>
-                              <button
-                                type="button"
-                                className="cart_btn_029"
-                                onClick={() => addOnsModalData(product)}
-                              >
-                                {/* <Bs.BsCart3 /> */}
-                                ADD
-                              </button>
+                              <div className="bottom_pot_029">
+                                <h3 className="food_name_029">
+                                  {product?.name ?? "N/A"}
+                                </h3>
+                                <p className="food_desc_029">
+                                  {product?.description &&
+                                    Utils.removeSpecialCharacters(
+                                      product?.description
+                                    )}
+                                </p>
+                                <button
+                                  type="button"
+                                  className="cart_btn_029"
+                                  onClick={() => addOnsModalData(product)}
+                                >
+                                  {/* <Bs.BsCart3 /> */}
+                                  ADD
+                                </button>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      );
-                    })}
+                        );
+                      })}
+                  </div>
                 </div>
-              </div>
-            );
-          }
-        })}
+              );
+            }
+          })
+        ) : (
+          <SkeltLoader />
+        )}
+      </Fragment>
     </Fragment>
   );
 }
