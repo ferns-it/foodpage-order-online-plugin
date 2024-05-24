@@ -1890,9 +1890,14 @@ body {
     background-color: #e2e5e7;
   }
 }
-
+.mob-view{
+  display: none;
+}
 @media screen and (max-width:991px) {
   .web-view{
     display: none;
+  }
+  .mob-view{
+    display: block;
   }
 }
