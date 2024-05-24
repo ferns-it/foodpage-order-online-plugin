@@ -68,7 +68,7 @@ function Foodcard(category) {
         productData={productDataValues}
         shopId={shopId}
       />
-      {filterLoading === false ? (
+      {filterLoading !== false ? (
         <Fragment>
           {products &&
             products.length != 0 &&
