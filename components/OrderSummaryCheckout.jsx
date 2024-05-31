@@ -245,8 +245,8 @@ function OrderSummaryCheckout() {
           >
             <FiArrowLeft />
           </button>
-          <div className="row ">
-            <div className="col-lg-8 col-md-8 col-sm-8 position-relative">
+          <div className="row">
+            <div className="col-lg-8 col-md-8 col-sm-12 position-relative">
               <div className="card login_summary_card_0928">
                 <div className="login_summary_card_ico_0928">
                   <PiKey />
@@ -658,7 +658,7 @@ function OrderSummaryCheckout() {
                 )}
               </div>
             </div>
-            <div className="col-lg-4 col-md-4 col-sm-4">
+            <div className="col-lg-4 col-md-4 col-sm-12 order-sm-first order-md-last order-lg-last">
               <CheckoutSummaryComp />
             </div>
           </div>

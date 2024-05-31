@@ -1743,6 +1743,13 @@ body {
     min-width: 300px;
   }
 }
+
+@media screen and (max-width:676px) {
+  .reverse{
+    display: flex;
+    flex-direction: row-reverse;
+  }
+}
 .red {
   color: #e03f3f;
   font-size: 13px;
