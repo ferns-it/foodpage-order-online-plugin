@@ -167,9 +167,9 @@ function OrderSummaryCheckout() {
     let deliveryType;
 
     if (delivery == false) {
-      deliveryType = "Home Delivery";
+      deliveryType = "door_delivery";
     } else {
-      deliveryType = "Take Away";
+      deliveryType = "store_pickup";
     }
     const paymentMethod = paymentOption === "stripe" ? "STRIPE" : "COD";
 
@@ -183,7 +183,7 @@ function OrderSummaryCheckout() {
         amount: amount * 100,
         deliveryType: deliveryType,
         deliveryCharge:
-          deliveryType === "Take Away"
+          deliveryType === "store_pickup"
             ? sessionStorage.getItem("deliveryFee")
             : data?.deliveryCharge,
         couponCode: "",
@@ -197,7 +197,7 @@ function OrderSummaryCheckout() {
         deliveryNotes: formState?.notes,
         deliveryLocation: formState?.postalCode,
         takeawayTime:
-          deliveryType === "Take Away"
+          deliveryType === "store_pickup"
             ? sessionStorage.getItem("takeawaytime")
             : "",
         customer: {
@@ -212,14 +212,14 @@ function OrderSummaryCheckout() {
           phone: formState?.phone,
         },
       };
-
+      console.log(payload, "payload");
       await completeCheckout(payload, {
         onSuccess: async (res) => {
           toast.success("Order Confirmed!");
           await fetchCartList();
 
           setTimeout(() => {
-            navigate("/");
+            window.location.href = "/";
           }, 1000);
         },
         onFailed: (err) => {

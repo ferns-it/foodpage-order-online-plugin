@@ -97,7 +97,8 @@ function OrderOnlinePage() {
     setActiveChipIndex(index);
     setSelectedCategory(catName);
   };
-
+  console.log(menuList, "list");
+  console.log(categoryList, "cate");
   return (
     <Fragment>
       <section className="order-online">

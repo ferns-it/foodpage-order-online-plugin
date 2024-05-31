@@ -301,12 +301,13 @@ function OrderSummary() {
     setError(status.message);
     setTime(event.target.value);
   };
-  console.log(deliveryInfo, "info");
+  console.log(cartItems, "cartItems");
   return (
     <div>
       <Toaster position="top-center" reverseOrder={false} />
       <h3 className="order_title">Order Summary</h3>
       <div className="summary_item_wrapper_029">
+       
         {cartItems && cartItems.cartItems.length != 0 ? (
           <div className="summary_card card">
             {cartItems &&
@@ -378,6 +379,7 @@ function OrderSummary() {
                             })}
                         </table>
                       </div>
+
                       <div className="d-flex mt-2">
                         {(addOns && addOns.length != 0) ||
                         (masterAddons && masterAddons.length != 0) ? (
@@ -397,7 +399,7 @@ function OrderSummary() {
                             )}
                           </button>
                         ) : (
-                          ""
+                          "Dishes Not Available for Online                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           "
                         )}
                         <button
                           type="button"
