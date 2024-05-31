@@ -135,7 +135,7 @@ function FoodAccordian() {
                                         product?.description
                                       )}
                                   </p>
-                                  <p className="accord_price_19">£190</p>
+                                  <p className="accord_price_19">{product?.price}</p>
                                 </div>
                                 <div className="col-4">
                                   <div className="accord_img_19">

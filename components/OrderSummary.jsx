@@ -135,7 +135,7 @@ function OrderSummary() {
           setLocationResponseData(response.data);
 
           const locationDataValue = response.data;
-          console.log(locationDataValue);
+          // console.log(locationDataValue);
           if (!locationDataValue?.data) {
             toast.error("Location data not loaded or invalid!");
             return true;
@@ -157,11 +157,11 @@ function OrderSummary() {
           if (elementStatus === "OK") {
             setLocationData(element);
 
-            console.log(element);
+            // console.log(element);
 
             const actualDistance = processLocationData(element);
 
-            console.log(actualDistance);
+            // console.log(actualDistance);
 
             if (
               actualDistance !== undefined &&
@@ -198,7 +198,7 @@ function OrderSummary() {
     }
 
     if (delivery === false) {
-      console.log(postalCode);
+      // console.log(postalCode);
       if (postalCode == "" || postalCode == null) {
         toast.error("Please add Details of Delivery!");
         return;
@@ -301,13 +301,12 @@ function OrderSummary() {
     setError(status.message);
     setTime(event.target.value);
   };
-  console.log(cartItems, "cartItems");
+
   return (
     <div>
       <Toaster position="top-center" reverseOrder={false} />
       <h3 className="order_title">Order Summary</h3>
       <div className="summary_item_wrapper_029">
-       
         {cartItems && cartItems.cartItems.length != 0 ? (
           <div className="summary_card card">
             {cartItems &&

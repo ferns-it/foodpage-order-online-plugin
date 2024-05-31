@@ -82,11 +82,11 @@ function OrderSummaryCheckout() {
     }
   }, [delivery]);
 
-  useEffect(() => {
-    if (delivery === null) return;
+  // useEffect(() => {
+  //   if (delivery === null) return;
 
-    setActiveCard(!delivery ? "login" : "payment");
-  }, [delivery]);
+  //   setActiveCard(!delivery ? "login" : "payment");
+  // }, [delivery]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -255,12 +255,12 @@ function OrderSummaryCheckout() {
                 {activeCard === "login" ? (
                   <p>To proceed with your order, please register with us!</p>
                 ) : (
-                  <p>Complete your payement</p>
+                  <p>Complete your payment</p>
                 )}
 
                 <div
                   className={
-                    activeCard === "login" && delivery === false
+                    activeCard === "login"
                       ? "login_order_online_form_0283 "
                       : "login_order_online_form_0283 hide"
                   }
@@ -321,7 +321,7 @@ function OrderSummaryCheckout() {
                             style={{ textTransform: "uppercase" }}
                             onChange={handleChange}
                             value={formState.postalCode}
-                            disabled
+                            disabled={delivery === false ? true : false}
                           />
                         </div>
                         {fieldError == true &&
@@ -547,8 +547,8 @@ function OrderSummaryCheckout() {
               <div
                 className={
                   activeCard == "login"
-                    ? "order_online_horiz_line"
-                    : "order_online_horiz_line short"
+                  ? "order_online_horiz_line"
+                  : "order_online_horiz_line short"
                 }
               ></div>
               <div className="card login_summary_card_0928">
