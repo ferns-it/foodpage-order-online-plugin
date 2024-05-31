@@ -508,6 +508,13 @@ body {
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 0;
+  text-wrap: nowrap;
+}
+.food_title_299{
+  /* text-wrap: nowrap; */
+  /* text-overflow: ellipsis; */
+  max-width: 200px;
+  overflow: hidden;
 }
 
 .price_summary_1 {
@@ -1334,8 +1341,8 @@ body {
 }
 .qty_order_summary {
   margin: 0 7px;
-  padding: 3px 0;
-  font-size: 15px;
+  padding: 0;
+  font-size: 16px;
   border-radius: 50%;
   color: #e03f3f;
   font-weight: 700;

@@ -57,19 +57,19 @@ function OrderSummaryCheckout() {
   const [discountData, setDiscountData] = useState(null);
   const [intentLoading, setIntentLoading] = useState(false);
 
-  useEffect(() => {
-    const handleBeforeUnload = (event) => {
-      event.preventDefault();
+  // useEffect(() => {
+  //   const handleBeforeUnload = (event) => {
+  //     event.preventDefault();
 
-      event.returnValue = "Are you sure you want to leave?";
-    };
+  //     event.returnValue = "Are you sure you want to leave?";
+  //   };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
 
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //   };
+  // }, []);
 
   useEffect(() => {
     if (delivery === false) {
@@ -161,6 +161,8 @@ function OrderSummaryCheckout() {
     }
   };
 
+  console.log("formState", formState.notes);
+
   const completeOrder = async () => {
     const data = paymentData?.data?.data;
 
@@ -220,7 +222,7 @@ function OrderSummaryCheckout() {
 
           setTimeout(() => {
             window.location.href = "/confirm";
-          }, 1000);
+          }, 500);
         },
         onFailed: (err) => {
           console.log("error message for confirm payment", err);

@@ -319,7 +319,7 @@ function OrderSummary() {
                   <Fragment>
                     <div className="position-relative mb-4" key={index}>
                       <div className="d-flex">
-                        <p className="food_menu m-0">
+                        <p className="food_menu m-0 food_title_299">
                           <strong>{item?.productName ?? "N/A"} - </strong>
                         </p>
                         <p className="qty_order_summary">{item?.quantity}</p>
