@@ -15,11 +15,15 @@ export default class Utils {
 
   static generateRandomId() {
     const timestamp = new Date().getTime();
-    const smallTimestamp = timestamp % 10000;
-    const randomCharCode = Math.floor(Math.random() * 26) + 65;
-    const randomChar = String.fromCharCode(randomCharCode);
-    const randomId = `${smallTimestamp}${randomChar}`;
-    return randomId;
+    let idBase = timestamp.toString();
+
+    if (idBase.length < 12) {
+      idBase = idBase.padStart(12, "0");
+    } else {
+      idBase = idBase.substring(idBase.length - 12);
+    }
+
+    return idBase;
   }
 
   static getCurrentTime() {
@@ -28,5 +32,13 @@ export default class Utils {
     var minutes = d.getMinutes();
 
     return hours + ":" + minutes;
+  }
+
+  static stripHtml(html) {
+    const temporalDivElement = document.createElement("div");
+
+    temporalDivElement.innerHTML = html;
+
+    return temporalDivElement.textContent || temporalDivElement.innerText || "";
   }
 }

@@ -111,10 +111,10 @@ function AddOnsModal(props) {
 
   const handleCart = async () => {
     let userId = "";
-    userId = localStorage.getItem("user");
+    userId = localStorage.getItem("UserPersistent");
     if (!userId) {
       userId = Utils.generateRandomId();
-      localStorage.setItem("user", userId);
+      localStorage.setItem("UserPersistent", userId);
     }
 
     if (count <= 0) {
@@ -196,7 +196,7 @@ function AddOnsModal(props) {
                 Utils.removeSpecialCharacters(foodValues?.description)}
             </p>
             <p className="price_02901">
-              £{total && total.length != 0 ? total : 0}
+              £{total && total.length != 0 ? total.toFixed(2) : 0}
             </p>
             <div className="inc_dec_wrapper_0291">
               <div className="incDec_wrapper_0291">
@@ -242,7 +242,7 @@ function AddOnsModal(props) {
                               // pvID: variationData?.pvID,
                             });
                           }
-                          console.log("variationValue", variationValue);
+                          console.log(varient);
                           return (
                             <Fragment>
                               {varient.name != null ? (
@@ -282,6 +282,9 @@ function AddOnsModal(props) {
                                       {varient?.displayPrice ?? "N/A"}
                                     </td>
                                   </tr>
+                                  <p className="small_desc">
+                                    {Utils.stripHtml(varient?.ingredients) ?? ""}
+                                  </p>
                                 </Fragment>
                               ) : (
                                 ""
@@ -574,7 +577,9 @@ function AddOnsModal(props) {
             {(foodValues?.online === "No" ||
               foodValues?.isAvailable === false ||
               foodValues?.availability === false) && (
-              <p className="text-center mx-auto red ">This product is currently Unavailable</p>
+              <p className="text-center mx-auto red ">
+                This product is currently Unavailable
+              </p>
             )}
 
             <div className="btn_grp_8392">

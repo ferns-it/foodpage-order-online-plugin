@@ -129,7 +129,7 @@ function Foodcard(category) {
                                   </h3>
                                   <p className="food_desc_029">
                                     {product?.description &&
-                                      Utils.removeSpecialCharacters(
+                                      Utils.stripHtml(
                                         product?.description
                                       )}
                                   </p>

@@ -649,6 +649,7 @@ body {
   background-color: #eee;
   margin: 10px 0;
   border-radius: 5px;
+  overflow: hidden;
   transition: all 0.2s ease-in-out;
 }
 .food_category_009 > a:hover {
@@ -659,6 +660,8 @@ body {
   padding: 0 10px;
   font-weight: 600;
   text-transform: capitalize;
+  white-space: nowrap;
+  font-size: 15px;
 }
 .food_category_009 a > i {
   position: absolute;
@@ -677,7 +680,7 @@ body {
 .category_card_009 {
   position: sticky;
   top: 10px;
-  width: 250px;
+  width: auto;
   transition: all 0.5s ease-in-out;
 }
 .active_009 {
@@ -1859,6 +1862,14 @@ body {
   animation: skeleton-shine 1s ease infinite;
 }
 
+.small_desc{
+  font-size: 13px;
+  font-weight: 600;
+  color: #747474;
+  padding: 0 0 0 40px;
+  user-select: none;
+}
+
 @keyframes skeleton-shine {
   0% {
     background-position: -40px 0;
@@ -1877,5 +1888,16 @@ body {
   }
   100% {
     background-color: #e2e5e7;
+  }
+}
+.mob-view{
+  display: none;
+}
+@media screen and (max-width:991px) {
+  .web-view{
+    display: none;
+  }
+  .mob-view{
+    display: block;
   }
 }

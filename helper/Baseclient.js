@@ -2,7 +2,7 @@ import axios from "axios";
 import Utils from "../utils/Utils";
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-const userId = localStorage.getItem("user");
+const userId = localStorage.getItem("UserPersistent");
 
 //Create a axios api instance
 const api = axios.create({
