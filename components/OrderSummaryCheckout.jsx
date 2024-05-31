@@ -179,7 +179,7 @@ function OrderSummaryCheckout() {
     ) {
       const payload = {
         shopID: data?.shopID != null ? data?.shopID : shopId,
-        discount: discountData * 100,
+        discount: discountData,
         amount: amount * 100,
         deliveryType: deliveryType,
         deliveryCharge:
@@ -212,14 +212,14 @@ function OrderSummaryCheckout() {
           phone: formState?.phone,
         },
       };
-      console.log(payload, "payload");
+      console.log("payload", payload);
       await completeCheckout(payload, {
         onSuccess: async (res) => {
           toast.success("Order Confirmed!");
           await fetchCartList();
 
           setTimeout(() => {
-            window.location.href = "/";
+            window.location.href = "/confirm";
           }, 1000);
         },
         onFailed: (err) => {
