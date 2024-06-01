@@ -97,8 +97,7 @@ function OrderOnlinePage() {
     setActiveChipIndex(index);
     setSelectedCategory(catName);
   };
-  console.log(menuList, "list");
-  console.log(categoryList, "cate");
+
   return (
     <Fragment>
       <section className="order-online">
@@ -165,7 +164,7 @@ function OrderOnlinePage() {
                   </div>
                   <div className="col-lg-9 col-md-8 col-sm-12 food_area_col">
                     <Foodcard category={selectedCategory} />
-                
+
                     <FoodAccordian />
                   </div>
                 </div>

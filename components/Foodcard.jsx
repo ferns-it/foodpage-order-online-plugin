@@ -129,9 +129,7 @@ function Foodcard(category) {
                                   </h3>
                                   <p className="food_desc_029">
                                     {product?.description &&
-                                      Utils.stripHtml(
-                                        product?.description
-                                      )}
+                                      Utils.stripHtml(product?.description)}
                                   </p>
                                   <button
                                     type="button"
