@@ -58,7 +58,6 @@ function Foodcard(category) {
     setProductDataValues(product);
   };
 
-  console.log(filterLoading);
 
   return (
     <Fragment>

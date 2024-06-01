@@ -57,12 +57,12 @@ function OrderOnlinePage() {
     setIsPageLoading(false);
   }, [filterLoading, menuLoading, cartLoading]);
 
-  useEffect(() => {
-    if (!responseError) return;
-    if (responseError?.code === "ECONNABORTED") {
-      window.location.reload();
-    }
-  }, [responseError]);
+  // useEffect(() => {
+  //   if (!responseError) return;
+  //   if (responseError?.code === "ECONNABORTED") {
+  //     window.location.reload();
+  //   }
+  // }, [responseError]);
 
   const handleScroll = () => {
     if (window.pageYOffset >= 100) {

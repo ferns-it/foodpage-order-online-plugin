@@ -20,6 +20,7 @@ const useMenus = () => {
         return;
       }
       setMenuLoading(true);
+      console.log(menuLoading);
       await BaseClient.get(APIEndpoints.menulist + `/${shopId}/0`, [], {
         onSuccess: (res) => {
           console.log("menu-response", res.data);
