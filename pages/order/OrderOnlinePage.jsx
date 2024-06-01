@@ -29,10 +29,11 @@ function OrderOnlinePage() {
     categoryList,
     setParamsValues,
     setIsPageLoading,
+    isPageLoading,
     filterLoading,
     menuLoading,
     cartLoading,
-    fetchCategoriesList
+    fetchCategoriesList,
   } = useContext(OrderOnlineContext);
   const [filteredList, setFilteredList] = useState(null);
   const [activeChipIndex, setActiveChipIndex] = useState(-1);
@@ -115,7 +116,7 @@ function OrderOnlinePage() {
 
         <div className="wrapper_102322">
           <div className="container-fluid">
-            {menuLoading ? (
+            {menuLoading && cartLoading ? (
               <div className="loader_foodpage_online_order">
                 <div className="loader_gif">
                   <PageLoader />
