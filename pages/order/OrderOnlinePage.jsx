@@ -18,6 +18,7 @@ import OrderSummary from "../../components/OrderSummary";
 import { useParams } from "react-router-dom";
 import "../../style/OrderOnlineApp.css";
 import toast from "react-hot-toast";
+import PageLoader from "../../components/PageLoader";
 
 function OrderOnlinePage() {
   const { shopId, shopUrl } = useParams();
@@ -27,12 +28,11 @@ function OrderOnlinePage() {
     settings,
     categoryList,
     setParamsValues,
-    responseError,
-    isPageLoading,
     setIsPageLoading,
     filterLoading,
     menuLoading,
     cartLoading,
+    fetchCategoriesList
   } = useContext(OrderOnlineContext);
   const [filteredList, setFilteredList] = useState(null);
   const [activeChipIndex, setActiveChipIndex] = useState(-1);
@@ -42,8 +42,9 @@ function OrderOnlinePage() {
 
   useEffect(() => {
     if (!shopId || !shopUrl) return;
-    setParamsValues({ shopId, shopUrl });
-  }, [shopId, shopUrl]);
+    // setParamsValues({ shopId, shopUrl });
+    fetchCategoriesList(shopId);
+  }, []);
 
   useEffect(() => {
     if (
@@ -114,62 +115,69 @@ function OrderOnlinePage() {
 
         <div className="wrapper_102322">
           <div className="container-fluid">
-            <div className="food_order_area">
-              <div className="order_block">
-                <div className="row">
-                  <div className="col-lg-3 col-md-4 col-sm-none cat_col_0229">
-                    <div className="card category_card_009 p-2">
-                      <ul className="food_category_009">
-                        <a
-                          className={
-                            activeChipIndex === -1
-                              ? "nav-link active_009"
-                              : "nav-link"
-                          }
-                          onClick={() => {
-                            setActiveChipIndex(-1);
-                            setSelectedCategory("All");
-                          }}
-                        >
-                          <li>All</li>
-                          <i>
-                            <Lu.LuArrowRightToLine />
-                          </i>
-                        </a>
-                        {categoryList &&
-                          categoryList.length != 0 &&
-                          categoryList.map((list, index) => {
-                            return (
-                              <a
-                                // href={`#category-${index}`}
-                                className={
-                                  index === activeChipIndex
-                                    ? "nav-link active_009"
-                                    : "nav-link"
-                                }
-                                key={index}
-                                onClick={() =>
-                                  handleChipClick(index, list?.name)
-                                }
-                              >
-                                <li>{list?.name}</li>
-                                <i>
-                                  <Lu.LuArrowRightToLine />
-                                </i>
-                              </a>
-                            );
-                          })}
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="col-lg-9 col-md-8 col-sm-12 food_area_col">
-                    <Foodcard category={selectedCategory} />
-
-                    <FoodAccordian />
-                  </div>
+            {menuLoading ? (
+              <div className="loader_foodpage_online_order">
+                <div className="loader_gif">
+                  <PageLoader />
                 </div>
               </div>
-              {/* <div className="checkout_responsive_area">
+            ) : (
+              <div className="food_order_area">
+                <div className="order_block">
+                  <div className="row">
+                    <div className="col-lg-3 col-md-4 col-sm-none cat_col_0229">
+                      <div className="card category_card_009 p-2">
+                        <ul className="food_category_009">
+                          <a
+                            className={
+                              activeChipIndex === -1
+                                ? "nav-link active_009"
+                                : "nav-link"
+                            }
+                            onClick={() => {
+                              setActiveChipIndex(-1);
+                              setSelectedCategory("All");
+                            }}
+                          >
+                            <li>All</li>
+                            <i>
+                              <Lu.LuArrowRightToLine />
+                            </i>
+                          </a>
+                          {categoryList &&
+                            categoryList.length != 0 &&
+                            categoryList.map((list, index) => {
+                              return (
+                                <a
+                                  // href={`#category-${index}`}
+                                  className={
+                                    index === activeChipIndex
+                                      ? "nav-link active_009"
+                                      : "nav-link"
+                                  }
+                                  key={index}
+                                  onClick={() =>
+                                    handleChipClick(index, list?.name)
+                                  }
+                                >
+                                  <li>{list?.name}</li>
+                                  <i>
+                                    <Lu.LuArrowRightToLine />
+                                  </i>
+                                </a>
+                              );
+                            })}
+                        </ul>
+                      </div>
+                    </div>
+                    <div className="col-lg-9 col-md-8 col-sm-12 food_area_col">
+                      <Foodcard category={selectedCategory} />
+
+                      <FoodAccordian />
+                    </div>
+                  </div>
+                </div>
+                {/* <div className="checkout_responsive_area">
                 <div className="container">
                   <div className="row">
                     <div className="col-10">
@@ -196,16 +204,17 @@ function OrderOnlinePage() {
                   </div>
                 </div>
               </div> */}
-              <div
-                className={
-                  isSticky
-                    ? "billing_block_order_plugin sticky bill-spikes"
-                    : "billing_block_order_plugin bill-spikes"
-                }
-              >
-                <OrderSummary />
+                <div
+                  className={
+                    isSticky
+                      ? "billing_block_order_plugin sticky bill-spikes"
+                      : "billing_block_order_plugin bill-spikes"
+                  }
+                >
+                  <OrderSummary />
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
         <div className="footer_98_"></div>

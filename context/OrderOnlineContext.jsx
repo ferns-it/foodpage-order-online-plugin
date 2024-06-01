@@ -63,15 +63,16 @@ export const OrderOnlineContextProvider = (props) => {
     setPaymentData,
   } = usePayment();
 
-  useEffect(() => {
-    fetchProductsList();
-    fetchCartList();
-  }, []);
+  // useEffect(() => {
+  //   fetchProductsList();
+  //   fetchCartList();
+  // }, []);
 
   useEffect(() => {
     if (!paramsValues) return;
+    
     fetchMenuList(paramsValues.shopId);
-    fetchCategoriesList(paramsValues.shopId);
+    
   }, [paramsValues]);
 
   return (
