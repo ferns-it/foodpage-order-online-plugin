@@ -164,7 +164,7 @@ function AddOnsModal(props) {
     });
   };
 
-  console.log(foodValues, "foodValues");
+  // console.log(foodValues, "foodValues");
 
   return (
     <Fragment>
@@ -234,7 +234,7 @@ function AddOnsModal(props) {
                           const variationName = varient?.name
                             ? varient?.name
                             : foodValues?.name;
-                          console.log("varien", varient?.name);
+                          // console.log("varien", varient?.name);
                           if (variationName == null) {
                             setVariationValue({
                               name: foodValues.name,
@@ -242,7 +242,7 @@ function AddOnsModal(props) {
                               // pvID: variationData?.pvID,
                             });
                           }
-                          console.log(varient);
+                          // console.log("varient=>",variationValue.pvID);
                           return (
                             <Fragment>
                               {varient.name != null ? (
@@ -260,7 +260,7 @@ function AddOnsModal(props) {
                                           className="delivery_option"
                                           checked={
                                             variationValue.name ===
-                                            variationName
+                                            variationName && variationValue.pvID == varient?.pvID
                                           }
                                           onClick={() => {
                                             setVariationValue({
