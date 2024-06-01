@@ -1740,7 +1740,11 @@ body {
 }
 @media screen and (max-width: 600px) {
   .moadl_02901 {
-    min-width: 300px;
+    min-width: 90%;
+    font-size: 14px;
+  }
+  .varient_name{
+    white-space: unset;
   }
 }
 
