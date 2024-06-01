@@ -58,7 +58,6 @@ function Foodcard(category) {
     setProductDataValues(product);
   };
 
-
   return (
     <Fragment>
       <AddOnsModal
@@ -73,6 +72,7 @@ function Foodcard(category) {
             products.length != 0 &&
             products.map((list, key) => {
               const productData = list?.product;
+
               if (
                 productData.length != 0 &&
                 (list?.categoryName == category.category ||
@@ -90,6 +90,7 @@ function Foodcard(category) {
                       {productData &&
                         productData.length != 0 &&
                         productData.map((product, index) => {
+                          console.log("productData", product);
                           return (
                             <div
                               className="col-lg-4 col-md-4 col-sm-4"
@@ -126,6 +127,9 @@ function Foodcard(category) {
                                   <h3 className="food_name_029">
                                     {product?.name ?? "N/A"}
                                   </h3>
+                                  <p className="food_price__">
+                                    {product?.price}
+                                  </p>
                                   <p className="food_desc_029">
                                     {product?.description &&
                                       Utils.stripHtml(product?.description)}
