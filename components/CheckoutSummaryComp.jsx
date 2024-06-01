@@ -311,9 +311,9 @@ function CheckoutSummaryComp() {
                     <b>£{allTotal}</b>
                   </h5>
                 </div>
-                <div className="summary_content">
+                {/* <div className="summary_content">
                   <small>Or Call Us at 0432 48432854</small>
-                </div>
+                </div> */}
               </>
             </>
           </>
