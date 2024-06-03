@@ -5,12 +5,12 @@ import AddOnsModal from "./AddOnsModal";
 import "../style/OrderOnlineApp.css";
 import { useParams } from "react-router-dom";
 import SkeltLoader from "./SkeltLoader";
+import { AppContext } from "../../../Context/AppContext";
 
 function Foodcard(category) {
   const { shopId } = useParams();
-  const { categoryList, fetchProductsList, setFilterLoading, filterLoading } =
-    useContext(OrderOnlineContext);
-  const [products, setProducts] = useState(null);
+  const { products, productsLoading, filterLoading } =
+    useContext(AppContext);
   const [showModal, setShowModal] = useState(false);
   const [productDataValues, setProductDataValues] = useState(null);
 
@@ -24,33 +24,6 @@ function Foodcard(category) {
   //     document.documentElement.style.overflow = "auto";
   //   }
   // }, [showModal]);
-
-  useEffect(() => {
-    if (!categoryList || categoryList.length === 0 || !shopId) return;
-
-    const fetchData = async () => {
-      try {
-        setFilterLoading(true);
-
-        const promises = categoryList.map(async (item) => {
-          const data = {
-            shopId: shopId,
-            categoryId: item?.cID,
-          };
-
-          const productRespo = await fetchProductsList(data);
-          return { categoryName: item?.name, product: productRespo };
-        });
-
-        const pro = await Promise.all(promises);
-        setProducts(pro);
-      } finally {
-        setFilterLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [categoryList, shopId]);
 
   const addOnsModalData = (product) => {
     if (!product) return;
@@ -66,7 +39,7 @@ function Foodcard(category) {
         productData={productDataValues}
         shopId={shopId}
       />
-      {filterLoading === false ? (
+      {productsLoading === false ? (
         <Fragment>
           {products &&
             products.length != 0 &&

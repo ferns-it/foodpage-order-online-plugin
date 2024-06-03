@@ -19,45 +19,40 @@ import { useParams } from "react-router-dom";
 import "../../style/OrderOnlineApp.css";
 import toast from "react-hot-toast";
 import PageLoader from "../../components/PageLoader";
+import { AppContext } from "../../../../Context/AppContext";
 
 function OrderOnlinePage() {
-  const { shopId, shopUrl } = useParams();
-
   const {
     menuList,
     settings,
     categoryList,
-    setParamsValues,
-    setIsPageLoading,
-    isPageLoading,
-    filterLoading,
     menuLoading,
     cartLoading,
     fetchCategoriesList,
-  } = useContext(OrderOnlineContext);
+  } = useContext(AppContext);
   const [filteredList, setFilteredList] = useState(null);
   const [activeChipIndex, setActiveChipIndex] = useState(-1);
   const [activeSmallScreen, setActiveSmallScreen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  useEffect(() => {
-    if (!shopId || !shopUrl) return;
-    // setParamsValues({ shopId, shopUrl });
-    fetchCategoriesList(shopId);
-  }, []);
+  // useEffect(() => {
+  //   if (!shopId || !shopUrl) return;
+  //   // setParamsValues({ shopId, shopUrl });
+  //   fetchCategoriesList(shopId);
+  // }, []);
 
-  useEffect(() => {
-    if (
-      filterLoading === true ||
-      menuLoading === true ||
-      cartLoading === true
-    ) {
-      setIsPageLoading(true);
-      return;
-    }
-    setIsPageLoading(false);
-  }, [filterLoading, menuLoading, cartLoading]);
+  // useEffect(() => {
+  //   if (
+  //     filterLoading === true ||
+  //     menuLoading === true ||
+  //     cartLoading === true
+  //   ) {
+  //     setIsPageLoading(true);
+  //     return;
+  //   }
+  //   setIsPageLoading(false);
+  // }, [filterLoading, menuLoading, cartLoading]);
 
   // useEffect(() => {
   //   if (!responseError) return;
@@ -145,29 +140,42 @@ function OrderOnlinePage() {
                               <Lu.LuArrowRightToLine />
                             </i>
                           </a>
-                          {categoryList &&
-                            categoryList.length != 0 &&
-                            categoryList.map((list, index) => {
-                              return (
-                                <a
-                                  // href={`#category-${index}`}
-                                  className={
-                                    index === activeChipIndex
-                                      ? "nav-link active_009"
-                                      : "nav-link"
-                                  }
-                                  key={index}
-                                  onClick={() =>
-                                    handleChipClick(index, list?.name)
-                                  }
-                                >
-                                  <li>{list?.name}</li>
-                                  <i>
-                                    <Lu.LuArrowRightToLine />
-                                  </i>
-                                </a>
-                              );
-                            })}
+                          {menuLoading ? (
+                            <Fragment>
+                              {" "}
+                              <h2 class="card-title-order-online-920 skeleton"></h2>
+                              <h2 class="card-title-order-online-920 skeleton"></h2>
+                              <h2 class="card-title-order-online-920 skeleton"></h2>
+                              <h2 class="card-title-order-online-920 skeleton"></h2>
+                              <h2 class="card-title-order-online-920 skeleton"></h2>
+                            </Fragment>
+                          ) : (
+                            <Fragment>
+                              {categoryList &&
+                                categoryList.length != 0 &&
+                                categoryList.map((list, index) => {
+                                  return (
+                                    <a
+                                      // href={`#category-${index}`}
+                                      className={
+                                        index === activeChipIndex
+                                          ? "nav-link active_009"
+                                          : "nav-link"
+                                      }
+                                      key={index}
+                                      onClick={() =>
+                                        handleChipClick(index, list?.name)
+                                      }
+                                    >
+                                      <li>{list?.name}</li>
+                                      <i>
+                                        <Lu.LuArrowRightToLine />
+                                      </i>
+                                    </a>
+                                  );
+                                })}
+                            </Fragment>
+                          )}
                         </ul>
                       </div>
                     </div>
