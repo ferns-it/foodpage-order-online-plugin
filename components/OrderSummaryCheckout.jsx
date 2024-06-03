@@ -214,7 +214,7 @@ function OrderSummaryCheckout() {
           phone: formState?.phone,
         },
       };
-      console.log("payload", payload);
+
       await completeCheckout(payload, {
         onSuccess: async (res) => {
           toast.success("Order Confirmed!");
@@ -438,23 +438,12 @@ function OrderSummaryCheckout() {
                             name="addressLine2"
                             id=""
                             className={
-                              fieldError &&
-                              (!formState.addressLine2 ||
-                                formState?.addressLine2.length == 0)
-                                ? "form-control online_order_plugin_input_2939 error___"
-                                : "form-control online_order_plugin_input_2939 "
+                              "form-control online_order_plugin_input_2939"
                             }
                             onChange={handleChange}
                             value={formState.addressLine2}
                           />
                         </div>
-                        {fieldError &&
-                          (!formState.addressLine2 ||
-                            formState?.addressLine2?.length == 0) && (
-                            <span className="oos_err_29102">
-                              Address Line 2 is required!
-                            </span>
-                          )}
                       </div>
                       <div className="col-lg-4 col-md-4 col-sm-4 mt-3">
                         <div className="form-group">
@@ -499,24 +488,11 @@ function OrderSummaryCheckout() {
                             type="text"
                             name="county"
                             id=""
-                            className={
-                              fieldError &&
-                              (!formState.county ||
-                                formState?.county.length == 0)
-                                ? "form-control online_order_plugin_input_2939 error___"
-                                : "form-control online_order_plugin_input_2939 "
-                            }
+                            className="form-control online_order_plugin_input_2939"
                             onChange={handleChange}
                             value={formState.county}
                           />
                         </div>
-                        {fieldError &&
-                          (!formState.county ||
-                            formState?.county?.length == 0) && (
-                            <span className="oos_err_29102">
-                              Country is required!
-                            </span>
-                          )}
                       </div>
                     </div>
                     <div className="form-group mt-3">
@@ -547,8 +523,8 @@ function OrderSummaryCheckout() {
               <div
                 className={
                   activeCard == "login"
-                  ? "order_online_horiz_line"
-                  : "order_online_horiz_line short"
+                    ? "order_online_horiz_line"
+                    : "order_online_horiz_line short"
                 }
               ></div>
               <div className="card login_summary_card_0928">
