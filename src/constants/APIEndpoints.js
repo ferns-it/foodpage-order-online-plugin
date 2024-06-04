@@ -6,6 +6,6 @@ export const APIEndpoints = {
   cartCreation: "v2/shop/user/web/carts",
   getCartItems: "v2/shop/user/web/carts",
   deleteCartItem: "v2/shop/user/web/carts",
-  locationSettings:"v2/shop/service",
-  shopSettings:"v2/shop/settings"
+  locationSettings: "v2/shop/service",
+  shopSettings: "v2/shop/settings",
 };
