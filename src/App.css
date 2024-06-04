@@ -1353,3 +1353,10 @@ body {
     min-width: 300px;
   }
 }
+.no_product {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  user-select: none;
+  color: #7777;
+}

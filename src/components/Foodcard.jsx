@@ -73,8 +73,7 @@ function Foodcard(category) {
                 <h3 className="cat_2901"> {list?.categoryName ?? "N/A"}</h3>
                 <br />
                 <div className="row">
-                  {productData &&
-                    productData.length != 0 &&
+                  {productData && productData.length != 0 ? (
                     productData.map((product, index) => {
                       return (
                         <div className="col-lg-4 col-md-4 col-sm-4" key={index}>
@@ -127,7 +126,12 @@ function Foodcard(category) {
                           </div>
                         </div>
                       );
-                    })}
+                    })
+                  ) : (
+                    <Fragment>
+                      <p className="no_product">Dishes Not Available for Online</p>
+                    </Fragment>
+                  )}
                 </div>
               </div>
             );
