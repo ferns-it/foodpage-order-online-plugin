@@ -54,7 +54,7 @@ function Foodcard(category) {
                 return (
                   <div
                     className="product_wrapper_029"
-                    id={`category-${key}`}
+                    id={`category-${list?.categoryId}`}
                     key={key}
                   >
                     <h3 className="cat_2901"> {list?.categoryName ?? "N/A"}</h3>
