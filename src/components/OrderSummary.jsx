@@ -218,16 +218,11 @@ function OrderSummary() {
     }
 
     if (delivery === true) {
-      if (time == null) {
-        toast.error("Please Choose Takeaway Time!");
-        setisCheckoutActive(false);
-        return;
-      } else {
-        if (timeStatus && timeStatus.status == false) return;
-
-        sessionStorage.setItem("type", delivery);
-        setisCheckoutActive(true);
-      }
+      if (time === null) return;
+      if (time === null && timeStatus && timeStatus.status == false) return;
+      console.log("reached", time);
+      sessionStorage.setItem("type", delivery);
+      setisCheckoutActive(true);
     }
   };
 
@@ -302,7 +297,7 @@ function OrderSummary() {
         };
     }
     setTimeStatus(status);
-
+    console.log(event.target.value);
     setError(status.message);
     setTime(event.target.value);
   };

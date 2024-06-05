@@ -1754,6 +1754,12 @@ body {
   .varient_name {
     white-space: unset;
   }
+  .login_order_online_form_0283{
+    height: 100% !important;
+  }
+  .order_online_horiz_line{
+    height: 100%;
+  }
 }
 
 @media screen and (max-width: 676px) {
