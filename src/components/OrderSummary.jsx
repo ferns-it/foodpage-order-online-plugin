@@ -38,6 +38,7 @@ function OrderSummary() {
   const [deliveryInfo, setDeliveryInfo] = useState(null);
   const [postalCode, setPostalCode] = useState("");
   const [locationLoading, setLocationLoading] = useState(false);
+  const [timeStatus, setTimeStatus] = useState(null);
 
   let distanceRange = 0;
 
@@ -222,6 +223,8 @@ function OrderSummary() {
         setisCheckoutActive(false);
         return;
       } else {
+        if (timeStatus && timeStatus.status == false) return;
+
         sessionStorage.setItem("type", delivery);
         setisCheckoutActive(true);
       }
@@ -273,6 +276,7 @@ function OrderSummary() {
           status: false,
           message: "Current time is not permitted for takeaway!",
         };
+
         break;
       case takeawayTimeData < currentTime:
         status = {
@@ -281,7 +285,7 @@ function OrderSummary() {
             "Taking away a time earlier than the current time is not allowed!",
         };
         toast.error("Less than 30 minutes from Current Time is not allowed!");
-        return;
+
         break;
       case takeawayTimeData.getTime() - currentTime.getTime() < 30 * 60 * 1000:
         status = {
@@ -289,7 +293,7 @@ function OrderSummary() {
           message: "Less than 30 minutes from Current Time",
         };
         toast.error("Less than 30 minutes from Current Time is not allowed!");
-        return;
+
         break;
       default:
         status = {
@@ -297,6 +301,7 @@ function OrderSummary() {
           message: "",
         };
     }
+    setTimeStatus(status);
 
     setError(status.message);
     setTime(event.target.value);
@@ -533,6 +538,7 @@ function OrderSummary() {
                     : "opt_input_827"
                 }
                 onChange={validateCurrentTime}
+                value={time}
               />
             </div>
             {error && <div className="error-message">{error}</div>}
