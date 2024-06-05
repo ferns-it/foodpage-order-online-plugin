@@ -55,6 +55,7 @@ function OrderSummaryCheckout() {
   const [fieldError, setFieldError] = useState(false);
   const [discountData, setDiscountData] = useState(null);
   const [intentLoading, setIntentLoading] = useState(false);
+  const [paymentLoading, setPaymentLoading] = useState(false)
 
   // useEffect(() => {
   //   const handleBeforeUnload = (event) => {
@@ -212,17 +213,22 @@ function OrderSummaryCheckout() {
         },
       };
 
-      await completeCheckout(payload, {
-        onSuccess: async (res) => {
-          toast.success("Order Confirmed!");
-          window.location.href = "/confirm";
-          await fetchCartList();
-        },
-        onFailed: (err) => {
-          console.log("error message for confirm payment", err.error.message);
-          toast.error("Payment Failed");
-        },
-      });
+      try {
+        setPaymentLoading(true)
+        await completeCheckout(payload, {
+          onSuccess: async (res) => {
+            toast.success("Order Confirmed!");
+            window.location.href = "/confirm";
+            await fetchCartList();
+          },
+          onFailed: (err) => {
+            console.log("error message for confirm payment", err.error.message);
+            toast.error("Payment Failed");
+          },
+        });
+      } finally {
+        setPaymentLoading(false)
+      }
     }
   };
 
@@ -613,9 +619,9 @@ function OrderSummaryCheckout() {
                           type="button"
                           className="cash_payment_submit_btn_order_online"
                           onClick={completeOrder}
-                          disabled={loading}
+                          disabled={paymentLoading}
                         >
-                          {!loading ? (
+                          {!paymentLoading ? (
                             "Submit"
                           ) : (
                             <Fragment>
