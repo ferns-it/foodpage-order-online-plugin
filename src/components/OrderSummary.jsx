@@ -8,7 +8,6 @@ import axios from "axios";
 import { Toaster } from "react-hot-toast";
 
 function OrderSummary() {
-
   const {
     cartItems,
     deleteSingleCartItem,
@@ -42,15 +41,13 @@ function OrderSummary() {
 
   let distanceRange = 0;
 
-
-
   useEffect(() => {
     const time = Utils.getCurrentTime();
     setTime(time);
   }, []);
 
   useEffect(() => {
-    if(!settings){
+    if (!settings) {
       console.log("Settings are not available");
       return;
     }
@@ -474,27 +471,33 @@ function OrderSummary() {
       <div className="line__"></div>
 
       <div className="row mt-3 mx-auto mx-auto" style={{ display: "flex" }}>
-        <div className="col-md-6" style={{ flex: 1 }}>
-          <input
-            type="radio"
-            className="radio_btn"
-            checked={!delivery}
-            onChange={() => setDelivery(false)}
-          />
-          <label onClick={() => setDelivery(false)}> Delivery</label>
-        </div>
-        {deliveryInfo != null && deliveryInfo?.takeAway == 1 && (
-          <div className="col-md-6" style={{ flex: 1 }}>
-            <input
-              type="radio"
-              className="radio_btn"
-              onClick={() => setDelivery(true)}
-              checked={delivery}
-              onChange={() => setDelivery(true)}
-            />
-            <label onClick={() => setDelivery(true)}> Takeaway</label>
-          </div>
-        )}
+        {deliveryInfo != null &&
+          deliveryInfo?.homeDelivery &&
+          deliveryInfo?.homeDelivery == 1 && (
+            <div className="col-md-6" style={{ flex: 1 }}>
+              <input
+                type="radio"
+                className="radio_btn"
+                checked={!delivery}
+                onChange={() => setDelivery(false)}
+              />
+              <label onClick={() => setDelivery(false)}> Delivery</label>
+            </div>
+          )}
+        {deliveryInfo != null &&
+          deliveryInfo?.takeAway &&
+          deliveryInfo?.takeAway == 1 && (
+            <div className="col-md-6" style={{ flex: 1 }}>
+              <input
+                type="radio"
+                className="radio_btn"
+                onClick={() => setDelivery(true)}
+                checked={delivery}
+                onChange={() => setDelivery(true)}
+              />
+              <label onClick={() => setDelivery(true)}> Takeaway</label>
+            </div>
+          )}
       </div>
 
       <div className="row">

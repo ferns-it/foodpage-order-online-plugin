@@ -225,7 +225,7 @@ function OrderSummaryCheckout() {
     }
   };
 
-  return (
+  return (   
     <Fragment>
       <section className="order_summary_checkout">
         {/* <button type="button" onClick={completeOrder}>
