@@ -2,13 +2,17 @@ import React, { Fragment, useContext, useEffect, useState } from "react";
 import placeholderImg from "../assets/images/food.jpg";
 import * as Lu from "react-icons/lu";
 import * as Tb from "react-icons/tb";
+import * as Md from "react-icons/md";
 import { AppContext } from "../context/AppContext";
 import Utils from "../utils/Utils";
 import AddOnsModal from "./AddOnsModal";
+import OrderSummary from "./OrderSummary";
 
 function FoodAccordian() {
-  const { categoryList, fetchProductsList, products } = useContext(AppContext);
+  const { categoryList, fetchProductsList, filterLoading, shopId, products } =
+    useContext(AppContext);
   const [accordionStates, setAccordionStates] = useState(null);
+  const [activeSmallScreen, setActiveSmallScreen] = useState(true);
   const [showRespModal, setShowRespModal] = useState(false);
   const [productRespDataValues, setProductRespDataValues] = useState(null);
 
@@ -42,98 +46,121 @@ function FoodAccordian() {
         setShowModal={setShowRespModal}
         productData={productRespDataValues}
       />
-      <section className="accordian_wrapper_001">
-        {isAnyAccordionOpen && (
-          <button
-            type="button"
-            className="collapse_accordion_001"
-            onClick={collapseAll}
-          >
-            <Tb.TbLayoutNavbarCollapseFilled /> <span>Collapse All</span>
-          </button>
-        )}
-        {products &&
-          products.length != 0 &&
-          products.map((list, index) => {
-            const productData = list?.product;
-            return (
-              <div className="accordian_space_001" key={index}>
-                <button
-                  type="button"
-                  className="accor_btn_001"
-                  onClick={() => toggleAccordion(index)}
-                >
-                  <span className="accord_category_name_19">
-                    {list?.categoryName ?? "N/A"}
-                  </span>
-                  <span
+
+      <Fragment>
+        <section className="accordian_wrapper_001">
+          {isAnyAccordionOpen && (
+            <button
+              type="button"
+              className="collapse_accordion_001"
+              onClick={collapseAll}
+            >
+              <Tb.TbLayoutNavbarCollapseFilled /> <span>Collapse All</span>
+            </button>
+          )}
+          {products &&
+            products.length != 0 &&
+            products.map((list, index) => {
+              const productData = list?.product;
+              return (
+                <div className="accordian_space_001" key={index}>
+                  <button
+                    type="button"
+                    className="accor_btn_001"
+                    onClick={() => toggleAccordion(index)}
+                  >
+                    <span className="accord_category_name_19">
+                      {list?.categoryName ?? "N/A"}
+                    </span>
+                    <span
+                      className={
+                        accordionStates && accordionStates[index]
+                          ? "accord_arrow_19 "
+                          : "accord_arrow_19 down"
+                      }
+                    >
+                      <Lu.LuArrowUpFromDot />
+                    </span>
+                  </button>
+                  <div
                     className={
                       accordionStates && accordionStates[index]
-                        ? "accord_arrow_19 "
-                        : "accord_arrow_19 down"
+                        ? "food_list_are_001"
+                        : "food_list_are_001 hide"
                     }
                   >
-                    <Lu.LuArrowUpFromDot />
-                  </span>
-                </button>
-                <div
-                  className={
-                    accordionStates && accordionStates[index]
-                      ? "food_list_are_001"
-                      : "food_list_are_001 hide"
-                  }
-                >
-                  {productData &&
-                    productData.length != 0 &&
-                    productData.map((product, index) => {
-                      return (
-                        <a
-                          className="accord_food_anchor mb-2"
-                          key={index}
-                          onClick={() => addOnsModalData(product)}
-                        >
-                          <div className="card accord_food_card_19">
-                            <div className="row">
-                              <div className="col-8">
-                                <h2 className="accord_food_name_19">
-                                  {product?.name ?? "N/A"}
-                                </h2>
-                                <p className="accord_desc_19">
-                                  {product?.description &&
-                                    Utils.removeSpecialCharacters(
-                                      product?.description
-                                    )}
-                                </p>
-                                <p className="accord_price_19">£190</p>
-                              </div>
-                              <div className="col-4">
-                                <div className="accord_img_19">
-                                  <img src={product?.photo} alt="" />
+                    {productData &&
+                      productData.length != 0 &&
+                      productData.map((product, index) => {
+                        return (
+                          <a
+                            className="accord_food_anchor mb-2"
+                            key={index}
+                            onClick={() => addOnsModalData(product)}
+                          >
+                            <div className="card accord_food_card_19">
+                              <div className="row">
+                                <div className="col-8">
+                                  <h2 className="accord_food_name_19">
+                                    {product?.name ?? "N/A"}
+                                  </h2>
+                                  <p className="accord_desc_19">
+                                    {product?.description &&
+                                      Utils.removeSpecialCharacters(
+                                        product?.description
+                                      )}
+                                  </p>
+                                  <p className="accord_price_19">
+                                    {product?.price}
+                                  </p>
+                                </div>
+                                <div className="col-4">
+                                  <div className="accord_img_19">
+                                    <img src={product?.photo} alt="" />
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        </a>
-                      );
-                    })}
+                          </a>
+                        );
+                      })}
+                  </div>
+                  <hr />
                 </div>
-                <hr />
+              );
+            })}
+        </section>
+        <div
+          className={
+            activeSmallScreen ? "checkout_responsive_area" : "check-res"
+          }
+        >
+          <div className="container">
+            <div className="row">
+              <div className="col-12">
+                {activeSmallScreen ? (
+                  <button
+                    className="checkout_resp_btn_021"
+                    onClick={() => setActiveSmallScreen(!activeSmallScreen)}
+                  >
+                    Checkout
+                  </button>
+                ) : (
+                  <button
+                    className="tog"
+                    onClick={() => setActiveSmallScreen(true)}
+                  >
+                    <Md.MdOutlineClose />
+                  </button>
+                )}
               </div>
-            );
-          })}
-      </section>
-      <div className="checkout_responsive_area">
-        <div className="container">
-          <div className="row">
-            <div className="col-10">
-              <button className="checkout_resp_btn_021">Checkout</button>
             </div>
-            <div className="col-2">
-              <span className="checkout_resp_price">£190</span>
+            <div className="row">
+              <OrderSummary />
             </div>
           </div>
         </div>
-      </div>
+      </Fragment>
     </Fragment>
   );
 }
