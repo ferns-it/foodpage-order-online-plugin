@@ -13,6 +13,7 @@ import PleaseWait from "./PleaseWait";
 import { FiArrowLeft } from "react-icons/fi";
 import { IoInformationCircleOutline } from "react-icons/io5";
 import { AppContext } from "../context/AppContext";
+import { FaArrowDown } from "react-icons/fa";
 
 function OrderSummaryCheckout() {
   const {
@@ -225,7 +226,7 @@ function OrderSummaryCheckout() {
     }
   };
 
-  return (   
+  return (
     <Fragment>
       <section className="order_summary_checkout">
         {/* <button type="button" onClick={completeOrder}>
@@ -250,7 +251,15 @@ function OrderSummaryCheckout() {
                 ) : (
                   <p>Complete your payment</p>
                 )}
-
+                {activeCard !== "login" && (
+                  <button
+                    type="button"
+                    className="active_login_btn_order_online"
+                    onClick={() => setActiveCard("login")}
+                  >
+                    <FaArrowDown /> Show Details
+                  </button>
+                )}
                 <div
                   className={
                     activeCard === "login"
