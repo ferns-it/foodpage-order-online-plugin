@@ -7,32 +7,10 @@ import Utils from "../utils/Utils";
 import AddOnsModal from "./AddOnsModal";
 
 function FoodAccordian() {
-  const { categoryList, fetchProductsList } = useContext(AppContext);
+  const { categoryList, fetchProductsList, products } = useContext(AppContext);
   const [accordionStates, setAccordionStates] = useState(null);
-  const [products, setProducts] = useState(null);
   const [showRespModal, setShowRespModal] = useState(false);
   const [productRespDataValues, setProductRespDataValues] = useState(null);
-
-  useEffect(() => {
-    if (!categoryList || categoryList.length === 0) return;
-
-    const fetchData = async () => {
-      const pro = await Promise.all(
-        categoryList.map(async (item) => {
-          const data = {
-            shopId: 1,
-            categoryId: item?.cID,
-          };
-
-          const productRespo = await fetchProductsList(data);
-          return { categoryName: item?.name, product: productRespo };
-        })
-      );
-      setProducts(pro);
-    };
-
-    fetchData();
-  }, [categoryList]);
 
   useEffect(() => {
     if (!categoryList) return;
@@ -52,14 +30,14 @@ function FoodAccordian() {
   const isAnyAccordionOpen =
     accordionStates && accordionStates.some((state) => state);
 
-    const addOnsModalData = (product) => {
-      setShowRespModal(true);
-      setProductRespDataValues(product);
-    };
+  const addOnsModalData = (product) => {
+    setShowRespModal(true);
+    setProductRespDataValues(product);
+  };
 
   return (
     <Fragment>
-       <AddOnsModal
+      <AddOnsModal
         showModal={showRespModal}
         setShowModal={setShowRespModal}
         productData={productRespDataValues}
@@ -110,10 +88,9 @@ function FoodAccordian() {
                     productData.map((product, index) => {
                       return (
                         <a
-                          
                           className="accord_food_anchor mb-2"
                           key={index}
-                          onClick={()=> addOnsModalData(product)}
+                          onClick={() => addOnsModalData(product)}
                         >
                           <div className="card accord_food_card_19">
                             <div className="row">

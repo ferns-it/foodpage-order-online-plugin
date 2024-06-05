@@ -1,7 +1,7 @@
 import { useState } from "react";
 import BaseClient from "../helper/Baseclient";
 import { loadStripe } from "@stripe/stripe-js";
-import { APIEndpoints } from "../Constants/APIEndpoints";
+import { APIEndpoints } from "../constants/OrderOnlineAPIEndpoints";
 
 export default function usePayment() {
   const [loading, setLoading] = useState(false);
@@ -72,7 +72,7 @@ export default function usePayment() {
       setPaymentStatus(null);
     }
   };
-
+  
   const completeCheckout = async (payload, { onSuccess, onFailed }) => {
     try {
       setLoading(true);

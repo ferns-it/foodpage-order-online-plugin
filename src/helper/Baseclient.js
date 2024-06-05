@@ -11,7 +11,7 @@ const api = axios.create({
     User: userId ? userId : Utils.generateRandomId(),
   },
   // withCredentials: true,
-  timeout: 10000,
+  timeout: 30000,
 });
 
 //Interceptor for handle the response

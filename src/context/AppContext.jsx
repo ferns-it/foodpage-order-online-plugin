@@ -7,6 +7,15 @@ export const AppContext = createContext();
 export const AppContextProvider = (props) => {
   const [products, setProducts] = useState(null);
   const [productsLoading, setProductsLoading] = useState(false);
+  const [paramsValues, setParamsValues] = useState(null);
+  const [delivery, setDelivery] = useState(false);
+  const [locationResponseData, setLocationResponseData] = useState(null);
+  const [isCheckoutActive, setisCheckoutActive] = useState(false);
+  const [activeCard, setActiveCard] = useState("login");
+  const [isPageLoading, setIsPageLoading] = useState(false);
+  const [filterLoading, setFilterLoading] = useState(false);
+  const [deliveryFee, setDeliveryFee] = useState(null);
+  const shopId = 1;
 
   const {
     fetchMenuList,
@@ -20,10 +29,16 @@ export const AppContextProvider = (props) => {
     fetchCartList,
     cartItems,
     getLocation,
+    categoryLoading,
+    productsList,
+    cartLoading,
+    deleteSingleCartItem,
+    responseError,
   } = useMenus();
 
   const { settings, getShopSettings, settingsLoading, deleteCartItem } =
     useShop();
+
   const {
     isAuthenticated,
     setIsSignUp,
@@ -46,23 +61,21 @@ export const AppContextProvider = (props) => {
     completeCheckout,
     type,
     setType,
-    deliveryFee,
-    setDeliveryFee,
     paymentData,
     orderDetails,
+    paymentError,
+    setPaymentData,
   } = usePayment();
 
   useEffect(() => {
-    fetchMenuList();
     fetchCategoriesList();
+    fetchMenuList();
     fetchProductsList();
     fetchCartList();
     getShopSettings();
   }, []);
 
   useEffect(() => {
-    console.log("categoryList", categoryList);
-
     if (!categoryList || categoryList.length === 0) return;
 
     const fetchData = async () => {
@@ -71,7 +84,7 @@ export const AppContextProvider = (props) => {
         const pro = await Promise.all(
           categoryList.map(async (item) => {
             const data = {
-              shopId: 59,
+              shopId,
               categoryId: item?.cID,
             };
 
@@ -127,7 +140,6 @@ export const AppContextProvider = (props) => {
         billingAddress,
         setBillingAddress,
         selectedBookingDate,
-        deliveryFee,
         confirmPayment,
         amount,
         setAmount,
@@ -136,11 +148,32 @@ export const AppContextProvider = (props) => {
         setType,
         deliveryFee,
         orderDetails,
-        setDeliveryFee,
         paymentData,
         products,
         setProducts,
         productsLoading,
+        categoryLoading,
+        productsList,
+        cartLoading,
+        deleteSingleCartItem,
+        responseError,
+        paramsValues,
+        setParamsValues,
+        delivery,
+        setDelivery,
+        locationResponseData,
+        setLocationResponseData,
+        isCheckoutActive,
+        setisCheckoutActive,
+        activeCard,
+        setActiveCard,
+        isPageLoading,
+        setIsPageLoading,
+        filterLoading,
+        setFilterLoading,
+        shopId,
+        paymentError,
+        setPaymentData,
       }}
     >
       {props.children}

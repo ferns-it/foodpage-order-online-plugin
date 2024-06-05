@@ -26,6 +26,7 @@ function Order() {
     menuLoading,
     cartLoading,
     fetchCategoriesList,
+    categoryLoading
   } = useContext(AppContext);
   const [filteredList, setFilteredList] = useState(null);
   const [activeChipIndex, setActiveChipIndex] = useState(-1);
@@ -34,7 +35,8 @@ function Order() {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   // useEffect(() => {
-  //   if (!shopId || !shopUrl) return;
+  //   const shopId = "1-shop";
+  //   // if (!shopId || !shopUrl) return;
   //   // setParamsValues({ shopId, shopUrl });
   //   fetchCategoriesList(shopId);
   // }, []);
@@ -108,13 +110,13 @@ function Order() {
 
         <div className="wrapper_102322">
           <div className="container-fluid">
-            {menuLoading && cartLoading ? (
+            {/* {menuLoading && cartLoading ? (
               <div className="loader_foodpage_online_order">
                 <div className="loader_gif">
                   <PageLoader />
                 </div>
               </div>
-            ) : (
+            ) : ( */}
               <div className="food_order_area">
                 <div className="order_block">
                   <div className="row">
@@ -137,7 +139,7 @@ function Order() {
                               <Lu.LuArrowRightToLine />
                             </i>
                           </a>
-                          {menuLoading ? (
+                          {categoryLoading ? (
                             <Fragment>
                               {" "}
                               <h2 class="card-title-order-online-920 skeleton"></h2>
@@ -220,7 +222,7 @@ function Order() {
                   <OrderSummary />
                 </div>
               </div>
-            )}
+            
           </div>
         </div>
         <div className="footer_98_"></div>

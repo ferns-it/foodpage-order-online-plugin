@@ -10,6 +10,7 @@ import * as Bs from "react-icons/bs";
 import Utils from "../utils/Utils";
 import toast, { Toaster } from "react-hot-toast";
 import { AppContext } from "../context/AppContext";
+import "../style/OrderOnlineApp.css";
 
 function AddOnsModal(props) {
   const modalRef = useRef(null);

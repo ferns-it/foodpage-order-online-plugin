@@ -4,102 +4,231 @@ import * as Io from "react-icons/io";
 import { AppContext } from "../context/AppContext";
 import toast from "react-hot-toast";
 import Utils from "../utils/Utils";
+import axios from "axios";
+import { Toaster } from "react-hot-toast";
 
 function OrderSummary() {
+
   const {
     cartItems,
     deleteSingleCartItem,
     cartLoading,
     fetchCartList,
-    getLocation,
     locationResponse,
+    menuList,
     settings,
     getShopSettings,
+    delivery,
+    setDelivery,
+    locationResponseData,
+    setLocationResponseData,
+    setisCheckoutActive,
   } = useContext(AppContext);
 
-  const [deliveryOption, setDeliveryOption] = useState("delivery");
   const [showAddons, setShowAddons] = useState(null);
   const [deleteIndex, setDeleteIndex] = useState(-1);
-  const [postalcode, setPostalcode] = useState("");
+  const [locationData, setLocationData] = useState(null);
   const [takeawayTime, setTakeawayTime] = useState("");
   const [error, setError] = useState(false);
   const [discount, setDiscount] = useState(0);
   const [allTotal, setAllTotal] = useState(0);
+  const [convertedDistance, setConvertedDistance] = useState(null);
+  const [time, setTime] = useState("");
   const [takeaway, setTakeaway] = useState(null);
   const [takeawayTotal, setTakeawayTotal] = useState(null);
+  const [deliveryInfo, setDeliveryInfo] = useState(null);
+  const [postalCode, setPostalCode] = useState("");
+  const [locationLoading, setLocationLoading] = useState(false);
 
   let distanceRange = 0;
 
-  useEffect(() => {
-    const shopUrl = "le-arabia";
-    getShopSettings(shopUrl);
 
+
+  useEffect(() => {
     const time = Utils.getCurrentTime();
-    setTakeawayTime(time);
+    setTime(time);
   }, []);
 
   useEffect(() => {
-    const dis = cartItems?.cartTotal?.cartTotalPrice / 100;
-    const deliveryInfo = settings?.deliveryInfo;
-
-    if (dis >= deliveryInfo?.minAmtForHomDelvryDiscnt) {
-      const amt = dis * (deliveryInfo?.discountHomeDelivery / 100);
-      setDiscount(amt.toFixed(2));
-      setAllTotal((dis - amt).toFixed(2));
-    } else {
-      setDiscount(0);
-      setAllTotal(dis.toFixed(2));
+    if(!settings){
+      console.log("Settings are not available");
+      return;
     }
-    if (dis >= deliveryInfo?.minAmtForTakAwayDiscnt) {
-      const amt = dis * (deliveryInfo?.discountTakeAway / 100);
-      setTakeaway(amt.toFixed(2));
-      setTakeawayTotal((dis - amt).toFixed(2));
-    } else {
-      setTakeaway(0);
-      setTakeawayTotal(dis.toFixed(2));
-    }
-  }, [cartItems]);
+    const info = settings != null && settings?.deliveryInfo;
+    // console.log(settings);
+    setDeliveryInfo(info);
+  }, [settings]);
 
-  const getLocationDetails = async () => {
-    if (!settings) return;
-    const deliveryInfo = settings?.deliveryInfo ?? null;
-    if (!deliveryInfo) return;
-    let shopPostalCode = deliveryInfo?.shopPostcode;
-    console.log(postalcode);
-    if (!postalcode || postalcode.length == 0) return;
-    console.log(shopPostalCode, postalcode);
-    console.log(shopPostalCode);
-    await getLocation(shopPostalCode, postalcode);
+  useEffect(() => {
+    const calculateDiscounts = () => {
+      const subtotal = cartItems?.cartTotal?.cartTotalPrice / 100;
+
+      let homeDeliveryDiscount = 0;
+      let takeawayDiscount = 0;
+
+      if (subtotal >= deliveryInfo?.minAmtForHomDelvryDiscnt) {
+        homeDeliveryDiscount =
+          subtotal * (deliveryInfo?.discountHomeDelivery / 100);
+      }
+
+      if (subtotal >= deliveryInfo?.minAmtForTakAwayDiscnt) {
+        takeawayDiscount = subtotal * (deliveryInfo?.discountTakeAway / 100);
+      }
+
+      setDiscount(homeDeliveryDiscount.toFixed(2));
+      setTakeaway(takeawayDiscount.toFixed(2));
+      setAllTotal((subtotal - homeDeliveryDiscount).toFixed(2));
+      setTakeawayTotal((subtotal - takeawayDiscount).toFixed(2));
+    };
+
+    if (cartItems && deliveryInfo) {
+      calculateDiscounts();
+    }
+  }, [cartItems, deliveryInfo]);
+
+  const processLocationData = (locationData) => {
+    if (!locationData) return;
+    const mileToKMConversionFactor = 0.62137119;
+    const distanceText = locationData?.distance?.text;
+
+    if (!distanceText) {
+      // console.log("Unavailable distance text");
+      return "Data Unavailable";
+    }
+
+    const numericDistanceKM = parseFloat(distanceText.match(/[\d\.]+/)[0]);
+    // console.log(numericDistanceKM, "numeric");
+    if (isNaN(numericDistanceKM)) {
+      // console.log("Invalid distance data");
+      return "Invalid Distance Data";
+    }
+
+    let actualDistance;
+    if (deliveryInfo?.distanceType === "Mile") {
+      actualDistance = (numericDistanceKM * mileToKMConversionFactor).toFixed(
+        2
+      );
+    } else {
+      actualDistance = numericDistanceKM.toFixed(2);
+    }
+
+    setConvertedDistance(actualDistance);
+    return actualDistance;
   };
 
-  const handleAddress = () => {
-    getLocationDetails();
+  // console.log("deliveryInfo",deliveryInfo);
 
-    if (!locationResponse) return;
-
-    const elementStatus = locationResponse.rows[0].elements[0].status;
-
-    if (elementStatus === "NOT_FOUND") {
-      toast.error("Postal code Not Found!");
-      return false;
+  const fetchDistance = async () => {
+    if (postalCode == null) {
+      console.log("Invalid postcode!");
+      return;
     }
-    if (elementStatus === "ZERO_RESULTS") {
-      toast.error("Delivery Not Available in this Location!");
-      return false;
+
+    if (deliveryInfo?.shopPostcode && postalCode) {
+      let origin = deliveryInfo?.shopPostcode;
+      let destination = postalCode;
+
+      try {
+        setLocationLoading(true);
+        const response = await axios.get(
+          `https://foodpage.co.uk/development/v2/shop/service/delivery?origins=${origin}&destinations=${destination}&units=matrix`
+        );
+
+        if (response.data) {
+          setLocationResponseData(response.data);
+
+          const locationDataValue = response.data;
+          // console.log(locationDataValue);
+          if (!locationDataValue?.data) {
+            toast.error("Location data not loaded or invalid!");
+            return true;
+          }
+
+          const element = locationDataValue?.data?.rows[0].elements[0];
+          const elementStatus = element.status;
+
+          if (elementStatus === "NOT_FOUND") {
+            toast.error("Postal code Not Found!");
+            return true;
+          }
+
+          if (elementStatus === "ZERO_RESULTS") {
+            toast.error("Delivery Not Available in this Location!");
+            return true;
+          }
+
+          if (elementStatus === "OK") {
+            setLocationData(element);
+
+            // console.log(element);
+
+            const actualDistance = processLocationData(element);
+
+            // console.log(actualDistance);
+
+            if (
+              actualDistance !== undefined &&
+              parseFloat(deliveryInfo?.maxDeliveryRadius) >=
+                parseFloat(actualDistance)
+            ) {
+              sessionStorage.setItem("distance", actualDistance.toString());
+              return false;
+            } else {
+              toast.error("Location is outside the delivery radius.");
+              return true;
+            }
+          }
+        } else {
+          toast.error("Error on fetching location data");
+          return true;
+        }
+      } catch (error) {
+        console.error("Error on fetching location:", error);
+        toast.error("Failed to fetch location data");
+        return true;
+      } finally {
+        setLocationLoading(false);
+      }
+    } else {
+      return;
     }
-    return true;
   };
 
-  const fetchDistanceData = () => {
-    if (!locationResponse || !settings || !settings.deliveryInfo) return;
-    let customerDistance =
-      locationResponse?.rows[0]?.elements[0]?.distance?.value;
+  const handleAddress = async () => {
+    if (cartItems?.cartItems?.length === 0) {
+      toast("Your cart is empty!");
+      return;
+    }
 
-    let km = customerDistance / 1000;
-    let distanceInMiles = km * 0.621371;
-    let roundedDistanceInMiles = parseInt(distanceInMiles.toFixed(2));
+    if (delivery === false) {
+      // console.log(postalCode);
+      if (postalCode == "" || postalCode == null) {
+        toast.error("Please add Details of Delivery!");
+        return;
+      }
+      const isLocationValidationErr = await fetchDistance();
 
-    distanceRange = roundedDistanceInMiles;
+      if (isLocationValidationErr === false) {
+        // toast.success("success");
+        sessionStorage.setItem("postcode", postalCode);
+        sessionStorage.setItem("type", delivery);
+        setisCheckoutActive(true);
+      } else {
+        setisCheckoutActive(false);
+      }
+      return;
+    }
+
+    if (delivery === true) {
+      if (time == null) {
+        toast.error("Please Choose Takeaway Time!");
+        setisCheckoutActive(false);
+        return;
+      } else {
+        sessionStorage.setItem("type", delivery);
+        setisCheckoutActive(true);
+      }
+    }
   };
 
   const toggleFoodLists = (index) => {
@@ -123,19 +252,18 @@ function OrderSummary() {
     await deleteSingleCartItem(id, {
       onSuccess: async (res) => {
         await fetchCartList();
-        console.log("Success response", res);
+
         toast.success("Item removed from your cart");
       },
       onFailed: (err) => {
-        console.log("Error on delete cart item", err);
         toast.error("Delete cart item failed!");
       },
     });
   };
 
-  const validateCurrentTime = () => {
+  const validateCurrentTime = (event) => {
     const currentTime = new Date();
-    const [hours, minutes] = takeawayTime.split(":");
+    const [hours, minutes] = event.target.value.split(":");
     const takeawayTimeData = new Date();
     takeawayTimeData.setHours(parseInt(hours, 10));
     takeawayTimeData.setMinutes(parseInt(minutes, 10));
@@ -144,57 +272,42 @@ function OrderSummary() {
 
     switch (true) {
       case takeawayTimeData.getTime() === currentTime.getTime():
-        status = { status: false, message: "Current time is not permitted for takeaway!" };
+        status = {
+          status: false,
+          message: "Current time is not permitted for takeaway!",
+        };
         break;
       case takeawayTimeData < currentTime:
-        status = { status: false, message: "Taking away a time earlier than the current time is not allowed!" };
+        status = {
+          status: false,
+          message:
+            "Taking away a time earlier than the current time is not allowed!",
+        };
+        toast.error("Less than 30 minutes from Current Time is not allowed!");
+        return;
         break;
       case takeawayTimeData.getTime() - currentTime.getTime() < 30 * 60 * 1000:
         status = {
           status: false,
           message: "Less than 30 minutes from Current Time",
         };
+        toast.error("Less than 30 minutes from Current Time is not allowed!");
+        return;
         break;
       default:
         status = {
           status: true,
-          message: "More than 30 minutes from Current Time",
+          message: "",
         };
     }
 
-    return status;
-  };
-
-  const handleDelivery = async () => {
-    if (deliveryOption === "delivery") {
-      if (!postalcode || postalcode.length == 0) {
-        setError(true);
-        return;
-      }
-      fetchDistanceData();
-
-      const postCodeValidation = handleAddress();
-
-      if (postCodeValidation === false) return;
-      sessionStorage.setItem("postcode", postalcode);
-      sessionStorage.setItem("type", deliveryOption);
-      sessionStorage.setItem("distance ", distanceRange);
-    } else if (deliveryOption === "takeaway") {
-      if (!takeawayTime || takeaway.length == 0) return;
-
-      const isValidTime = validateCurrentTime();
-
-      if (isValidTime && isValidTime.status === false) {
-        toast.error(isValidTime.message);
-        return;
-      }
-      sessionStorage.setItem("type", deliveryOption);
-      sessionStorage.setItem("distance ", distanceRange);
-    }
+    setError(status.message);
+    setTime(event.target.value);
   };
 
   return (
     <div>
+      <Toaster position="top-center" reverseOrder={false} />
       <h3 className="order_title">Order Summary</h3>
       <div className="summary_item_wrapper_029">
         {cartItems && cartItems.cartItems.length != 0 ? (
@@ -208,7 +321,7 @@ function OrderSummary() {
                   <Fragment>
                     <div className="position-relative mb-4" key={index}>
                       <div className="d-flex">
-                        <p className="food_menu m-0">
+                        <p className="food_menu m-0 food_title_299">
                           <strong>{item?.productName ?? "N/A"} - </strong>
                         </p>
                         <p className="qty_order_summary">{item?.quantity}</p>
@@ -268,6 +381,7 @@ function OrderSummary() {
                             })}
                         </table>
                       </div>
+
                       <div className="d-flex mt-2">
                         {(addOns && addOns.length != 0) ||
                         (masterAddons && masterAddons.length != 0) ? (
@@ -312,28 +426,42 @@ function OrderSummary() {
               })}
             <hr className="mt-0" />
             <table className="total_cost_summary">
-              {deliveryOption === "takeaway" ? (
-                <Fragment>
-                  <tr className="discount_order_summary">
-                    <td>Discount</td>
-                    <td>{takeaway}</td>
-                  </tr>
-                  <tr>
-                    <td>Total Cost</td>
-                    <td>£{takeawayTotal ?? "N/A"}</td>
-                  </tr>
-                </Fragment>
+              {delivery == true ? (
+                <>
+                  <Fragment>
+                    <tr className="discount_order_summary">
+                      <td>Sub Total</td>
+                      <td>{cartItems?.cartTotal?.cartTotalPriceDisplay}</td>
+                    </tr>
+                    <tr className="discount_order_summary">
+                      <td>Discount</td>
+                      <td>-£{takeaway}</td>
+                    </tr>
+                    <tr>
+                      <td>Total Cost</td>
+                      <td>£{takeawayTotal ?? "N/A"}</td>
+                    </tr>
+                  </Fragment>
+                </>
               ) : (
-                <Fragment>
-                  <tr className="discount_order_summary">
-                    <td>Discount</td>
-                    <td>{discount}</td>
-                  </tr>
-                  <tr>
-                    <td>Total Cost</td>
-                    <td>£{allTotal ?? "N/A"}</td>
-                  </tr>
-                </Fragment>
+                <>
+                  <Fragment>
+                    <tr className="discount_order_summary">
+                      <td>Sub Total</td>
+                      <td id="sub_total_amt_order_summary">
+                        {cartItems?.cartTotal?.cartTotalPriceDisplay}
+                      </td>
+                    </tr>
+                    <tr className="discount_order_summary">
+                      <td>Discount</td>
+                      <td>-£ {discount}</td>
+                    </tr>
+                    <tr>
+                      <td>Total Cost</td>
+                      <td>£ {allTotal ?? "N/A"}</td>
+                    </tr>
+                  </Fragment>
+                </>
               )}
             </table>
           </div>
@@ -344,75 +472,78 @@ function OrderSummary() {
 
       <br />
       <div className="line__"></div>
-      <div className="d-flex mt-4">
-        <label htmlFor="delivery" className="delivery_option_container">
+
+      <div className="row mt-3 mx-auto mx-auto" style={{ display: "flex" }}>
+        <div className="col-md-6" style={{ flex: 1 }}>
           <input
             type="radio"
-            name="deliveryOption"
-            id="delivery"
-            className="delivery_option"
-            checked={deliveryOption === "delivery"}
-            onClick={() => setDeliveryOption("delivery")}
+            className="radio_btn"
+            checked={!delivery}
+            onChange={() => setDelivery(false)}
           />
-          <span class="checkmark"></span>
-          Delivery
-        </label>
-        <label htmlFor="takeAway" className="delivery_option_container">
-          <input
-            type="radio"
-            name="deliveryOption"
-            id="takeAway"
-            className="ms-3 delivery_option"
-            onClick={() => setDeliveryOption("takeaway")}
-            checked={deliveryOption === "takeaway"}
-          />
-          <span class="checkmark"></span>
-          Take away
-        </label>
+          <label onClick={() => setDelivery(false)}> Delivery</label>
+        </div>
+        {deliveryInfo != null && deliveryInfo?.takeAway == 1 && (
+          <div className="col-md-6" style={{ flex: 1 }}>
+            <input
+              type="radio"
+              className="radio_btn"
+              onClick={() => setDelivery(true)}
+              checked={delivery}
+              onChange={() => setDelivery(true)}
+            />
+            <label onClick={() => setDelivery(true)}> Takeaway</label>
+          </div>
+        )}
       </div>
-      {deliveryOption === "delivery" ? (
-        <Fragment>
-          <label htmlFor="" className="opt_label_827">
-            Postal Code
-          </label>
-          <div className="inp_wrapper_827">
-            <input
-              type="text"
-              name=""
-              id=""
-              className={
-                error && postalcode.length == 0
-                  ? "opt_input_827 err__"
-                  : "opt_input_827"
-              }
-              placeholder="Please enter postal code!"
-              value={postalcode}
-              onChange={(e) => setPostalcode(e.target.value)}
-            />
+
+      <div className="row">
+        {delivery == false ? (
+          <div>
+            <label htmlFor="" className="opt_label_827">
+              Postal Code
+            </label>
+            <div className="inp_wrapper_827">
+              <input
+                type="text"
+                name=""
+                id=""
+                className="opt_input_827"
+                placeholder="Please enter postal code!"
+                onChange={(e) => setPostalCode(e.target.value)}
+              />
+            </div>
           </div>
-        </Fragment>
-      ) : (
-        <Fragment>
-          <label htmlFor="" className="opt_label_827">
-            Picup Time
-          </label>
-          <div className="inp_wrapper_827">
-            <input
-              type="time"
-              name=""
-              id=""
-              className={
-                error && takeawayTime.length == 0
-                  ? "opt_input_827 err__"
-                  : "opt_input_827"
-              }
-              value={takeawayTime}
-              onChange={(e) => setTakeawayTime(e.target.value)}
-            />
+        ) : (
+          <div>
+            <label htmlFor="takeaway-time" className="opt_label_827">
+              Pickup Time
+            </label>
+            <div className="inp_wrapper_827">
+              <input
+                type="time"
+                name=""
+                id=""
+                className={
+                  error && takeawayTime.length == 0
+                    ? "opt_input_827 err__"
+                    : "opt_input_827"
+                }
+                onChange={validateCurrentTime}
+              />
+            </div>
+            {error && <div className="error-message">{error}</div>}
+            <div className="mt-2 text-center">
+              <small className="">
+                Your Food will be ready in just
+                {" " + deliveryInfo?.minWaitingTime} minutes!{" "}
+              </small>
+            </div>
           </div>
-        </Fragment>
-      )}
-      {(error && postalcode.length == 0) ||
+        )}
+      </div>
+
+      {(error && postalCode.length == 0) ||
       (error && takeawayTime.length == 0) ? (
         <span className="err_msg_order_summary">
           * Please fill required fields!
@@ -423,10 +554,21 @@ function OrderSummary() {
       <button
         type="button"
         className="order_now_192"
-        onClick={handleDelivery}
-        disabled={!cartItems || cartItems.cartItems.length == 0}
+        onClick={handleAddress}
+        disabled={
+          !cartItems ||
+          cartItems.cartItems.length == 0 ||
+          locationLoading === true
+        }
       >
-        Order Now
+        {!locationLoading ? (
+          "Order Now"
+        ) : (
+          <div
+            class="spinner-border spinner-border-sm text-light"
+            role="status"
+          ></div>
+        )}
       </button>
     </div>
   );

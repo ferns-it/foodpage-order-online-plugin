@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { APIEndpoints } from "../Constants/APIEndpoints";
+import { APIEndpoints } from "../constants/OrderOnlineAPIEndpoints";
 import BaseClient from "../helper/Baseclient";
 
 const useShop = () => {
@@ -15,8 +15,6 @@ const useShop = () => {
         },
         onFailed: (err) => {
           console.log("Error on fetching menus", err);
-          // window.location.reload();
-          getShopSettings();
         },
       });
     } finally {

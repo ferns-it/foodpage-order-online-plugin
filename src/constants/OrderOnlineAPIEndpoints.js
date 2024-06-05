@@ -7,5 +7,7 @@ export const APIEndpoints = {
   getCartItems: "v2/shop/user/web/carts",
   deleteCartItem: "v2/shop/user/web/carts",
   locationSettings: "v2/shop/service",
-  shopSettings: "v2/shop/settings",
+  shopSettings: "v2/shop/settings/le-arabia",
+  createPaymentIntent: "/v2/shop/user/web/checkout/createpaymentintent",
+  completecheckout: "v2/shop/user/web/checkout/complete",
 };
