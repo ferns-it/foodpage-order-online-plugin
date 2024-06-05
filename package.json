@@ -1,21 +1,7 @@
 {
   "name": "foodpage-order-online",
   "version": "1.0.5",
-  "private": false,
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.esm.js"
-    }
-  },
-  "keywords": [
-    "foodpage-online-order",
-    "online-order-system",
-    "online-order-package-react"
-  ],
+  "private": true,
   "dependencies": {
     "@babel/cli": "^7.23.0",
     "@babel/core": "^7.23.2",
@@ -55,8 +41,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "babel": "babel index.js -d dist",
-    "build": "rollup -c --bundleConfigAsCjs",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
