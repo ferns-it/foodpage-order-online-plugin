@@ -162,11 +162,9 @@ function OrderSummaryCheckout() {
     }
   };
 
-  console.log("formState", stripePaymentClientSecret);
-
   const completeOrder = async () => {
     const data = paymentData?.data?.data;
-
+    const deliveryFee = sessionStorage.getItem("deliveryFee");
     let deliveryType;
 
     if (delivery == false) {
@@ -185,10 +183,7 @@ function OrderSummaryCheckout() {
         discount: discountData,
         amount: amount * 100,
         deliveryType: deliveryType,
-        deliveryCharge:
-          deliveryType === "store_pickup"
-            ? sessionStorage.getItem("deliveryFee")
-            : data?.deliveryCharge,
+        deliveryCharge: deliveryFee == null ? "0" : deliveryFee,
         couponCode: "",
         couponType: "",
         couponValue: "",
@@ -219,9 +214,8 @@ function OrderSummaryCheckout() {
       await completeCheckout(payload, {
         onSuccess: async (res) => {
           toast.success("Order Confirmed!");
-          await fetchCartList();
-
           window.location.href = "/confirm";
+          await fetchCartList();
         },
         onFailed: (err) => {
           console.log("error message for confirm payment", err.error.message);

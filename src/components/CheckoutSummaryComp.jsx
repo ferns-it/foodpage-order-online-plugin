@@ -19,7 +19,7 @@ function CheckoutSummaryComp() {
   const [allTotal, setAllTotal] = useState(null);
   const [takeawayTotal, setTakeawayTotal] = useState(null);
   const [code, setCode] = useState(null);
-  const [deliveryCharge, setDeliveryCharge] = useState(null);
+  const [deliveryCharge, setDeliveryCharge] = useState(0);
   const [time, setTime] = useState(null);
 
   useEffect(() => {
