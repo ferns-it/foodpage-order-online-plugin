@@ -558,32 +558,34 @@ function AddOnsModal(props) {
               </p>
             )}
             <div className="btn_grp_8392">
-              {foodValues?.online === "Yes" && (
-                <button
-                  type="button"
-                  className="submit_btn_8392 btn_8392"
-                  onClick={handleCart}
-                  disabled={cartLoading}
-                >
-                  {cartLoading ? (
-                    <Fragment>
-                      <span
-                        class="spinner-border spinner-border-sm"
-                        role="status"
-                        aria-hidden="true"
-                      ></span>
-                      <span class="sr-only"> Loading...</span>
-                    </Fragment>
-                  ) : (
-                    <Fragment>
-                      <i>
-                        <Bs.BsCart3 />
-                      </i>
-                      <span>Add to Cart</span>
-                    </Fragment>
-                  )}
-                </button>
-              )}
+              {foodValues?.online === "Yes" &&
+                foodValues.isAvailable != false &&
+                foodValues.availability != false && (
+                  <button
+                    type="button"
+                    className="submit_btn_8392 btn_8392"
+                    onClick={handleCart}
+                    disabled={cartLoading}
+                  >
+                    {cartLoading ? (
+                      <Fragment>
+                        <span
+                          class="spinner-border spinner-border-sm"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        <span class="sr-only"> Loading...</span>
+                      </Fragment>
+                    ) : (
+                      <Fragment>
+                        <i>
+                          <Bs.BsCart3 />
+                        </i>
+                        <span>Add to Cart</span>
+                      </Fragment>
+                    )}
+                  </button>
+                )}
               <button
                 type="button"
                 className="cancel_btn_8392 btn_8392"
