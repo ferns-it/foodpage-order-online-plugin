@@ -17,6 +17,7 @@ import FoodAccordian from "../../components/FoodAccordian";
 import Utils from "../../utils/Utils";
 import OrderSummary from "../../components/OrderSummary";
 import PageLoader from "../../components/PageLoader";
+import SkeltLoader from "../../components/SkeltLoader";
 
 function Order() {
   const {
@@ -26,7 +27,7 @@ function Order() {
     menuLoading,
     cartLoading,
     fetchCategoriesList,
-    categoryLoading
+    categoryLoading,
   } = useContext(AppContext);
   const [filteredList, setFilteredList] = useState(null);
   const [activeChipIndex, setActiveChipIndex] = useState(-1);
@@ -117,75 +118,75 @@ function Order() {
                 </div>
               </div>
             ) : ( */}
-              <div className="food_order_area">
-                <div className="order_block">
-                  <div className="row">
-                    <div className="col-lg-3 col-md-4 col-sm-none cat_col_0229">
-                      <div className="card category_card_009 p-2">
-                        <ul className="food_category_009">
-                          <a
-                            className={
-                              activeChipIndex === -1
-                                ? "nav-link active_009"
-                                : "nav-link"
-                            }
-                            onClick={() => {
-                              setActiveChipIndex(-1);
-                              setSelectedCategory("All");
-                            }}
-                          >
-                            <li>All</li>
-                            <i>
-                              <Lu.LuArrowRightToLine />
-                            </i>
-                          </a>
-                          {categoryLoading ? (
-                            <Fragment>
-                              {" "}
-                              <h2 class="card-title-order-online-920 skeleton"></h2>
-                              <h2 class="card-title-order-online-920 skeleton"></h2>
-                              <h2 class="card-title-order-online-920 skeleton"></h2>
-                              <h2 class="card-title-order-online-920 skeleton"></h2>
-                              <h2 class="card-title-order-online-920 skeleton"></h2>
-                            </Fragment>
-                          ) : (
-                            <Fragment>
-                              {categoryList &&
-                                categoryList.length != 0 &&
-                                categoryList.map((list, index) => {
-                                  return (
-                                    <a
-                                      // href={`#category-${index}`}
-                                      className={
-                                        index === activeChipIndex
-                                          ? "nav-link active_009"
-                                          : "nav-link"
-                                      }
-                                      key={index}
-                                      onClick={() =>
-                                        handleChipClick(index, list?.name)
-                                      }
-                                    >
-                                      <li>{list?.name}</li>
-                                      <i>
-                                        <Lu.LuArrowRightToLine />
-                                      </i>
-                                    </a>
-                                  );
-                                })}
-                            </Fragment>
-                          )}
-                        </ul>
-                      </div>
-                    </div>
-                    <div className="col-lg-9 col-md-8 col-sm-12 food_area_col">
-                      <Foodcard category={selectedCategory} />
-
-                      <FoodAccordian />
+            <div className="food_order_area">
+              <div className="order_block">
+                <div className="row">
+                  <div className="col-lg-3 col-md-4 col-sm-none cat_col_0229">
+                    <div className="card category_card_009 p-2">
+                      <ul className="food_category_009">
+                        <a
+                          className={
+                            activeChipIndex === -1
+                              ? "nav-link active_009"
+                              : "nav-link"
+                          }
+                          onClick={() => {
+                            setActiveChipIndex(-1);
+                            setSelectedCategory("All");
+                          }}
+                        >
+                          <li>All</li>
+                          <i>
+                            <Lu.LuArrowRightToLine />
+                          </i>
+                        </a>
+                        {categoryLoading ? (
+                          <Fragment>
+                            {" "}
+                            <h2 class="card-title-order-online-920 skeleton"></h2>
+                            <h2 class="card-title-order-online-920 skeleton"></h2>
+                            <h2 class="card-title-order-online-920 skeleton"></h2>
+                            <h2 class="card-title-order-online-920 skeleton"></h2>
+                            <h2 class="card-title-order-online-920 skeleton"></h2>
+                          </Fragment>
+                        ) : (
+                          <Fragment>
+                            {categoryList &&
+                              categoryList.length != 0 &&
+                              categoryList.map((list, index) => {
+                                return (
+                                  <a
+                                    // href={`#category-${index}`}
+                                    className={
+                                      index === activeChipIndex
+                                        ? "nav-link active_009"
+                                        : "nav-link"
+                                    }
+                                    key={index}
+                                    onClick={() =>
+                                      handleChipClick(index, list?.name)
+                                    }
+                                  >
+                                    <li>{list?.name}</li>
+                                    <i>
+                                      <Lu.LuArrowRightToLine />
+                                    </i>
+                                  </a>
+                                );
+                              })}
+                          </Fragment>
+                        )}
+                      </ul>
                     </div>
                   </div>
+                  <div className="col-lg-9 col-md-8 col-sm-12 food_area_col">
+                    <Foodcard category={selectedCategory} />
+
+                    {!categoryLoading ? <FoodAccordian /> : <SkeltLoader />}
+                  </div>
                 </div>
-                {/* <div className="checkout_responsive_area">
+              </div>
+              {/* <div className="checkout_responsive_area">
                 <div className="container">
                   <div className="row">
                     <div className="col-10">
@@ -212,17 +213,16 @@ function Order() {
                   </div>
                 </div>
               </div> */}
-                <div
-                  className={
-                    isSticky
-                      ? "billing_block_order_plugin sticky bill-spikes"
-                      : "billing_block_order_plugin bill-spikes"
-                  }
-                >
-                  <OrderSummary />
-                </div>
+              <div
+                className={
+                  isSticky
+                    ? "billing_block_order_plugin sticky bill-spikes"
+                    : "billing_block_order_plugin bill-spikes"
+                }
+              >
+                <OrderSummary />
               </div>
-            
+            </div>
           </div>
         </div>
         <div className="footer_98_"></div>

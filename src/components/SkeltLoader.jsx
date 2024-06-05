@@ -73,7 +73,12 @@ function SkeltLoader() {
                 <h2 class="card-title-order-online-920 skeleton"></h2>
                 <h2 class="card-title-order-online-920 skeleton"></h2>
                 <h2 class="card-title-order-online-920 skeleton"></h2>
-
+                <h2 class="card-title-order-online-920 skeleton"></h2>
+                <h2 class="card-title-order-online-920 skeleton"></h2>
+                <h2 class="card-title-order-online-920 skeleton"></h2>
+                <h2 class="card-title-order-online-920 skeleton"></h2>
+                <h2 class="card-title-order-online-920 skeleton"></h2>
+                <h2 class="card-title-order-online-920 skeleton"></h2>
               </div>
             </div>
           </div>
