@@ -114,7 +114,7 @@ function OrderSummary() {
     return actualDistance;
   };
 
-  // console.log("deliveryInfo",deliveryInfo);
+  // console.log("deliveryInfo",);
 
   const fetchDistance = async () => {
     if (postalCode == null) {
@@ -474,7 +474,7 @@ function OrderSummary() {
         {deliveryInfo != null &&
           deliveryInfo?.homeDelivery &&
           deliveryInfo?.homeDelivery == 1 && (
-            <div className="col-md-6" style={{ flex: 1 }}>
+            <div className="col-lg-6 col-md-6 col-sm-6" style={{ flex: 1 }}>
               <input
                 type="radio"
                 className="radio_btn"
@@ -487,7 +487,7 @@ function OrderSummary() {
         {deliveryInfo != null &&
           deliveryInfo?.takeAway &&
           deliveryInfo?.takeAway == 1 && (
-            <div className="col-md-6" style={{ flex: 1 }}>
+            <div className="col-lg-6 col-md-6 col-sm-6" style={{ flex: 1 }}>
               <input
                 type="radio"
                 className="radio_btn"

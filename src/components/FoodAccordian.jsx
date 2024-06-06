@@ -7,10 +7,17 @@ import { AppContext } from "../context/AppContext";
 import Utils from "../utils/Utils";
 import AddOnsModal from "./AddOnsModal";
 import OrderSummary from "./OrderSummary";
+import * as Fi from "react-icons/fi";
 
 function FoodAccordian() {
-  const { categoryList, fetchProductsList, filterLoading, shopId, products } =
-    useContext(AppContext);
+  const {
+    categoryList,
+    fetchProductsList,
+    filterLoading,
+    shopId,
+    products,
+    cartItems,
+  } = useContext(AppContext);
   const [accordionStates, setAccordionStates] = useState(null);
   const [activeSmallScreen, setActiveSmallScreen] = useState(true);
   const [showRespModal, setShowRespModal] = useState(false);
@@ -93,35 +100,67 @@ function FoodAccordian() {
                       productData.length != 0 &&
                       productData.map((product, index) => {
                         return (
-                          <a
-                            className="accord_food_anchor mb-2"
-                            key={index}
-                            onClick={() => addOnsModalData(product)}
-                          >
+                          <Fragment>
                             <div className="card accord_food_card_19">
-                              <div className="row">
-                                <div className="col-8">
-                                  <h2 className="accord_food_name_19">
-                                    {product?.name ?? "N/A"}
-                                  </h2>
-                                  <p className="accord_desc_19">
-                                    {product?.description &&
-                                      Utils.removeSpecialCharacters(
-                                        product?.description
-                                      )}
-                                  </p>
-                                  <p className="accord_price_19">
-                                    {product?.price}
-                                  </p>
-                                </div>
-                                <div className="col-4">
-                                  <div className="accord_img_19">
-                                    <img src={product?.photo} alt="" />
+                              <div className="d-flex">
+                                <div
+                                  className="accord_food_anchor"
+                                  key={index}
+                                  onClick={() => addOnsModalData(product)}
+                                >
+                                  <div className="row">
+                                    <div className="col-8">
+                                      <h2 className="accord_food_name_19">
+                                        <span className="food_count_399">
+                                          1x
+                                        </span>{" "}
+                                        {product?.name ?? "N/A"}
+                                      </h2>
+                                      <p className="accord_desc_19">
+                                        {product?.description &&
+                                          Utils.removeSpecialCharacters(
+                                            product?.description
+                                          )}
+                                      </p>
+                                      <p className="accord_price_19">
+                                        {product?.price}
+                                      </p>
+                                    </div>
+                                    <div className="col-4">
+                                      <div className="d-flex">
+                                        <div className="accord_img_19 position-relative">
+                                          <img src={product?.photo} alt="" />
+                                          {/* <button
+                                            type="button"
+                                            className="button add__order__online"
+                                            onClick={() =>
+                                              addOnsModalData(product)
+                                            }
+                                          >
+                                            <Fi.FiPlus /> <span>ADD</span>
+                                          </button> */}
+                                        </div>
+                                      </div>
+                                    </div>
                                   </div>
+                                </div>
+                                <div className="d-block ps-2">
+                                  <button
+                                    type="button"
+                                    className="order__online__count"
+                                  >
+                                    +
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="order__online__count mt-2"
+                                  >
+                                    -
+                                  </button>
                                 </div>
                               </div>
                             </div>
-                          </a>
+                          </Fragment>
                         );
                       })}
                   </div>
@@ -137,7 +176,7 @@ function FoodAccordian() {
         >
           <div className="container">
             <div className="row">
-              <div className="col-12">
+              <div className="col-10">
                 {activeSmallScreen ? (
                   <button
                     className="checkout_resp_btn_021"
@@ -153,6 +192,11 @@ function FoodAccordian() {
                     <Md.MdOutlineClose />
                   </button>
                 )}
+              </div>
+              <div className="col-2">
+                <div className="cart_items_length">
+                  {cartItems?.cartItems.length ?? 0}
+                </div>
               </div>
             </div>
             <div className="row">

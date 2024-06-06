@@ -1174,24 +1174,27 @@ body {
   position: relative;
   padding: 10px;
   overflow: hidden;
+  margin-bottom: 10px;
 }
 .accord_food_name_19 {
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 700;
 }
 .accord_desc_19 {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  width: 100px;
 }
 .accord_price_19 {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 700;
   margin: 0;
+  color: #e03f3f;
 }
 .accord_arrow_19 {
   transition: all 0.2s ease-in-out;
@@ -1754,10 +1757,10 @@ body {
   .varient_name {
     white-space: unset;
   }
-  .login_order_online_form_0283{
+  .login_order_online_form_0283 {
     height: 100% !important;
   }
-  .order_online_horiz_line{
+  .order_online_horiz_line {
     height: 100%;
   }
 }
@@ -2021,4 +2024,51 @@ body {
 }
 .active_login_btn_order_online:hover {
   color: #e61a16;
+}
+.cart_items_length {
+  background-color: #ff7070;
+  padding: 3px 4px;
+  text-align: center;
+  border-radius: 5px;
+  font-weight: 700;
+  color: #fff;
+  user-select: none;
+}
+.food_count_399 {
+  font-size: 15px;
+  color: #e03f3f;
+}
+.add__order__online {
+  position: absolute;
+  width: 90%;
+  border: none;
+  outline: none;
+  background-color: #fff;
+  transition: all 0.2s ease-in-out;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 3px 15px;
+  border-radius: 3px;
+  box-shadow: 0 2px 5px #747474;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.add__order__online:hover {
+  background-color: #e03f3f;
+  color: #fff;
+}
+.order__online__count {
+  width: 100%;
+  outline: none;
+  border-radius: 3px;
+  border: 1px solid #eee;
+  color: #e03f3f;
+  background-color: transparent;
+  height: 35px;
+  transition: all 0.2s ease-in-out;
+}
+.order__online__count:hover{
+  background-color: #f6bdbd;
+  color: #e03f3f;
 }
