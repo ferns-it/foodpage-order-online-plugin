@@ -102,14 +102,14 @@ function FoodAccordian() {
                         return (
                           <Fragment>
                             <div className="card accord_food_card_19">
-                              <div className="d-flex">
+                              <div className="">
                                 <div
                                   className="accord_food_anchor"
                                   key={index}
                                   onClick={() => addOnsModalData(product)}
                                 >
                                   <div className="row">
-                                    <div className="col-8">
+                                    <div className="col-lg-8 col-md-8 col-sm-8">
                                       <h2 className="accord_food_name_19">
                                         <span className="food_count_399">
                                           1x
@@ -126,7 +126,7 @@ function FoodAccordian() {
                                         {product?.price}
                                       </p>
                                     </div>
-                                    <div className="col-4">
+                                    <div className="col-lg-4 col-md-4 col-sm-4">
                                       <div className="d-flex">
                                         <div className="accord_img_19 position-relative">
                                           <img src={product?.photo} alt="" />
@@ -144,7 +144,7 @@ function FoodAccordian() {
                                     </div>
                                   </div>
                                 </div>
-                                <div className="d-block ps-2">
+                                {/* <div className="d-block ps-2">
                                   <button
                                     type="button"
                                     className="order__online__count"
@@ -157,7 +157,7 @@ function FoodAccordian() {
                                   >
                                     -
                                   </button>
-                                </div>
+                                </div> */}
                               </div>
                             </div>
                           </Fragment>
