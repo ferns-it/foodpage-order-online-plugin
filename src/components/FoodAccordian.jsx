@@ -109,7 +109,7 @@ function FoodAccordian() {
                                   onClick={() => addOnsModalData(product)}
                                 >
                                   <div className="row">
-                                    <div className="col-lg-8 col-md-8 col-sm-8">
+                                    <div className="col-8">
                                       <h2 className="accord_food_name_19">
                                         <span className="food_count_399">
                                           1x
@@ -126,7 +126,7 @@ function FoodAccordian() {
                                         {product?.price}
                                       </p>
                                     </div>
-                                    <div className="col-lg-4 col-lg-4 col-lg-4">
+                                    <div className="col-4">
                                       <div className="d-flex">
                                         <div className="accord_img_19 position-relative">
                                           <img src={product?.photo} alt="" />
