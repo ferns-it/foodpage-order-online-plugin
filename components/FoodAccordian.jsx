@@ -11,35 +11,18 @@ import { useParams } from "react-router-dom";
 import SkeltLoader from "./SkeltLoader";
 
 function FoodAccordian() {
-  const { shopId } = useParams();
-  const { categoryList, fetchProductsList, filterLoading } =
-    useContext(OrderOnlineContext);
+  const {
+    categoryList,
+    fetchProductsList,
+    filterLoading,
+    shopId,
+    products,
+    cartItems,
+  } = useContext(OrderOnlineContext);
   const [accordionStates, setAccordionStates] = useState(null);
   const [activeSmallScreen, setActiveSmallScreen] = useState(true);
-  const [products, setProducts] = useState(null);
   const [showRespModal, setShowRespModal] = useState(false);
   const [productRespDataValues, setProductRespDataValues] = useState(null);
-
-  useEffect(() => {
-    if (!categoryList || categoryList.length === 0) return;
-
-    const fetchData = async () => {
-      const pro = await Promise.all(
-        categoryList.map(async (item) => {
-          const data = {
-            shopId: shopId,
-            categoryId: item?.cID,
-          };
-
-          const productRespo = await fetchProductsList(data);
-          return { categoryName: item?.name, product: productRespo };
-        })
-      );
-      setProducts(pro);
-    };
-
-    fetchData();
-  }, [categoryList]);
 
   useEffect(() => {
     if (!categoryList) return;
@@ -118,33 +101,67 @@ function FoodAccordian() {
                       productData.length != 0 &&
                       productData.map((product, index) => {
                         return (
-                          <a
-                            className="accord_food_anchor mb-2"
-                            key={index}
-                            onClick={() => addOnsModalData(product)}
-                          >
+                          <Fragment>
                             <div className="card accord_food_card_19">
-                              <div className="row">
-                                <div className="col-8">
-                                  <h2 className="accord_food_name_19">
-                                    {product?.name ?? "N/A"}
-                                  </h2>
-                                  <p className="accord_desc_19">
-                                    {product?.description &&
-                                      Utils.removeSpecialCharacters(
-                                        product?.description
-                                      )}
-                                  </p>
-                                  <p className="accord_price_19">{product?.price}</p>
-                                </div>
-                                <div className="col-4">
-                                  <div className="accord_img_19">
-                                    <img src={product?.photo} alt="" />
+                              <div className="">
+                                <div
+                                  className="accord_food_anchor"
+                                  key={index}
+                                  onClick={() => addOnsModalData(product)}
+                                >
+                                  <div className="row">
+                                    <div className="col-lg-8 col-md-8 col-sm-8">
+                                      <h2 className="accord_food_name_19">
+                                        <span className="food_count_399">
+                                          1x
+                                        </span>{" "}
+                                        {product?.name ?? "N/A"}
+                                      </h2>
+                                      <p className="accord_desc_19">
+                                        {product?.description &&
+                                          Utils.removeSpecialCharacters(
+                                            product?.description
+                                          )}
+                                      </p>
+                                      <p className="accord_price_19">
+                                        {product?.price}
+                                      </p>
+                                    </div>
+                                    <div className="col-lg-4 col-md-4 col-sm-4">
+                                      <div className="d-flex">
+                                        <div className="accord_img_19 position-relative">
+                                          <img src={product?.photo} alt="" />
+                                          {/* <button
+                                            type="button"
+                                            className="button add__order__online"
+                                            onClick={() =>
+                                              addOnsModalData(product)
+                                            }
+                                          >
+                                            <Fi.FiPlus /> <span>ADD</span>
+                                          </button> */}
+                                        </div>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
+                                {/* <div className="d-block ps-2">
+                                  <button
+                                    type="button"
+                                    className="order__online__count"
+                                  >
+                                    +
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="order__online__count mt-2"
+                                  >
+                                    -
+                                  </button>
+                                </div> */}
                               </div>
                             </div>
-                          </a>
+                          </Fragment>
                         );
                       })}
                   </div>
@@ -160,7 +177,7 @@ function FoodAccordian() {
         >
           <div className="container">
             <div className="row">
-              <div className="col-12">
+              <div className="col-10">
                 {activeSmallScreen ? (
                   <button
                     className="checkout_resp_btn_021"
@@ -173,9 +190,14 @@ function FoodAccordian() {
                     className="tog"
                     onClick={() => setActiveSmallScreen(true)}
                   >
-                    <MdOutlineClose />
+                    <Md.MdOutlineClose />
                   </button>
                 )}
+              </div>
+              <div className="col-2">
+                <div className="cart_items_length">
+                  {cartItems?.cartItems.length ?? 0}
+                </div>
               </div>
             </div>
             <div className="row">
