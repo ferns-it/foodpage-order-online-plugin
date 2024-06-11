@@ -6,14 +6,17 @@ import usePayment from "../hooks/usePayment";
 export const OrderOnlineContext = createContext();
 
 export const OrderOnlineContextProvider = (props) => {
+  const [products, setProducts] = useState(null);
+  const [productsLoading, setProductsLoading] = useState(false);
   const [paramsValues, setParamsValues] = useState(null);
   const [delivery, setDelivery] = useState(false);
   const [locationResponseData, setLocationResponseData] = useState(null);
   const [isCheckoutActive, setisCheckoutActive] = useState(false);
   const [activeCard, setActiveCard] = useState("login");
-  const [deliveryFee, setDeliveryFee] = useState(null);
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [filterLoading, setFilterLoading] = useState(false);
+  const [deliveryFee, setDeliveryFee] = useState(null);
+  const shopId = 1;
 
   const {
     fetchMenuList,
@@ -22,18 +25,20 @@ export const OrderOnlineContextProvider = (props) => {
     menuLoading,
     categoryList,
     fetchProductsList,
-    productsList,
     addToCart,
+    locationResponse,
     fetchCartList,
     cartItems,
+    getLocation,
+    categoryLoading,
+    productsList,
     cartLoading,
     deleteSingleCartItem,
-    locationResponse,
-    deleteCartItem,
     responseError,
   } = useMenus();
 
-  const { settings, getShopSettings, settingsLoading } = useShop();
+  const { settings, getShopSettings, settingsLoading, deleteCartItem } =
+    useShop();
 
   const {
     isAuthenticated,
@@ -63,17 +68,45 @@ export const OrderOnlineContextProvider = (props) => {
     setPaymentData,
   } = usePayment();
 
-  // useEffect(() => {
-  //   fetchProductsList();
-  //   fetchCartList();
-  // }, []);
+  useEffect(() => {
+    fetchCategoriesList();
+    fetchMenuList();
+    fetchProductsList();
+    fetchCartList();
+    getShopSettings();
+  }, []);
 
   useEffect(() => {
-    if (!paramsValues) return;
-    
-    fetchMenuList(paramsValues.shopId);
-    
-  }, [paramsValues]);
+    if (!categoryList || categoryList.length === 0) return;
+
+    const fetchData = async () => {
+      try {
+        setProductsLoading(true);
+        const pro = await Promise.all(
+          categoryList.map(async (item) => {
+            const data = {
+              shopId,
+              categoryId: item?.cID,
+            };
+
+            const productRespo = await fetchProductsList(data);
+            return {
+              categoryName: item?.name,
+              categoryId: item?.cID,
+              product: productRespo,
+            };
+          })
+        );
+        setProducts(pro);
+      } finally {
+        setProductsLoading(false);
+      }
+    };
+
+    if (!products) {
+      fetchData();
+    }
+  }, [categoryList]);
 
   return (
     <OrderOnlineContext.Provider
@@ -82,25 +115,21 @@ export const OrderOnlineContextProvider = (props) => {
         menuList,
         menuLoading,
         categoryList,
-        fetchProductsList,
-        productsList,
-        fetchCategoriesList,
-        addToCart,
         fetchCartList,
         cartItems,
-        cartLoading,
-        deleteSingleCartItem,
-        locationResponse,
+        addToCart,
+        fetchProductsList,
         settings,
         getShopSettings,
         settingsLoading,
+        getLocation,
+        locationResponse,
         deleteCartItem,
-        paramsValues,
-        setParamsValues,
         isAuthenticated,
         setIsSignUp,
         isSignup,
         therapies,
+        onPaymentElementReady,
         createPaymentIntent,
         stripePaymentClientSecret,
         setStripeClientSecret,
@@ -108,20 +137,29 @@ export const OrderOnlineContextProvider = (props) => {
         options,
         setSelectedScheduleSlot,
         selectedScheduleSlot,
-        onPaymentElementReady,
+        completeCheckout,
         billingAddress,
         setBillingAddress,
         selectedBookingDate,
         confirmPayment,
         amount,
         setAmount,
-        completeCheckout,
+        setDeliveryFee,
         type,
         setType,
         deliveryFee,
-        setDeliveryFee,
-        paymentData,
         orderDetails,
+        paymentData,
+        products,
+        setProducts,
+        productsLoading,
+        categoryLoading,
+        productsList,
+        cartLoading,
+        deleteSingleCartItem,
+        responseError,
+        paramsValues,
+        setParamsValues,
         delivery,
         setDelivery,
         locationResponseData,
@@ -130,13 +168,13 @@ export const OrderOnlineContextProvider = (props) => {
         setisCheckoutActive,
         activeCard,
         setActiveCard,
-        paymentError,
-        setPaymentData,
-        responseError,
         isPageLoading,
         setIsPageLoading,
         filterLoading,
         setFilterLoading,
+        shopId,
+        paymentError,
+        setPaymentData,
       }}
     >
       {props.children}
