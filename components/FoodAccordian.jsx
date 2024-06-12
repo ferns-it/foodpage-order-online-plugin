@@ -110,10 +110,13 @@ function FoodAccordian() {
                                 onClick={() => addOnsModalData(product)}
                               >
                                 <div className="row">
-                                  <div className="col-lg-8 col-md-8 col-sm-8">
+                                  <div className="col-lg-7 col-md-7 col-sm-7">
                                     <h2 className="accord_food_name_19">
-                                      <span className="food_count_399"></span>
-                                      {product?.name ?? "N/A"}
+                                      {/* <span className="food_count_399"></span> */}
+                                      <h6 className="screen">
+                                        <span>3*</span>
+                                        {" " + product?.name ?? "N/A"}
+                                      </h6>
                                     </h2>
                                     <p className="accord_desc_19">
                                       {product?.description &&
@@ -141,22 +144,24 @@ function FoodAccordian() {
                                       </div>
                                     </div>
                                   </div>
+                                  <div className="col-lg-1 col-md-1 col-sm-1">
+                                    <div className="d-block ps-2 mt-3">
+                                      <button
+                                        type="button"
+                                        className="order__online__count"
+                                      >
+                                        +
+                                      </button>
+                                      <button
+                                        type="button"
+                                        className="order__online__count mt-2"
+                                      >
+                                        -
+                                      </button>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
-                              {/* <div className="d-block ps-2">
-                                  <button
-                                    type="button"
-                                    className="order__online__count"
-                                  >
-                                    +
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className="order__online__count mt-2"
-                                  >
-                                    -
-                                  </button>
-                                </div> */}
                             </div>
                           </Fragment>
                         );

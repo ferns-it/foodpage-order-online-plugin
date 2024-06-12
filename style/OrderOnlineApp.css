@@ -510,7 +510,7 @@ body {
   margin-bottom: 0;
   text-wrap: nowrap;
 }
-.food_title_299{
+.food_title_299 {
   /* text-wrap: nowrap; */
   /* text-overflow: ellipsis; */
   max-width: 200px;
@@ -784,14 +784,13 @@ body {
   border-right: 1px solid #ddd; /* Border on right */
   border-radius: 0 0 20px 20px;
 }
-.food_price__{
+.food_price__ {
   font-size: 16px;
   font-weight: 700;
   color: #e61a16;
   text-align: center;
   margin-bottom: 10px;
 }
-
 
 .food_name_029 {
   font-size: 18px;
@@ -853,7 +852,7 @@ body {
   top: 0;
   z-index: 999;
   -webkit-backdrop-filter: blur(8px);
-  
+
   backdrop-filter: blur(5px);
   box-shadow: inset 0 0 0 200px rgba(255, 255, 255, 0.08);
   transition: all 0.2s ease-in-out;
@@ -1753,13 +1752,13 @@ body {
     min-width: 90%;
     font-size: 14px;
   }
-  .varient_name{
+  .varient_name {
     white-space: unset;
   }
 }
 
-@media screen and (max-width:676px) {
-  .reverse{
+@media screen and (max-width: 676px) {
+  .reverse {
     display: flex;
     flex-direction: row-reverse;
   }
@@ -1890,7 +1889,7 @@ body {
   animation: skeleton-shine 1s ease infinite;
 }
 
-.small_desc{
+.small_desc {
   font-size: 13px;
   font-weight: 600;
   color: #747474;
@@ -1918,18 +1917,18 @@ body {
     background-color: #e2e5e7;
   }
 }
-.mob-view{
+.mob-view {
   display: none;
 }
-@media screen and (max-width:991px) {
-  .web-view{
+@media screen and (max-width: 991px) {
+  .web-view {
     display: none;
   }
-  .mob-view{
+  .mob-view {
     display: block;
   }
 }
-.loader_foodpage_online_order{
+.loader_foodpage_online_order {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -1937,7 +1936,7 @@ body {
   top: 0;
   background-color: #fff;
 }
-.loader_foodpage_online_order > .loader_gif{
+.loader_foodpage_online_order > .loader_gif {
   position: absolute;
   width: 100px;
   height: 100px;
@@ -1946,7 +1945,7 @@ body {
   transform: translate(-50%, -50%);
   overflow: hidden;
 }
-.loader_gif > img{
+.loader_gif > img {
   max-width: 100%;
   max-height: 100%;
   width: 100%;
@@ -2026,10 +2025,16 @@ body {
   color: #fff;
   user-select: none;
 }
-.food_count_399 {
-  font-size: 15px;
+.screen {
+  color: #000;
+  font-weight: 700;
+  font-size: 18px;
+}
+.screen span {
+  font-size: 18px;
   color: #e03f3f;
 }
+
 .add__order__online {
   position: absolute;
   width: 90%;
@@ -2060,7 +2065,7 @@ body {
   height: 35px;
   transition: all 0.2s ease-in-out;
 }
-.order__online__count:hover{
+.order__online__count:hover {
   background-color: #f6bdbd;
   color: #e03f3f;
 }
