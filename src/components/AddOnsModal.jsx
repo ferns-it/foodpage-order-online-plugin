@@ -188,7 +188,7 @@ function AddOnsModal(props) {
                 Utils.removeSpecialCharacters(foodValues?.description)}
             </p>
             <p className="price_02901">
-              £{total && total.length != 0 ? total : 0}
+              {foodValues?.variations[0]?.displayPrice ?? "0"}
             </p>
             <div className="inc_dec_wrapper_0291">
               <div className="incDec_wrapper_0291">
