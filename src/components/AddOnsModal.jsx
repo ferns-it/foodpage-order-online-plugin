@@ -25,7 +25,7 @@ function AddOnsModal(props) {
   const [addOns, setAddOns] = useState({});
   const [masterAddons, setMasterAddons] = useState({});
   const [masterIds, setMasterIds] = useState([]);
-
+  const [error, setError] = useState(false);
   const foodValues = props.productData;
 
   const emptyStates = () => {
@@ -107,28 +107,26 @@ function AddOnsModal(props) {
     });
     return addData;
   };
-
+  const showError = () => {
+    if (foodValues?.variations.length == 0) {
+      setError(true);
+      return;
+    }
+  };
   const handleCart = async () => {
+    setError(false);
+
     let userId = "";
     userId = localStorage.getItem("user");
-    console.log(userId);
     if (!userId) {
       userId = Utils.generateRandomId();
       localStorage.setItem("user", userId);
-      console.log("reached1");
     }
-    console.log("reached2");
     if (count <= 0) {
       toast.error("Least quantity is 1");
-      return;
-    }
 
-    if (variationValue == "") {
-      console.log("empty");
-      toast.error("Please Choose atleast one Item ");
       return;
     }
-    console.log("here");
     if (
       !variationValue ||
       variationValue.name.length === 0 ||
@@ -159,6 +157,7 @@ function AddOnsModal(props) {
       onSuccess: async (res) => {
         console.info(res);
         toast.success("Item Added to cart!");
+        setError(false);
         await fetchCartList();
         props.setShowModal(false);
         setTimeout(() => {
@@ -167,6 +166,7 @@ function AddOnsModal(props) {
       },
       onFailed: (err) => {
         console.error(err);
+        setError(false);
         toast.error("Add to cart Failed!");
       },
     });
@@ -606,6 +606,19 @@ function AddOnsModal(props) {
                 cancel
               </button>
             </div>
+            {error && (
+              <h6
+                className="text-center"
+                style={{
+                  color: "Red",
+                  fontSize: "13px",
+                  fontWeight: "600",
+                  marginTop: "20px",
+                }}
+              >
+                Please Choose Variation
+              </h6>
+            )}
           </div>
         </div>
       </div>

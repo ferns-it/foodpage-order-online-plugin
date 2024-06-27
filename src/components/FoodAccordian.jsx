@@ -52,6 +52,7 @@ function FoodAccordian() {
         showModal={showRespModal}
         setShowModal={setShowRespModal}
         productData={productRespDataValues}
+        shopId={shopId}
       />
 
       <Fragment>
