@@ -30,11 +30,11 @@ function AddOnsModal(props) {
 
   const emptyStates = () => {
     setCount(1);
-    setVariationValue("");
+    setVariationValue({ name: "", pvID: "", price: 0 });
     setAddOns({});
     setMasterAddons({});
+    setError(false); // Reset error state
   };
-
   useEffect(() => {
     // if (!props.showModal) return;
     if (props.showModal == false) {
@@ -107,12 +107,7 @@ function AddOnsModal(props) {
     });
     return addData;
   };
-  const showError = () => {
-    if (foodValues?.variations.length == 0) {
-      setError(true);
-      return;
-    }
-  };
+
   const handleCart = async () => {
     setError(false);
 
@@ -124,7 +119,6 @@ function AddOnsModal(props) {
     }
     if (count <= 0) {
       toast.error("Least quantity is 1");
-
       return;
     }
     if (
@@ -133,13 +127,12 @@ function AddOnsModal(props) {
       variationValue.pvID.length === 0
     ) {
       toast.error("Variations are required, Please choose one!");
+      setError(true); // Set error state
       return;
     }
-    console.log("items are selected");
+
     const masterAddOnsData = foodValues?.masterAddons;
     const addOnsData = handleMinAddons(masterAddOnsData);
-    // console.log(addOns);
-    // console.log(masterAddons);
 
     let cOptionObj = {
       pvID: variationValue?.pvID,
@@ -155,9 +148,7 @@ function AddOnsModal(props) {
 
     await addToCart(payload, {
       onSuccess: async (res) => {
-        console.info(res);
         toast.success("Item Added to cart!");
-        setError(false);
         await fetchCartList();
         props.setShowModal(false);
         setTimeout(() => {
@@ -165,12 +156,20 @@ function AddOnsModal(props) {
         }, 1000);
       },
       onFailed: (err) => {
-        console.error(err);
-        setError(false);
         toast.error("Add to cart Failed!");
       },
     });
   };
+
+  const handleVariationChange = (varient) => {
+    setVariationValue({
+      name: varient?.name ? varient?.name : foodValues.name,
+      pvID: varient?.pvID,
+      price: varient?.price,
+    });
+    setError(false); // Clear error when a variation is selected
+  };
+
   return (
     <Fragment>
       <div
@@ -607,17 +606,19 @@ function AddOnsModal(props) {
               </button>
             </div>
             {error && (
-              <h6
-                className="text-center"
-                style={{
-                  color: "Red",
-                  fontSize: "13px",
-                  fontWeight: "600",
-                  marginTop: "20px",
-                }}
-              >
-                Please Choose Variation
-              </h6>
+              <div className="error-message">
+                <h6
+                  className="text-center"
+                  style={{
+                    color: "Red",
+                    fontSize: "13px",
+                    fontWeight: "600",
+                    marginTop: "20px",
+                  }}
+                >
+                  Variations are required, please choose one!
+                </h6>
+              </div>
             )}
           </div>
         </div>
