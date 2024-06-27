@@ -1770,6 +1770,9 @@ body {
     display: flex;
     flex-direction: row-reverse;
   }
+  .submit_btn_8392 > span {
+    display: block;
+  }
 }
 .red {
   color: #e03f3f;
@@ -2068,7 +2071,10 @@ body {
   height: 35px;
   transition: all 0.2s ease-in-out;
 }
-.order__online__count:hover{
+.order__online__count:hover {
   background-color: #f6bdbd;
   color: #e03f3f;
+}
+.small-screen-toast {
+  display: none;
 }

@@ -21,6 +21,7 @@ function AddOnsModal(props) {
     pvID: "",
     price: 0,
   });
+  console.log(variationValue);
   const [addOns, setAddOns] = useState({});
   const [masterAddons, setMasterAddons] = useState({});
   const [masterIds, setMasterIds] = useState([]);
@@ -68,13 +69,14 @@ function AddOnsModal(props) {
   }, [props.showModal]);
 
   useEffect(() => {
-    if (!foodValues) return;
-    const variationData = foodValues?.variations[0];
+    if (!foodValues || !foodValues.variations || !foodValues.variations.length)
+      return;
+    const variationData = foodValues.variations[0];
     if (variationData.name == null) {
       setVariationValue({
         name: foodValues.name,
-        price: variationData?.price,
-        pvID: variationData?.pvID,
+        price: variationData.price,
+        pvID: variationData.pvID,
       });
     }
   }, [foodValues]);
@@ -109,15 +111,24 @@ function AddOnsModal(props) {
   const handleCart = async () => {
     let userId = "";
     userId = localStorage.getItem("user");
+    console.log(userId);
     if (!userId) {
       userId = Utils.generateRandomId();
       localStorage.setItem("user", userId);
+      console.log("reached1");
     }
-
+    console.log("reached2");
     if (count <= 0) {
       toast.error("Least quantity is 1");
       return;
     }
+
+    if (variationValue == "") {
+      console.log("empty");
+      toast.error("Please Choose atleast one Item ");
+      return;
+    }
+    console.log("here");
     if (
       !variationValue ||
       variationValue.name.length === 0 ||
@@ -126,7 +137,7 @@ function AddOnsModal(props) {
       toast.error("Variations are required, Please choose one!");
       return;
     }
-
+    console.log("items are selected");
     const masterAddOnsData = foodValues?.masterAddons;
     const addOnsData = handleMinAddons(masterAddOnsData);
     // console.log(addOns);
@@ -149,7 +160,7 @@ function AddOnsModal(props) {
         console.info(res);
         toast.success("Item Added to cart!");
         await fetchCartList();
-
+        props.setShowModal(false);
         setTimeout(() => {
           props.setShowModal(false);
         }, 1000);
@@ -212,6 +223,7 @@ function AddOnsModal(props) {
                 </div>
               </div>
             </div>
+
             <div className="row">
               {foodValues &&
                 foodValues.variations &&
