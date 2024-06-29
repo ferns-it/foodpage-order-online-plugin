@@ -3,13 +3,12 @@ import { OrderOnlineContext } from "../context/OrderOnlineContext";
 import Utils from "../utils/Utils";
 import AddOnsModal from "./AddOnsModal";
 import "../style/OrderOnlineApp.css";
-import { useParams } from "react-router-dom";
 import SkeltLoader from "./SkeltLoader";
 import { AppContext } from "../../../Context/AppContext";
 
 function Foodcard(category) {
-  const { shopId } = useParams();
-  const { products, productsLoading, filterLoading } =
+  // const { shopId } = useParams();
+  const { products, productsLoading, filterLoading, shopId } =
     useContext(AppContext);
   const [showModal, setShowModal] = useState(false);
   const [productDataValues, setProductDataValues] = useState(null);

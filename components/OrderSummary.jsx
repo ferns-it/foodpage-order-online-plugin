@@ -302,6 +302,8 @@ function OrderSummary() {
     setTime(event.target.value);
   };
 
+  console.log(cartItems);
+
   return (
     <div>
       <Toaster position="top-center" reverseOrder={false} />

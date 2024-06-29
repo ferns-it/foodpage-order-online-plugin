@@ -10,16 +10,12 @@ import OrderSummary from "./OrderSummary";
 import { useParams } from "react-router-dom";
 import SkeltLoader from "./SkeltLoader";
 import { AppContext } from "../../../Context/AppContext";
+import { OrderOnlineContext } from "../context/OrderOnlineContext";
 
 function FoodAccordian() {
-  const {
-    categoryList,
-    fetchProductsList,
-    filterLoading,
-    shopId,
-    products,
-    cartItems,
-  } = useContext(AppContext);
+  const { categoryList, cartItems } = useContext(OrderOnlineContext);
+  const { fetchProductsList, filterLoading, shopId, products } =
+    useContext(AppContext);
   const [accordionStates, setAccordionStates] = useState(null);
   const [activeSmallScreen, setActiveSmallScreen] = useState(true);
   const [showRespModal, setShowRespModal] = useState(false);
@@ -54,6 +50,7 @@ function FoodAccordian() {
         showModal={showRespModal}
         setShowModal={setShowRespModal}
         productData={productRespDataValues}
+        shopId={shopId}
       />
 
       <Fragment>
