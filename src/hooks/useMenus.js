@@ -40,7 +40,7 @@ const useMenus = () => {
     try {
       setcategoryLoading(true);
 
-      await BaseClient.get(APIEndpoints.categoryList + `/${shopId}-shop`, [], {
+      await BaseClient.get(APIEndpoints.categoryList, [], {
         onSuccess: (res) => {
           console.log("category-response", res.data);
           setCategoryList(res?.data?.data?.items);

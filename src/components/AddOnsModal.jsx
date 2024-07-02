@@ -169,7 +169,7 @@ function AddOnsModal(props) {
     });
     setError(false); // Clear error when a variation is selected
   };
-
+  console.log(foodValues, "foodValues");
   return (
     <Fragment>
       <div
@@ -258,13 +258,7 @@ function AddOnsModal(props) {
                                             variationName
                                           }
                                           onClick={() => {
-                                            setVariationValue({
-                                              name: varient?.name
-                                                ? varient?.name
-                                                : foodValues.name,
-                                              pvID: varient?.pvID,
-                                              price: varient?.price,
-                                            });
+                                            handleVariationChange(varient);
                                           }}
                                         />
                                         <span class="checkmark"></span>
