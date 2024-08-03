@@ -1,15 +1,14 @@
 import axios from "axios";
+import Utils from "../utils/Utils";
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
+const userId = localStorage.getItem("user");
 
 //Create a axios api instance
 const api = axios.create({
   baseURL: BASE_URL,
   headers: {
-    Authorization: localStorage.getItem("UserPersistent")
-      ? `Bearer ${
-          JSON.parse(localStorage.getItem("UserPersistent")).accessToken
-        }`
-      : null,
+    User: userId ? userId : Utils.generateRandomId(),
   },
   // withCredentials: true,
   timeout: 10000,
@@ -40,9 +39,9 @@ const api = axios.create({
 
 class BaseClient {
   //Get Method
-  static async get(endpoint, { onSuccess, onFailed }) {
+  static async get(endpoint, payload, { onSuccess, onFailed }) {
     await api
-      .get(endpoint)
+      .get(endpoint, payload)
       .then((data) => onSuccess && onSuccess(data))
       .catch((error) => onFailed && onFailed(error));
   }
