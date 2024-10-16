@@ -17,7 +17,7 @@ import VariationMasterAddons from "./variationMasterAddons";
 import {
   getLocalStorageItem,
   setLocalStorageItem,
-} from "@/src/app/_utils/ClientUtils";
+} from "../../_utils/ClientUtils";
 
 let userId = getLocalStorageItem("UserPersistent");
 

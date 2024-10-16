@@ -5,7 +5,7 @@ import { RiMoneyEuroCircleLine } from "react-icons/ri";
 // import * as Bs from "react-icons/bs";
 
 import toast from "react-hot-toast";
-import { AppContext } from "../context";
+import { AppContext } from "../context/index";
 import CheckoutSummaryComp from "./CheckoutSummaryComp";
 import { Elements } from "@stripe/react-stripe-js";
 import StripePaymentElementOrderOnline from "./StripePaymentElementOrderOnline";
@@ -21,7 +21,7 @@ import {
   removeLocalStorageItem,
   removeSessionStorageItem,
   setLocalStorageItem,
-} from "@/src/app/_utils/ClientUtils";
+} from "../../_utils/ClientUtils";
 
 function OrderSummaryCheckout() {
   const router = useRouter();
@@ -337,7 +337,7 @@ function OrderSummaryCheckout() {
           //! user token removed here
           // removeLocalStorageItem("userToken");
           // removeSessionStorageItem("userInfo");
-          
+
           await fetchCartList(userID);
           await clearCartItems(userID, {
             onSuccess: (res) => {
@@ -347,7 +347,7 @@ function OrderSummaryCheckout() {
               console.log("Error on cart clear", err);
             },
           });
-          router.refresh()
+          router.refresh();
           router.push("/order-online");
           setActiveCard("login");
           setPaymentData(null);

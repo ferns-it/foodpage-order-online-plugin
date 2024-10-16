@@ -5,7 +5,7 @@ import * as Pi from "react-icons/pi";
 import "react-loading-skeleton/dist/skeleton.css";
 import FoodCardsSkeleton from "./FoodCardsSkeleton";
 import { useSearchParams } from "next/navigation";
-import { getSessionStorageItem } from "@/src/app/_utils/ClientUtils";
+import { getSessionStorageItem } from "../../_utils/ClientUtils";
 import "../../guest-login/style.css";
 
 function FoodCards(category) {

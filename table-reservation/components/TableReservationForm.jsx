@@ -8,7 +8,7 @@ import Utils from "../utils/Utils";
 import { toast } from "react-hot-toast";
 import "../style/Style.css";
 
-const RECAPTCHA_SITE_KEY = "6LeXD-8pAAAAAOpi7gUuH5-DO0iMu7J6C-CBA2fo";
+const RECAPTCHA_SITE_KEY = "6LeXD-8pAAAAAOpi7gUuH5-DO0iMu7J6C-CBA2fo"; //! add new captcha
 
 function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   const {

@@ -11,7 +11,6 @@ import OrderSummary from "./OrderSummary";
 import { Toaster } from "react-hot-toast";
 import FoodCardsSkeleton from "./FoodCardsSkeleton";
 import SkeltLoader from "./SkeltLoader";
-import Draggable from "react-draggable";
 
 function FoodAccordian() {
   const {
