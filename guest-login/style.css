@@ -329,7 +329,8 @@ div.food_tile.active img {
   font-weight: 700;
   font-size: 2rem;
   color: #77777752;
-  padding-top: 5rem;
+  padding-top: 3rem;
+  padding-left: 1rem;
 }
 
 .loader-wrapper {

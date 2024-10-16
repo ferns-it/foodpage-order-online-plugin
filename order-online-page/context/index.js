@@ -25,7 +25,7 @@ export const AppContextProvider = (props) => {
   const [isUserLogged, setIsUserLogged] = useState(null);
   const [amount, setAmount] = useState(0);
   const [deliveryFee, setDeliveryFee] = useState(null);
-  const shopId = 1;
+  const shopId = process.env.SHOP_ID;
   const [activeCard, setActiveCard] = useState("login");
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [filterLoading, setFilterLoading] = useState(false);
