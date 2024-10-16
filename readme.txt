@@ -15,7 +15,7 @@
 4. After the installation completes, you can start the development server using:
     - npm run dev
 
-5. The project should now be set up and ready to use!
+5. The project should now be set up and ready to use! [test credentials]
 
 ## Note:
 - Make sure you have Node.js and npm installed on your system.
