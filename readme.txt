@@ -10,10 +10,12 @@
 
     - install the package outside outside the project.
 
-3. After the installation completes, you can start the development server using:
+3. There is an env file copy it into your project 
+
+4. After the installation completes, you can start the development server using:
     - npm run dev
 
-4. The project should now be set up and ready to use!
+5. The project should now be set up and ready to use!
 
 ## Note:
 - Make sure you have Node.js and npm installed on your system.
