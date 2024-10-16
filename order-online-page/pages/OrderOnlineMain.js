@@ -102,7 +102,7 @@ const OrderOnlineMain = () => {
   // console.log("title", title);
   return (
     <Fragment>
-      {settingsLoading ? (
+      {!settingsLoading ? (
         <Fragment>
           <br />
           <div className="food_order_area mt-4">
