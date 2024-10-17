@@ -1,7 +1,7 @@
 "use client";
 import axios from "axios";
 
-import { getLocalStorageItem } from "@/src/app/_utils/ClientUtils";
+import { getLocalStorageItem } from "../../_utils/ClientUtils";
 // import jwt from ""
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
@@ -83,25 +83,26 @@ class BaseClient {
   }
 
   //Put Method
-  static async put(endpoint, payload, { onSuccess, onFailed, onProgress, headers }) {
+  static async put(
+    endpoint,
+    payload,
+    { onSuccess, onFailed, onProgress, headers }
+  ) {
     await api
-    .put(endpoint, payload, {
-      headers: headers,
-      onUploadProgress: (progressEvent) => {
-        if (onProgress) {
-          onProgress(progressEvent);
-        }
-      },
-    })
+      .put(endpoint, payload, {
+        headers: headers,
+        onUploadProgress: (progressEvent) => {
+          if (onProgress) {
+            onProgress(progressEvent);
+          }
+        },
+      })
       .then((data) => onSuccess && onSuccess(data))
       .catch((error) => onFailed && onFailed(error));
   }
 
   //Delete Method
-  static async delete(
-    endpoint,
-    { onSuccess, onFailed, headers, onProgress }
-  ) {
+  static async delete(endpoint, { onSuccess, onFailed, headers, onProgress }) {
     try {
       const response = await api.delete(endpoint, {
         headers: headers || {},
@@ -116,7 +117,6 @@ class BaseClient {
       if (onFailed) onFailed(error);
     }
   }
-
 }
 
 export default BaseClient;
