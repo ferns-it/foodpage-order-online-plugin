@@ -2,7 +2,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import jwt from "jsonwebtoken";
-import { setLocalStorageItem } from "@/src/app/_utils/ClientUtils";
+import { setLocalStorageItem } from "../../_utils/ClientUtils";
 
 const AuthContext = createContext();
 

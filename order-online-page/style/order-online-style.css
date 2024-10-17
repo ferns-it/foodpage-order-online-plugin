@@ -1608,7 +1608,7 @@ body {
   background-color: #fff;
   overflow-y: scroll;
   z-index: 0;
-  padding-top: 8em;
+  /* padding-top: 8em; */
 }
 
 .login_summary_card_0928 {
