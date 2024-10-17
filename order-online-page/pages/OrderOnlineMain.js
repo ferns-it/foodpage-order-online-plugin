@@ -104,7 +104,7 @@ const OrderOnlineMain = () => {
     <Fragment>
       {!settingsLoading ? (
         <Fragment>
-         <br />
+          <br />
           <div className="food_order_area mt-4">
             <div className="order_block">
               <div className="row">
@@ -175,7 +175,7 @@ const OrderOnlineMain = () => {
           </div>
         </Fragment>
       ) : (
-        <LoaderComp />
+        <p>Loading...</p>
       )}
     </Fragment>
   );

@@ -8,8 +8,8 @@ import {
   getSessionStorageItem,
   setLocalStorageItem,
   setSessionStorageItem,
-} from "@/src/app/_utils/ClientUtils";
-import Utils from "@/src/app/_utils/Utils";
+} from "../../_utils/ClientUtils";
+import Utils from "../../_utils/Utils";
 import useProfile from "../hooks/useProfile";
 import useOrderHistory from "../hooks/useOrderHistory";
 import { useRouter } from "next/router";

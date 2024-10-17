@@ -2,7 +2,7 @@
 import { useState } from "react";
 import BaseClient from "../helper/Baseclients";
 import { APIEndpoints } from "../constants/APIEndpoints";
-import { getLocalStorageItem } from "@/src/app/_utils/ClientUtils";
+import { getLocalStorageItem } from "../../_utils/ClientUtils";
 
 const useMenus = () => {
   const [menuList, setMenuList] = useState(null);
@@ -121,7 +121,7 @@ const useMenus = () => {
       setSettingsLoading(true);
       await BaseClient.get(APIEndpoints.shopSettings, [], {
         onSuccess: (res) => {
-          console.log("settings",res.data.data);
+          console.log("settings", res.data.data);
 
           setSettings(res?.data?.data);
           setDeliveryInfo(res?.data?.data?.deliveryInfo);
