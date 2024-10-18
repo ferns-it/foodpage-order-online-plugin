@@ -2522,7 +2522,7 @@ body {
   );
   color: #af2329;
   /* border: 1px dashed #7777; */
-  margin-bottom: 20px !important;
+  margin-bottom: 0 !important;
   transition: all 0.2s ease-in-out;
 }
 

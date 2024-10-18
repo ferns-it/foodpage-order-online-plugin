@@ -95,7 +95,7 @@ function FoodCards(category) {
                                   key={index}
                                 >
                                   <div id="fda_product_tile">
-                                    <div className="row fda_food_row position-relative  mb-3">
+                                    <div className="row fda_food_row position-relative">
                                       <div className="mx-auto">
                                         <a
                                           className="prod_anchor"
