@@ -23,8 +23,10 @@ let userId = getLocalStorageItem("UserPersistent");
 
 function AddOnsModal(props) {
   const modalRef = useRef(null);
-  const { addToCart, fetchCartList, cartLoading, shopId, setCartItems } =
+  const { addToCart, fetchCartList, cartLoading, setCartItems } =
     useContext(AppContext);
+
+  const shopId = process.env.SHOP_ID;
 
   const [count, setCount] = useState(1);
   const [cardTotal, setCardTotal] = useState(0);
@@ -317,7 +319,7 @@ function AddOnsModal(props) {
     };
     const payload = {
       qty: count,
-      rID: JSON.stringify(shopId),
+      rID: shopId,
       pID: itemData?.pID,
       cOption: JSON.stringify(cOptionObj),
     };
