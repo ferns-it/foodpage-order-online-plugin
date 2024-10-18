@@ -218,10 +218,13 @@ function OrderSummaryCheckout() {
           User: userID,
         };
         setIntentLoading(true);
+        const discountam = Number(details?.discount ?? paramsValues.discount);
+        const delivFeeAmt = deliveryFee ?? paramsValues?.deliveryFee;
+
         await createPaymentIntent(
           {
-            devliveryCharges: deliveryFee ?? 0 * 100,
-            discountAmount: discount * 100,
+            devliveryCharges: (delivFeeAmt ?? 0) * 100,
+            discountAmount: isNaN(discountam) ? 0 : parseInt(discountam * 100),
             shopID: shopId,
           },
 
@@ -337,7 +340,7 @@ function OrderSummaryCheckout() {
           //! user token removed here
           // removeLocalStorageItem("userToken");
           // removeSessionStorageItem("userInfo");
-          
+
           await fetchCartList(userID);
           await clearCartItems(userID, {
             onSuccess: (res) => {
@@ -347,7 +350,7 @@ function OrderSummaryCheckout() {
               console.log("Error on cart clear", err);
             },
           });
-          router.refresh()
+          router.refresh();
           router.push("/order-online");
           setActiveCard("login");
           setPaymentData(null);
