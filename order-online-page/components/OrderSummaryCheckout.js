@@ -60,8 +60,6 @@ function OrderSummaryCheckout() {
 
   // const { fetchCartList } = useContext(AppContext);
 
-  console.log("activeCard", activeCard);
-
   const [paymentOption, setPaymentOption] = useState("");
   const [addressDefault, setAddressDefault] = useState(null);
   // useEffect(() => {
@@ -213,14 +211,12 @@ function OrderSummaryCheckout() {
         ? parseFloat(details?.cart_NetAmount)
         : details?.cart_NetAmount;
 
-   
     if (cartTotal < minAmountForCardPayment) {
       toast.error(
         `Minimum amount for card payment is ${minAmountForCardPayment}, please choose another payment option!`
       );
       return;
-    } 
-    
+    }
 
     const discount = sessionStorage.getItem("discount");
     const fees = sessionStorage.getItem("delFee");
@@ -271,7 +267,30 @@ function OrderSummaryCheckout() {
     setPaymentOption("cash");
     setPaymentData(null);
   };
+
+  const checkForEmptyKeys = (formState) => {
+    const emptyKeys = [];
+
+    for (const key in formState) {
+      const value = formState[key];
+
+      if (value === undefined || value === null || value === "") {
+        emptyKeys.push(key);
+      }
+    }
+
+    return emptyKeys;
+  };
+
   const completeOrder = async () => {
+    const emptyValidation = checkForEmptyKeys(formState);
+
+    if (emptyValidation && emptyValidation.length != 0) {
+      toast.error("Please fill All the required Details before checkout!");
+
+      return;
+    }
+
     const data = paymentData?.data?.data;
     const discount = sessionStorage.getItem("discount");
     const details = JSON.parse(getSessionStorageItem("deliveryResponse"));
