@@ -2508,14 +2508,13 @@ body {
   padding: 0 25px;
   border-radius: 25px;
   margin-top: 20px;
-  min-width: 270px;
   margin: 0px auto;
+  margin: 20px;
 }
 
 .fda_food_row div.food_tile__.active {
   position: relative;
   min-height: 220px;
-  width: 80% !important;
   background: rgb(238, 238, 238);
   background: linear-gradient(
     180deg,
@@ -2530,8 +2529,6 @@ body {
 
 @media screen and (max-width: 1400px) {
   .fda_food_row div.food_tile__.active {
-    width: 95%;
-    height: 250px;
   }
   .dish_name {
     font-size: 16px !important;
