@@ -2515,7 +2515,7 @@ body {
 .fda_food_row div.food_tile__.active {
   position: relative;
   min-height: 220px;
-  width: 80%;
+  width: 70%;
   background: rgb(238, 238, 238);
   background: linear-gradient(
     180deg,

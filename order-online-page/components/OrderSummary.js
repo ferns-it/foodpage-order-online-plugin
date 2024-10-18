@@ -154,6 +154,11 @@ function OrderSummary() {
               "deliveryResponse",
               JSON.stringify(deliveryResp)
             );
+          } else {
+            let errMsg =
+              res?.data?.errorMessage?.reason.message ?? "Invalid time";
+
+            toast.error(errMsg);
           }
         },
         onFailed: (err) => {
@@ -182,7 +187,7 @@ function OrderSummary() {
         headers: headers,
         onSuccess: async (res) => {
           const deliveryResp = res.data.data;
-          if(deliveryResp){
+          if (deliveryResp) {
             setSessionStorageItem(
               "deliveryResponse",
               JSON.stringify(deliveryResp)
@@ -199,7 +204,7 @@ function OrderSummary() {
               router.push(pathname);
             }, 200);
           } else {
-            toast.error(`Couldn't complete your request, Please try again!`)
+            toast.error(`Couldn't complete your request, Please try again!`);
           }
         },
         onFailed: (err) => {
@@ -302,7 +307,7 @@ function OrderSummary() {
     setTime(formattedTime);
     setTakeawayTime(formattedTime);
   };
-console.log(settings,"settings")
+  console.log(settings, "settings");
   return (
     <Fragment>
       <Toaster position="top-center" reverseOrder={false} />
@@ -489,7 +494,7 @@ console.log(settings,"settings")
               className="row mt-3 mx-auto mx-auto"
               style={{ display: "flex" }}
             >
-              <div className="col-md-6" style={{ flex: 1 ,fontSize:"15px"}}>
+              <div className="col-md-6" style={{ flex: 1, fontSize: "15px" }}>
                 <label>
                   <input
                     type="radio"
@@ -503,7 +508,10 @@ console.log(settings,"settings")
 
               {deliveryInfo?.takeAway == 1 &&
                 deliveryInfo?.takeAway_temp_off === "No" && (
-                  <div className="col-md-6" style={{ flex: 1,fontSize:"15px" }}>
+                  <div
+                    className="col-md-6"
+                    style={{ flex: 1, fontSize: "15px" }}
+                  >
                     <label>
                       <input
                         type="radio"
@@ -597,8 +605,13 @@ console.log(settings,"settings")
               ""
             )}
 
-
-            <h6 style={{color:"#da6d6d",fontSize:"10px",fontWeight:"500"}} className="text-center">Minimum Amount for Card payment is £{settings?.deliveryInfo?.onlinePaymentMinAmount}</h6>
+            <h6
+              style={{ color: "#da6d6d", fontSize: "10px", fontWeight: "500" }}
+              className="text-center"
+            >
+              Minimum Amount for Card payment is £
+              {settings?.deliveryInfo?.onlinePaymentMinAmount}
+            </h6>
             <button
               type="button"
               className="order_now_192"
