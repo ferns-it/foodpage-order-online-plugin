@@ -186,25 +186,32 @@ function OrderSummary() {
       await GuestDeliveryDetails(payload, {
         headers: headers,
         onSuccess: async (res) => {
-          const deliveryResp = res.data.data;
-          if (deliveryResp) {
-            setSessionStorageItem(
-              "deliveryResponse",
-              JSON.stringify(deliveryResp)
-            );
-            toast.success("Continue to checkout", { icon: "👍🏻" });
-            sessionStorage.setItem("location", "/checkout");
-            sessionStorage.setItem("postcode", postalCode);
-            sessionStorage.setItem("type", delivery);
-            sessionStorage.setItem("discount", res?.data?.data?.discountAmount);
-            sessionStorage.setItem("isCheckoutActive", true);
-            const pathname = `/checkout?price=${deliveryResp?.cart_NetAmount}&&deliveryCharge=${deliveryResp?.deliveryFeeAmount}&&discount=${deliveryResp?.discountAmount}`;
-            setLocalStorageItem("path", pathname);
-            setTimeout(() => {
-              router.push(pathname);
-            }, 200);
+          console.log(res, ":respones");
+          if (res?.error == false) {
+            const deliveryResp = res.data.data;
+            if (deliveryResp) {
+              setSessionStorageItem(
+                "deliveryResponse",
+                JSON.stringify(deliveryResp)
+              );
+              toast.success("Continue to checkout", { icon: "👍🏻" });
+              sessionStorage.setItem("location", "/checkout");
+              sessionStorage.setItem("postcode", postalCode);
+              sessionStorage.setItem("type", delivery);
+              sessionStorage.setItem(
+                "discount",
+                res?.data?.data?.discountAmount
+              );
+              sessionStorage.setItem("isCheckoutActive", true);
+              const pathname = `/checkout?price=${deliveryResp?.cart_NetAmount}&&deliveryCharge=${deliveryResp?.deliveryFeeAmount}&&discount=${deliveryResp?.discountAmount}`;
+              setLocalStorageItem("path", pathname);
+              setTimeout(() => {
+                router.push(pathname);
+              }, 200);
+            }
           } else {
-            toast.error(`Couldn't complete your request, Please try again!`);
+            toast.error(res?.data?.errorMessage?.message);
+            return;
           }
         },
         onFailed: (err) => {
