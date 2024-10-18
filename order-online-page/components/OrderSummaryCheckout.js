@@ -218,10 +218,13 @@ function OrderSummaryCheckout() {
           User: userID,
         };
         setIntentLoading(true);
+        const discountam = Number(details?.discount ?? paramsValues.discount);
+        const delivFeeAmt = deliveryFee ?? paramsValues?.deliveryFee;
+
         await createPaymentIntent(
           {
-            devliveryCharges: deliveryFee ?? 0 * 100,
-            discountAmount: discount * 100,
+            devliveryCharges: (delivFeeAmt ?? 0) * 100,
+            discountAmount: isNaN(discountam) ? 0 : parseInt(discountam * 100),
             shopID: shopId,
           },
 
