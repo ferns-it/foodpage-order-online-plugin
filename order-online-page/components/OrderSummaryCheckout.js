@@ -218,6 +218,7 @@ function OrderSummaryCheckout() {
       toast.error(
         `Minimum amount for card payment is ${minAmountForCardPayment}, please choose another payment option!`
       );
+      return;
     } 
     
 
