@@ -15,7 +15,7 @@ function FoodCardsSkeleton() {
             <div className="row">
               {items.map((_, index) => {
                 return (
-                  <div className="col-md-3 col-lg-3 col-sm-6" key={index}>
+                  <div className="col-md-6 col-lg-4 col-sm-6" key={index}>
                     <div id="fda_product_tile">
                       <div className="row fda_food_row position-relative">
                         <div className="mx-auto">
@@ -29,12 +29,12 @@ function FoodCardsSkeleton() {
                               className="food_tile__ active mb-4 p-3"
                               id="skelt_food_card"
                             >
-                              <img
+                              {/* <img
                                 // src={data?.photo}
                                 alt=""
                                 className="fda_product_img"
                                 style={{ opacity: 0 }}
-                              />
+                              /> */}
                               <div className="skeliton_round">
                                 <Skeleton circle height={130} width={130} />
                               </div>

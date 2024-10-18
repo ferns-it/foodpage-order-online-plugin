@@ -43,7 +43,6 @@ function FoodCards(category) {
   }, [params]);
 
   const handleModal = (data) => {
-    console.log("data", data);
     // debugger;
     setShowModal(true);
     setProductDataValues(data);
@@ -92,7 +91,7 @@ function FoodCards(category) {
                             products?.map((data, index) => {
                               return (
                                 <div
-                                  className=" col-lg-3 col-md-2 col-sm-6 position-relative"
+                                  className=" col-lg-4 col-md-2 col-sm-6 position-relative"
                                   key={index}
                                 >
                                   <div id="fda_product_tile">
@@ -107,7 +106,7 @@ function FoodCards(category) {
                                           // onClick={() => handleModal(data)}
                                         >
                                           <div className="food_tile__ active mb-4 p-3">
-                                            <img
+                                            {/* <img
                                               src={data?.photo}
                                               alt=""
                                               className={
@@ -118,7 +117,7 @@ function FoodCards(category) {
                                                   : "fda_product_img "
                                               }
                                               referrerPolicy="no-referrer"
-                                            />
+                                            /> */}
                                             <h6 className="dish_name">
                                               {data?.name}
                                             </h6>

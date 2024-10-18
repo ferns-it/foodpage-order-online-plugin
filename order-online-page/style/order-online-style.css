@@ -2512,8 +2512,8 @@ body {
 
 .fda_food_row div.food_tile__.active {
   position: relative;
-  min-height: 280px;
-  width: 170px;
+  min-height: 220px;
+  width: 80%;
   background: rgb(238, 238, 238);
   background: linear-gradient(
     180deg,
@@ -2524,6 +2524,16 @@ body {
   /* border: 1px dashed #7777; */
   margin-bottom: 20px !important;
   transition: all 0.2s ease-in-out;
+}
+
+@media screen and (max-width: 1400px) {
+  .fda_food_row div.food_tile__.active {
+    width: 95%;
+    height: 250px;
+  }
+  .dish_name{
+    font-size: 16px !important;
+  }
 }
 
 .fda_food_row div.food_tile__:hover {
@@ -2554,7 +2564,7 @@ div.food_tile__.active img {
 }
 
 .dish_name {
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 600;
   letter-spacing: 1px;
   color: rgba(38, 29, 86, 1);
@@ -2609,7 +2619,6 @@ div.food_tile__.active img {
 }
 .add_to_cart:hover {
   background-color: #fe4645;
-  
 }
 .err_ {
   font-size: 0.8rem;
