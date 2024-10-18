@@ -195,7 +195,6 @@ function OrderSummary() {
             sessionStorage.setItem("isCheckoutActive", true);
             const pathname = `/checkout?price=${deliveryResp?.cart_NetAmount}&&deliveryCharge=${deliveryResp?.deliveryFeeAmount}&&discount=${deliveryResp?.discountAmount}`;
             setLocalStorageItem("path", pathname);
-            debugger
             setTimeout(() => {
               router.push(pathname);
             }, 200);
@@ -303,12 +302,12 @@ function OrderSummary() {
     setTime(formattedTime);
     setTakeawayTime(formattedTime);
   };
-
+console.log(settings,"settings")
   return (
     <Fragment>
       <Toaster position="top-center" reverseOrder={false} />
       <div style={{ width: "100%" }}>
-        <h3 className="order_title">Order Summary</h3>
+        <h3 className="order_title text-center">Order Summary</h3>
 
         <div className="summary_item_wrapper_029">
           {cartItems && cartItems.cartItems.length != 0 ? (
@@ -597,6 +596,9 @@ function OrderSummary() {
             ) : (
               ""
             )}
+
+
+            <h6 style={{color:"#da6d6d",fontSize:"10px",fontWeight:"500"}} className="text-center">Minimum Amount for Card payment is £{settings?.deliveryInfo?.onlinePaymentMinAmount}</h6>
             <button
               type="button"
               className="order_now_192"

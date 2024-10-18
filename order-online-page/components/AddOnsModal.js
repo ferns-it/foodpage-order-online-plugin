@@ -92,7 +92,6 @@ function AddOnsModal(props) {
 
   useEffect(() => {
     if (userId == null) {
-      debugger;
       const tempId = Utils.generateRandomId();
       setLocalStorageItem("UserPersistent", tempId);
     }

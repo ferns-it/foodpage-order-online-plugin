@@ -205,6 +205,22 @@ function OrderSummaryCheckout() {
   };
 
   const createPaymentIntentRequest = async () => {
+    const minAmountForCardPayment = parseFloat(
+      settings?.deliveryInfo?.onlinePaymentMinAmount
+    );
+    const cartTotal =
+      typeof details?.cart_NetAmount == "string"
+        ? parseFloat(details?.cart_NetAmount)
+        : details?.cart_NetAmount;
+
+   
+    if (cartTotal < minAmountForCardPayment) {
+      toast.error(
+        `Minimum amount for card payment is ${minAmountForCardPayment}, please choose another payment option!`
+      );
+    } 
+    
+
     const discount = sessionStorage.getItem("discount");
     const fees = sessionStorage.getItem("delFee");
     const restId = sessionStorage.getItem("restaurantId");
