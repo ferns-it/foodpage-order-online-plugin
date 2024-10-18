@@ -13,7 +13,7 @@ import {
   removeSessionStorageItem,
   setLocalStorageItem,
   setSessionStorageItem,
-} from "@/src/app/_utils/ClientUtils";
+} from "../../_utils/ClientUtils";
 
 function OrderSummary() {
   const router = useRouter();

@@ -807,15 +807,14 @@ body {
 .category_card_009 {
   position: sticky;
   position: -webkit-sticky;
-  top: 0;
   display: unset;
+  top: 10px;
+  width: auto;
   transition: all 0.5s ease-in-out;
   border: none !important;
   border-right: 1px solid #eee !important;
   border-radius: 0px !important;
   padding: 0px !important;
-  height: 200px;
-  width: 100%;
 }
 
 .active_009 {
@@ -1609,7 +1608,7 @@ body {
   background-color: #fff;
   overflow-y: scroll;
   z-index: 0;
-  padding-top: 8em;
+  /* padding-top: 8em; */
 }
 
 .login_summary_card_0928 {
@@ -2697,14 +2696,14 @@ div.food_tile__.active img {
 .loader-wrapper {
   position: relative;
   min-height: 500px;
-  /* height: 100vh !important; */
+  height: 100vh;
   height: 100%;
 }
 
 .loader__ {
   position: absolute;
   left: 50%;
-  top: 60%;
+  top: 50%;
   transform: translate(-50%, -50%);
 }
 

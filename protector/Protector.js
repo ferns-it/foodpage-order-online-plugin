@@ -1,10 +1,10 @@
-"use client"
+"use client";
 import React, { useContext, useEffect } from "react";
-import { useAuth } from "@/src/app/context/AuthContext";
 import { useRouter } from "next/navigation";
 import LoaderComp from "../order-online-page/components/LoaderComp";
-import { getLocalStorageItem } from "@/src/app/_utils/ClientUtils";
+import { getLocalStorageItem } from "../_utils/ClientUtils";
 import { AppContext } from "../order-online-page/context/index";
+import { useAuth } from "../guest-login/context/AuthContext";
 
 const ProtectedRoute = ({ children }) => {
   const { validationLoading, setValidationLoading } = useAuth();
