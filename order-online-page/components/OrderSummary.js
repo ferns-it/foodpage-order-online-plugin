@@ -187,7 +187,7 @@ function OrderSummary() {
         headers: headers,
         onSuccess: async (res) => {
           console.log(res, ":respones");
-          if (res?.error == false) {
+          if (res?.data?.error == false) {
             const deliveryResp = res.data.data;
             if (deliveryResp) {
               setSessionStorageItem(
@@ -211,7 +211,6 @@ function OrderSummary() {
             }
           } else {
             toast.error(res?.data?.errorMessage?.message);
-            return;
           }
         },
         onFailed: (err) => {

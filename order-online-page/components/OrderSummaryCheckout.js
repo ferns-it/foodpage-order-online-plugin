@@ -287,7 +287,7 @@ function OrderSummaryCheckout() {
 
     if (emptyValidation && emptyValidation.length != 0) {
       toast.error("Please fill All the required Details before checkout!");
-
+      setActiveCard("login");
       return;
     }
 
