@@ -2501,29 +2501,20 @@ body {
   transform: translateX(-50%);
 }
 
-.fda_food_row div.food_tile__ {
-  background-color: rgba(0, 0, 0, 0.05);
+#fda_product_tile {
+  position: relative;
+  min-height: 220px;
+  background: rgb(238, 238, 238);
+  color: #af2329;
+  /* border: 1px dashed #7777; */
+  margin-bottom: 0 !important;
+  transition: all 0.2s ease-in-out;
   font-size: 11px;
   padding: 0 25px;
   border-radius: 25px;
   margin-top: 20px;
   margin: 0px auto;
-  margin: 20px;
-}
-
-.fda_food_row div.food_tile__.active {
-  position: relative;
-  min-height: 220px;
-  background: rgb(238, 238, 238);
-  background: linear-gradient(
-    180deg,
-    rgba(238, 238, 238, 1) 0%,
-    rgba(0, 0, 0, 0) 100%
-  );
-  color: #af2329;
-  /* border: 1px dashed #7777; */
-  margin-bottom: 0 !important;
-  transition: all 0.2s ease-in-out;
+  margin: 10px;
 }
 
 @media screen and (max-width: 1400px) {
@@ -2534,7 +2525,7 @@ body {
   }
 }
 
-.fda_food_row div.food_tile__:hover {
+#fda_product_tile:hover {
   box-shadow: 0 -6px 12px -6px rgba(0, 0, 0, 0.3),
     /* Top shadow */ 0 6px 12px -6px rgba(0, 0, 0, 0.3);
   /* Bottom shadow */
@@ -2547,11 +2538,11 @@ body {
   height: 130px;
   border-radius: 100%;
   padding: 20px;
-  background-color: rgba(0, 0, 0, 0.05);
+  /* background-color: rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 0 25px rgba(255, 255, 255, 0.15),
     inset 0 4px 0 rgba(0, 0, 0, 0.05), inset 0 -4px 0 rgba(0, 0, 0, 0.05),
     inset 0 10px 10px rgba(0, 0, 0, 0.09), 0 1px 0px rgba(0, 0, 0, 0.1),
-    0 8px 7px rgba(0, 0, 0, 0.15);
+    0 8px 7px rgba(0, 0, 0, 0.15); */
   border: 1px solid rgba(0, 0, 0, 0.1);
   margin-top: -60px;
   margin-bottom: 18px;

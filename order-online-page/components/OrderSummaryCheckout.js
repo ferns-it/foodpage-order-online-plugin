@@ -199,6 +199,14 @@ function OrderSummaryCheckout() {
       }
       setActiveCard("payment");
       deliveryTypeData = "Take Away";
+      const isValid = handleEmptyValidation();
+      console.log(isValid);
+
+      if (isValid && isValid.length != 0) {
+        setFieldError(true);
+        setActiveCard("login");
+        return;
+      }
     }
   };
 
@@ -270,11 +278,11 @@ function OrderSummaryCheckout() {
 
   const checkForEmptyKeys = (formState) => {
     const emptyKeys = [];
-  
+
     // Iterate through formState keys
     for (const key in formState) {
       const value = formState[key];
-  
+
       // Exclude 'addressLine2' and 'notes' from the check
       if (key !== "addressLine2" && key !== "notes") {
         if (value === undefined || value === null || value === "") {
@@ -282,10 +290,9 @@ function OrderSummaryCheckout() {
         }
       }
     }
-  
+
     return emptyKeys;
   };
-  
 
   const completeOrder = async () => {
     const emptyValidation = checkForEmptyKeys(formState);
@@ -293,6 +300,7 @@ function OrderSummaryCheckout() {
     if (emptyValidation && emptyValidation.length != 0) {
       toast.error("Please fill All the required Details before checkout!");
       setActiveCard("login");
+      setPaymentOption("");
       return;
     }
 
@@ -334,7 +342,7 @@ function OrderSummaryCheckout() {
         amount: priceValue * 100,
         deliveryType: deliveryType,
         deliveryCharge:
-          deliveryType === "store_pickup" ? 0 : deliveryChargeValue,
+          deliveryType === "store_pickup" ? 0 : deliveryChargeValue * 100,
         // couponCode: "",
         // couponType: "",
         // couponValue: "",
