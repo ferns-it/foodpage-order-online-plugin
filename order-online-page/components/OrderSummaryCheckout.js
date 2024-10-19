@@ -295,6 +295,10 @@ function OrderSummaryCheckout() {
   };
 
   const completeOrder = async () => {
+    if(cartItems && cartItems?.cartItems && cartItems?.cartItems?.length ==0){
+      toast.error("Your cart is Empty!");
+      return
+    }
     const emptyValidation = checkForEmptyKeys(formState);
 
     if (emptyValidation && emptyValidation.length != 0) {
@@ -415,6 +419,8 @@ function OrderSummaryCheckout() {
   const handleToggle = () => {
     setActiveCard("login");
   };
+
+console.log(cartItems.cartItems.length,"cartitems")
 
   return (
     <Fragment>
