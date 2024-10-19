@@ -322,7 +322,7 @@ function CheckoutSummaryComp() {
                     <b>Total</b>
                   </h5>
                   <h5 className="m-0">
-                    <b>£{details?.cart_NetAmount ?? 0}</b>
+                    <b>£{(details?.cart_NetAmount ?? 0).toFixed(2)}</b>
                   </h5>
                 </div>
                 {/* <div className="summary_content">
