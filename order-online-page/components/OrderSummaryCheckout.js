@@ -199,6 +199,14 @@ function OrderSummaryCheckout() {
       }
       setActiveCard("payment");
       deliveryTypeData = "Take Away";
+      const isValid = handleEmptyValidation();
+      console.log(isValid);
+
+      if (isValid && isValid.length != 0) {
+        setFieldError(true);
+        setActiveCard("login");
+        return;
+      }
     }
   };
 
