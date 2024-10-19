@@ -154,6 +154,11 @@ function OrderSummary() {
               "deliveryResponse",
               JSON.stringify(deliveryResp)
             );
+          } else {
+            let errMsg =
+              res?.data?.errorMessage?.reason.message ?? "Invalid time";
+
+            toast.error(errMsg);
           }
         },
         onFailed: (err) => {
@@ -181,26 +186,31 @@ function OrderSummary() {
       await GuestDeliveryDetails(payload, {
         headers: headers,
         onSuccess: async (res) => {
-          const deliveryResp = res.data.data;
-          if(deliveryResp){
-            setSessionStorageItem(
-              "deliveryResponse",
-              JSON.stringify(deliveryResp)
-            );
-            toast.success("Continue to checkout", { icon: "👍🏻" });
-            sessionStorage.setItem("location", "/checkout");
-            sessionStorage.setItem("postcode", postalCode);
-            sessionStorage.setItem("type", delivery);
-            sessionStorage.setItem("discount", res?.data?.data?.discountAmount);
-            sessionStorage.setItem("isCheckoutActive", true);
-            const pathname = `/checkout?price=${deliveryResp?.cart_NetAmount}&&deliveryCharge=${deliveryResp?.deliveryFeeAmount}&&discount=${deliveryResp?.discountAmount}`;
-            setLocalStorageItem("path", pathname);
-            debugger
-            setTimeout(() => {
-              router.push(pathname);
-            }, 200);
+          console.log(res, ":respones");
+          if (res?.data?.error == false) {
+            const deliveryResp = res.data.data;
+            if (deliveryResp) {
+              setSessionStorageItem(
+                "deliveryResponse",
+                JSON.stringify(deliveryResp)
+              );
+              toast.success("Continue to checkout", { icon: "👍🏻" });
+              sessionStorage.setItem("location", "/checkout");
+              sessionStorage.setItem("postcode", postalCode);
+              sessionStorage.setItem("type", delivery);
+              sessionStorage.setItem(
+                "discount",
+                res?.data?.data?.discountAmount
+              );
+              sessionStorage.setItem("isCheckoutActive", true);
+              const pathname = `/checkout?price=${deliveryResp?.cart_NetAmount}&&deliveryCharge=${deliveryResp?.deliveryFeeAmount}&&discount=${deliveryResp?.discountAmount}`;
+              setLocalStorageItem("path", pathname);
+              setTimeout(() => {
+                router.push(pathname);
+              }, 200);
+            }
           } else {
-            toast.error(`Couldn't complete your request, Please try again!`)
+            toast.error(res?.data?.errorMessage?.message);
           }
         },
         onFailed: (err) => {
@@ -303,12 +313,12 @@ function OrderSummary() {
     setTime(formattedTime);
     setTakeawayTime(formattedTime);
   };
-
+  console.log(settings, "settings");
   return (
     <Fragment>
       <Toaster position="top-center" reverseOrder={false} />
       <div style={{ width: "100%" }}>
-        <h3 className="order_title">Order Summary</h3>
+        <h3 className="order_title text-center">Order Summary</h3>
 
         <div className="summary_item_wrapper_029">
           {cartItems && cartItems.cartItems.length != 0 ? (
@@ -490,7 +500,7 @@ function OrderSummary() {
               className="row mt-3 mx-auto mx-auto"
               style={{ display: "flex" }}
             >
-              <div className="col-md-6" style={{ flex: 1 ,fontSize:"15px"}}>
+              <div className="col-md-6" style={{ flex: 1, fontSize: "15px" }}>
                 <label>
                   <input
                     type="radio"
@@ -504,7 +514,10 @@ function OrderSummary() {
 
               {deliveryInfo?.takeAway == 1 &&
                 deliveryInfo?.takeAway_temp_off === "No" && (
-                  <div className="col-md-6" style={{ flex: 1,fontSize:"15px" }}>
+                  <div
+                    className="col-md-6"
+                    style={{ flex: 1, fontSize: "15px" }}
+                  >
                     <label>
                       <input
                         type="radio"
@@ -597,6 +610,14 @@ function OrderSummary() {
             ) : (
               ""
             )}
+
+            <h6
+              style={{ color: "#da6d6d", fontSize: "10px", fontWeight: "500" }}
+              className="text-center"
+            >
+              Minimum Amount for Card payment is £
+              {settings?.deliveryInfo?.onlinePaymentMinAmount}
+            </h6>
             <button
               type="button"
               className="order_now_192"

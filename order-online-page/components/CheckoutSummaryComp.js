@@ -153,7 +153,7 @@ function CheckoutSummaryComp() {
 
   useEffect(() => {
     const deliveryCharge = findDeliveryfee();
-    console.log(deliveryCharge, "charge");
+
     if (
       deliveryCharge != null ||
       deliveryCharge != false ||
@@ -166,8 +166,6 @@ function CheckoutSummaryComp() {
       setDeliveryFee(0);
     }
   }, [cartItems, deliveryInfo, discount]);
-
-  console.log("details", details);
 
   return (
     <Fragment>
@@ -279,7 +277,9 @@ function CheckoutSummaryComp() {
             </div>
             <>
               <div className="d-flex justify-content-between align-items-center mt-3">
-                <p className="mt-3"><b>SubTotal</b></p>
+                <p className="mt-3">
+                  <b>SubTotal</b>
+                </p>
                 <p className="m-0">{details?.cart_GrossAmount ?? 0}</p>
               </div>
               <Fragment>
