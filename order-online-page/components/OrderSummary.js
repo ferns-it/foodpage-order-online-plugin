@@ -209,9 +209,9 @@ function OrderSummary() {
                 router.push(pathname);
               }, 200);
             }
-          } else {
-            toast.error(res?.data?.errorMessage?.message);
+            return;
           }
+          toast.error(res?.data?.errorMessage?.message);
         },
         onFailed: (err) => {
           toast.error(err?.response?.data?.errorMessage?.message);
