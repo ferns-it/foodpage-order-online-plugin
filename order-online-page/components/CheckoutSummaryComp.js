@@ -151,21 +151,21 @@ function CheckoutSummaryComp() {
     return deliveryCharge;
   };
 
-  useEffect(() => {
-    const deliveryCharge = findDeliveryfee();
+  // useEffect(() => {
+  //   const deliveryCharge = findDeliveryfee();
 
-    if (
-      deliveryCharge != null ||
-      deliveryCharge != false ||
-      deliveryCharge != undefined
-    ) {
-      setDeliveryCharge(deliveryCharge);
-      setDeliveryFee(deliveryCharge);
-      sessionStorage.setItem("deliveryFee", deliveryCharge);
-    } else {
-      setDeliveryFee(0);
-    }
-  }, [cartItems, deliveryInfo, discount]);
+  //   if (
+  //     deliveryCharge != null ||
+  //     deliveryCharge != false ||
+  //     deliveryCharge != undefined
+  //   ) {
+  //     setDeliveryCharge(deliveryCharge);
+  //     setDeliveryFee(deliveryCharge);
+  //     sessionStorage.setItem("deliveryFee", deliveryCharge);
+  //   } else {
+  //     setDeliveryFee(0);
+  //   }
+  // }, [cartItems, deliveryInfo, discount]);
 
   return (
     <Fragment>
