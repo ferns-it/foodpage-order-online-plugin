@@ -136,14 +136,6 @@ div.food_tile.active img {
   background-color: rgba(220, 230, 252, 0.85);
 }
 
-.dish_name {
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  color: rgba(38, 29, 86, 1);
-  margin-bottom: 12px;
-}
-
 .food_detail {
   font-size: 10px;
   color: rgba(38, 29, 86, 0.4);
@@ -1875,7 +1867,7 @@ deal_content p {
   color: #fff;
 }
 
-@media screen and (max-width:991px) {
+@media screen and (max-width: 991px) {
   .reserv_otp_validation_btn {
     width: 50%;
   }

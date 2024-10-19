@@ -60,8 +60,6 @@ function OrderSummaryCheckout() {
 
   // const { fetchCartList } = useContext(AppContext);
 
-  console.log("activeCard", activeCard);
-
   const [paymentOption, setPaymentOption] = useState("");
   const [addressDefault, setAddressDefault] = useState(null);
   // useEffect(() => {
@@ -205,6 +203,21 @@ function OrderSummaryCheckout() {
   };
 
   const createPaymentIntentRequest = async () => {
+    const minAmountForCardPayment = parseFloat(
+      settings?.deliveryInfo?.onlinePaymentMinAmount
+    );
+    const cartTotal =
+      typeof details?.cart_NetAmount == "string"
+        ? parseFloat(details?.cart_NetAmount)
+        : details?.cart_NetAmount;
+
+    if (cartTotal < minAmountForCardPayment) {
+      toast.error(
+        `Minimum amount for card payment is ${minAmountForCardPayment}, please choose another payment option!`
+      );
+      return;
+    }
+
     const discount = sessionStorage.getItem("discount");
     const fees = sessionStorage.getItem("delFee");
     const restId = sessionStorage.getItem("restaurantId");
@@ -254,7 +267,35 @@ function OrderSummaryCheckout() {
     setPaymentOption("cash");
     setPaymentData(null);
   };
+
+  const checkForEmptyKeys = (formState) => {
+    const emptyKeys = [];
+  
+    // Iterate through formState keys
+    for (const key in formState) {
+      const value = formState[key];
+  
+      // Exclude 'addressLine2' and 'notes' from the check
+      if (key !== "addressLine2" && key !== "notes") {
+        if (value === undefined || value === null || value === "") {
+          emptyKeys.push(key);
+        }
+      }
+    }
+  
+    return emptyKeys;
+  };
+  
+
   const completeOrder = async () => {
+    const emptyValidation = checkForEmptyKeys(formState);
+
+    if (emptyValidation && emptyValidation.length != 0) {
+      toast.error("Please fill All the required Details before checkout!");
+      setActiveCard("login");
+      return;
+    }
+
     const data = paymentData?.data?.data;
     const discount = sessionStorage.getItem("discount");
     const details = JSON.parse(getSessionStorageItem("deliveryResponse"));

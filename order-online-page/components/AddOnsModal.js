@@ -62,10 +62,6 @@ function AddOnsModal(props) {
     }
   }, [props.showModal]);
 
-  useEffect(() => {
-    console.log("called", variationValue);
-  }, [variationValue]);
-
   const handleClickOutside = async (event) => {
     if (modalRef.current && !modalRef.current.contains(event.target)) {
       props.setShowModal(false);
@@ -94,7 +90,6 @@ function AddOnsModal(props) {
 
   useEffect(() => {
     if (userId == null) {
-      debugger;
       const tempId = Utils.generateRandomId();
       setLocalStorageItem("UserPersistent", tempId);
     }
@@ -146,18 +141,20 @@ function AddOnsModal(props) {
     }
 
     let totalAmount = 0;
+
     if (variationValue?.name == "") {
       totalAmount = (props.productData.priceValue * count) / 100;
     } else {
       const priceAmt =
         typeof variationValue?.price == "string"
-          ? parseInt(variationValue?.price)
+          ? parseFloat(variationValue?.price)
           : variationValue?.price;
 
       totalAmount = priceAmt * count;
     }
+// console.log("cartTotal", totalAmount.toFixed(2));
 
-    setCardTotal(totalAmount);
+    setCardTotal(totalAmount.toFixed(2));
   };
 
   useEffect(() => {
