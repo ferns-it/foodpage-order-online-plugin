@@ -47,7 +47,6 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   }, []);
 
   console.log(shopTiming, "shopTiming");
-  
 
   let oneTimePass;
   const handleChange = (e) => {
@@ -72,8 +71,8 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     if (value !== cleanedValue) {
       e.target.value = cleanedValue;
     }
-    };
-    
+  };
+
   function removeSpecialChars(e) {
     const regex = /[^a-zA-Z0-9 ]/g;
     const value = e.target.value;
@@ -281,6 +280,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                         </span>
                       )}
                     </div>
+
                     <div className="col-lg-4 col-md-4 ol-sm-4">
                       <div className="form-group">
                         <label
@@ -438,7 +438,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                         </div>
                       </div>
                       {isReservErr && initialValues.noOfChairs == 0 && (
-                        <span className="reserv_from_err">
+                        <span className="reserv_from_err _error">
                           Select a valid number of chairs!
                         </span>
                       )}
