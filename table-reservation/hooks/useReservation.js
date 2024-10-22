@@ -1,12 +1,12 @@
-
-import React, { useState } from 'react'
-import BaseClient from '../helper/Baseclient';
-import { ReservationAPIEndpoints } from '../constants/ReservationAPIEndpoints';
+import React, { useState } from "react";
+import BaseClient from "../helper/Baseclient";
+import { ReservationAPIEndpoints } from "../constants/ReservationAPIEndpoints";
 
 const useReservation = () => {
   const [shopTiming, setShopTiming] = useState(null);
   const [isTimingLoading, setIsTimingLoading] = useState(false);
   const [reservationLoading, setReservationLoading] = useState(false);
+  const [reservationDetails, setReservationDetails] = useState(null);
 
   const sendReservationOTP = async (
     payload,
@@ -36,12 +36,9 @@ const useReservation = () => {
         [],
         {
           onSuccess: (res) => {
-            console.log("response", res);
-            
             if (res && res.data && res.data.data) {
               setShopTiming(res.data.data);
             }
-
           },
           onFailed: (err) => {
             console.log("ERROR ON GETTING SHOP TIMING", err);
@@ -67,14 +64,47 @@ const useReservation = () => {
       setReservationLoading(false);
     }
   };
+
+  const getReservationDetails = async (id) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        setReservationLoading(true);
+        const headers = {
+          "x-secretkey": process.env.FOODPAGE_RESERVATION_SECRET_KEY,
+        };
+
+        await BaseClient.get(
+          ReservationAPIEndpoints.fetchReservationDetails + `/${id}`,
+          [],
+          {
+            headers: headers,
+            onSuccess: (res) => {
+              if (res && res.data && res.data.data) {
+                setReservationDetails(res.data.data);
+                resolve(res.data);
+              }
+            },
+            onFailed: (err) => {
+              reject(err);
+              console.log("ERROR ON GETTING SHOP TIMING", err);
+            },
+          }
+        );
+      } finally {
+        setReservationLoading(false);
+      }
+    });
+  };
   return {
     getShopTiming,
     shopTiming,
     isTimingLoading,
     reservationLoading,
     sendReservationOTP,
-    completeReservation
-  }
-}
+    completeReservation,
+    getReservationDetails,
+    reservationDetails,
+  };
+};
 
-export default useReservation
+export default useReservation;

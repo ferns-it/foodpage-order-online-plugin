@@ -50,11 +50,31 @@ const api = axios.create({
 
 class BaseClient {
   //Get Method
-  static async get(endpoint, payload, { onSuccess, onFailed }) {
-    await api
-      .get(endpoint, payload)
-      .then((data) => onSuccess && onSuccess(data))
-      .catch((error) => onFailed && onFailed(error));
+  static async get(
+    endpoint,
+    payload,
+    { onSuccess, onFailed, onProgress, headers }
+  ) {
+    try {
+      const config = {
+        headers: headers || {},
+        params: payload,
+        onDownloadProgress: (progressEvent) => {
+          if (onProgress) {
+            onProgress(progressEvent);
+          }
+        },
+      };
+
+      const data = await api.get(endpoint, config);
+      if (onSuccess) {
+        onSuccess(data);
+      }
+    } catch (error) {
+      if (onFailed) {
+        onFailed(error);
+      }
+    }
   }
 
   //Post Method

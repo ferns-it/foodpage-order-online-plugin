@@ -2508,7 +2508,7 @@ body {
   border-radius: 25px;
   margin-top: 20px;
   margin: 0px auto;
-  margin: 20px;
+  /* margin: 20px; */
 }
 
 .fda_food_row div.food_tile__.active {

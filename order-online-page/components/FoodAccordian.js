@@ -98,7 +98,7 @@ function FoodAccordian() {
 
   return (
     <Fragment>
-      <Toaster />
+      {/* <Toaster /> */}
       <AddOnsModal
         showModal={showRespModal}
         setShowModal={setShowRespModal}

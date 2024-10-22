@@ -316,7 +316,7 @@ function OrderSummary() {
   console.log(settings, "settings");
   return (
     <Fragment>
-      <Toaster position="top-center" reverseOrder={false} />
+      {/* <Toaster position="top-center" reverseOrder={false} /> */}
       <div style={{ width: "100%" }}>
         <h3 className="order_title text-center">Order Summary</h3>
 

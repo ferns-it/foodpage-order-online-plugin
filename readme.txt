@@ -8,7 +8,7 @@
 
 4. Run the following command to install the necessary dependencies:
 
-    - npm install axios react-icons react-hot-toast react-loading-skeleton crypto-js react-spinners jsonwebtoken react-router-dom react-otp-input @stripe/stripe-js @stripe/react-stripe-js react-stripe-js react-lottie
+    - npm install axios react-icons react-hot-toast react-loading-skeleton crypto-js react-spinners jsonwebtoken react-router-dom react-otp-input @stripe/stripe-js @stripe/react-stripe-js react-stripe-js react-lottie react-tooltip jwt-decode
 
     - install the package outside outside the project.
 
