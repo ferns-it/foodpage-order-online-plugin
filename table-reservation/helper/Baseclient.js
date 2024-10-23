@@ -111,9 +111,20 @@ class BaseClient {
   }
 
   //Put Method
-  static async put(endpoint, payload, { onSuccess, onFailed }) {
+  static async put(
+    endpoint,
+    payload,
+    { onSuccess, onFailed, onProgress, headers }
+  ) {
     await api
-      .put(endpoint, payload)
+      .put(endpoint, payload, {
+        headers: headers,
+        onUploadProgress: (progressEvent) => {
+          if (onProgress) {
+            onProgress(progressEvent);
+          }
+        },
+      })
       .then((data) => onSuccess && onSuccess(data))
       .catch((error) => onFailed && onFailed(error));
   }

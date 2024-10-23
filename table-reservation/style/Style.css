@@ -1743,15 +1743,97 @@ abbr[title] {
   margin: 0 auto;
   margin-top: 2rem;
 }
-.reservId_find{
+.reservId_find {
   font-size: 13px;
   color: #3870c5;
   cursor: pointer;
   font-weight: 600;
 }
 
-#info_tooltip{
+#info_tooltip {
   background-color: #eee;
   color: #252525;
   font-weight: 600;
+}
+.formatted_id {
+  font-size: 20px;
+  font-weight: 600;
+  color: #747474;
+  padding-left: 10px;
+  user-select: none;
+}
+.reser_table_value {
+  font-size: 14px;
+  color: #252525;
+  font-weight: 600;
+  width: 50%;
+  user-select: none;
+}
+.reserv_table_sub_head {
+  font-size: 14px;
+  color: #727272;
+  /* text-align: right; */
+  width: 50%;
+  user-select: none;
+}
+.btn_grp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.resrv_btnn {
+  border: none;
+  outline: none;
+  padding: 7px 15px;
+  margin: 0 10px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 5px;
+  transition: all 0.2s ease-in-out;
+}
+.resrv_btnn i {
+  font-size: 14px;
+}
+.cancel_reserv {
+  background-color: #ec6262;
+  color: #fff;
+}
+.cancel_reserv:hover {
+  background-color: #e03f3f;
+}
+.update_reserv {
+  position: absolute;
+  background-color: transparent;
+  color: #252525;
+  right: 10px;
+}
+.update_reserv:hover {
+  background-color: #3870c5;
+  color: #fff;
+}
+.mail_reserv:hover {
+  background-color: #979696;
+}
+.reserv_modal_btn {
+  margin: 0 10px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  width: 20%;
+  padding: 7px;
+  transition: all 0.2s ease-in-out;
+  color: #fff;
+  border-radius: 5px;
+}
+.confirm_cancel {
+  background-color: #e03f3f;
+}
+.confirm_cancel:hover {
+  background-color: #ab2e2e;
+}
+.discard_btn_reserv {
+  background-color: #727272;
+}
+.discard_btn_reserv:hover {
+  background-color: #4b4b4b;
 }

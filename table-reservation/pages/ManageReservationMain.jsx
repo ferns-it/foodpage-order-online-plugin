@@ -9,9 +9,8 @@ import toast from "react-hot-toast";
 
 function ManageReservationMain() {
   const router = useRouter();
-  const { getReservationDetails, reservationLoading } = useContext(
-    TableReservationContext
-  );
+  const { getReservationDetails, reservationLoading, reservationDetails } =
+    useContext(TableReservationContext);
   const [reservId, setReservId] = useState("");
   const [error, setError] = useState(false);
 
@@ -22,14 +21,22 @@ function ManageReservationMain() {
       return;
     }
 
-    const response = await getReservationDetails(reservId);
+    await getReservationDetails(reservId)
+      .then((res) => {
+        const idd =
+          res?.id && typeof res?.id == "string" ? parseInt(res?.id) : res?.id;
+        const id = btoa(idd);
+        console.log(reservationDetails, "reservationDetails");
 
-    if (response) {
-      const id = btoa(reservId);
-      router.push(`/view-reservation?reserv=${id}`);
-    } else {
-      toast.error("Couldn't find anything right now, Please try again!");
-    }
+        setTimeout(() => {
+          router.push(`/view-reservation?reserv=${reservId}&&unq=${id}`);
+        }, 200);
+      })
+      .catch((err) => {
+        console.log("error", err);
+
+        toast.error("Couldn't find anything right now, Please try again!");
+      });
   };
 
   const toolTipMsg =

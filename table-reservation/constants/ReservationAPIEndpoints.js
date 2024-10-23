@@ -4,4 +4,5 @@ export const ReservationAPIEndpoints = {
   shopTiming: "timing",
   newReservation: "user/diningtable/reservation/new",
   fetchReservationDetails: "user/diningtable/reservation/view",
+  cancelReservation: "user/diningtable/reservation/cancel",
 };
