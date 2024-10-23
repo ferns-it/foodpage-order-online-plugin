@@ -12,6 +12,22 @@ import {
   removeSessionStorageItem,
 } from "../../_utils/ClientUtils";
 
+export const mergeBookingDateTime = (bookingDate, bookingTime) => {
+  const date = new Date(bookingDate);
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  const timeWithSeconds = bookingTime.includes(":")
+    ? bookingTime
+    : `${bookingTime}:00`;
+
+  const formattedDateTime = `${year}-${month}-${day} ${timeWithSeconds}`;
+
+  return formattedDateTime;
+};
+
 function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
   const router = useRouter();
   const {
@@ -114,14 +130,19 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
       setResendLoading(false);
     }
   };
+
   const completeNewReservation = async () => {
+    const mergedBooking = mergeBookingDateTime(
+      initialValues?.bookingDate,
+      initialValues?.bookingTime
+    );
     const payload = {
       shopID: shopId,
       name: initialValues?.name,
       phone: initialValues?.phone,
       email: initialValues?.email,
       totalChair: initialValues?.noOfChairs,
-      reservationDateTime: `${initialValues?.bookingDate} ${initialValues?.bookingTime}`,
+      reservationDateTime: mergedBooking,
       advancePayment: "No",
       advanceAmount: "",
       paymentMethod: "",
@@ -130,6 +151,8 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
       baseUrl: "http://foodpage.co.uk/",
       source: "NextJs",
     };
+
+    debugger;
 
     const headers = {
       "x-secretkey": process.env.FOODPAGE_RESERVATION_SECRET_KEY,

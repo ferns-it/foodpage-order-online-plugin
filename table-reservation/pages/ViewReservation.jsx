@@ -5,9 +5,12 @@ import Utils from "../../_utils/Utils";
 
 import * as Tb from "react-icons/tb";
 import * as Md from "react-icons/md";
+import * as Go from "react-icons/go";
 import ReservModal from "../components/ReservModal";
+import { useRouter } from "next/navigation";
 
 function ViewReservation({ reservId, uniqId }) {
+  const router = useRouter();
   const { reservationDetails, getReservationDetails, reservationLoading } =
     useContext(TableReservationContext);
 
@@ -32,17 +35,21 @@ function ViewReservation({ reservId, uniqId }) {
       setUpdatedValue(reservationDetails);
     };
 
-    console.log(reservationDetails);
+
     
 
     const today = new Date();
-    const bookingDate = reservationDetails?.bookingTime
-      ? new Date(reservationDetails?.bookingTime)
-      : null;
+    today.setHours(0, 0, 0, 0); 
 
-    if (bookingDate) return;
+    const bookingDate =
+      reservationDetails && new Date(reservationDetails.bookingTime);
+    if (bookingDate) {
+      bookingDate.setHours(0, 0, 0, 0); 
+    }
 
-    console.log(bookingDate, "date=>");
+    if (bookingDate && bookingDate < today) {
+      setIsExpired(true);
+    }
 
     fetchData();
   }, [reservId, reservationDetails]);
@@ -61,29 +68,37 @@ function ViewReservation({ reservId, uniqId }) {
       />
       <section className="tbl_reserv_section">
         <div className="container">
+          <button
+            className="go_back"
+            onClick={() => router.push("/manage-reservation")}
+          >
+            <Go.GoArrowLeft /> Back
+          </button>
           <div className="card manage_reserv_card">
             <h3 className="table-reservation-form-head">Reservation Details</h3>
-            <button
-              type="button"
-              className="resrv_btnn update_reserv"
-              onClick={() => setIsEdit(!isEdit)}
-            >
-              {!isEdit ? (
-                <>
-                  <i className="pe-2">
-                    <Tb.TbPencilDown />
-                  </i>
-                  Edit
-                </>
-              ) : (
-                <>
-                  <i className="pe-2">
-                    <Md.MdClose />
-                  </i>
-                  Close
-                </>
-              )}
-            </button>
+            {isExpired == false && (
+              <button
+                type="button"
+                className="resrv_btnn update_reserv"
+                onClick={() => setIsEdit(!isEdit)}
+              >
+                {!isEdit ? (
+                  <>
+                    <i className="pe-2">
+                      <Tb.TbPencilDown />
+                    </i>
+                    Edit
+                  </>
+                ) : (
+                  <>
+                    <i className="pe-2">
+                      <Md.MdClose />
+                    </i>
+                    Close
+                  </>
+                )}
+              </button>
+            )}
             <p className="formatted_id">
               {reservationDetails?.formattedID ?? "N/A"}
             </p>
@@ -118,7 +133,7 @@ function ViewReservation({ reservId, uniqId }) {
                     {!isEdit ? (
                       <>
                         {reservationDetails?.bookingTime
-                          ? Utils.convertTiming(reservationDetails?.bookingTime)
+                          ? Utils.formatDateTime(reservationDetails?.bookingTime)
                           : "N/A"}
                       </>
                     ) : (
@@ -220,38 +235,44 @@ function ViewReservation({ reservId, uniqId }) {
                 </tr>
               </tbody>
             </table>
-            {!isEdit ? (
-              <div className="btn_grp">
-                <button type="button" className="resrv_btnn mail_reserv">
-                  <i className="pe-2">
-                    <Tb.TbMailStar />
-                  </i>
-                  Mail to Restaurent
-                </button>
-                <button
-                  type="button"
-                  className="resrv_btnn cancel_reserv"
-                  onClick={handleCancelConfirm}
-                  disabled={reservationLoading}
-                >
-                  <i className="pe-2">
-                    <Tb.TbCalendarCancel />
-                  </i>
-                  Cancel
-                </button>
-              </div>
+            {isExpired === false ? (
+              <Fragment>
+                {!isEdit ? (
+                  <div className="btn_grp">
+                    <button type="button" className="resrv_btnn mail_reserv">
+                      <i className="pe-2">
+                        <Tb.TbMailStar />
+                      </i>
+                      Mail to Restaurent
+                    </button>
+                    <button
+                      type="button"
+                      className="resrv_btnn cancel_reserv"
+                      onClick={handleCancelConfirm}
+                      disabled={reservationLoading}
+                    >
+                      <i className="pe-2">
+                        <Tb.TbCalendarCancel />
+                      </i>
+                      Cancel
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    className="resrv_btnn cancel_reserv mt-2"
+                    onClick={handleCancelConfirm}
+                    style={{ width: "30%", margin: "0 auto" }}
+                  >
+                    <i className="pe-2">
+                      <Tb.TbPencilDown />
+                    </i>
+                    Update
+                  </button>
+                )}
+              </Fragment>
             ) : (
-              <button
-                type="button"
-                className="resrv_btnn cancel_reserv mt-2"
-                onClick={handleCancelConfirm}
-                style={{ width: "30%", margin: "0 auto" }}
-              >
-                <i className="pe-2">
-                  <Tb.TbPencilDown />
-                </i>
-                Update
-              </button>
+              <p className="expiry_reserv">This reservation is expired!</p>
             )}
           </div>
         </div>
