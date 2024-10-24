@@ -47,7 +47,6 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   }, []);
 
   console.log(shopTiming, "shopTiming");
-  
 
   let oneTimePass;
   const handleChange = (e) => {
@@ -72,8 +71,8 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     if (value !== cleanedValue) {
       e.target.value = cleanedValue;
     }
-    };
-    
+  };
+
   function removeSpecialChars(e) {
     const regex = /[^a-zA-Z0-9 ]/g;
     const value = e.target.value;
@@ -416,7 +415,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                           />
                           <div className="counter-container">
                             <label
-                              for="toggle"
+                              htmlFor="toggle"
                               className="decrement-button"
                               onClick={handleDecrement}
                             >
@@ -428,7 +427,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                               onChange={(e) => handleCountChange(e)}
                             />
                             <label
-                              for="toggle"
+                              htmlFor="toggle"
                               className="increment-button red"
                               onClick={handleIncrement}
                             >

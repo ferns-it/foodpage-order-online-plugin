@@ -124,7 +124,7 @@ function VariationMasterAddons({
 
                         return (
                           <Fragment key={index}>
-                            <tr key={index}>
+                            <tr>
                               <td className="d-flex">
                                 <label
                                   // htmlFor={varient?.name}

@@ -110,7 +110,7 @@ function MasterAddOnsCheckbox({ foodValues, setMasterAddons, variationValue }) {
                 <div className={containerClass}>
                   <table className="menu_table_0291">
                     {item?.options &&
-                      item?.options.map((data, index) => {
+                      item?.options.map((data, itemindex) => {
                         const isChecked =
                           checkedState[containerClass]?.[data.text] || false;
 
@@ -120,8 +120,8 @@ function MasterAddOnsCheckbox({ foodValues, setMasterAddons, variationValue }) {
                           variationValue.name.length !== 0;
 
                         return (
-                          <Fragment key={index}>
-                            <tr key={index}>
+                          <Fragment>
+                            <tr key={itemindex}>
                               <td className="d-flex">
                                 <label
                                   // htmlFor={varient?.name}

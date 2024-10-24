@@ -204,7 +204,7 @@ function CheckoutSummaryComp() {
             <div className="order_online_food_list_checkout_83 p-2">
               {cartItems?.cartItems != null &&
                 Array.isArray(cartItems?.cartItems) &&
-                cartItems?.cartItems?.map((item, index) => {
+                cartItems?.cartItems?.map((item, cindex) => {
                   const addon = item.addon_apllied;
                   const masterAddon = item?.master_addon_apllied;
                   const adjustedTotal = item?.total / 100;
@@ -217,7 +217,7 @@ function CheckoutSummaryComp() {
                       <hr />
                       <div
                         className="d-flex justify-content-between align-items-center"
-                        key={index}
+                        key={cindex}
                       >
                         <b>
                           {item?.productName}*{item?.quantity}
@@ -229,10 +229,10 @@ function CheckoutSummaryComp() {
                         <p className="m-0">{item?.product_total_price}</p>
                       </div>
                       {addon != null &&
-                        addon.map((single, index) => {
+                        addon.map((single, sindex) => {
                           const list = single?.choosedOption;
                           return (
-                            <>
+                            <div key={sindex}>
                               {list != null &&
                                 Array.isArray(list) &&
                                 list.map((data, keyindex) => {
@@ -246,15 +246,15 @@ function CheckoutSummaryComp() {
                                     </div>
                                   );
                                 })}
-                            </>
+                            </div>
                           );
                         })}
 
                       {masterAddon != null &&
-                        masterAddon.map((single, index) => {
+                        masterAddon.map((single, mindex) => {
                           const list = single?.choosedOption;
                           return (
-                            <>
+                            <div key={mindex}>
                               {list != null &&
                                 Array.isArray(list) &&
                                 list.map((data, dataindex) => {
@@ -268,7 +268,7 @@ function CheckoutSummaryComp() {
                                     </div>
                                   );
                                 })}
-                            </>
+                            </div>
                           );
                         })}
                     </>

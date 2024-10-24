@@ -347,50 +347,56 @@ function OrderSummary() {
                           }`}
                         >
                           <table className="addOnsList028">
-                            {addOns &&
-                              addOns.length != 0 &&
-                              addOns.map((add, index) => {
-                                return (
-                                  <>
-                                    <span key={index}>
-                                      <strong>{add?.title}</strong>
-                                    </span>
-                                    {add &&
-                                      add.choosedOption.length != 0 &&
-                                      add.choosedOption.map((data, index) => {
-                                        return (
-                                          <tr key={index}>
-                                            <td>{data?.text}</td>
-                                            <td>{data?.price}</td>
-                                          </tr>
-                                        );
-                                      })}
-                                  </>
-                                );
-                              })}
+                            <>
+                              {addOns &&
+                                addOns.length != 0 &&
+                                addOns.map((add, aindex) => {
+                                  return (
+                                    <>
+                                      <span key={aindex}>
+                                        <strong>{add?.title}</strong>
+                                      </span>
+                                      {add &&
+                                        add.choosedOption.length != 0 &&
+                                        add.choosedOption.map((data, addindex) => {
+                                          return (
+                                            <tr key={addindex}>
+                                              <td>{data?.text}</td>
+                                              <td>{data?.price}</td>
+                                            </tr>
+                                          );
+                                        })}
+                                    </>
+                                  );
+                                })}
+                            </>
                           </table>
                           <table className="addOnsList028">
-                            {masterAddons &&
-                              masterAddons.length != 0 &&
-                              masterAddons.map((add, index) => {
-                                return (
-                                  <>
-                                    <span key={index}>
-                                      <strong>{add?.title}</strong>
-                                    </span>
-                                    {add &&
-                                      add.choosedOption.length != 0 &&
-                                      add.choosedOption.map((data, index) => {
-                                        return (
-                                          <tr key={index}>
-                                            <td>{data?.text}</td>
-                                            <td>{data?.price}</td>
-                                          </tr>
-                                        );
-                                      })}
-                                  </>
-                                );
-                              })}
+                            <>
+                              {masterAddons &&
+                                masterAddons.length != 0 &&
+                                masterAddons.map((add, masterindex) => {
+                                  return (
+                                    <>
+                                      <span key={masterindex}>
+                                        <strong>{add?.title}</strong>
+                                      </span>
+                                      {add &&
+                                        add.choosedOption.length != 0 &&
+                                        add.choosedOption.map(
+                                          (data, kindex) => {
+                                            return (
+                                              <tr key={kindex}>
+                                                <td>{data?.text}</td>
+                                                <td>{data?.price}</td>
+                                              </tr>
+                                            );
+                                          }
+                                        )}
+                                    </>
+                                  );
+                                })}
+                            </>
                           </table>
                         </div>
 

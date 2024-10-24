@@ -152,7 +152,7 @@ function AddOnsModal(props) {
 
       totalAmount = priceAmt * count;
     }
-// console.log("cartTotal", totalAmount.toFixed(2));
+    // console.log("cartTotal", totalAmount.toFixed(2));
 
     setCardTotal(totalAmount.toFixed(2));
   };
@@ -392,7 +392,7 @@ function AddOnsModal(props) {
                 />
                 <div className="counter-container">
                   <label
-                    for="toggle"
+                    htmlFor="toggle"
                     className="decrement-button m-0"
                     onClick={handleDecrement}
                   >
@@ -400,7 +400,7 @@ function AddOnsModal(props) {
                   </label>
                   <span className="counter-text">{count}</span>
                   <label
-                    for="toggle"
+                    htmlFor="toggle"
                     className="increment-button red m-0"
                     onClick={() => setCount(count + 1)}
                   >
@@ -419,7 +419,7 @@ function AddOnsModal(props) {
                       {foodValues &&
                         foodValues.variations &&
                         foodValues?.variations.length != 0 &&
-                        foodValues.variations.map((varient, index) => {
+                        foodValues.variations.map((varient, vindex) => {
                           const variationName = varient?.name
                             ? varient?.name
                             : foodValues?.name;
@@ -433,10 +433,10 @@ function AddOnsModal(props) {
                           }
 
                           return (
-                            <Fragment>
+                            <Fragment key={vindex}>
                               {varient.name != null ? (
                                 <Fragment>
-                                  <tr key={index}>
+                                  <tr>
                                     <td className="d-flex">
                                       <label
                                         // htmlFor={varient?.name}
@@ -496,18 +496,18 @@ function AddOnsModal(props) {
 
               {foodValues.addons &&
                 foodValues.addons.length != 0 &&
-                foodValues.addons.map((item, index) => {
+                foodValues.addons.map((item, findex) => {
                   return (
                     <Fragment>
                       <div className="col-auto">
-                        <p className="sub_head_0291" key={index}>
+                        <p className="sub_head_0291" key={findex}>
                           {item?.name ?? "N/A"}{" "}
                         </p>
                         <table className="menu_table_0291">
                           {item?.options &&
-                            item?.options.map((data, index) => {
+                            item?.options.map((data, iindex) => {
                               return (
-                                <tr key={index}>
+                                <tr key={iindex}>
                                   <td className="d-flex">
                                     <label
                                       // htmlFor={varient?.name}
@@ -553,7 +553,6 @@ function AddOnsModal(props) {
                                             }
                                           });
                                         }}
-                                        defaultChecked={false}
                                       />
                                       <span className="checkmark"></span>
                                       <span
@@ -599,12 +598,13 @@ function AddOnsModal(props) {
             </div>
             {variationAddOns != null &&
               variationAddOns.length != 0 &&
-              variationAddOns.map((data, index) => {
+              variationAddOns.map((data, aindex) => {
                 if (data?.pVID == variationValue?.pvID) {
                   return (
                     <Fragment>
                       <VariationMasterAddons
                         foodValues={data}
+                        key={aindex}
                         setMasterAddons={setMasterAddons}
                         variationValue={variationValue}
                         setLimitExceeded={setLimitExceeded}

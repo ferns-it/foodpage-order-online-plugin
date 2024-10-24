@@ -158,7 +158,7 @@ function FoodAccordian() {
                             product.products.map((data, key) => (
                               <a
                                 className="accord_food_anchor"
-                                key={index}
+                                key={key}
                                 onClick={() => addOnsModalData(data)}
                               >
                                 <div className="card accord_food_card_19">
@@ -189,7 +189,7 @@ function FoodAccordian() {
                                         type="button"
                                         className="add_prod_"
                                       >
-                                        <Io.IoIosAddCircle  />
+                                        <Io.IoIosAddCircle />
                                       </button>
                                     </div>
                                   </div>
