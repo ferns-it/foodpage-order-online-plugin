@@ -113,20 +113,16 @@ function MasterAddOnsCheckbox({ foodValues, setMasterAddons, variationValue }) {
                       item?.options.map((data, itemindex) => {
                         const isChecked =
                           checkedState[containerClass]?.[data.text] || false;
-
                         const isVariationCheck =
                           variationValue &&
                           variationValue.name &&
                           variationValue.name.length !== 0;
 
                         return (
-                          <Fragment>
-                            <tr key={itemindex}>
+                          <Fragment key={itemindex}>
+                            <tr>
                               <td className="d-flex">
-                                <label
-                                  // htmlFor={varient?.name}
-                                  className="delivery_option_container"
-                                >
+                                <label className="delivery_option_container">
                                   <input
                                     type="checkbox"
                                     name="addOns"
@@ -136,19 +132,9 @@ function MasterAddOnsCheckbox({ foodValues, setMasterAddons, variationValue }) {
                                     onChange={(e) =>
                                       handleCheckboxChange(item, data, e, key)
                                     }
-                                    defaultChecked={false}
                                   />
                                   <span className="checkmark"></span>
-                                  <span
-                                    // className={
-                                    //   checkedBoxCount >= maxCheckCount &&
-                                    //   !isChecked &&
-                                    //   maxCheckCount > 0
-                                    //     ? "varient_name disabled"
-                                    //     : "varient_name "
-                                    // }
-                                    className="varient_name"
-                                  >
+                                  <span className="varient_name">
                                     {data?.text ?? "N/A"}
                                   </span>
                                 </label>
