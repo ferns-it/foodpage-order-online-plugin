@@ -10,6 +10,8 @@ import ReservModal from "../components/ReservModal";
 import { useRouter } from "next/navigation";
 import CryptoJS from "crypto-js";
 import toast from "react-hot-toast";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export const mergeBookingDateTime = (bookingDate, bookingTime) => {
   const date = new Date(bookingDate);
@@ -223,152 +225,196 @@ function ViewReservation({ reservId, uniqId }) {
                   <tr>
                     <td className="reserv_table_sub_head">Booking Date</td>
                     <td className="reser_table_value">
-                      {!isEdit ? (
-                        <>
-                          {reservationDetails?.bookingTime
-                            ? Utils.formatDate(reservationDetails?.bookingTime)
-                            : "N/A"}
-                        </>
+                      {!reservationLoading ? (
+                        <Fragment>
+                          {!isEdit ? (
+                            <>
+                              {reservationDetails?.bookingTime
+                                ? Utils.formatDate(
+                                    reservationDetails?.bookingTime
+                                  )
+                                : "N/A"}
+                            </>
+                          ) : (
+                            <>
+                              {" "}
+                              <input
+                                type="date"
+                                name="bookingDate"
+                                id=""
+                                className="form-control table_reserv_form_input"
+                                value={updatedValues?.bookingDate}
+                                onChange={handleChange}
+                              />
+                            </>
+                          )}
+                        </Fragment>
                       ) : (
-                        <>
-                          {" "}
-                          <input
-                            type="date"
-                            name="bookingDate"
-                            id=""
-                            className="form-control table_reserv_form_input"
-                            value={updatedValues?.bookingDate}
-                            onChange={handleChange}
-                          />
-                        </>
+                        <Skeleton height={20} width={150} />
                       )}
                     </td>
                   </tr>
                   <tr>
                     <td className="reserv_table_sub_head">Booking Time</td>
                     <td className="reser_table_value">
-                      {!isEdit ? (
-                        <>
-                          {reservationDetails?.bookingTime
-                            ? Utils.formatDateTime(
-                                reservationDetails?.bookingTime
-                              )
-                            : "N/A"}
-                        </>
+                      {!reservationLoading ? (
+                        <Fragment>
+                          {!isEdit ? (
+                            <>
+                              {reservationDetails?.bookingTime
+                                ? Utils.formatDateTime(
+                                    reservationDetails?.bookingTime
+                                  )
+                                : "N/A"}
+                            </>
+                          ) : (
+                            <>
+                              {" "}
+                              <input
+                                type="time"
+                                name="bookingTime"
+                                id=""
+                                className="form-control table_reserv_form_input"
+                                value={updatedValues?.bookingTime}
+                                onChange={handleChange}
+                              />
+                            </>
+                          )}
+                        </Fragment>
                       ) : (
-                        <>
-                          {" "}
-                          <input
-                            type="time"
-                            name="bookingTime"
-                            id=""
-                            className="form-control table_reserv_form_input"
-                            value={updatedValues?.bookingTime}
-                            onChange={handleChange}
-                          />
-                        </>
+                        <Skeleton height={20} width={150} />
                       )}
                     </td>
                   </tr>
                   <tr>
                     <td className="reserv_table_sub_head">Booked By</td>
                     <td className="reser_table_value">
-                      {!isEdit ? (
-                        <>{reservationDetails?.name ?? "N/A"}</>
+                      {!reservationLoading ? (
+                        <Fragment>
+                          {!isEdit ? (
+                            <>{reservationDetails?.name ?? "N/A"}</>
+                          ) : (
+                            <>
+                              {" "}
+                              <input
+                                type="text"
+                                name="name"
+                                id=""
+                                className="form-control table_reserv_form_input"
+                                value={updatedValues?.name}
+                                onChange={handleChange}
+                              />
+                            </>
+                          )}
+                        </Fragment>
                       ) : (
-                        <>
-                          {" "}
-                          <input
-                            type="text"
-                            name="name"
-                            id=""
-                            className="form-control table_reserv_form_input"
-                            value={updatedValues?.name}
-                            onChange={handleChange}
-                          />
-                        </>
+                        <Skeleton height={20} width={150} />
                       )}
                     </td>
                   </tr>
                   <tr>
                     <td className="reserv_table_sub_head">Email Address</td>
                     <td className="reser_table_value">
-                      {!isEdit ? (
-                        <>{reservationDetails?.email ?? "N/A"}</>
+                      {!reservationLoading ? (
+                        <Fragment>
+                          {!isEdit ? (
+                            <>{reservationDetails?.email ?? "N/A"}</>
+                          ) : (
+                            <>
+                              {" "}
+                              <input
+                                type="text"
+                                name="email"
+                                id=""
+                                className="form-control table_reserv_form_input"
+                                value={updatedValues?.email}
+                                onChange={handleChange}
+                              />
+                            </>
+                          )}
+                        </Fragment>
                       ) : (
-                        <>
-                          {" "}
-                          <input
-                            type="text"
-                            name="email"
-                            id=""
-                            className="form-control table_reserv_form_input"
-                            value={updatedValues?.email}
-                            onChange={handleChange}
-                          />
-                        </>
+                        <Skeleton height={20} width={150} />
                       )}
                     </td>
                   </tr>
                   <tr>
                     <td className="reserv_table_sub_head">Phone Number</td>
                     <td className="reser_table_value">
-                      {!isEdit ? (
-                        <>{reservationDetails?.phone ?? "N/A"}</>
+                      {!reservationLoading ? (
+                        <Fragment>
+                          {!isEdit ? (
+                            <>{reservationDetails?.phone ?? "N/A"}</>
+                          ) : (
+                            <>
+                              {" "}
+                              <input
+                                type="text"
+                                name="phone"
+                                id=""
+                                className="form-control table_reserv_form_input"
+                                value={updatedValues?.phone}
+                                onChange={handleChange}
+                              />
+                            </>
+                          )}
+                        </Fragment>
                       ) : (
-                        <>
-                          {" "}
-                          <input
-                            type="text"
-                            name="phone"
-                            id=""
-                            className="form-control table_reserv_form_input"
-                            value={updatedValues?.phone}
-                            onChange={handleChange}
-                          />
-                        </>
+                        <Skeleton height={20} width={150} />
                       )}
                     </td>
                   </tr>
                   <tr>
                     <td className="reserv_table_sub_head">Chairs</td>
                     <td className="reser_table_value">
-                      {!isEdit ? (
-                        <>{reservationDetails?.chairs ?? "N/A"}</>
+                      {!reservationLoading ? (
+                        <Fragment>
+                          {!isEdit ? (
+                            <>{reservationDetails?.chairs ?? "N/A"}</>
+                          ) : (
+                            <>
+                              {" "}
+                              <input
+                                type="number"
+                                name="chairs"
+                                id=""
+                                className="form-control table_reserv_form_input"
+                                value={updatedValues?.chairs}
+                                max={25}
+                                onChange={handleChange}
+                              />
+                            </>
+                          )}
+                        </Fragment>
                       ) : (
-                        <>
-                          {" "}
-                          <input
-                            type="number"
-                            name="chairs"
-                            id=""
-                            className="form-control table_reserv_form_input"
-                            value={updatedValues?.chairs}
-                            max={25}
-                            onChange={handleChange}
-                          />
-                        </>
+                        <Skeleton height={20} width={150} />
                       )}
                     </td>
                   </tr>
                   <tr>
                     <td className="reserv_table_sub_head">Message</td>
                     <td className="reser_table_value">
-                      {!isEdit ? (
-                        <>{reservationDetails?.message ?? "N/A"}</>
+                      {!reservationLoading ? (
+                        <Fragment>
+                          {!isEdit ? (
+                            <>{reservationDetails?.message ?? "N/A"}</>
+                          ) : (
+                            <>
+                              {" "}
+                              <textarea
+                                type="text"
+                                name="message"
+                                id=""
+                                className="form-control table_reserv_form_input"
+                                value={updatedValues?.message}
+                                onChange={handleChange}
+                                rows={3}
+                              />
+                            </>
+                          )}
+                        </Fragment>
                       ) : (
-                        <>
-                          {" "}
-                          <textarea
-                            type="text"
-                            name="message"
-                            id=""
-                            className="form-control table_reserv_form_input"
-                            value={updatedValues?.message}
-                            onChange={handleChange}
-                            rows={3}
-                          />
-                        </>
+                        <Skeleton height={20} width={150} />
                       )}
                     </td>
                   </tr>
@@ -377,12 +423,19 @@ function ViewReservation({ reservId, uniqId }) {
                       Reservation Status
                     </td>
                     <td className="reser_table_value">
-                      {reservationDetails?.status ?? "N/A"}
+                      {!reservationLoading ? (
+                        <Fragment>
+                          {reservationDetails?.status ?? "N/A"}
+                        </Fragment>
+                      ) : (
+                        <Skeleton height={20} width={100} />
+                      )}
                     </td>
                   </tr>
                 </tbody>
               </table>
             </form>
+
             {isExpired === false &&
             reservationDetails?.status != "Cancelled" ? (
               <Fragment>

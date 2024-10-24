@@ -49,6 +49,9 @@ function ManageReservationMain() {
     <Fragment>
       <div className="tbl_reserv_section">
         <div className="container">
+          <button className="go_back" onClick={()=> router.push('/tablereservation')}>
+            <Go.GoArrowLeft /> Back
+          </button>
           <div className="card manage_reserv_card">
             <h3 className="table-reservation-form-head">Manage Reservation</h3>
             <form onSubmit={handleReservation}>

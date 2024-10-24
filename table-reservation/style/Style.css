@@ -1743,6 +1743,18 @@ abbr[title] {
   margin: 0 auto;
   margin-top: 2rem;
 }
+
+@media screen  and (max-width:991px) {
+  .manage_reserv_card{
+    width: 70%;
+  }
+}
+
+@media screen  and (max-width:786px) {
+  .manage_reserv_card{
+    width: 100%;
+  }
+}
 .reservId_find {
   font-size: 13px;
   color: #3870c5;
