@@ -506,7 +506,7 @@ div.food_tile.active img {
 
 .test {
   width: 100%;
-  min-height: 600px;
+  min-height: 90vh;
   background-size: cover;
   position: relative;
 }
