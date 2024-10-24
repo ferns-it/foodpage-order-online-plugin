@@ -153,8 +153,10 @@ const OrderOnlineMain = () => {
                 </div>
                 <div className="col-lg-9 col-md-12 col-sm-12">
                   <section className="foodmenuList">
-                    <FoodCards category={selectedCategory} />
-                    <FoodAccordian />
+                    <Fragment>
+                      <FoodCards category={selectedCategory} />
+                      <FoodAccordian />
+                    </Fragment>
                   </section>
                 </div>
               </div>

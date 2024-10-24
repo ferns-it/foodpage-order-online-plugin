@@ -109,48 +109,50 @@ function MasterAddOnsCheckbox({ foodValues, setMasterAddons, variationValue }) {
                 </p>
                 <div className={containerClass}>
                   <table className="menu_table_0291">
-                    {item?.options &&
-                      item?.options.map((data, itemindex) => {
-                        const isChecked =
-                          checkedState[containerClass]?.[data.text] || false;
-                        const isVariationCheck =
-                          variationValue &&
-                          variationValue.name &&
-                          variationValue.name.length !== 0;
+                    <tbody>
+                      {item?.options &&
+                        item?.options.map((data, itemindex) => {
+                          const isChecked =
+                            checkedState[containerClass]?.[data.text] || false;
+                          const isVariationCheck =
+                            variationValue &&
+                            variationValue.name &&
+                            variationValue.name.length !== 0;
 
-                        return (
-                          <Fragment key={itemindex}>
-                            <tr>
-                              <td className="d-flex">
-                                <label className="delivery_option_container">
-                                  <input
-                                    type="checkbox"
-                                    name="addOns"
-                                    id="variations"
-                                    className="delivery_option variation_list"
-                                    checked={isChecked}
-                                    onChange={(e) =>
-                                      handleCheckboxChange(item, data, e, key)
-                                    }
-                                  />
-                                  <span className="checkmark"></span>
-                                  <span className="varient_name">
-                                    {data?.text ?? "N/A"}
-                                  </span>
-                                </label>
-                              </td>
-                              <td
-                                style={{
-                                  whiteSpace: "nowrap",
-                                  userSelect: "none",
-                                }}
-                              >
-                                + {data?.price_formatted ?? "N/A"}
-                              </td>
-                            </tr>
-                          </Fragment>
-                        );
-                      })}
+                          return (
+                            <Fragment key={itemindex}>
+                              <tr>
+                                <td className="d-flex">
+                                  <label className="delivery_option_container">
+                                    <input
+                                      type="checkbox"
+                                      name="addOns"
+                                      id="variations"
+                                      className="delivery_option variation_list"
+                                      checked={isChecked}
+                                      onChange={(e) =>
+                                        handleCheckboxChange(item, data, e, key)
+                                      }
+                                    />
+                                    <span className="checkmark"></span>
+                                    <span className="varient_name">
+                                      {data?.text ?? "N/A"}
+                                    </span>
+                                  </label>
+                                </td>
+                                <td
+                                  style={{
+                                    whiteSpace: "nowrap",
+                                    userSelect: "none",
+                                  }}
+                                >
+                                  + {data?.price_formatted ?? "N/A"}
+                                </td>
+                              </tr>
+                            </Fragment>
+                          );
+                        })}
+                    </tbody>
                   </table>
                 </div>
               </div>

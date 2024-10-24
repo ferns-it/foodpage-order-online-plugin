@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 
 function VariationMasterAddons({
   foodValues,
@@ -76,6 +76,7 @@ function VariationMasterAddons({
       }
     });
   };
+
   return (
     <Fragment>
       {foodValues &&
@@ -112,24 +113,23 @@ function VariationMasterAddons({
                 </p>
                 <div className={containerClass}>
                   <table className="menu_table_0291">
-                    {item?.options &&
-                      item?.options.map((data, index) => {
-                        const isChecked =
-                          checkedState[containerClass]?.[data.text] || false;
+                    <tbody>
+                      {" "}
+                      {/* Wrapping the <tr> elements inside <tbody> */}
+                      {item?.options &&
+                        item?.options.map((data, index) => {
+                          const isChecked =
+                            checkedState[containerClass]?.[data.text] || false;
 
-                        const isVariationCheck =
-                          variationValue &&
-                          variationValue.name &&
-                          variationValue.name.length !== 0;
+                          const isVariationCheck =
+                            variationValue &&
+                            variationValue.name &&
+                            variationValue.name.length !== 0;
 
-                        return (
-                          <Fragment key={index}>
-                            <tr>
+                          return (
+                            <tr key={index}>
                               <td className="d-flex">
-                                <label
-                                  // htmlFor={varient?.name}
-                                  className="delivery_option_container"
-                                >
+                                <label className="delivery_option_container">
                                   <input
                                     type="checkbox"
                                     name="addOns"
@@ -142,16 +142,7 @@ function VariationMasterAddons({
                                     defaultChecked={false}
                                   />
                                   <span className="checkmark"></span>
-                                  <span
-                                    // className={
-                                    //   checkedBoxCount >= maxCheckCount &&
-                                    //   !isChecked &&
-                                    //   maxCheckCount > 0
-                                    //     ? "varient_name disabled"
-                                    //     : "varient_name "
-                                    // }
-                                    className="varient_name"
-                                  >
+                                  <span className="varient_name">
                                     {data?.text ?? "N/A"}
                                   </span>
                                 </label>
@@ -165,9 +156,9 @@ function VariationMasterAddons({
                                 + {data?.price_formatted ?? "N/A"}
                               </td>
                             </tr>
-                          </Fragment>
-                        );
-                      })}
+                          );
+                        })}
+                    </tbody>
                   </table>
                 </div>
               </div>
