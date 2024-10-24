@@ -2277,6 +2277,7 @@ body {
   color: #747474;
   padding: 0 0 0 40px;
   user-select: none;
+  float: left;
 }
 
 @keyframes skeleton-shine {

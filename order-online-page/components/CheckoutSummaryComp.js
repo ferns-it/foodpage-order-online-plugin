@@ -213,12 +213,9 @@ function CheckoutSummaryComp() {
                   );
 
                   return (
-                    <>
+                    <Fragment key={cindex}>
                       <hr />
-                      <div
-                        className="d-flex justify-content-between align-items-center"
-                        key={cindex}
-                      >
+                      <div className="d-flex justify-content-between align-items-center">
                         <b>
                           {item?.productName}*{item?.quantity}
                         </b>
@@ -271,7 +268,7 @@ function CheckoutSummaryComp() {
                             </div>
                           );
                         })}
-                    </>
+                    </Fragment>
                   );
                 })}
             </div>

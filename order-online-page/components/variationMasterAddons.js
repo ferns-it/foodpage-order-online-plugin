@@ -139,7 +139,6 @@ function VariationMasterAddons({
                                     onChange={(e) =>
                                       handleCheckboxChange(item, data, e, key)
                                     }
-                                    defaultChecked={false}
                                   />
                                   <span className="checkmark"></span>
                                   <span className="varient_name">

@@ -5,7 +5,7 @@ import OTPInput from "react-otp-input";
 import * as Go from "react-icons/go";
 import CryptoJS from "crypto-js";
 import toast, { Toaster } from "react-hot-toast";
-import Utils from "@/src/app/_utils/Utils";
+import Utils from "../_utils/Utils";
 import { useRouter } from "next/navigation";
 import {
   getLocalStorageItem,
@@ -13,7 +13,7 @@ import {
   removeLocalStorageItem,
   setLocalStorageItem,
   setSessionStorageItem,
-} from "@/src/app/_utils/ClientUtils";
+} from "../_utils/ClientUtils";
 import "./style.css";
 
 function OtpVerification() {
@@ -89,6 +89,8 @@ function OtpVerification() {
     }
   };
 
+  const loginedMail  = getSessionStorageItem("loginMail") ?? ""
+
   return (
     <section className="table_reserv__">
       <div className="container">
@@ -96,7 +98,7 @@ function OtpVerification() {
           <h3 className="table-reservation-form-head">OTP VERIFICATION </h3>
           <p className="table_reserv_info_sub_head text-center">
             Your OTP has been send to your mail addesss{" "}
-            <span>{getSessionStorageItem("loginMail")}</span>
+            <span>{loginedMail}</span>
           </p>
           <div className="otp_validation_reserv">
             <OTPInput

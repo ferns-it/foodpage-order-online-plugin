@@ -328,8 +328,8 @@ function OrderSummary() {
                   const addOns = item?.addon_apllied;
                   const masterAddons = item?.master_addon_apllied;
                   return (
-                    <>
-                      <div className="position-relative mb-4" key={index}>
+                    <Fragment key={index}>
+                      <div className="position-relative mb-4">
                         <div className="d-flex">
                           <p className="food_menu m-0 food_title_299">
                             <strong>{item?.productName ?? "N/A"} - </strong>
@@ -346,58 +346,68 @@ function OrderSummary() {
                               : ""
                           }`}
                         >
-                          <table className="addOnsList028">
+                          <div className="addOnsList028">
                             <>
                               {addOns &&
                                 addOns.length != 0 &&
                                 addOns.map((add, aindex) => {
                                   return (
-                                    <>
-                                      <span key={aindex}>
+                                    <Fragment key={aindex}>
+                                      <span>
                                         <strong>{add?.title}</strong>
                                       </span>
-                                      {add &&
-                                        add.choosedOption.length != 0 &&
-                                        add.choosedOption.map((data, addindex) => {
-                                          return (
-                                            <tr key={addindex}>
-                                              <td>{data?.text}</td>
-                                              <td>{data?.price}</td>
-                                            </tr>
-                                          );
-                                        })}
-                                    </>
+                                      <table>
+                                        <tbody>
+                                          {add &&
+                                            add.choosedOption.length != 0 &&
+                                            add.choosedOption.map(
+                                              (data, addindex) => {
+                                                return (
+                                                  <tr key={addindex}>
+                                                    <td>{data?.text}</td>
+                                                    <td>{data?.price}</td>
+                                                  </tr>
+                                                );
+                                              }
+                                            )}
+                                        </tbody>
+                                      </table>
+                                    </Fragment>
                                   );
                                 })}
                             </>
-                          </table>
-                          <table className="addOnsList028">
-                            <>
+                          </div>
+                          <div className="addOnsList028">
+                            <Fragment>
                               {masterAddons &&
                                 masterAddons.length != 0 &&
                                 masterAddons.map((add, masterindex) => {
                                   return (
-                                    <>
-                                      <span key={masterindex}>
+                                    <Fragment key={masterindex}>
+                                      <span>
                                         <strong>{add?.title}</strong>
                                       </span>
-                                      {add &&
-                                        add.choosedOption.length != 0 &&
-                                        add.choosedOption.map(
-                                          (data, kindex) => {
-                                            return (
-                                              <tr key={kindex}>
-                                                <td>{data?.text}</td>
-                                                <td>{data?.price}</td>
-                                              </tr>
-                                            );
-                                          }
-                                        )}
-                                    </>
+                                      <table>
+                                        <tbody>
+                                          {add &&
+                                            add.choosedOption.length != 0 &&
+                                            add.choosedOption.map(
+                                              (data, kindex) => {
+                                                return (
+                                                  <tr key={kindex}>
+                                                    <td>{data?.text}</td>
+                                                    <td>{data?.price}</td>
+                                                  </tr>
+                                                );
+                                              }
+                                            )}
+                                        </tbody>
+                                      </table>
+                                    </Fragment>
                                   );
                                 })}
-                            </>
-                          </table>
+                            </Fragment>
+                          </div>
                         </div>
 
                         <div className="d-flex mt-2">
@@ -443,13 +453,13 @@ function OrderSummary() {
                           </button>
                         </div>
                       </div>
-                    </>
+                    </Fragment>
                   );
                 })}
               <hr className="mt-0" />
               <table className="total_cost_summary">
-                {delivery == true || delivery == "true" ? (
-                  <>
+                <tbody>
+                  {delivery == true || delivery == "true" ? (
                     <Fragment>
                       <tr className="discount_order_summary">
                         <td>
@@ -468,29 +478,32 @@ function OrderSummary() {
                       <td>£{takeawayTotal ?? "N/A"}</td>
                     </tr> */}
                     </Fragment>
-                  </>
-                ) : (
-                  <>
-                    <Fragment>
-                      <tr className="discount_order_summary">
-                        <td>
-                          <b>Cart total</b>
-                        </td>
-                        <td id="sub_total_amt_order_summary">
-                          <b> {cartItems?.cartTotal?.cartTotalPriceDisplay}</b>
-                        </td>
-                      </tr>
-                      {/* <tr className="discount_order_summary">
+                  ) : (
+                    <>
+                      <Fragment>
+                        <tr className="discount_order_summary">
+                          <td>
+                            <b>Cart total</b>
+                          </td>
+                          <td id="sub_total_amt_order_summary">
+                            <b>
+                              {" "}
+                              {cartItems?.cartTotal?.cartTotalPriceDisplay}
+                            </b>
+                          </td>
+                        </tr>
+                        {/* <tr className="discount_order_summary">
                       <td>Discount</td>
                       <td>-£ {discount}</td>
                     </tr> */}
-                      {/* <tr>
+                        {/* <tr>
                       <td>Total Cost</td>
                       <td>£ {allTotal ?? "N/A"}</td>
                     </tr> */}
-                    </Fragment>
-                  </>
-                )}
+                      </Fragment>
+                    </>
+                  )}
+                </tbody>
               </table>
             </div>
           ) : (
