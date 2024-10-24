@@ -152,8 +152,6 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
       source: "NextJs",
     };
 
-    debugger;
-
     const headers = {
       "x-secretkey": process.env.FOODPAGE_RESERVATION_SECRET_KEY,
     };

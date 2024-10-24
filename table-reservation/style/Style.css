@@ -1801,6 +1801,7 @@ abbr[title] {
 .cancel_reserv:hover {
   background-color: #e03f3f;
 }
+
 .update_reserv {
   position: absolute;
   background-color: transparent;
@@ -1810,6 +1811,9 @@ abbr[title] {
 .update_reserv:hover {
   background-color: #3870c5;
   color: #fff;
+}
+.update_reserv:disabled {
+  background-color: #ef8f8f;
 }
 .mail_reserv:hover {
   background-color: #979696;
@@ -1836,4 +1840,18 @@ abbr[title] {
 }
 .discard_btn_reserv:hover {
   background-color: #4b4b4b;
+}
+.mail_content_reserv {
+  padding: 10px;
+  width: 100%;
+}
+#send_mail_btn {
+  display: block;
+  background-color: #3870c5;
+  margin: 0 auto;
+  width: 20%;
+  color: #fff;
+}
+#send_mail_btn:hover {
+  background-color: #1a3b6b;
 }

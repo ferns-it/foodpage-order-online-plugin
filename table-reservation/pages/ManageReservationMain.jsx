@@ -26,14 +26,18 @@ function ManageReservationMain() {
         const idd =
           res?.id && typeof res?.id == "string" ? parseInt(res?.id) : res?.id;
         const id = btoa(idd);
-        console.log(reservationDetails, "reservationDetails");
+
+        if (res.error == true) {
+          toast.error(res.message);
+          return;
+        }
 
         setTimeout(() => {
           router.push(`/view-reservation?reserv=${reservId}&&unq=${id}`);
         }, 200);
       })
       .catch((err) => {
-        console.log("error", err);
+        console.log("error=>", err);
 
         toast.error("Couldn't find anything right now, Please try again!");
       });

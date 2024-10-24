@@ -81,8 +81,18 @@ const useReservation = () => {
             onSuccess: (res) => {
               if (res && res.data && res.data.error == false && res.data.data) {
                 // debugger;
-                setReservationDetails(res.data.data?.ReservationData);
-                resolve(res.data.data?.ReservationData);
+                const reservResponse = res.data.data?.ReservationData;
+
+                if (reservResponse) {
+                  setReservationDetails(res.data.data?.ReservationData);
+                  resolve(res.data.data?.ReservationData);
+                } else {
+                  let errResp = {
+                    error: true,
+                    message: res?.data?.data?.message,
+                  };
+                  resolve(errResp);
+                }
               }
             },
             onFailed: (err) => {
@@ -116,6 +126,27 @@ const useReservation = () => {
       setReservationLoading(false);
     }
   };
+
+  const updateReservationDetails = async (payload, { onSuccess, onFailed }) => {
+    try {
+      setReservationLoading(true);
+      const { uniqId, ...rest } = payload;
+      const headers = {
+        "x-secretkey": process.env.FOODPAGE_RESERVATION_SECRET_KEY,
+      };
+      await BaseClient.put(
+        `${ReservationAPIEndpoints.updateReservation}/${uniqId}`,
+        rest,
+        {
+          headers: headers,
+          onSuccess: onSuccess,
+          onFailed: onFailed,
+        }
+      );
+    } finally {
+      setReservationLoading(false);
+    }
+  };
   return {
     getShopTiming,
     shopTiming,
@@ -126,6 +157,7 @@ const useReservation = () => {
     getReservationDetails,
     reservationDetails,
     cancelReservation,
+    updateReservationDetails,
   };
 };
 

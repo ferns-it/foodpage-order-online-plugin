@@ -30,6 +30,7 @@ export const TableReservationContextProvider = (props) => {
     getReservationDetails,
     reservationDetails,
     cancelReservation,
+    updateReservationDetails,
   } = useReservation();
 
   useEffect(() => {
@@ -57,6 +58,7 @@ export const TableReservationContextProvider = (props) => {
         getReservationDetails,
         reservationDetails,
         cancelReservation,
+        updateReservationDetails,
         // otp,
         // setOtp,
         // clearOtp
