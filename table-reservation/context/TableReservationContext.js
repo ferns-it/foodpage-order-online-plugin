@@ -13,7 +13,7 @@ export const TableReservationContextProvider = (props) => {
     name: "",
     email: "",
     phone: "",
-    bookingTime: "",
+    bookingTime: 0,
     bookingDate: "",
     noOfChairs: 0,
     message: "",

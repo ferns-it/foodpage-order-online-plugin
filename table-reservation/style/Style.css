@@ -17,6 +17,7 @@ input[type="file"]:focus,
 input[type="radio"]:focus,
 input[type="checkbox"]:focus textarea,
 .form-control:focus,
+.form-select:focus,
 .uneditable-input:focus {
   box-shadow: none;
   outline: 0 none;
@@ -178,6 +179,12 @@ input {
 .timing_card_table_reserv .open_ > i {
   font-size: 16px;
 }
+@media screen and (max-width: 991px) {
+  .timing_cart_reserv {
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+}
 
 .day_wrapper_reserv_table {
   border-bottom: 1px dashed #7777;
@@ -224,6 +231,11 @@ input {
   font-size: 13px;
   font-weight: 600;
   color: #252525;
+}
+
+.reserv_timing__ > li {
+  padding: 2px 0;
+  white-space: nowrap;
 }
 
 .otp_validation_reserv {
@@ -1672,6 +1684,10 @@ abbr[title] {
   color: #252525 !important;
   font-weight: 700 !important;
 }
+.react-calendar__tile:disabled {
+  background-color: #fff !important;
+  text-decoration: line-through !important;
+}
 .react-calendar__navigation {
   margin-bottom: 0 !important;
 }
@@ -1727,6 +1743,7 @@ abbr[title] {
   color: #fff;
   border-radius: 5px;
   transition: all 0.2s ease-in-out;
+  white-space: nowrap;
 }
 .reserv_btn:hover {
   background-color: #ab2e2e;
@@ -1744,14 +1761,17 @@ abbr[title] {
   margin-top: 2rem;
 }
 
-@media screen  and (max-width:991px) {
-  .manage_reserv_card{
+@media screen and (max-width: 991px) {
+  .manage_reserv_card {
     width: 70%;
+  }
+  .reserv_btn {
+    width: 100%;
   }
 }
 
-@media screen  and (max-width:786px) {
-  .manage_reserv_card{
+@media screen and (max-width: 786px) {
+  .manage_reserv_card {
     width: 100%;
   }
 }
@@ -1866,4 +1886,30 @@ abbr[title] {
 }
 #send_mail_btn:hover {
   background-color: #1a3b6b;
+}
+.sub_title_ {
+  color: #747474;
+  font-size: 0.9rem;
+  user-select: none;
+  margin-top: 20px;
+  padding: 0;
+}
+.poweredBy_ {
+  position: absolute;
+  font-size: 13px;
+  color: #747474;
+  left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%);
+}
+.poweredBy_ > img {
+  width: 110px;
+  height: 50px;
+  object-fit: contain;
+  padding-left: 10px;
+}
+@media screen and (max-width: 991px) {
+  #main___ {
+    display: none;
+  }
 }

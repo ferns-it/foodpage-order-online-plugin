@@ -261,6 +261,7 @@ function FoodAccordian() {
           </div>
           <div className="row">
             <OrderSummary />
+            
           </div>
         </div>
       </div>

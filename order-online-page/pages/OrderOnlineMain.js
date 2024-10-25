@@ -12,6 +12,8 @@ import { TableReservationContext } from "../../table-reservation/context/TableRe
 import Utils from "../../table-reservation/utils/Utils";
 import "../../table-reservation/style/style.css";
 import "../style/order-online-style.css";
+import Image from "next/image";
+import foodPageLogo from "../assets/logo.png"
 
 const ThemeTitle = ({ htmlString }) => {
   const cleanHtmlString = htmlString.replace(/\r\n/g, "");
@@ -171,6 +173,7 @@ const OrderOnlineMain = () => {
               >
                 <OrderSummary />
               </div>
+              <div className="poweredBy_ text-center"><span>Powered by</span> <Image src={foodPageLogo} /></div>
             </div>
           </div>
         </Fragment>
