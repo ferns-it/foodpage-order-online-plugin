@@ -13,7 +13,7 @@ import Utils from "../../table-reservation/utils/Utils";
 import "../../table-reservation/style/style.css";
 import "../style/order-online-style.css";
 import Image from "next/image";
-import foodPageLogo from "../assets/logo.png"
+import foodPageLogo from "../assets/logo.png";
 
 const ThemeTitle = ({ htmlString }) => {
   const cleanHtmlString = htmlString.replace(/\r\n/g, "");
@@ -107,7 +107,7 @@ const OrderOnlineMain = () => {
       {!settingsLoading ? (
         <Fragment>
           <br />
-          <div className="food_order_area mt-4">
+          <div className="food_order_area mt-4 ">
             <div className="order_block">
               <div className="row">
                 <div className="col-lg-3 col-md-3 col-sm-none cat_col_0229">
@@ -162,7 +162,7 @@ const OrderOnlineMain = () => {
               </div>
             </div>
 
-            <div className="billing_area">
+            <div className="billing_area  position-relative">
               <div
                 className={
                   isSticky
@@ -173,7 +173,12 @@ const OrderOnlineMain = () => {
               >
                 <OrderSummary />
               </div>
-              <div className="poweredBy_ text-center"><span>Powered by</span> <Image src={foodPageLogo} /></div>
+            </div>
+            <div
+              className="poweredBy_ text-center"
+              style={{ bottom: 0, width: "100%" }}
+            >
+              <span>Powered by</span> <Image src={foodPageLogo} />
             </div>
           </div>
         </Fragment>

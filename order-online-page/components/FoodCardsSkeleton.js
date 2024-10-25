@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import Skeleton from "react-loading-skeleton";
 
 function FoodCardsSkeleton() {
-  const items = Array.from({ length: 4 });
+  const items = Array.from({ length: 3 });
   return (
     <Fragment>
       <div className="web-view">
