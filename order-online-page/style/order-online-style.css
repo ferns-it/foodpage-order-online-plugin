@@ -593,6 +593,7 @@ body {
   outline: none;
   background-color: transparent;
   margin-left: auto;
+  color: #000;
 }
 
 .line__ {
@@ -2503,7 +2504,7 @@ body {
 
 #fda_product_tile {
   position: relative;
-  min-height: 220px;
+  min-height: 247px;
   background: rgb(238, 238, 238);
   color: #af2329;
   /* border: 1px dashed #7777; */
