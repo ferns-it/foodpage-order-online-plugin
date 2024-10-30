@@ -795,46 +795,53 @@ function OrderSummaryCheckout() {
                               : "checkout_order_online_form_0283 hide"
                           }
                         >
-                          <div className="row">
-                            {cartItems?.paymentOptions?.stripe == "Enabled" && (
-                              <>
-                                <div className="col-6">
-                                  <div
-                                    className={
-                                      paymentOption === "stripe"
-                                        ? "card payment_card_order_online_093 selected"
-                                        : "card payment_card_order_online_093"
-                                    }
-                                    onClick={createPaymentIntentRequest}
-                                  >
-                                    <i>
-                                      {/* <Bs.BsCreditCard /> */}
-                                      <h4>Card Payment</h4>
-                                    </i>
+                          {!loading ? (
+                            <div className="row">
+                              {cartItems?.paymentOptions?.stripe ==
+                                "Enabled" && (
+                                <>
+                                  <div className="col-6">
+                                    <div
+                                      className={
+                                        paymentOption === "stripe"
+                                          ? "card payment_card_order_online_093 selected"
+                                          : "card payment_card_order_online_093"
+                                      }
+                                      onClick={createPaymentIntentRequest}
+                                    >
+                                      <i>
+                                        {/* <Bs.BsCreditCard /> */}
+                                        <h4>Card Payment</h4>
+                                      </i>
+                                    </div>
                                   </div>
-                                </div>
-                              </>
-                            )}
-                            {cartItems?.paymentOptions?.cod == "Enabled" && (
-                              <>
-                                <div className="col-6">
-                                  <div
-                                    className={
-                                      paymentOption === "cash"
-                                        ? "card payment_card_order_online_093 selected"
-                                        : "card payment_card_order_online_093"
-                                    }
-                                    onClick={() => handlecashondelivery()}
-                                  >
-                                    <i>
-                                      {/* <Bs.BsCashCoin /> */}
-                                      <h4>Cash Payment</h4>
-                                    </i>
+                                </>
+                              )}
+                              {cartItems?.paymentOptions?.cod == "Enabled" && (
+                                <>
+                                  <div className="col-6">
+                                    <div
+                                      className={
+                                        paymentOption === "cash"
+                                          ? "card payment_card_order_online_093 selected"
+                                          : "card payment_card_order_online_093"
+                                      }
+                                      onClick={() => handlecashondelivery()}
+                                    >
+                                      <i>
+                                        {/* <Bs.BsCashCoin /> */}
+                                        <h4>Cash Payment</h4>
+                                      </i>
+                                    </div>
                                   </div>
-                                </div>
-                              </>
-                            )}
-                          </div>
+                                </>
+                              )}
+                            </div>
+                          ) : (
+                            <>
+                              <p>Loading...</p>
+                            </>
+                          )}
                           {paymentOption === "stripe" &&
                             stripePaymentClientSecret && (
                               <div className="payement_method checkout_form mt-3 pt-3 card p-3 m-1">

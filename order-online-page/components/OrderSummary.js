@@ -214,7 +214,15 @@ function OrderSummary() {
           toast.error(res?.data?.errorMessage?.message);
         },
         onFailed: (err) => {
-          toast.error(err?.response?.data?.errorMessage?.message);
+          let msg;
+          const errMsg = err?.response?.data?.errorMessage?.message;
+          if (errMsg == "Non-serviceablessss distance!!!") {
+            msg = "Non Serviceable Area";
+          } else {
+            msg = "Invalid Postal Code";
+          }
+          // toast.error(err?.response?.data?.errorMessage?.message);
+          toast.error(msg);
         },
       });
     } finally {
@@ -313,7 +321,7 @@ function OrderSummary() {
     setTime(formattedTime);
     setTakeawayTime(formattedTime);
   };
-  console.log(settings, "settings");
+
   return (
     <Fragment>
       <Toaster position="top-center" reverseOrder={false} />
