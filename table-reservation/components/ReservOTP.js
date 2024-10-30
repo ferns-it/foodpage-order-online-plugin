@@ -3,10 +3,34 @@ import { TableReservationContext } from "../context/TableReservationContext";
 import OtpInput from "react-otp-input";
 import { MdTableBar } from "react-icons/md";
 import * as Go from "react-icons/go";
+import * as Fa from "react-icons/fa";
+import * as Md from "react-icons/md";
 import Utils from "../utils/Utils";
 import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import {
+  getSessionStorageItem,
+  removeSessionStorageItem,
+} from "../../_utils/ClientUtils";
+
+export const mergeBookingDateTime = (bookingDate, bookingTime) => {
+  const date = new Date(bookingDate);
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  const timeWithSeconds = bookingTime.includes(":")
+    ? bookingTime
+    : `${bookingTime}:00`;
+
+  const formattedDateTime = `${year}-${month}-${day} ${timeWithSeconds}`;
+
+  return formattedDateTime;
+};
 
 function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
+  const router = useRouter();
   const {
     initialValues,
     completeReservation,
@@ -14,10 +38,39 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
     secretKey,
     setSecretKey,
     sendReservationOTP,
+    setInitialValues,
   } = useContext(TableReservationContext);
   const [reservOTP, setResertOTP] = useState("");
   const [resendLoading, setResendLoading] = useState(false);
-  console.log(initialValues, "initialValues");
+
+  const emptyFieldsData = () => {
+    let emptyFields = [];
+    for (const key in initialValues) {
+      if (
+        typeof initialValues[key] !== "string" ||
+        initialValues[key].trim() === ""
+      ) {
+        emptyFields.push(key);
+      }
+    }
+
+    return emptyFields;
+  };
+
+  useEffect(() => {
+    const emptyFields = emptyFieldsData();
+
+    if (emptyFields && emptyFields.length != 0) {
+      const reservData = getSessionStorageItem("reserv_details");
+      const parsedData =
+        reservData && typeof reservData === "string" && JSON.parse(reservData);
+
+      if (!parsedData) return;
+
+      setInitialValues(parsedData);
+    }
+  }, []);
+
   // const {otp,
   //     setOtp,
   //     clearOtp}=useContext(TableReservationContext)
@@ -49,7 +102,7 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
     };
 
     const headers = {
-      "x-secretkey": "ec34da9797361750e401e435c4860720",
+      "x-secretkey": process.env.FOODPAGE_RESERVATION_SECRET_KEY,
     };
 
     try {
@@ -78,25 +131,30 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
       setResendLoading(false);
     }
   };
+
   const completeNewReservation = async () => {
+    const mergedBooking = mergeBookingDateTime(
+      initialValues?.bookingDate,
+      initialValues?.bookingTime
+    );
     const payload = {
       shopID: shopId,
       name: initialValues?.name,
       phone: initialValues?.phone,
       email: initialValues?.email,
       totalChair: initialValues?.noOfChairs,
-      reservationDateTime: `${initialValues?.bookingDate} ${initialValues?.bookingTime}`,
+      reservationDateTime: mergedBooking,
       advancePayment: "No",
       advanceAmount: "",
       paymentMethod: "",
       transactionID: "",
       message: initialValues?.message,
       baseUrl: "http://foodpage.co.uk/",
-      source: "Unknown",
+      source: "NextJs",
     };
 
     const headers = {
-      "x-secretkey": "ec34da9797361750e401e435c4860720",
+      "x-secretkey": process.env.FOODPAGE_RESERVATION_SECRET_KEY,
     };
 
     await completeReservation(payload, {
@@ -104,6 +162,7 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
         console.log(res);
         toast.success("OTP has been verified!");
         setSecretKey("");
+        removeSessionStorageItem("reserv_details");
         setTimeout(() => {
           setIsActiveTablePage("success-page");
         }, 1000);
@@ -127,19 +186,35 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
     }
   };
 
+  const handleNavigation = () => {
+    router.push(
+      {
+        pathname: "/tablereservation",
+      },
+      undefined,
+      { shallow: true }
+    );
+    setTimeout(() => {
+      setIsActiveTablePage("reservation-form");
+    }, 200);
+  };
+
   return (
     <>
       <section className="table_reserv__">
         <div className="container mt-5 mb-5">
           <div className="row">
-            <div className="col-8">
+            <div className="col-lg-8 col-md-6 col-sm-12">
+              <button className="go_back" onClick={handleNavigation}>
+                <Go.GoArrowLeft />
+              </button>
               <div className="card table_reservation_card">
                 <h3 className="table-reservation-form-head">
-                  OTP VERIFICATION
+                  VERIFICATION CODE
                 </h3>
-                <p className="table_reserv_info_sub_head">
+                <p className="table_reserv_info_sub_head text-center">
                   Your OTP has been send to your mail addesss{" "}
-                  <span>{initialValues?.email ?? "N/A"}</span>
+                  <strong>{initialValues?.email ?? "N/A"}</strong>
                 </p>
                 <div className="otp_validation_reserv">
                   <OtpInput
@@ -166,6 +241,11 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
                     )}
                   </p>
                 </div>
+                {/* <label htmlFor="policy" className="text-center priv_policy">
+                  <input type="checkbox" name="" id="policy" /> I have read and
+                  accept the <a href=""> booking terms & privacy policy</a>.
+                </label> */}
+                <br />
                 <button
                   type="button"
                   className="reserv_otp_validation_btn mb-3"
@@ -174,10 +254,10 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
                 >
                   {reservationLoading === false ? (
                     <Fragment>
-                      <span>Continue</span>
-                      <i className="ps-2">
-                        <Go.GoArrowRight />
-                      </i>
+                      {/* <i className="pe-2">
+                        <Md.MdConfirmationNumber />
+                      </i> */}
+                      <span>Confirm Booking</span>
                     </Fragment>
                   ) : (
                     <Fragment>
@@ -191,7 +271,7 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
                 </button>
               </div>
             </div>
-            <div className="col-4">
+            <div className="col-lg-4 col-md-6 col-sm-12">
               <div className="card timing_card_table_reserv ">
                 <p className="open_">
                   <i className="pe-1">
@@ -199,21 +279,9 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
                   </i>
                   <span>Reservation Details</span>
                 </p>
-                <table className="reserv_timing_table">
+                <table className="reserv_timing_table table">
                   <tr>
-                    <td>Name</td>
-                    <td>{initialValues?.name ?? "N/A"}</td>
-                  </tr>
-                  <tr>
-                    <td>Email Address</td>
-                    <td>{initialValues?.email ?? "N/A"}</td>
-                  </tr>
-                  <tr>
-                    <td>Phone</td>
-                    <td>{initialValues?.phone ?? "N/A"}</td>
-                  </tr>
-                  <tr>
-                    <td>Booking Date</td>
+                    <td className="tbl_head">Booking Date</td>
                     <td>
                       {initialValues && initialValues?.bookingDate
                         ? Utils.formatDate(initialValues?.bookingDate)
@@ -221,16 +289,29 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
                     </td>
                   </tr>
                   <tr>
-                    <td>Booking Time</td>
+                    <td className="tbl_head">Booking Time</td>
                     <td>{initialValues?.bookingTime ?? "N/A"}</td>
                   </tr>
                   <tr>
-                    <td>No of Chairs</td>
+                    <td className="tbl_head">Name</td>
+                    <td>{initialValues?.name ?? "N/A"}</td>
+                  </tr>
+                  <tr>
+                    <td className="tbl_head">Email Address</td>
+                    <td>{initialValues?.email ?? "N/A"}</td>
+                  </tr>
+                  <tr>
+                    <td className="tbl_head">Phone</td>
+                    <td>{initialValues?.phone ?? "N/A"}</td>
+                  </tr>
+
+                  <tr>
+                    <td className="tbl_head">people</td>
                     <td>{initialValues?.noOfChairs ?? "N/A"}</td>
                   </tr>
                   {initialValues && initialValues.message && (
                     <tr>
-                      <td>Message</td>
+                      <td className="tbl_head">Message</td>
                       <td>{initialValues?.message ?? "N/A"}</td>
                     </tr>
                   )}
