@@ -36,8 +36,80 @@ input {
   padding: 10px;
   /* width: 75%; */
   margin: 0 auto;
+  border-color: #eee;
+  border-width: 0 1px 0 0;
+  border-radius: 0;
+}
+.sub_title_ {
+  color: #747474;
+  font-size: 0.9rem;
+  user-select: none;
+  margin-top: 20px;
+  padding: 0;
+}
+.booking_calendar {
+  width: 100% !important;
+  min-height: 300px;
+  border: none !important;
+}
+.react-calendar__month-view__weekdays {
+  padding: 10px 0 !important;
+  background-color: #e03f3f;
+  color: #fff;
+}
+abbr[title] {
+  text-decoration: none !important;
+  cursor: default !important;
+}
+.react-calendar__tile {
+  padding: 17px 0 !important;
+  border: 1px dashed #eee !important;
+  font-size: 16px !important;
+  transition: all 0.2s ease-in-out;
+}
+.react-calendar__tile--now {
+  background-color: #eee !important;
+}
+.react-calendar__tile:hover {
+  background-color: #faf3cc !important;
 }
 
+.react-calendar__tile:disabled {
+  background-color: #fff !important;
+  text-decoration: line-through !important;
+}
+.react-calendar__tile--now {
+  background-color: #7777 !important;
+  color: #000 !important;
+  font-weight: 700 !important;
+}
+.react-calendar__tile--now ~ .react-calendar__tile {
+  color: gray; /* Gray color for future dates */
+  background-color: #f9f9f9; /* Light background for future dates */
+}
+
+/* Styling future dates if they already have a specific future date class */
+.react-calendar__tile--future {
+  color: #000; /* Gray color for future dates */
+  background-color: #f9f9f9; /* Light background for future dates */
+}
+.react-calendar__navigation {
+  margin-bottom: 0 !important;
+}
+.react-calendar__navigation button{
+  min-width: 44px !important;
+  color: #000;
+}
+.react-calendar__navigation button:disabled{
+  color: #1010104D;
+}
+.calander_wrapper_ {
+  height: 0;
+  overflow: hidden;
+}
+.calander_wrapper_.show {
+  height: 100%;
+}
 .table-reservation-form-head {
   text-align: center;
   text-transform: uppercase;
@@ -47,10 +119,17 @@ input {
   margin: 15px 0;
   font-weight: 500;
 }
-
+.reserve_table {
+  font-size: 14px;
+}
 .table_reserv_form_label {
   font-size: 13px;
   font-weight: 600;
+ 
+}
+.table_reserv_form_input{
+  height: 40px !important;
+  border-radius: 5px  !important;
 }
 
 .table_reserv_form_input.err__ {
@@ -162,7 +241,9 @@ input {
   text-align: left;
   margin: 10px 0 5px 0;
 }
-
+.reserve_table{
+  color: #000;
+}
 .reserv_timing_table {
   margin-bottom: 10px;
 }
@@ -998,7 +1079,7 @@ a {
 }
 
 .table_reserv__ {
-  padding: 5rem 0;
+  padding: 9rem 0;
 }
 
 .contact-info > h3 {

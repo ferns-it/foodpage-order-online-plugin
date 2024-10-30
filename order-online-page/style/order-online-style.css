@@ -1089,7 +1089,7 @@ body {
   border: none;
   outline: none;
   background-color: transparent;
-  right: 10px;
+  right: -10px;
   top: 10px;
   font-size: 25px;
 }

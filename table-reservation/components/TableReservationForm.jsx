@@ -11,17 +11,17 @@ import "../style/Style.css";
 const RECAPTCHA_SITE_KEY = "6LeXD-8pAAAAAOpi7gUuH5-DO0iMu7J6C-CBA2fo"; //! add new captcha
 
 function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
-  const {
-    getShopTiming,
-    shopTiming,
-    isTimingLoading,
-    reservationLoading,
-    sendReservationOTP,
-    setInitialValues,
-    initialValues,
-    secretKey,
-    setSecretKey,
-  } = useContext(TableReservationContext);
+  // const {
+  //   getShopTiming,
+  //   shopTiming,
+  //   isTimingLoading,
+  //   reservationLoading,
+  //   sendReservationOTP,
+  //   setInitialValues,
+  //   initialValues,
+  //   secretKey,
+  //   setSecretKey,
+  // } = useContext(TableReservationContext);
   const [count, setCount] = useState(0);
   const [hashcode, setHashcode] = useState("");
   const [isReservErr, setIsReservErr] = useState(false);
@@ -29,24 +29,24 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   const [minDate, setMinDate] = useState("");
   const [dayValue, setDayValue] = useState("");
 
-  useEffect(() => {
-    if (!shopId) return;
-    getShopTiming(shopId);
-  }, [shopId]);
-  useEffect(() => {
-    setInitialValues((prev) => ({ ...prev, noOfChairs: count }));
-  }, [count]);
-  useEffect(() => {
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    const mm = String(today.getMonth() + 1).padStart(2, "0");
-    const dd = String(today.getDate()).padStart(2, "0");
-    const formattedToday = `${yyyy}-${mm}-${dd}`;
+  // useEffect(() => {
+  //   if (!shopId) return;
+  //   getShopTiming(shopId);
+  // }, [shopId]);
+  // useEffect(() => {
+  //   setInitialValues((prev) => ({ ...prev, noOfChairs: count }));
+  // }, [count]);
+  // useEffect(() => {
+  //   const today = new Date();
+  //   const yyyy = today.getFullYear();
+  //   const mm = String(today.getMonth() + 1).padStart(2, "0");
+  //   const dd = String(today.getDate()).padStart(2, "0");
+  //   const formattedToday = `${yyyy}-${mm}-${dd}`;
 
-    setMinDate(formattedToday);
-  }, []);
+  //   setMinDate(formattedToday);
+  // }, []);
 
-  console.log(shopTiming, "shopTiming");
+  // console.log(shopTiming, "shopTiming");
   
 
   let oneTimePass;
@@ -218,25 +218,25 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     //   setResponseLoading(false);
     // }
   };
-  useEffect(() => {
-    function getDayOfWeek(dateString) {
-      const date = new Date(dateString);
-      const dayOfWeek = date.getDay();
-      const dayNames = [
-        "sunday",
-        "monday",
-        "tuesday",
-        "wednesday",
-        "thursday",
-        "friday",
-        "saturday",
-      ];
-      const dayName = dayNames[dayOfWeek];
-      return dayName;
-    }
-    const day = getDayOfWeek(initialValues.bookingDate);
-    setDayValue(day);
-  }, []);
+  // useEffect(() => {
+  //   function getDayOfWeek(dateString) {
+  //     const date = new Date(dateString);
+  //     const dayOfWeek = date.getDay();
+  //     const dayNames = [
+  //       "sunday",
+  //       "monday",
+  //       "tuesday",
+  //       "wednesday",
+  //       "thursday",
+  //       "friday",
+  //       "saturday",
+  //     ];
+  //     const dayName = dayNames[dayOfWeek];
+  //     return dayName;
+  //   }
+  //   const day = getDayOfWeek(initialValues.bookingDate);
+  //   setDayValue(day);
+  // }, []);
 
   return (
     <div className="table_reserv__">
@@ -464,9 +464,9 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                   <button
                     type="submit"
                     className="submit_reserv_btn"
-                    disabled={reservationLoading}
+                    // disabled={reservationLoading}
                   >
-                    {reservationLoading === false ? (
+                    {/* {reservationLoading === false ? (
                       <Fragment>
                         <span>Continue</span>
                         <i className="ps-2">
@@ -481,7 +481,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                         ></div>
                         <span className="sr-only ps-2">Loading...</span>
                       </Fragment>
-                    )}
+                    )} */}
                   </button>
                 </form>
                 {/* <GoogleReCaptchaProvider reCaptchaKey={process.env.REACT_CAPTCHA_SITE_KEY}/> */}
@@ -509,7 +509,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                   </i>
                   <span>Open Hours</span>
                 </p>
-                {isTimingLoading ? (
+                {/* {isTimingLoading ? (
                   <span className="sr-only ps-2">Loading...</span>
                 ) : (
                   <div className="timing_cart_reserv">
@@ -746,7 +746,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                       <div className="col-lg-6 col-md-6 col-sm-6"></div>
                     </div>
                   </div>
-                )}
+                )} */}
               </div>
             </div>
           </div>
