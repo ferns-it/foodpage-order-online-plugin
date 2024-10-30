@@ -1044,7 +1044,7 @@ a {
 }
 
 .table_reserv__ {
-  padding: 3rem 0;
+  padding: 7rem 0;
 }
 
 .contact-info > h3 {
@@ -1713,6 +1713,12 @@ abbr[title] {
 }
 .calander_wrapper_.show {
   height: 100%;
+}
+.react-calendar__navigation button{
+  color: #000;
+}
+.react-calendar__navigation button:disabled{
+  color: #1010104d;
 }
 .location___ {
   font-size: 14px;
