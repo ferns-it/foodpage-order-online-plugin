@@ -65,8 +65,8 @@ function OtpVerification() {
     const header = {
       alg: "FP2024",
       typ: "JWT",
-      exp: Math.floor(Date.now() / 1000) + (5 * 60),//! one min
-      // exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60), //! one day
+      // exp: Math.floor(Date.now() / 1000) + (5 * 60),//! one min
+      exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60), //! one day
     };
     const encodedHeaders = btoa(JSON.stringify(header));
     const encodedPayload = btoa(JSON.stringify(payload));
