@@ -50,7 +50,7 @@ function ManageReservationMain() {
   return (
     <Fragment>
       <div className="tbl_reserv_section">
-        <div className="container">
+        <div className="container mt-4">
           <button
             type="button"
             className="go_back"

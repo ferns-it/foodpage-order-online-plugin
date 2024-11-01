@@ -183,15 +183,15 @@ function ViewReservation({ reservId, uniqId }) {
         reservStringId = {reservId}
       />
       <section className="tbl_reserv_section">
-        <div className="container">
+        <div className="container mt-4">
           <button
-            className="go_back"
+            className="go_back mx-5"
             onClick={() => router.push("/manage-reservation")}
           >
             <Go.GoArrowLeft /> Back
           </button>
           <div className="card manage_reserv_card">
-            <h3 className="table-reservation-form-head">Reservation Details</h3>
+            <h3 className="table-reservation-form-head head_edit">Reservation Details</h3>
             {isExpired == false &&
               reservationDetails?.status !== "Cancelled" &&
               reservationDetails?.status !== "Modified" && (

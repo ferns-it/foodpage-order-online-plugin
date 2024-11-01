@@ -8,8 +8,8 @@ function ReservSuccess() {
   return (
     <Fragment>
       <div className="container mt-5 mb-5">
-        <div className="reser_success_">
-          <Image src={Success} />
+        <div className="reser_success_ mt-5">
+          <Image src={Success} className="mt-5" />
           {/* <img src={require("../assets/success.png")} /> */}
         </div>
         <div className="reserv_content_success__">

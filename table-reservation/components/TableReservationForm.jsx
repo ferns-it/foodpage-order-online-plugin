@@ -10,7 +10,7 @@ import Utils from "../utils/Utils";
 import { toast } from "react-hot-toast";
 import "../style/Style.css";
 import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
+import 'react-calendar/dist/Calendar.css';
 import { useRouter, useSearchParams } from "next/navigation";
 import { setSessionStorageItem } from "../../_utils/ClientUtils";
 import foodPageLogo from "../assets/logo.png";
@@ -297,7 +297,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
             setSessionStorageItem("reserv_details", saveObj);
             setSessionStorageItem("secretKey", secretKey);
             setIsActiveTablePage("otp-page");
-            router.push(
+            router.push( 
               {
                 pathname: "/tablereservation",
                 query: { otp: true },
@@ -629,6 +629,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                   </i>
                   <span>Booking info</span>
                   <table className="table reserve_table">
+                    <tbody>
                     <tr>
                       <td>Date</td>
                       <td>
@@ -650,6 +651,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                       <td>Chairs</td>
                       <td>{count ?? 0}</td>
                     </tr>
+                    </tbody>
                   </table>
 
                 </div>

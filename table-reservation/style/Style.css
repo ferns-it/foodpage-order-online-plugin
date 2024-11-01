@@ -52,15 +52,21 @@ input {
   font-weight: 500;
 }
 
+
 .table_reserv_form_label {
   font-size: 13px;
   font-weight: 600;
 }
-
+.table_reserv_form_input{
+  border-radius: 5px;
+}
 .table_reserv_form_input.err__ {
   border-color: #e03f3f !important;
 }
-
+input.form-control.table_reserv_form_input {
+  height: 50px;
+  border-radius: 10px;
+}
 .inc_dec_wrapper_0291 {
   display: block;
   position: relative;
@@ -179,6 +185,7 @@ input {
 .timing_card_table_reserv .open_ > i {
   font-size: 16px;
 }
+
 @media screen and (max-width: 991px) {
   .timing_cart_reserv {
     overflow-y: scroll;
@@ -973,6 +980,9 @@ a {
   .order_items p {
     font-size: 12px;
   }
+  .head_edit{
+    font-size: 20px;
+  }
 }
 @media screen and (max-width: 991px) {
   .order-card {
@@ -1727,6 +1737,21 @@ abbr[title] {
 .react-calendar__navigation button:disabled{
   color: #1010104d;
 }
+.react-calendar__navigation__arrow.react-calendar__navigation__prev2-button{
+  padding: 10px !important;
+}
+.react-calendar__navigation__arrow.react-calendar__navigation__prev-button{
+  padding: 10px;
+}
+.react-calendar__navigation__arrow.react-calendar__navigation__next-button{
+  padding: 10px;
+}
+.react-calendar__navigation__arrow.react-calendar__navigation__next2-button{
+  padding: 10px;
+}
+.react-calendar__navigation__label__labelText.react-calendar__navigation__label__labelText--from {
+  font-size: 16px;
+}
 .location___ {
   font-size: 14px;
   font-weight: 600;
@@ -1734,6 +1759,10 @@ abbr[title] {
 }
 .reserve_table {
   font-size: 14px;
+}
+.reserve_table td{
+  border-bottom-width: 0;
+  padding-bottom: 0;
 }
 .go_back {
   border: none;
@@ -1797,11 +1826,25 @@ abbr[title] {
   .reserv_btn {
     width: 100%;
   }
+  .table_reserv_form_label{
+    font-size: 11px;
+  }
+  input.form-control.table_reserv_form_input{
+    height: 35px;
+    border-radius: 5px;
+  }
+  
 }
 
 @media screen and (max-width: 786px) {
   .manage_reserv_card {
     width: 100%;
+  }
+ 
+}
+@media screen and (max-width:600px){
+  .table_reserv_form_label{
+    font-size: 13px;
   }
 }
 .reservId_find {
