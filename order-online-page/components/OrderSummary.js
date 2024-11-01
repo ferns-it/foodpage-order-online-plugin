@@ -325,7 +325,7 @@ function OrderSummary() {
   return (
     <Fragment>
       <Toaster position="top-center" reverseOrder={false} />
-      <div style={{ width: "100%" }}>
+      <div className="w-100">
         <h3 className="order_title text-center">Order Summary</h3>
 
         <div className="summary_item_wrapper_029">

@@ -140,12 +140,7 @@ function MasterAddOnsCheckbox({ foodValues, setMasterAddons, variationValue }) {
                                     </span>
                                   </label>
                                 </td>
-                                <td
-                                  style={{
-                                    whiteSpace: "nowrap",
-                                    userSelect: "none",
-                                  }}
-                                >
+                                <td className="text-nowrap user-select-none">
                                   + {data?.price_formatted ?? "N/A"}
                                 </td>
                               </tr>

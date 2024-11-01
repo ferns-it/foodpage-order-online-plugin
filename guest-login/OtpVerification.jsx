@@ -116,11 +116,7 @@ function OtpVerification() {
                 <span onClick={resendOTP}>Resend OTP</span>
               ) : (
                 <span
-                  style={{
-                    userSelect: "none",
-                    cursor: "not-allowed",
-                    textDecoration: "none",
-                  }}
+                  className="cursor__"
                 >
                   Loading...
                 </span>

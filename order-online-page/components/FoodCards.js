@@ -94,21 +94,12 @@ function FoodCards(category) {
                                   className=" col-lg-4 col-md-2 col-sm-6 position-relative mb-3"
                                   key={index}
                                 >
-                                  <div
-                                    id="fda_product_tile"
-                                    style={{
-                                      background:
-                                        "linear-gradient(180deg, rgba(238, 238, 238, 1) 0%, rgba(0, 0, 0, 0) 100%)",
-                                    }}
-                                  >
+                                  <div id="fda_product_tile">
                                     <div className="row fda_food_row">
                                       <div className="mx-auto">
                                         <a
-                                          className="prod_anchor"
-                                          style={{
-                                            textDecoration: "none",
-                                            // cursor: "pointer",
-                                          }}
+                                          className="prod_anchor user-select-none"
+
                                           // onClick={() => handleModal(data)}
                                         >
                                           <div className="food_tile__ active mb-4 p-3">

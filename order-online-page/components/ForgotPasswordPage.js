@@ -67,7 +67,7 @@ function ForgotPasswordPage() {
   return (
     <Fragment>
       <div className="container">
-        <div style={{height:"80px"}}></div>
+        <div className="mh-80"></div>
         <div className="password_wrapper">
           <div className="card password_comp">
             <h2>Forgot password?</h2>

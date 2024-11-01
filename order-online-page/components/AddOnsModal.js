@@ -460,7 +460,7 @@ function AddOnsModal(props) {
                                       </span>
                                     </label>
                                   </td>
-                                  <td style={{ userSelect: "none" }}>
+                                  <td className="user-select-none">
                                     {varient?.displayPrice ?? "N/A"}
                                   </td>
                                 </tr>
@@ -535,12 +535,7 @@ function AddOnsModal(props) {
                                   </span>
                                 </label>
                               </td>
-                              <td
-                                style={{
-                                  whiteSpace: "nowrap",
-                                  userSelect: "none",
-                                }}
-                              >
+                              <td className="text-nowrap user-select-none">
                                 + {data?.price_formatted ?? "N/A"}
                               </td>
                             </tr>
