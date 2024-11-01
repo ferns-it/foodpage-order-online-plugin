@@ -359,7 +359,7 @@ function AddOnsModal(props) {
           <div className="product_img_bg_029">
             <img
               src={itemData && itemData?.photo}
-              alt=""
+              alt="modal-image"
               referrerPolicy="no-referrer"
             />
           </div>

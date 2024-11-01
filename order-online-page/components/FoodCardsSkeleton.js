@@ -31,7 +31,7 @@ function FoodCardsSkeleton() {
                             >
                               <img
                                 // src={data?.photo}
-                                alt=""
+                                alt="productimg"
                                 className="fda_product_img"
                                 style={{ opacity: 0 }}
                               />
