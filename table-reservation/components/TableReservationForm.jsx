@@ -68,17 +68,17 @@ const isBookingValid = (bookingDate, bookingTime) => {
 function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   const router = useRouter();
   const searchparams = useSearchParams();
-  // const {
-  //   getShopTiming,
-  //   shopTiming,
-  //   isTimingLoading,
-  //   reservationLoading,
-  //   sendReservationOTP,
-  //   setInitialValues,
-  //   initialValues,
-  //   secretKey,
-  //   setSecretKey,
-  // } = useContext(TableReservationContext);
+  const {
+    getShopTiming,
+    shopTiming,
+    isTimingLoading,
+    reservationLoading,
+    sendReservationOTP,
+    setInitialValues,
+    initialValues,
+    secretKey,
+    setSecretKey,
+  } = useContext(TableReservationContext);
   const [count, setCount] = useState(1);
   const [hashcode, setHashcode] = useState("");
   const [isReservErr, setIsReservErr] = useState(false);
@@ -87,9 +87,9 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   const [dayValue, setDayValue] = useState(null);
   const [timeIntervals, setTimeIntervals] = useState(null);
 
-  // useEffect(() => {
-  //   setInitialValues((prev) => ({ ...prev, bookingDate: new Date() }));
-  // }, []);
+  useEffect(() => {
+    setInitialValues((prev) => ({ ...prev, bookingDate: new Date() }));
+  }, []);
 
   useEffect(() => {
     const hasOtp = searchparams.has("otp");
@@ -100,14 +100,14 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     }
   }, [searchparams]);
 
-  // useEffect(() => {
-  //   if (!shopId) return;
-  //   getShopTiming(shopId);
-  // }, [shopId]);
+  useEffect(() => {
+    if (!shopId) return;
+    getShopTiming(shopId);
+  }, [shopId]);
 
-  // useEffect(() => {
-  //   setInitialValues((prev) => ({ ...prev, noOfChairs: count }));
-  // }, [count]);
+  useEffect(() => {
+    setInitialValues((prev) => ({ ...prev, noOfChairs: count }));
+  }, [count]);
 
   useEffect(() => {
     const today = new Date();
@@ -121,27 +121,27 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
 
   const isToday = findToday();
 
-  // useEffect(() => {
-  //   if (!shopTiming || !dayValue) return;
-  //   const todaysTiming = shopTiming.shopTiming[dayValue];
+  useEffect(() => {
+    if (!shopTiming || !dayValue) return;
+    const todaysTiming = shopTiming.shopTiming[dayValue];
 
-  //   if (!todaysTiming || todaysTiming.length === 0) {
-  //     setTimeIntervals([]);
-  //     return;
-  //   }
-  //   const findIntervals = todaysTiming
-  //     .filter((time) => time?.status === "active")
-  //     .flatMap((time) =>
-  //       Utils.get15MinuteIntervals(time.openingTime, time.closingTime)
-  //     );
+    if (!todaysTiming || todaysTiming.length === 0) {
+      setTimeIntervals([]);
+      return;
+    }
+    const findIntervals = todaysTiming
+      .filter((time) => time?.status === "active")
+      .flatMap((time) =>
+        Utils.get15MinuteIntervals(time.openingTime, time.closingTime)
+      );
 
-  //   setTimeIntervals(findIntervals);
-  // }, [shopTiming, dayValue]);
+    setTimeIntervals(findIntervals);
+  }, [shopTiming, dayValue]);
 
-  // useEffect(() => {
-  //   if (initialValues && !initialValues.bookingDate) return;
-  //   getSelectedDay(initialValues.bookingDate);
-  // }, [initialValues]);
+  useEffect(() => {
+    if (initialValues && !initialValues.bookingDate) return;
+    getSelectedDay(initialValues.bookingDate);
+  }, [initialValues]);
 
   const getSelectedDay = (bookingDate) => {
     const day = Utils.getDayOfWeek(bookingDate);
@@ -411,7 +411,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                           }
                           // style={{ width: "100%", display: "block !important" }}
                           onChange={handleChange}
-                          // value={initialValues?.bookingTime || "0"}
+                          value={initialValues?.bookingTime || "0"}
                         >
                           <option value="0" disabled>
                             Please choose time
@@ -584,9 +584,9 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                   <button
                     type="submit"
                     className="submit_reserv_btn"
-                    // disabled={reservationLoading}
+                    disabled={reservationLoading}
                   >
-                    {/* {reservationLoading === false ? (
+                    {reservationLoading === false ? (
                       <Fragment>
                         <span>Proceed to Booking</span>
                         <i className="ps-2">
@@ -601,7 +601,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                         ></div>
                         <span className="sr-only ps-2">Loading...</span>
                       </Fragment>
-                    )} */}
+                    )}
                   </button>
                 </form>
                 {/* <GoogleReCaptchaProvider reCaptchaKey={process.env.REACT_CAPTCHA_SITE_KEY}/> */}
@@ -623,7 +623,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                 <p className="location___">
                   Guruviharrr, Kadakkavoor, Thiruvananthapuram
                 </p> */}
-                {/* <div className="open_">
+                <div className="open_">
                 <i className="pe-1">
                     <Md.MdOutlineRestaurantMenu />
                   </i>
@@ -632,22 +632,27 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                     <tr>
                       <td>Date</td>
                       <td>
-                       
+                      {initialValues && initialValues?.bookingDate
+                          ? Utils.formatDate(initialValues?.bookingDate)
+                          : Utils.formatDate(new Date())}
                       </td>
                     </tr>
                     <tr>
                       <td>Time</td>
                       <td>
+                      {initialValues && initialValues.bookingTime
+                          ? Utils.convertTiming(initialValues?.bookingTime)
+                          : "00:00"} 
                         
                       </td>
                     </tr>
                     <tr>
                       <td>Chairs</td>
-                      <td></td>
+                      <td>{count ?? 0}</td>
                     </tr>
                   </table>
 
-                </div> */}
+                </div>
 {/* 
                 <div className="open_">
                   <i className="pe-1">
@@ -840,7 +845,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                               )}
                           </ul>
                         </div>
-                      </div>
+                      </div> 
                     </div>
                     <div className="row">
                       <div className="col-lg-6 col-md-8 col-sm-12">

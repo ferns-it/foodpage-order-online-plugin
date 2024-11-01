@@ -1765,6 +1765,9 @@ deal_content p {
 .timing_card_table_reserv .open_ > i {
   font-size: 16px;
 }
+.reserve_table td{
+  color: #000 !important;
+}
 
 .day_wrapper_reserv_table {
   border-bottom: 1px dashed #7777;

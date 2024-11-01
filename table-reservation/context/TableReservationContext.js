@@ -38,6 +38,7 @@ export const TableReservationContextProvider = (props) => {
     if (shopId && shopId != 0) {
       getShopTiming(shopId);
     }
+    
   }, []);
 
   return (
