@@ -995,6 +995,9 @@ deal_content p {
   .bg_button button {
     padding: 17px 23px 17px 23px;
   }
+  #fda_product_tile{
+    width: 150px;
+  }
 }
 
 @media screen and (max-width: 768px) {

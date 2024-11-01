@@ -1345,6 +1345,7 @@ body {
   display: flex;
   justify-content: space-between;
   transition: all 0.2s ease-in-out;
+  color: #000;
 }
 
 .accor_btn_001 > span {
@@ -1421,6 +1422,7 @@ body {
 
 .accord_arrow_19.down {
   transform: rotate(180deg);
+  color: #000;
 }
 
 .accord_img_19 {
@@ -1449,6 +1451,7 @@ body {
   box-shadow: 0 2px 2px #444;
   margin: 20px;
   transition: box-shadow 0.2s ease-in-out;
+  color: #000;
 }
 
 .collapse_accordion_001:focus,
