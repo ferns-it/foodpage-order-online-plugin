@@ -11,9 +11,8 @@ import { appContext } from "../../order-online-page/context";
 function ReservModal(props) {
   const modalRef = useRef(null);
 
-  const { cancelReservation, reservationLoading } = useContext(
-    TableReservationContext
-  );
+  const { cancelReservation, reservationLoading, getReservationDetails } =
+    useContext(TableReservationContext);
 
   const reservAction = props.action;
 
@@ -51,13 +50,16 @@ function ReservModal(props) {
     }
 
     await cancelReservation(unqqId, {
-      onSuccess: (res) => {
+      onSuccess: async (res) => {
         if (res && res.error == true) {
           let message = res.errorMessage ?? "Cancellation failed!";
           toast.error(message);
           return;
         }
         props.setShowModal(false);
+        if (props.reservStringId) {
+          await getReservationDetails(props.reservStringId);
+        }
         toast.success("Your reservation is cancelled successfully!");
       },
       onFailed: (err) => {

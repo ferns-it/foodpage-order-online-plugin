@@ -8,8 +8,8 @@ import {
   getSessionStorageItem,
   setLocalStorageItem,
   setSessionStorageItem,
-} from "../../_utils/ClientUtils";
-import Utils from "../../_utils/Utils";
+} from "@/src/app/_utils/ClientUtils";
+import Utils from "@/src/app/_utils/Utils";
 import useProfile from "../hooks/useProfile";
 import useOrderHistory from "../hooks/useOrderHistory";
 import { useRouter } from "next/router";
@@ -25,7 +25,7 @@ export const AppContextProvider = (props) => {
   const [isUserLogged, setIsUserLogged] = useState(null);
   const [amount, setAmount] = useState(0);
   const [deliveryFee, setDeliveryFee] = useState(null);
-  const shopId = 1;
+  const shopId = process.env.SHOP_ID;
   const [activeCard, setActiveCard] = useState("login");
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [filterLoading, setFilterLoading] = useState(false);

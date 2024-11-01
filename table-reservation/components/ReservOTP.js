@@ -4,6 +4,7 @@ import OtpInput from "react-otp-input";
 import { MdTableBar } from "react-icons/md";
 import * as Go from "react-icons/go";
 import * as Fa from "react-icons/fa";
+import * as Md from "react-icons/md";
 import Utils from "../utils/Utils";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -203,7 +204,7 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
       <section className="table_reserv__">
         <div className="container mt-5 mb-5">
           <div className="row">
-            <div className="col-8">
+            <div className="col-lg-8 col-md-6 col-sm-12">
               <button className="go_back" onClick={handleNavigation}>
                 <Go.GoArrowLeft />
               </button>
@@ -240,10 +241,10 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
                     )}
                   </p>
                 </div>
-                <label htmlFor="policy" className="text-center priv_policy">
+                {/* <label htmlFor="policy" className="text-center priv_policy">
                   <input type="checkbox" name="" id="policy" /> I have read and
                   accept the <a href=""> booking terms & privacy policy</a>.
-                </label>
+                </label> */}
                 <br />
                 <button
                   type="button"
@@ -253,9 +254,9 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
                 >
                   {reservationLoading === false ? (
                     <Fragment>
-                      <i className="pe-2">
-                        <Fa.FaCheckCircle />
-                      </i>
+                      {/* <i className="pe-2">
+                        <Md.MdConfirmationNumber />
+                      </i> */}
                       <span>Confirm Booking</span>
                     </Fragment>
                   ) : (
@@ -270,7 +271,7 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
                 </button>
               </div>
             </div>
-            <div className="col-4">
+            <div className="col-lg-4 col-md-6 col-sm-12">
               <div className="card timing_card_table_reserv ">
                 <p className="open_">
                   <i className="pe-1">

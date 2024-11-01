@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { AppContext } from "../context";
 import toast from "react-hot-toast";
-import { getSessionStorageItem } from "../../_utils/ClientUtils";
+import { getSessionStorageItem } from "@/src/app/_utils/ClientUtils";
 
 function CheckoutSummaryComp() {
   const {
@@ -151,21 +151,21 @@ function CheckoutSummaryComp() {
     return deliveryCharge;
   };
 
-  useEffect(() => {
-    const deliveryCharge = findDeliveryfee();
+  // useEffect(() => {
+  //   const deliveryCharge = findDeliveryfee();
 
-    if (
-      deliveryCharge != null ||
-      deliveryCharge != false ||
-      deliveryCharge != undefined
-    ) {
-      setDeliveryCharge(deliveryCharge);
-      setDeliveryFee(deliveryCharge);
-      sessionStorage.setItem("deliveryFee", deliveryCharge);
-    } else {
-      setDeliveryFee(0);
-    }
-  }, [cartItems, deliveryInfo, discount]);
+  //   if (
+  //     deliveryCharge != null ||
+  //     deliveryCharge != false ||
+  //     deliveryCharge != undefined
+  //   ) {
+  //     setDeliveryCharge(deliveryCharge);
+  //     setDeliveryFee(deliveryCharge);
+  //     sessionStorage.setItem("deliveryFee", deliveryCharge);
+  //   } else {
+  //     setDeliveryFee(0);
+  //   }
+  // }, [cartItems, deliveryInfo, discount]);
 
   return (
     <Fragment>
@@ -322,7 +322,7 @@ function CheckoutSummaryComp() {
                     <b>Total</b>
                   </h5>
                   <h5 className="m-0">
-                    <b>£{details?.cart_NetAmount ?? 0}</b>
+                    <b>£{(details?.cart_NetAmount ?? 0).toFixed(2)}</b>
                   </h5>
                 </div>
                 {/* <div className="summary_content">

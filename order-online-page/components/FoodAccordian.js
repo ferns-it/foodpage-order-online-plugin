@@ -98,7 +98,7 @@ function FoodAccordian() {
 
   return (
     <Fragment>
-      {/* <Toaster /> */}
+      <Toaster />
       <AddOnsModal
         showModal={showRespModal}
         setShowModal={setShowRespModal}
@@ -261,7 +261,6 @@ function FoodAccordian() {
           </div>
           <div className="row">
             <OrderSummary />
-            
           </div>
         </div>
       </div>

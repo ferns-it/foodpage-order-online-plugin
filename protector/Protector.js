@@ -2,10 +2,14 @@
 import React, { useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import LoaderComp from "../order-online-page/components/LoaderComp";
-import { getLocalStorageItem, removeLocalStorageItem } from "../_utils/ClientUtils";
+import {
+  getLocalStorageItem,
+  removeLocalStorageItem,
+} from "../_utils/ClientUtils";
 import { AppContext } from "../order-online-page/context/index";
 import { useAuth } from "../guest-login/context/AuthContext";
 import { jwtDecode } from "jwt-decode";
+import checkout from "@/pages/checkout";
 
 const isTokenExpired = (jwtHeader) => {
   const { exp } = jwtHeader;
@@ -23,6 +27,12 @@ const ProtectedRoute = ({ children }) => {
 
   useEffect(() => {
     const userToken = getLocalStorageItem("userToken");
+    const checoutStatus = getLocalStorageItem("checkout");
+
+    if (checoutStatus != "initiated") {
+      router.push("/order-online");
+      return;
+    }
 
     if (userToken) {
       const tokenData = jwtDecode(userToken, { header: true });

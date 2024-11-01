@@ -1,11 +1,12 @@
 import React, { Fragment, useContext, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Tooltip } from "react-tooltip";
-import "react-tooltip/dist/react-tooltip.css";
-import "../style/style.css";
 import { TableReservationContext } from "../context/TableReservationContext";
 import * as Go from "react-icons/go";
-import { useRouter } from "next/navigation";
+import * as Fa from "react-icons/fa";
 import toast from "react-hot-toast";
+import "react-tooltip/dist/react-tooltip.css";
+import "../style/style.css";
 
 function ManageReservationMain() {
   const router = useRouter();
@@ -49,7 +50,12 @@ function ManageReservationMain() {
     <Fragment>
       <div className="tbl_reserv_section">
         <div className="container">
-          <button className="go_back" onClick={()=> router.push('/tablereservation')}>
+          <button
+            type="button"
+            className="go_back"
+            style={{ zIndex: 9 }}
+            onClick={() => router.push("/tablereservation")}
+          >
             <Go.GoArrowLeft /> Back
           </button>
           <div className="card manage_reserv_card">
@@ -113,6 +119,13 @@ function ManageReservationMain() {
                 )}
               </button>
             </form>
+            <br />
+            <p className="reservId_response_info">
+              <i>
+                <Fa.FaInfoCircle />
+              </i>
+              {toolTipMsg}
+            </p>
           </div>
         </div>
       </div>

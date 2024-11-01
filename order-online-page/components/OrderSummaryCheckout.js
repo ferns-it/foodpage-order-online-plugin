@@ -5,7 +5,7 @@ import { RiMoneyEuroCircleLine } from "react-icons/ri";
 // import * as Bs from "react-icons/bs";
 
 import toast from "react-hot-toast";
-import { AppContext } from "../context/index";
+import { AppContext } from "../context";
 import CheckoutSummaryComp from "./CheckoutSummaryComp";
 import { Elements } from "@stripe/react-stripe-js";
 import StripePaymentElementOrderOnline from "./StripePaymentElementOrderOnline";
@@ -21,7 +21,8 @@ import {
   removeLocalStorageItem,
   removeSessionStorageItem,
   setLocalStorageItem,
-} from "../../_utils/ClientUtils";
+} from "@/src/app/_utils/ClientUtils";
+import Utils from "../../_utils/Utils";
 
 function OrderSummaryCheckout() {
   const router = useRouter();
@@ -125,7 +126,7 @@ function OrderSummaryCheckout() {
     if (delivery == false) {
       const postalCode = getSessionStorageItem("postcode");
       if (!postalCode) {
-        toast.error("Postal code is undefined");
+        // toast.error("Postal code is undefined");
         return;
       }
       setFormState({ ...formState, postalCode });
@@ -142,6 +143,13 @@ function OrderSummaryCheckout() {
 
   //   setActiveCard(!delivery ? "login" : "payment");
   // }, [delivery]);
+
+  const handlePhonenumber = (e) => {
+    const { name, value } = e.target;
+    const cleanedNumber = value.replace(/\D/g, "");
+
+    setFormState((prev) => ({ ...prev, [name]: cleanedNumber }));
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -185,7 +193,12 @@ function OrderSummaryCheckout() {
 
       deliveryTypeData = "Home Delivery";
       const isValid = handleEmptyValidation();
-      console.log(isValid);
+      window.scrollTo(0, 400);
+
+      // const elem = document.getElementById("payment_area");
+      // if (elem) {
+      //   elem.scrollIntoView({ behavior: "smooth", block: "end" });
+      // }
 
       if (isValid && isValid.length != 0) {
         setFieldError(true);
@@ -199,6 +212,14 @@ function OrderSummaryCheckout() {
       }
       setActiveCard("payment");
       deliveryTypeData = "Take Away";
+      const isValid = handleEmptyValidation();
+      console.log(isValid);
+
+      if (isValid && isValid.length != 0) {
+        setFieldError(true);
+        setActiveCard("login");
+        return;
+      }
     }
   };
 
@@ -270,11 +291,11 @@ function OrderSummaryCheckout() {
 
   const checkForEmptyKeys = (formState) => {
     const emptyKeys = [];
-  
+
     // Iterate through formState keys
     for (const key in formState) {
       const value = formState[key];
-  
+
       // Exclude 'addressLine2' and 'notes' from the check
       if (key !== "addressLine2" && key !== "notes") {
         if (value === undefined || value === null || value === "") {
@@ -282,17 +303,25 @@ function OrderSummaryCheckout() {
         }
       }
     }
-  
+
     return emptyKeys;
   };
-  
 
   const completeOrder = async () => {
+    if (
+      cartItems &&
+      cartItems?.cartItems &&
+      cartItems?.cartItems?.length == 0
+    ) {
+      toast.error("Your cart is Empty!");
+      return;
+    }
     const emptyValidation = checkForEmptyKeys(formState);
 
     if (emptyValidation && emptyValidation.length != 0) {
       toast.error("Please fill All the required Details before checkout!");
       setActiveCard("login");
+      setPaymentOption("");
       return;
     }
 
@@ -334,7 +363,7 @@ function OrderSummaryCheckout() {
         amount: priceValue * 100,
         deliveryType: deliveryType,
         deliveryCharge:
-          deliveryType === "store_pickup" ? 0 : deliveryChargeValue,
+          deliveryType === "store_pickup" ? 0 : deliveryChargeValue * 100,
         // couponCode: "",
         // couponType: "",
         // couponValue: "",
@@ -381,6 +410,7 @@ function OrderSummaryCheckout() {
           //! user token removed here
           // removeLocalStorageItem("userToken");
           // removeSessionStorageItem("userInfo");
+          setLocalStorageItem("checkout", "completed");
           await fetchCartList(userID);
           await clearCartItems(userID, {
             onSuccess: (res) => {
@@ -390,8 +420,8 @@ function OrderSummaryCheckout() {
               console.log("Error on cart clear", err);
             },
           });
-          router.refresh();
-          router.push("/order-online");
+
+          router.replace("/order-online");
           setActiveCard("login");
           setPaymentData(null);
         },
@@ -612,7 +642,7 @@ function OrderSummaryCheckout() {
                                 ? "form-control online_order_plugin_input_2939 error___"
                                 : "form-control online_order_plugin_input_2939 "
                             }
-                            onChange={handleChange}
+                            onChange={handlePhonenumber}
                             value={formState.phone}
                           />
                         </div>
@@ -787,7 +817,7 @@ function OrderSummaryCheckout() {
                               : "checkout_order_online_form_0283 hide"
                           }
                         >
-                          <div className="row">
+                          <div className="row" id="payment_area">
                             {cartItems?.paymentOptions?.stripe == "Enabled" && (
                               <>
                                 <div className="col-6">

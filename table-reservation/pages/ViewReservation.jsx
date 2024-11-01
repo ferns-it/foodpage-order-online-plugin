@@ -180,6 +180,7 @@ function ViewReservation({ reservId, uniqId }) {
         action={action}
         reservId={uniqId}
         email={reservationDetails?.email}
+        reservStringId = {reservId}
       />
       <section className="tbl_reserv_section">
         <div className="container">
@@ -441,7 +442,7 @@ function ViewReservation({ reservId, uniqId }) {
               <Fragment>
                 {!isEdit ? (
                   <div className="btn_grp">
-                    <button
+                    {/* <button
                       type="button"
                       className="resrv_btnn mail_reserv"
                       onClick={handleSendMail}
@@ -450,7 +451,7 @@ function ViewReservation({ reservId, uniqId }) {
                         <Tb.TbMailStar />
                       </i>
                       Mail to Restaurent
-                    </button>
+                    </button> */}
                     <button
                       type="button"
                       className="resrv_btnn cancel_reserv"

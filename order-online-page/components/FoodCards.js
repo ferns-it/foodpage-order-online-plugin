@@ -5,7 +5,7 @@ import * as Pi from "react-icons/pi";
 import "react-loading-skeleton/dist/skeleton.css";
 import FoodCardsSkeleton from "./FoodCardsSkeleton";
 import { useSearchParams } from "next/navigation";
-import { getSessionStorageItem } from "../../_utils/ClientUtils";
+import { getSessionStorageItem } from "@/src/app/_utils/ClientUtils";
 import "../../guest-login/style.css";
 
 function FoodCards(category) {
@@ -91,11 +91,17 @@ function FoodCards(category) {
                             products?.map((data, index) => {
                               return (
                                 <div
-                                  className=" col-lg-4 col-md-2 col-sm-6 position-relative"
+                                  className=" col-lg-4 col-md-2 col-sm-6 position-relative mb-3"
                                   key={index}
                                 >
-                                  <div id="fda_product_tile">
-                                    <div className="row fda_food_row position-relative">
+                                  <div
+                                    id="fda_product_tile"
+                                    style={{
+                                      background:
+                                        "linear-gradient(180deg, rgba(238, 238, 238, 1) 0%, rgba(0, 0, 0, 0) 100%)",
+                                    }}
+                                  >
+                                    <div className="row fda_food_row">
                                       <div className="mx-auto">
                                         <a
                                           className="prod_anchor"

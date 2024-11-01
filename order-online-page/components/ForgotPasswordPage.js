@@ -4,8 +4,9 @@ import React, { Fragment, useContext, useState } from "react";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { AppContext } from "../context";
 import CryptoJS from "crypto-js";
+import Utils from "@/utils/Utils";
 import { toast } from "react-hot-toast";
-import { setSessionStorageItem } from "../../_utils/ClientUtils";
+import { setSessionStorageItem } from "@/src/app/_utils/ClientUtils";
 
 function ForgotPasswordPage() {
   const router = useRouter();

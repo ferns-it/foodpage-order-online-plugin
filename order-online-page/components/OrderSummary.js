@@ -13,7 +13,7 @@ import {
   removeSessionStorageItem,
   setLocalStorageItem,
   setSessionStorageItem,
-} from "../../_utils/ClientUtils";
+} from "@/src/app/_utils/ClientUtils";
 
 function OrderSummary() {
   const router = useRouter();
@@ -145,6 +145,7 @@ function OrderSummary() {
             sessionStorage.setItem("discount", takeaway);
             sessionStorage.setItem("takeawaytime", takeawayTime);
             sessionStorage.setItem("location", "checkout");
+            setLocalStorageItem("checkout", "initiated");
             const pathname = `/checkout?price=${deliveryResp?.cart_NetAmount}&&deliveryCharge=0&&discount=${deliveryResp?.discountAmount}`;
             setLocalStorageItem("path", pathname);
             setTimeout(() => {
@@ -203,15 +204,16 @@ function OrderSummary() {
                 res?.data?.data?.discountAmount
               );
               sessionStorage.setItem("isCheckoutActive", true);
+              setLocalStorageItem("checkout", "initiated");
               const pathname = `/checkout?price=${deliveryResp?.cart_NetAmount}&&deliveryCharge=${deliveryResp?.deliveryFeeAmount}&&discount=${deliveryResp?.discountAmount}`;
               setLocalStorageItem("path", pathname);
               setTimeout(() => {
                 router.push(pathname);
               }, 200);
             }
-          } else {
-            toast.error(res?.data?.errorMessage?.message);
+            return;
           }
+          toast.error(res?.data?.errorMessage?.message);
         },
         onFailed: (err) => {
           toast.error(err?.response?.data?.errorMessage?.message);
@@ -316,7 +318,7 @@ function OrderSummary() {
   console.log(settings, "settings");
   return (
     <Fragment>
-      {/* <Toaster position="top-center" reverseOrder={false} /> */}
+      <Toaster position="top-center" reverseOrder={false} />
       <div style={{ width: "100%" }}>
         <h3 className="order_title text-center">Order Summary</h3>
 

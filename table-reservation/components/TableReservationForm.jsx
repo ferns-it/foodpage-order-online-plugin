@@ -13,7 +13,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useRouter, useSearchParams } from "next/navigation";
 import { setSessionStorageItem } from "../../_utils/ClientUtils";
-import foodPageLogo from "../../order-online-page/assets/logo.png";
+import foodPageLogo from "../assets/logo.png";
 import Image from "next/image";
 
 const RECAPTCHA_SITE_KEY = "6LeXD-8pAAAAAOpi7gUuH5-DO0iMu7J6C-CBA2fo";
@@ -33,6 +33,36 @@ const findToday = () => {
   const dayName = daysOfWeek[today.getDay()];
 
   return dayName;
+};
+
+const isBookingValid = (bookingDate, bookingTime) => {
+  const now = new Date();
+  const bookingDay = new Date(bookingDate);
+
+  const isToday =
+    now.getDate() === bookingDay.getDate() &&
+    now.getMonth() === bookingDay.getMonth() &&
+    now.getFullYear() === bookingDay.getFullYear();
+
+  if (isToday) {
+    debugger;
+    const [hours, minutes] = bookingTime.split(":").map(Number);
+
+    const bookingDateTime = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      hours,
+      minutes
+    );
+
+    const timeDifference = bookingDateTime - now;
+
+    const oneHourInMilliseconds = 60 * 60 * 1000;
+    return timeDifference >= oneHourInMilliseconds;
+  }
+
+  return true;
 };
 
 function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
@@ -214,6 +244,15 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     const isValid = validateReservForm();
 
     if (isValid) return;
+    const isValidBookingTIme = isBookingValid(
+      initialValues?.bookingDate,
+      initialValues?.bookingTime
+    );
+
+    if (isValidBookingTIme === false) {
+      toast.error("Please choose a valid time!");
+      return;
+    }
 
     if (!shopId) {
       toast.error("Shop Id is required");
@@ -370,9 +409,9 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                               ? "err__"
                               : "")
                           }
-                          style={{ width: "100%" }}
+                          // style={{ width: "100%", display: "block !important" }}
                           onChange={handleChange}
-                          value={initialValues?.bookingTime || "0"} 
+                          value={initialValues?.bookingTime || "0"}
                         >
                           <option value="0" disabled>
                             Please choose time
@@ -613,7 +652,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                     </tr>
                   </table>
                 </p>
-                <p className="open_">
+                {/* <p className="open_">
                   <i className="pe-1">
                     <Io.IoTimeOutline />
                   </i>
@@ -900,7 +939,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                       <div className="col-lg-6 col-md-6 col-sm-6"></div>
                     </div>
                   </div>
-                )}
+                )} */}
 
                 <button
                   type="button"

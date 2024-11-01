@@ -252,6 +252,7 @@ input {
   border: 1px solid #eee;
   border-radius: 4px;
   font-size: 22px !important;
+  transition: all 0.2s ease-in-out;
 }
 
 .resend_otp_reservv {
@@ -292,6 +293,21 @@ input {
 .reserv_otp_validation_btn:disabled {
   background-color: rgb(167, 87, 87);
   cursor: not-allowed;
+}
+
+@media screen and (max-width: 991px) {
+  .otp_validation_reserv div > input {
+    width: 40px !important;
+    height: 40px;
+  }
+  .table_reserv_info_sub_head,
+  .resend_otp_reservv {
+    font-size: 13px;
+  }
+  .reserv_otp_validation_btn {
+    width: 70%;
+    white-space: nowrap;
+  }
 }
 
 .reserv_content_success__ {
@@ -1752,7 +1768,7 @@ abbr[title] {
   font-size: 14px;
 }
 .tbl_reserv_section {
-  padding-top: 7rem;
+  padding-top: 7.5rem;
 }
 .manage_reserv_card {
   width: 50%;
@@ -1780,6 +1796,30 @@ abbr[title] {
   color: #3870c5;
   cursor: pointer;
   font-weight: 600;
+}
+.reservId_response_info {
+  display: none;
+}
+
+@media screen and (max-width: 991px) {
+  .reservId_find {
+    display: none;
+  }
+  #info_tooltip {
+    display: none;
+  }
+  .reservId_response_info {
+    display: block;
+    font-size: 13px;
+    line-height: 1rem;
+    text-align: center;
+    color: #747474;
+  }
+  .reservId_response_info > i {
+    padding-right: 10px;
+    font-size: 12px;
+    color: #3870c5;
+  }
 }
 
 #info_tooltip {
@@ -1912,4 +1952,7 @@ abbr[title] {
   #main___ {
     display: none;
   }
+}
+.nice-select {
+  display: none;
 }
