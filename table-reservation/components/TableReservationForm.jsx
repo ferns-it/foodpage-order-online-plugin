@@ -45,7 +45,7 @@ const isBookingValid = (bookingDate, bookingTime) => {
     now.getFullYear() === bookingDay.getFullYear();
 
   if (isToday) {
-    debugger;
+    // debugger;
     const [hours, minutes] = bookingTime.split(":").map(Number);
 
     const bookingDateTime = new Date(
