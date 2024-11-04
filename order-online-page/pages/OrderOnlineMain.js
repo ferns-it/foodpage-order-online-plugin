@@ -175,7 +175,7 @@ const OrderOnlineMain = () => {
           </div>
         </Fragment>
       ) : (
-        <p>Loading...</p>
+       <LoaderComp/>
       )}
     </Fragment>
   );
