@@ -499,7 +499,7 @@ div.food_tile.active img {
 }
 
 :root {
-  --primary-color: #186020;
+  --primary-color: #d3b007;
   --secondary-color: #9fd075;
   --white-color: #fff;
 }
@@ -994,6 +994,9 @@ deal_content p {
   .bg_banner_button button,
   .bg_button button {
     padding: 17px 23px 17px 23px;
+  }
+  #fda_product_tile{
+    width: 150px;
   }
 }
 
@@ -1765,6 +1768,10 @@ deal_content p {
 .timing_card_table_reserv .open_ > i {
   font-size: 16px;
 }
+.reserve_table td{
+  color: #000 !important;
+}
+
 
 .day_wrapper_reserv_table {
   border-bottom: 1px dashed #7777;
@@ -2625,7 +2632,7 @@ a {
 }
 
 .table_reserv__ {
-  padding: 5rem 0;
+  padding: 9rem 0;
 }
 
 .contact-info > h3 {

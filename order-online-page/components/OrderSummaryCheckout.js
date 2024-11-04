@@ -417,11 +417,11 @@ function OrderSummaryCheckout() {
 
   return (
     <Fragment>
-      <section className="order_summary_checkout">
+      <section className="order_summary_checkout mt-5">
         {/* <button type="button" onClick={completeOrder}>
           click
         </button> */}
-        <div className="container">
+        <div className="container mt-5">
           <button
             className="back_btn_order_online_828"
             onClick={() => router.push("/order-online")}

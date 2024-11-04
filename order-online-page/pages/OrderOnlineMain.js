@@ -35,17 +35,17 @@ const OrderOnlineMain = () => {
     settingsLoading,
     menuLoading,
   } = useContext(AppContext);
-  const {
-    getShopTiming,
-    shopTiming,
-    isTimingLoading,
+  // const {
+  //   getShopTiming,
+  //   shopTiming,
+  //   isTimingLoading,
     // reservationLoading,
     // sendReservationOTP,
     // setInitialValues,
     // initialValues,
     // secretKey,
     // setSecretKey,
-  } = useContext(TableReservationContext);
+  // } = useContext(TableReservationContext);
   const [activeChipIndex, setActiveChipIndex] = useState(-1);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [isSticky, setIsSticky] = useState(false);
