@@ -5,16 +5,21 @@ import OTPInput from "react-otp-input";
 import * as Go from "react-icons/go";
 import CryptoJS from "crypto-js";
 import toast, { Toaster } from "react-hot-toast";
-import Utils from "@/src/app/_utils/Utils";
+
 import { useRouter } from "next/navigation";
-import {
-  getLocalStorageItem,
-  getSessionStorageItem,
-  removeLocalStorageItem,
-  setLocalStorageItem,
-  setSessionStorageItem,
-} from "@/src/app/_utils/ClientUtils";
+// import {
+//   getLocalStorageItem,
+//   getSessionStorageItem,
+//   removeLocalStorageItem,
+//   setLocalStorageItem,
+//   setSessionStorageItem,
+// } from "@/src/app/_utils/ClientUtils";
 import "./style.css";
+
+import Utils from "@/app/_utils/Utils";
+import { getSessionStorageItem, setLocalStorageItem,
+  setSessionStorageItem, getLocalStorageItem,removeLocalStorageItem, } from "@/app/_utils/ClientUtils";
+
 
 function OtpVerification() {
   const { authLoading, settings, sentOTPtoUser } = useContext(AppContext);
