@@ -43,7 +43,7 @@ function ReservModal(props) {
   };
 
   const handleConfirmCancellation = async () => {
-    const unqqId = CryptoJS.MD5(props.reservId.toString()).toString();
+    const unqqId = props.reservId;
     if (!unqqId) {
       toast.error("Something went wrong");
       return;

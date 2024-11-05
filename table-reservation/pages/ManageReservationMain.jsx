@@ -7,6 +7,7 @@ import * as Fa from "react-icons/fa";
 import toast from "react-hot-toast";
 import "react-tooltip/dist/react-tooltip.css";
 import "../style/style.css";
+import CryptoJS from "crypto-js";
 
 function ManageReservationMain() {
   const router = useRouter();
@@ -28,13 +29,15 @@ function ManageReservationMain() {
           res?.id && typeof res?.id == "string" ? parseInt(res?.id) : res?.id;
         const id = btoa(idd);
 
+        const parsedId = CryptoJS.MD5(res?.id);
+
         if (res.error == true) {
           toast.error(res.message);
           return;
         }
 
         setTimeout(() => {
-          router.push(`/view-reservation?reserv=${reservId}&&unq=${id}`);
+          router.push(`/view-reservation?reserv=${parsedId}`);
         }, 200);
       })
       .catch((err) => {

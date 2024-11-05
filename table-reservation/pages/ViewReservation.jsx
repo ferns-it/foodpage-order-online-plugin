@@ -29,7 +29,7 @@ export const mergeBookingDateTime = (bookingDate, bookingTime) => {
   return formattedDateTime;
 };
 
-function ViewReservation({ reservId, uniqId }) {
+function ViewReservation({ reservId }) {
   const router = useRouter();
   const {
     reservationDetails,
@@ -133,9 +133,9 @@ function ViewReservation({ reservId, uniqId }) {
       updatedValues?.bookingDate,
       updatedValues?.bookingTime
     );
-    const unqqId = CryptoJS.MD5(reservationDetails?.id).toString();
+    // const unqqId = CryptoJS.MD5(reservationDetails?.id).toString();
     const payload = {
-      uniqId: unqqId,
+      uniqId: reservId,
       shopID: process.env.SHOP_ID,
       name: updatedValues?.name,
       phone: updatedValues?.phone,
@@ -147,7 +147,7 @@ function ViewReservation({ reservId, uniqId }) {
       paymentMethod: "",
       transactionID: "",
       message: updatedValues?.message,
-      baseUrl: "http://foodpage.co.uk/",
+      baseUrl: process.env.TABLE_RESERVATION_URL,
       source: "NextJs",
     };
 
@@ -178,9 +178,9 @@ function ViewReservation({ reservId, uniqId }) {
         showModal={showModal}
         setShowModal={setShowModal}
         action={action}
-        reservId={uniqId}
+        reservId={reservId}
         email={reservationDetails?.email}
-        reservStringId = {reservId}
+        reservStringId={reservId}
       />
       <section className="tbl_reserv_section">
         <div className="container">

@@ -149,7 +149,7 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
       paymentMethod: "",
       transactionID: "",
       message: initialValues?.message,
-      baseUrl: "http://foodpage.co.uk/",
+      baseUrl: process.env.TABLE_RESERVATION_URL,
       source: "NextJs",
     };
 
