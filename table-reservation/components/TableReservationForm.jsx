@@ -6,7 +6,7 @@ import { GrLocation } from "react-icons/gr";
 import { TableReservationContext } from "../context/TableReservationContext";
 import Utils from "../utils/Utils";
 import { toast } from "react-hot-toast";
-import "../style/Style.css";
+import "../../table-reservation/style/style.css";
 
 const RECAPTCHA_SITE_KEY = "6LeXD-8pAAAAAOpi7gUuH5-DO0iMu7J6C-CBA2fo"; //! add new captcha
 
@@ -47,7 +47,6 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   }, []);
 
   console.log(shopTiming, "shopTiming");
-  
 
   let oneTimePass;
   const handleChange = (e) => {
@@ -72,8 +71,8 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     if (value !== cleanedValue) {
       e.target.value = cleanedValue;
     }
-    };
-    
+  };
+
   function removeSpecialChars(e) {
     const regex = /[^a-zA-Z0-9 ]/g;
     const value = e.target.value;
@@ -250,7 +249,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                 </h3>
                 <form
                   action=""
-                  className="p-3"
+                  className="p-3 form_table"
                   onSubmit={(e) => handleTableReservation(e)}
                 >
                   <div className="row">

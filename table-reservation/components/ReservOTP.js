@@ -137,7 +137,7 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
                 <h3 className="table-reservation-form-head">
                   OTP VERIFICATION
                 </h3>
-                <p className="table_reserv_info_sub_head">
+                <p className="table_reserv_info_sub_head text-center">
                   Your OTP has been send to your mail addesss{" "}
                   <span>{initialValues?.email ?? "N/A"}</span>
                 </p>

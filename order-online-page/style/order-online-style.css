@@ -367,6 +367,7 @@ body {
 .food_order_area {
   display: flex;
   justify-content: center;
+  font-family: sans-serif !important;
   align-items: start;
   width: 90%;
   padding: 20px 0;
@@ -527,6 +528,7 @@ body {
 .order_title {
   font-size: 18px;
   font-weight: 700;
+  font-family: sans-serif;
   color: #747474;
   margin-top: 20px;
 }

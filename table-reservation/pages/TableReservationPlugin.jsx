@@ -6,6 +6,7 @@ import ReservOtp from "../components/ReservOTP";
 import CryptoJS from "crypto-js";
 import { Toaster } from "react-hot-toast";
 import ReservSuccess from "../components/ReservSuccess";
+import "../../table-reservation/style/style.css";
 
 function TableReservationPlugin(props) {
   const [isActiveTablePage, setIsActiveTablePage] =

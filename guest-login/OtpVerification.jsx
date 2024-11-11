@@ -104,6 +104,7 @@ function OtpVerification() {
               onChange={(e) => setResertOTP(e)}
               numInputs={6}
               renderSeparator={<span>-</span>}
+              className="inputs"
               renderInput={(props) => <input {...props} />}
             />
             <p className="resend_otp_reservv">
