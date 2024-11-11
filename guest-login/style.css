@@ -1779,7 +1779,11 @@ deal_content p {
   border-bottom: 1px dashed #7777;
   margin-bottom: 10px;
 }
-
+.note_ {
+  font-size: 12px;
+  color: orangered;
+  margin-top: 15px;
+}
 .day_wrapper_reserv_table > .day__ {
   position: relative;
   padding: 0 0 2px 0;
@@ -1787,6 +1791,7 @@ deal_content p {
   font-size: 13px;
   font-weight: 600;
   color: #747474;
+  margin-top: 10px;
   margin-bottom: 10px;
 }
 
