@@ -136,19 +136,9 @@ function ViewReservation({ reservId }) {
     // const unqqId = CryptoJS.MD5(reservationDetails?.id).toString();
     const payload = {
       uniqId: reservId,
-      shopID: process.env.SHOP_ID,
-      name: updatedValues?.name,
-      phone: updatedValues?.phone,
-      email: updatedValues?.email,
       totalChair: updatedValues?.chairs,
       reservationDateTime: mergedBooking,
-      advancePayment: "No",
-      advanceAmount: "",
-      paymentMethod: "",
-      transactionID: "",
       message: updatedValues?.message,
-      baseUrl: process.env.TABLE_RESERVATION_URL,
-      source: "NextJs",
     };
 
     await updateReservationDetails(payload, {
@@ -291,23 +281,7 @@ function ViewReservation({ reservId }) {
                     <td className="reserv_table_sub_head">Booked By</td>
                     <td className="reser_table_value">
                       {!reservationLoading ? (
-                        <Fragment>
-                          {!isEdit ? (
-                            <>{reservationDetails?.name ?? "N/A"}</>
-                          ) : (
-                            <>
-                              {" "}
-                              <input
-                                type="text"
-                                name="name"
-                                id=""
-                                className="form-control table_reserv_form_input"
-                                value={updatedValues?.name}
-                                onChange={handleChange}
-                              />
-                            </>
-                          )}
-                        </Fragment>
+                        <Fragment>{reservationDetails?.name ?? "N/A"}</Fragment>
                       ) : (
                         <Skeleton height={20} width={150} />
                       )}
@@ -317,23 +291,7 @@ function ViewReservation({ reservId }) {
                     <td className="reserv_table_sub_head">Email Address</td>
                     <td className="reser_table_value">
                       {!reservationLoading ? (
-                        <Fragment>
-                          {!isEdit ? (
-                            <>{reservationDetails?.email ?? "N/A"}</>
-                          ) : (
-                            <>
-                              {" "}
-                              <input
-                                type="text"
-                                name="email"
-                                id=""
-                                className="form-control table_reserv_form_input"
-                                value={updatedValues?.email}
-                                onChange={handleChange}
-                              />
-                            </>
-                          )}
-                        </Fragment>
+                        <>{reservationDetails?.email ?? "N/A"}</>
                       ) : (
                         <Skeleton height={20} width={150} />
                       )}
@@ -343,23 +301,7 @@ function ViewReservation({ reservId }) {
                     <td className="reserv_table_sub_head">Phone Number</td>
                     <td className="reser_table_value">
                       {!reservationLoading ? (
-                        <Fragment>
-                          {!isEdit ? (
-                            <>{reservationDetails?.phone ?? "N/A"}</>
-                          ) : (
-                            <>
-                              {" "}
-                              <input
-                                type="text"
-                                name="phone"
-                                id=""
-                                className="form-control table_reserv_form_input"
-                                value={updatedValues?.phone}
-                                onChange={handleChange}
-                              />
-                            </>
-                          )}
-                        </Fragment>
+                        <>{reservationDetails?.phone ?? "N/A"}</>
                       ) : (
                         <Skeleton height={20} width={150} />
                       )}

@@ -15,6 +15,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { setSessionStorageItem } from "../../_utils/ClientUtils";
 import foodPageLogo from "../assets/logo.png";
 import Image from "next/image";
+import { format, parseISO } from "date-fns";
+// import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 
 const RECAPTCHA_SITE_KEY = "6LeXD-8pAAAAAOpi7gUuH5-DO0iMu7J6C-CBA2fo";
 
@@ -36,33 +38,45 @@ const findToday = () => {
 };
 
 const isBookingValid = (bookingDate, bookingTime) => {
+  // Get the current UK date and time
   const now = new Date();
-  const bookingDay = new Date(bookingDate);
+  const ukNowString = now.toLocaleString("en-GB", {
+    timeZone: "Europe/London",
+  });
+  const ukNow = new Date(ukNowString);
+
+  
+  // const bookingDayString = bookingDay.toLocaleString("en-GB", {
+  //   timeZone: "Europe/London",
+  // });
+  // const bookingDayInUK = new Date(bookingDayString);
 
   const isToday =
-    now.getDate() === bookingDay.getDate() &&
-    now.getMonth() === bookingDay.getMonth() &&
-    now.getFullYear() === bookingDay.getFullYear();
+    ukNow.getDate() === bookingDate.getDate() &&
+    ukNow.getMonth() === bookingDate.getMonth() &&
+    ukNow.getFullYear() === bookingDate.getFullYear();
+
+  debugger;
 
   if (isToday) {
-    debugger;
     const [hours, minutes] = bookingTime.split(":").map(Number);
 
     const bookingDateTime = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate(),
+      ukNow.getFullYear(),
+      ukNow.getMonth(),
+      ukNow.getDate(),
       hours,
       minutes
     );
 
-    const timeDifference = bookingDateTime - now;
+    const timeDifference = bookingDateTime - ukNow;
 
-    const oneHourInMilliseconds = 60 * 60 * 1000;
-    return timeDifference >= oneHourInMilliseconds;
+    const fourHoursInMilliseconds = 4 * 60 * 60 * 1000;
+
+    return timeDifference === fourHoursInMilliseconds;
   }
 
-  return true;
+  return false;
 };
 
 function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
@@ -249,11 +263,13 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
       initialValues?.bookingTime
     );
 
+    //! condition for current UK time
     if (isValidBookingTIme === false) {
       toast.error("Please choose a valid time!");
       return;
     }
-
+    toast.success("reached");
+    return;
     if (!shopId) {
       toast.error("Shop Id is required");
       return;
