@@ -37,48 +37,6 @@ const findToday = () => {
   return dayName;
 };
 
-const isBookingValid = (bookingDate, bookingTime) => {
-  // Get the current UK date and time
-  const now = new Date();
-  const ukNowString = now.toLocaleString("en-GB", {
-    timeZone: "Europe/London",
-  });
-  const ukNow = new Date(ukNowString);
-
-  
-  // const bookingDayString = bookingDay.toLocaleString("en-GB", {
-  //   timeZone: "Europe/London",
-  // });
-  // const bookingDayInUK = new Date(bookingDayString);
-
-  const isToday =
-    ukNow.getDate() === bookingDate.getDate() &&
-    ukNow.getMonth() === bookingDate.getMonth() &&
-    ukNow.getFullYear() === bookingDate.getFullYear();
-
-  debugger;
-
-  if (isToday) {
-    const [hours, minutes] = bookingTime.split(":").map(Number);
-
-    const bookingDateTime = new Date(
-      ukNow.getFullYear(),
-      ukNow.getMonth(),
-      ukNow.getDate(),
-      hours,
-      minutes
-    );
-
-    const timeDifference = bookingDateTime - ukNow;
-
-    const fourHoursInMilliseconds = 4 * 60 * 60 * 1000;
-
-    return timeDifference === fourHoursInMilliseconds;
-  }
-
-  return false;
-};
-
 function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   const router = useRouter();
   const searchparams = useSearchParams();
@@ -187,6 +145,45 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     }
   };
 
+  const isBookingValid = () => {
+    const bookingDate = initialValues?.bookingDate;
+    const bookingTime = initialValues?.bookingTime;
+    const now = new Date();
+
+    const bookingDateNew = new Date(bookingDate);
+
+    const isSameDay =
+      now.getDate() === bookingDateNew.getDate() &&
+      now.getMonth() === bookingDateNew.getMonth() &&
+      now.getFullYear() === bookingDateNew.getFullYear();
+
+    console.log(isSameDay);
+
+    if (isSameDay) {
+      const [hours, minutes] = bookingTime.split(":").map(Number);
+
+      const bookingDateTime = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+        hours,
+        minutes
+      );
+
+      // Check if booking is within the valid time range (4 hours before)
+      const timeDifference = bookingDateTime - now;
+      const fourHoursInMilliseconds = 4 * 60 * 60 * 1000;
+
+      if (timeDifference > fourHoursInMilliseconds) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
   function removeSpecialChars(e) {
     const regex = /[^a-zA-Z0-9 ]/g;
     const value = e.target.value;
@@ -263,13 +260,14 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
       initialValues?.bookingTime
     );
 
+    console.log(isValidBookingTIme);
+
     //! condition for current UK time
-    if (isValidBookingTIme === false) {
-      toast.error("Please choose a valid time!");
+    if (isValidBookingTIme === true) {
+      toast.error(`${Utils.convertTiming(initialValues?.bookingTime)}`);
       return;
     }
-    toast.success("reached");
-    return;
+
     if (!shopId) {
       toast.error("Shop Id is required");
       return;
