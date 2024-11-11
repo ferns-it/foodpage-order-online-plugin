@@ -25,7 +25,26 @@ input[type="checkbox"]:focus textarea,
   outline: 0 none;
   border-color: #747474 !important;
 }
+body {
+  font-family: sans-serif;
+}
+.btn_check {
+  width: 25%;
 
+  background-color: #e03f3f;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 5px;
+  transition: all 0.2s ease-in-out;
+}
+.form-control {
+  border: 1px solid rgb(209, 209, 209);
+  height: 48px;
+  border-radius: 4px;
+}
+.ffm {
+  font-family: "Roboto", sans-serif !important;
+}
 /* Order online page style */
 body {
   background-color: #fff;
@@ -42,7 +61,9 @@ body {
   margin: 0;
   text-align: left !important;
 }
-
+.links_order {
+  color: #027881 !important;
+}
 .order_list ul li {
   text-align: left !important;
   text-transform: uppercase;
@@ -693,7 +714,7 @@ body {
   padding: 7px 0;
   border: none;
   outline: none;
-  background-color: #fd4645;
+  background-color: #027881;
   color: #fff;
   font-size: 16px;
   font-weight: 700;
@@ -702,11 +723,11 @@ body {
 }
 
 .order_now_192:hover {
-  background-color: #e03f3f;
+  background-color: #3b848a;
 }
 
 .order_now_192:disabled {
-  background-color: #da6d6d;
+  background-color: #6ac6c9;
 }
 
 /* .summary_item_wrapper_029 {
@@ -1629,7 +1650,7 @@ body {
     padding: 10px;
   }
   .login_order_online_form_0283 {
-    height: 100% !important;
+    height: auto;
   }
   .order_online_horiz_line {
     display: none;
@@ -1683,7 +1704,7 @@ body {
 
 .login_order_online_form_0283 {
   transition: all 0.3s ease-in-out;
-  height: 600px;
+  height: 650px;
   margin-top: 20px;
   overflow: hidden;
   padding: 10px;
@@ -2558,6 +2579,7 @@ div.food_tile__.active img {
   letter-spacing: 1px;
   color: rgba(38, 29, 86, 1);
   margin-bottom: 12px;
+  font-family: sans-serif;
   text-align: center !important;
 }
 
@@ -2588,6 +2610,7 @@ div.food_tile__.active img {
   left: 50%;
   transform: translateX(-50%);
   font-size: 1.2rem;
+  font-family: sans-serif;
   font-weight: 700 !important;
 }
 .add_to_cart {
@@ -2598,7 +2621,7 @@ div.food_tile__.active img {
   border: none;
   outline: none;
   background-color: transparent;
-  background-color: #e03f3f;
+  background-color: #027881;
   font-size: 14px;
   padding: 3px 20px;
   border-radius: 5px;

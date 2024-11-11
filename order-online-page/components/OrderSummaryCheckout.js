@@ -462,7 +462,7 @@ function OrderSummaryCheckout() {
                 <div
                   className={
                     activeCard == "login"
-                      ? "login_order_online_form_0283 "
+                      ? "login_order_online_form_0283"
                       : "login_order_online_form_0283 hide"
                   }
                   // className="login_order_online_form_0283"
@@ -756,15 +756,12 @@ function OrderSummaryCheckout() {
                       ></textarea>
                     </div>
                     {/* <br /> */}
-                    <div className="form-group mt-3">
-                      <button
-                        type="submit"
-                        className="online_order_plugin_login_btn"
-                      >
-                        Submit
-                      </button>
-                    </div>
                   </form>
+                  <div className="form-group mz-auto text-center">
+                    <button type="submit" className="btn_check">
+                      Submit
+                    </button>
+                  </div>
                   {/* <button type="button" className="view_btn">View</button> */}
                 </div>
               </div>

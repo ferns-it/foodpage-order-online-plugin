@@ -141,7 +141,7 @@ const OrderOnlineMain = () => {
                                     )
                                   }
                                 >
-                                  <li>{list?.name}</li>
+                                  <li className="links_order">{list?.name}</li>
                                   <i>{/* <Lu.LuArrowRightToLine /> */}</i>
                                 </a>
                               );
@@ -175,7 +175,7 @@ const OrderOnlineMain = () => {
           </div>
         </Fragment>
       ) : (
-        <p>Loading...</p>
+        <LoaderComp />
       )}
     </Fragment>
   );

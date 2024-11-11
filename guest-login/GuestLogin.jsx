@@ -2,7 +2,7 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import CryptoJS from "crypto-js";
-import Utils from "@/src/app/_utils/Utils";
+import Utils from "../_utils/Utils";
 
 import { useRouter } from "next/navigation";
 import { AppContext } from "../order-online-page/context/index";
@@ -101,7 +101,7 @@ function GuestLogin() {
     <Fragment>
       <div className="login_wrapper row">
         <div className="card login_comp col-md-4 col-lg-3 col-sm-12 mx-auto">
-          <h2>Guest Login</h2>
+          <h2 className="ffm">Guest Login</h2>
           <p className="sub_title_login">
             Please fill below fields to continue as a Guest
           </p>
