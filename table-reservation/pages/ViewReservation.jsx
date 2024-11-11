@@ -218,27 +218,9 @@ function ViewReservation({ reservId }) {
                     <td className="reser_table_value">
                       {!reservationLoading ? (
                         <Fragment>
-                          {!isEdit ? (
-                            <>
-                              {reservationDetails?.bookingTime
-                                ? Utils.formatDate(
-                                    reservationDetails?.bookingTime
-                                  )
-                                : "N/A"}
-                            </>
-                          ) : (
-                            <>
-                              {" "}
-                              <input
-                                type="date"
-                                name="bookingDate"
-                                id=""
-                                className="form-control table_reserv_form_input"
-                                value={updatedValues?.bookingDate}
-                                onChange={handleChange}
-                              />
-                            </>
-                          )}
+                          {reservationDetails?.bookingTime
+                            ? Utils.formatDate(reservationDetails?.bookingTime)
+                            : "N/A"}
                         </Fragment>
                       ) : (
                         <Skeleton height={20} width={150} />
