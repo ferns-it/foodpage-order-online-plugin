@@ -755,13 +755,14 @@ function OrderSummaryCheckout() {
                         value={formState.notes}
                       ></textarea>
                     </div>
+                    <div className="form-group mz-auto text-center">
+                      <button type="submit" className="btn_check">
+                        Submit
+                      </button>
+                    </div>
                     {/* <br /> */}
                   </form>
-                  <div className="form-group mz-auto text-center">
-                    <button type="submit" className="btn_check">
-                      Submit
-                    </button>
-                  </div>
+
                   {/* <button type="button" className="view_btn">View</button> */}
                 </div>
               </div>
