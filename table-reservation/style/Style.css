@@ -251,7 +251,7 @@ input {
   height: 70px;
   border: 1px solid #eee;
   border-radius: 4px;
-  font-size: 22px !important;
+  font-size: 15px !important;
   transition: all 0.2s ease-in-out;
 }
 
