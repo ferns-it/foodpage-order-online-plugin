@@ -157,8 +157,6 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
       now.getMonth() === bookingDateNew.getMonth() &&
       now.getFullYear() === bookingDateNew.getFullYear();
 
-    console.log(isSameDay);
-
     if (isSameDay) {
       const [hours, minutes] = bookingTime.split(":").map(Number);
 

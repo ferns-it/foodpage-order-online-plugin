@@ -147,8 +147,6 @@ function ViewReservation({ reservId }) {
       now.getMonth() === bookingDateNew.getMonth() &&
       now.getFullYear() === bookingDateNew.getFullYear();
 
-    console.log(isSameDay);
-
     if (isSameDay) {
       const [hours, minutes] = bookingTime.split(":").map(Number);
 
@@ -160,10 +158,14 @@ function ViewReservation({ reservId }) {
         minutes
       );
 
-      if (bookingDateTime > now) {
-        return true;
-      } else {
+      // Check if booking is within the valid time range (4 hours before)
+      const timeDifference = bookingDateTime - now;
+      const fourHoursInMilliseconds = 4 * 60 * 60 * 1000;
+
+      if (timeDifference > fourHoursInMilliseconds) {
         return false;
+      } else {
+        return true;
       }
     }
 
@@ -222,8 +224,6 @@ function ViewReservation({ reservId }) {
     });
   };
 
-  console.log("isToday", isToday);
-
   return (
     <Fragment>
       <ReservModal
@@ -245,7 +245,6 @@ function ViewReservation({ reservId }) {
           <div className="card manage_reserv_card">
             <h3 className="table-reservation-form-head">Reservation Details</h3>
             {isExpired == false &&
-              isToday === false &&
               reservationDetails?.status !== "Cancelled" &&
               reservationDetails?.status !== "Modified" && (
                 <button
