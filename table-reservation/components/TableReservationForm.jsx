@@ -255,16 +255,11 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     const isValid = validateReservForm();
 
     if (isValid) return;
-    const isValidBookingTIme = isBookingValid(
-      initialValues?.bookingDate,
-      initialValues?.bookingTime
-    );
-
-    console.log(isValidBookingTIme);
+    const isValidBookingTIme = isBookingValid();
 
     //! condition for current UK time
     if (isValidBookingTIme === true) {
-      toast.error(`${Utils.convertTiming(initialValues?.bookingTime)}`);
+      toast.error(`Please select a time at least 4 hours from now!`);
       return;
     }
 

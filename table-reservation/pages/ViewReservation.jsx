@@ -51,6 +51,7 @@ function ViewReservation({ reservId }) {
   });
   const [isExpired, setIsExpired] = useState(false);
   const [action, setAction] = useState("");
+  const [isToday, setIsToday] = useState(false);
 
   useEffect(() => {
     if (!reservId) return;
@@ -73,7 +74,22 @@ function ViewReservation({ reservId }) {
         message: reservationDetails?.message,
       });
     }
+  }, [reservId, reservationDetails]);
 
+  useEffect(() => {
+    if (!reservationDetails) return;
+    checkIsExpired();
+
+    const [date, time] = reservationDetails && reservationDetails?.bookingTime;
+    const today = new Date().getDate();
+    const bookingDate = new Date(reservationDetails?.bookingTime).getDate();
+
+    if (bookingDate === today) {
+      setIsToday(true);
+    }
+  }, [reservationDetails]);
+
+  const checkIsExpired = () => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
@@ -86,7 +102,7 @@ function ViewReservation({ reservId }) {
     if (bookingDate && bookingDate < today) {
       setIsExpired(true);
     }
-  }, [reservId, reservationDetails]);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -119,10 +135,54 @@ function ViewReservation({ reservId }) {
     setAction("mail");
   };
 
+  const isBookingValid = () => {
+    const bookingDate = updatedValues?.bookingDate;
+    const bookingTime = updatedValues?.bookingTime;
+    const now = new Date();
+
+    const bookingDateNew = new Date(bookingDate);
+
+    const isSameDay =
+      now.getDate() === bookingDateNew.getDate() &&
+      now.getMonth() === bookingDateNew.getMonth() &&
+      now.getFullYear() === bookingDateNew.getFullYear();
+
+    console.log(isSameDay);
+
+    if (isSameDay) {
+      const [hours, minutes] = bookingTime.split(":").map(Number);
+
+      const bookingDateTime = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+        hours,
+        minutes
+      );
+
+      if (bookingDateTime > now) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    return false;
+  };
+
   const handleUpdate = async (e) => {
     e.preventDefault();
 
     const isValid = validateFields();
+
+    const isValidBookingTIme = isBookingValid();
+
+    //! condition for current UK time
+    if (isValidBookingTIme === true) {
+      toast.error(`Please select a time at least 4 hours from now!`);
+      return;
+    }
+
     if (Object.keys(isValid) && Object.keys(isValid).length != 0) {
       const value = Object.values(isValid)[0];
       toast.error(value);
@@ -162,6 +222,8 @@ function ViewReservation({ reservId }) {
     });
   };
 
+  console.log("isToday", isToday);
+
   return (
     <Fragment>
       <ReservModal
@@ -183,6 +245,7 @@ function ViewReservation({ reservId }) {
           <div className="card manage_reserv_card">
             <h3 className="table-reservation-form-head">Reservation Details</h3>
             {isExpired == false &&
+              isToday === false &&
               reservationDetails?.status !== "Cancelled" &&
               reservationDetails?.status !== "Modified" && (
                 <button
