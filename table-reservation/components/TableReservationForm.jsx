@@ -622,12 +622,13 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                   Guruviharrr, Kadakkavoor, Thiruvananthapuram
                 </p> */}
 
-                <p className="open_">
+                <div className="open_">
                   <i className="pe-1">
                     <Md.MdOutlineRestaurantMenu />
                   </i>
                   <span>Booking info</span>
                   <table className="table reserve_table">
+                    <tbody>
                     <tr>
                       <td>Date</td>
                       <td>
@@ -648,8 +649,9 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                       <td>Chairs</td>
                       <td>{count ?? 0}</td>
                     </tr>
+                      </tbody>
                   </table>
-                </p>
+                </div>
                 {/* <p className="open_">
                   <i className="pe-1">
                     <Io.IoTimeOutline />
