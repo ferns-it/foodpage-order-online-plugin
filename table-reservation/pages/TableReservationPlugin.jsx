@@ -1,12 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import TableReservationForm from "../components/TableReservationForm";
-import ReservOtp from "../components/ReservOTP";
 import CryptoJS from "crypto-js";
 import { Toaster } from "react-hot-toast";
 import ReservSuccess from "../components/ReservSuccess";
-import "../../table-reservation/style/style.css";
+import TableReservationForm from "../components/TableReservationForm";
+import ReservOtp from "../components/ReservOTP";
 
 function TableReservationPlugin(props) {
   const [isActiveTablePage, setIsActiveTablePage] =
@@ -18,8 +17,8 @@ function TableReservationPlugin(props) {
   };
   return (
     <div>
-      <Toaster />
-      <section className="table_reservation_form_page">
+      {/* <Toaster /> */}
+      <section className="table_reservation_form_page mt-3">
         {isActiveTablePage === "reservation-form" ? (
           <TableReservationForm
             shopId={shopId}
