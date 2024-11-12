@@ -17,6 +17,7 @@ input[type="file"]:focus,
 input[type="radio"]:focus,
 input[type="checkbox"]:focus textarea,
 .form-control:focus,
+.form-select:focus,
 .uneditable-input:focus {
   box-shadow: none;
   outline: 0 none;
@@ -36,6 +37,9 @@ input {
   padding: 10px;
   /* width: 75%; */
   margin: 0 auto;
+  border-color: #eee;
+  border-width: 0 1px 0 0;
+  border-radius: 0;
 }
 
 .table-reservation-form-head {
@@ -165,6 +169,7 @@ input {
 
 .reserv_timing_table {
   margin-bottom: 10px;
+  font-size: 14px;
 }
 
 .timing_card_table_reserv .open_ > span {
@@ -173,6 +178,12 @@ input {
 
 .timing_card_table_reserv .open_ > i {
   font-size: 16px;
+}
+@media screen and (max-width: 991px) {
+  .timing_cart_reserv {
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
 }
 
 .day_wrapper_reserv_table {
@@ -190,12 +201,25 @@ input {
   margin-bottom: 10px;
 }
 
+.day_wrapper_reserv_table.--active > .day__ {
+  color: #252525;
+  font-size: 16px;
+}
+.day_wrapper_reserv_table.--active > .reserv_timing__ {
+  font-size: 14px;
+  color: #252525;
+}
+
+.day_wrapper_reserv_table.--active > .day__::after {
+  background-color: #e03f3f;
+}
+
 .day_wrapper_reserv_table > .day__::after {
   content: "";
   position: absolute;
-  width: 25px;
-  height: 2px;
-  background-color: #e03f3f;
+  width: 35px;
+  height: 4px;
+  background-color: #7777;
   left: 0;
   bottom: 0;
 }
@@ -206,6 +230,12 @@ input {
   padding: 0;
   font-size: 13px;
   font-weight: 600;
+  color: #252525;
+}
+
+.reserv_timing__ > li {
+  padding: 2px 0;
+  white-space: nowrap;
 }
 
 .otp_validation_reserv {
@@ -222,6 +252,7 @@ input {
   border: 1px solid #eee;
   border-radius: 4px;
   font-size: 22px !important;
+  transition: all 0.2s ease-in-out;
 }
 
 .resend_otp_reservv {
@@ -252,7 +283,7 @@ input {
   font-weight: 600;
   font-size: 14px;
   transition: all 0.2s ease-in-out;
-  width: 20%;
+  width: 30%;
   display: block;
   margin: 0 auto;
   background-color: #e03f3f;
@@ -262,6 +293,21 @@ input {
 .reserv_otp_validation_btn:disabled {
   background-color: rgb(167, 87, 87);
   cursor: not-allowed;
+}
+
+@media screen and (max-width: 991px) {
+  .otp_validation_reserv div > input {
+    width: 40px !important;
+    height: 40px;
+  }
+  .table_reserv_info_sub_head,
+  .resend_otp_reservv {
+    font-size: 13px;
+  }
+  .reserv_otp_validation_btn {
+    width: 70%;
+    white-space: nowrap;
+  }
 }
 
 .reserv_content_success__ {
@@ -998,7 +1044,7 @@ a {
 }
 
 .table_reserv__ {
-  padding: 5rem 0;
+  padding: 3rem 0;
 }
 
 .contact-info > h3 {
@@ -1619,4 +1665,294 @@ a {
 .check_icon {
   font-size: 17px;
   color: #018f43;
+}
+
+/* New Styles */
+
+.booking_calendar {
+  width: 100% !important;
+  min-height: 300px;
+  border: none !important;
+}
+.react-calendar__month-view__weekdays {
+  padding: 10px 0 !important;
+  background-color: #e03f3f;
+  color: #fff;
+}
+abbr[title] {
+  text-decoration: none !important;
+  cursor: default !important;
+}
+.react-calendar__tile {
+  padding: 17px 0 !important;
+  border: 1px dashed #eee !important;
+  font-size: 16px !important;
+  transition: all 0.2s ease-in-out;
+}
+.react-calendar__tile--now {
+  background-color: #eee !important;
+}
+.react-calendar__tile:hover {
+  background-color: #faf3cc !important;
+}
+.react-calendar__tile--active {
+  background-color: #7777 !important;
+  color: #252525 !important;
+  font-weight: 700 !important;
+}
+.react-calendar__tile:disabled {
+  background-color: #fff !important;
+  text-decoration: line-through !important;
+}
+.react-calendar__navigation {
+  margin-bottom: 0 !important;
+}
+.calander_wrapper_ {
+  height: 0;
+  overflow: hidden;
+}
+.calander_wrapper_.show {
+  height: 100%;
+}
+.location___ {
+  font-size: 14px;
+  font-weight: 600;
+  color: #252525;
+}
+.reserve_table {
+  font-size: 14px;
+}
+.go_back {
+  border: none;
+  outline: none;
+  padding: 8px 27px;
+  border-radius: 5px;
+  background-color: #e03f3f;
+  color: #fff;
+  font-weight: 600;
+}
+.tbl_head {
+  font-weight: 600;
+  font-size: 13px;
+  color: #747474;
+}
+.reserv_timing_table tr > td {
+  padding: 5px 0;
+  font-weight: 600;
+}
+.priv_policy {
+  cursor: pointer;
+}
+.priv_policy > a {
+  color: #252525;
+  text-decoration: dashed underline !important;
+}
+.reserv_btn {
+  float: right;
+  width: 50%;
+  padding: 10px 20px;
+  border: none;
+  outline: none;
+  font-weight: 600;
+  font-size: 13px;
+  background-color: #e03f3f;
+  color: #fff;
+  border-radius: 5px;
+  transition: all 0.2s ease-in-out;
+  white-space: nowrap;
+}
+.reserv_btn:hover {
+  background-color: #ab2e2e;
+}
+.reserv_btn > i {
+  font-size: 14px;
+}
+.tbl_reserv_section {
+  padding-top: 7.5rem;
+}
+.manage_reserv_card {
+  width: 50%;
+  padding: 20px;
+  margin: 0 auto;
+  margin-top: 2rem;
+}
+
+@media screen and (max-width: 991px) {
+  .manage_reserv_card {
+    width: 70%;
+  }
+  .reserv_btn {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 786px) {
+  .manage_reserv_card {
+    width: 100%;
+  }
+}
+.reservId_find {
+  font-size: 13px;
+  color: #3870c5;
+  cursor: pointer;
+  font-weight: 600;
+}
+.reservId_response_info {
+  display: none;
+}
+
+@media screen and (max-width: 991px) {
+  .reservId_find {
+    display: none;
+  }
+  #info_tooltip {
+    display: none;
+  }
+  .reservId_response_info {
+    display: block;
+    font-size: 13px;
+    line-height: 1rem;
+    text-align: center;
+    color: #747474;
+  }
+  .reservId_response_info > i {
+    padding-right: 10px;
+    font-size: 12px;
+    color: #3870c5;
+  }
+}
+
+#info_tooltip {
+  background-color: #eee;
+  color: #252525;
+  font-weight: 600;
+}
+.formatted_id {
+  font-size: 20px;
+  font-weight: 600;
+  color: #747474;
+  padding-left: 10px;
+  user-select: none;
+}
+.reser_table_value {
+  font-size: 14px;
+  color: #252525;
+  font-weight: 600;
+  width: 50%;
+  user-select: none;
+}
+.reserv_table_sub_head {
+  font-size: 14px;
+  color: #727272;
+  /* text-align: right; */
+  width: 50%;
+  user-select: none;
+}
+.btn_grp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.resrv_btnn {
+  border: none;
+  outline: none;
+  padding: 7px 15px;
+  margin: 0 10px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 5px;
+  transition: all 0.2s ease-in-out;
+}
+.resrv_btnn i {
+  font-size: 14px;
+}
+.cancel_reserv {
+  background-color: #ec6262;
+  color: #fff;
+}
+.cancel_reserv:hover {
+  background-color: #e03f3f;
+}
+
+.update_reserv {
+  position: absolute;
+  background-color: transparent;
+  color: #252525;
+  right: 10px;
+}
+.update_reserv:hover {
+  background-color: #3870c5;
+  color: #fff;
+}
+.update_reserv:disabled {
+  background-color: #ef8f8f;
+}
+.mail_reserv:hover {
+  background-color: #979696;
+}
+.reserv_modal_btn {
+  margin: 0 10px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  width: 20%;
+  padding: 7px;
+  transition: all 0.2s ease-in-out;
+  color: #fff;
+  border-radius: 5px;
+}
+.confirm_cancel {
+  background-color: #e03f3f;
+}
+.confirm_cancel:hover {
+  background-color: #ab2e2e;
+}
+.discard_btn_reserv {
+  background-color: #727272;
+}
+.discard_btn_reserv:hover {
+  background-color: #4b4b4b;
+}
+.mail_content_reserv {
+  padding: 10px;
+  width: 100%;
+}
+#send_mail_btn {
+  display: block;
+  background-color: #3870c5;
+  margin: 0 auto;
+  width: 20%;
+  color: #fff;
+}
+#send_mail_btn:hover {
+  background-color: #1a3b6b;
+}
+.sub_title_ {
+  color: #747474;
+  font-size: 0.9rem;
+  user-select: none;
+  margin-top: 20px;
+  padding: 0;
+}
+.poweredBy_ {
+  position: absolute;
+  font-size: 13px;
+  color: #747474;
+  left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%);
+}
+.poweredBy_ > img {
+  width: 110px;
+  height: 50px;
+  object-fit: contain;
+  padding-left: 10px;
+}
+@media screen and (max-width: 991px) {
+  #main___ {
+    display: none;
+  }
+}
+.nice-select {
+  display: none;
 }
