@@ -61,7 +61,7 @@ function ManageReservationMain() {
           >
             <Go.GoArrowLeft /> Back
           </button>
-          <div className="card manage_reserv_card">
+          <div className="card manage_reserv_card w-50">
             <h3 className="table-reservation-form-head">Manage Reservation</h3>
             <form onSubmit={handleReservation}>
               <div className="form-group">
