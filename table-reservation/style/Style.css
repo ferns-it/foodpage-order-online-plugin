@@ -296,10 +296,7 @@ input {
 }
 
 @media screen and (max-width: 991px) {
-  .otp_validation_reserv div > input {
-    width: 40px !important;
-    height: 40px;
-  }
+
   .table_reserv_info_sub_head,
   .resend_otp_reservv {
     font-size: 13px;
