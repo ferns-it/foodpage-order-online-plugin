@@ -551,7 +551,7 @@ function ViewReservation({ reservId }) {
                 )}
               </div>
             </div>
-            <div className="col-lg-4 col-md-10 col-sm-12 mx-auto">
+          <div className="col-lg-4 col-md-10 col-sm-12 mx-auto">
               {chatMessages && chatMessages.length != 0 && (
                 <div className="card manage_reserv_card mb-3 pb-3">
                   <button
