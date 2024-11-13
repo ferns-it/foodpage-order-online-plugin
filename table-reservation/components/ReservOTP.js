@@ -204,7 +204,7 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
       <section className="table_reserv__">
         <div className="container mt-5 mb-5">
           <div className="row">
-            <div className="col-lg-8 col-md-12 col-sm-12">
+            <div className="col-lg-8 col-md-6 col-sm-12">
               <button className="go_back" onClick={handleNavigation}>
                 <Go.GoArrowLeft />
               </button>
@@ -271,7 +271,7 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
                 </button>
               </div>
             </div>
-            <div className="col-lg-4 col-md-6 col-sm-12 mx-auto">
+            <div className="col-lg-4 col-md-6 col-sm-12">
               <div className="card timing_card_table_reserv ">
                 <p className="open_">
                   <i className="pe-1">

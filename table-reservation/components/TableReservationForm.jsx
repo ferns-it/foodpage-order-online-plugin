@@ -15,7 +15,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { setSessionStorageItem } from "../../_utils/ClientUtils";
 import foodPageLogo from "../assets/logo.png";
 import Image from "next/image";
-// import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 
 const RECAPTCHA_SITE_KEY = "6LeXD-8pAAAAAOpi7gUuH5-DO0iMu7J6C-CBA2fo";
 
@@ -303,7 +302,9 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
             setSessionStorageItem("reserv_details", saveObj);
             setSessionStorageItem("secretKey", secretKey);
             setIsActiveTablePage("otp-page");
-            router.push('/tablereservation?otp=true', undefined, { shallow: true });
+            router.push("/tablereservation?otp=true", undefined, {
+              shallow: true,
+            });
           }, 300);
         } else {
           toast.error("OTP not send!");
@@ -316,6 +317,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
       headers: headers,
     });
   };
+
   return (
     <div className="table_reserv__">
       <Fragment>
@@ -573,7 +575,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                       <textarea
                         name="message"
                         id=""
-                        className="form-control txt-area"
+                        className="textarea form-control"
                         rows={5}
                         onChange={handleChange}
                       ></textarea>
@@ -628,28 +630,28 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                   </i>
                   <span>Booking info</span>
                   <table className="table reserve_table">
-                   <tbody>
-                   <tr>
-                      <td>Date</td>
-                      <td>
-                        {initialValues && initialValues?.bookingDate
-                          ? Utils.formatDate(initialValues?.bookingDate)
-                          : Utils.formatDate(new Date())}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Time</td>
-                      <td>
-                        {initialValues && initialValues.bookingTime
-                          ? Utils.convertTiming(initialValues?.bookingTime)
-                          : "00:00"}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Chairs</td>
-                      <td>{count ?? 0}</td>
-                    </tr>
-                   </tbody>
+                    <tbody>
+                      <tr>
+                        <td>Date</td>
+                        <td>
+                          {initialValues && initialValues?.bookingDate
+                            ? Utils.formatDate(initialValues?.bookingDate)
+                            : Utils.formatDate(new Date())}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Time</td>
+                        <td>
+                          {initialValues && initialValues.bookingTime
+                            ? Utils.convertTiming(initialValues?.bookingTime)
+                            : "00:00"}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Chairs</td>
+                        <td>{count ?? 0}</td>
+                      </tr>
+                    </tbody>
                   </table>
                 </div>
                 {/* <p className="open_">

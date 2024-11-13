@@ -31,6 +31,9 @@ export const TableReservationContextProvider = (props) => {
     reservationDetails,
     cancelReservation,
     updateReservationDetails,
+    chatMessages,
+    sendMessage,
+    messageLoading,
   } = useReservation();
 
   useEffect(() => {
@@ -59,6 +62,9 @@ export const TableReservationContextProvider = (props) => {
         reservationDetails,
         cancelReservation,
         updateReservationDetails,
+        chatMessages,
+        sendMessage,
+        messageLoading,
         // otp,
         // setOtp,
         // clearOtp

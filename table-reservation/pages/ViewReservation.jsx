@@ -1,17 +1,27 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, {
+  Fragment,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { TableReservationContext } from "../context/TableReservationContext";
 import "../style/style.css";
-import Utils from "../../_utils/Utils";
+import Utils from "../utils/Utils";
 
 import * as Tb from "react-icons/tb";
 import * as Md from "react-icons/md";
 import * as Go from "react-icons/go";
+import * as Fi from "react-icons/fi";
+import * as Io from "react-icons/io";
+
 import ReservModal from "../components/ReservModal";
 import { useRouter } from "next/navigation";
 import CryptoJS from "crypto-js";
 import toast from "react-hot-toast";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import "../style/Style.css";
 
 export const mergeBookingDateTime = (bookingDate, bookingTime) => {
   const date = new Date(bookingDate);
@@ -36,8 +46,11 @@ function ViewReservation({ reservId }) {
     getReservationDetails,
     reservationLoading,
     updateReservationDetails,
+    chatMessages,
+    sendMessage,
+    messageLoading,
   } = useContext(TableReservationContext);
-
+  const chatContainerRef = useRef(null);
   const [showModal, setShowModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [updatedValues, setUpdatedValue] = useState({
@@ -52,6 +65,7 @@ function ViewReservation({ reservId }) {
   const [isExpired, setIsExpired] = useState(false);
   const [action, setAction] = useState("");
   const [isToday, setIsToday] = useState(false);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     if (!reservId) return;
@@ -224,6 +238,46 @@ function ViewReservation({ reservId }) {
     });
   };
 
+  const sendMessageToShop = async (e) => {
+    e.preventDefault();
+
+    if (message.length === 0) {
+      toast.error("Write something!");
+      return;
+    }
+
+    const payload = {
+      reservationId: reservationDetails?.id,
+      pin: reservationDetails?.messaging_otp,
+      message: message,
+    };
+    const headers = {
+      "x-secretkey": process.env.FOODPAGE_RESERVATION_SECRET_KEY,
+    };
+    await sendMessage(payload, {
+      onSuccess: async (res) => {
+        toast.success("message sent successfully!");
+        await getReservationDetails(reservId);
+      },
+      onFailed: (err) => {
+        console.log(err);
+      },
+      headers: headers,
+    });
+  };
+
+  const refreshPage = async () => {
+    await getReservationDetails(reservId);
+    scrollBottom();
+  };
+
+  const scrollBottom = () => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  };
+
   return (
     <Fragment>
       <ReservModal
@@ -242,193 +296,201 @@ function ViewReservation({ reservId }) {
           >
             <Go.GoArrowLeft /> Back
           </button>
-          <div className="card manage_reserv_card">
-            <h3 className="table-reservation-form-head">Reservation Details</h3>
-            {isExpired == false &&
-              reservationDetails?.status !== "Cancelled" &&
-              reservationDetails?.status !== "Modified" && (
-                <button
-                  type="button"
-                  className="resrv_btnn update_reserv"
-                  onClick={() => setIsEdit(!isEdit)}
-                >
-                  {!isEdit ? (
-                    <>
-                      <i className="pe-2">
-                        <Tb.TbPencilDown />
-                      </i>
-                      Edit
-                    </>
-                  ) : (
-                    <>
-                      <i className="pe-2">
-                        <Md.MdClose />
-                      </i>
-                      Close
-                    </>
-                  )}
-                </button>
-              )}
-            <p className="formatted_id">
-              {reservationDetails?.formattedID ?? "N/A"}
-            </p>
-            <form>
-              <table className="table reserv_table mt-2">
-                <tbody>
-                  <tr>
-                    <td className="reserv_table_sub_head">Booking Date</td>
-                    <td className="reser_table_value">
-                      {!reservationLoading ? (
-                        <Fragment>
-                          {reservationDetails?.bookingTime
-                            ? Utils.formatDate(reservationDetails?.bookingTime)
-                            : "N/A"}
-                        </Fragment>
+          <div className="row">
+            <div className="col-lg-8 col-md-6 col-sm-12 position-relative">
+              <div className="card manage_reserv_card" id="alter_card">
+                <h3 className="table-reservation-form-head">
+                  Reservation Details
+                </h3>
+                {isExpired == false &&
+                  reservationDetails?.status !== "Cancelled" &&
+                  reservationDetails?.status !== "Modified" && (
+                    <button
+                      type="button"
+                      className="resrv_btnn update_reserv"
+                      onClick={() => setIsEdit(!isEdit)}
+                    >
+                      {!isEdit ? (
+                        <>
+                          <i className="pe-2">
+                            <Tb.TbPencilDown />
+                          </i>
+                          Edit
+                        </>
                       ) : (
-                        <Skeleton height={20} width={150} />
+                        <>
+                          <i className="pe-2">
+                            <Md.MdClose />
+                          </i>
+                          Close
+                        </>
                       )}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="reserv_table_sub_head">Booking Time</td>
-                    <td className="reser_table_value">
-                      {!reservationLoading ? (
-                        <Fragment>
-                          {!isEdit ? (
-                            <>
+                    </button>
+                  )}
+                <p className="formatted_id">
+                  {reservationDetails?.formattedID ?? "N/A"}
+                </p>
+                <form>
+                  <table className="table reserv_table mt-2">
+                    <tbody>
+                      <tr>
+                        <td className="reserv_table_sub_head">Booking Date</td>
+                        <td className="reser_table_value">
+                          {!reservationLoading ? (
+                            <Fragment>
                               {reservationDetails?.bookingTime
-                                ? Utils.formatDateTime(
+                                ? Utils.formatDate(
                                     reservationDetails?.bookingTime
                                   )
                                 : "N/A"}
-                            </>
+                            </Fragment>
                           ) : (
-                            <>
-                              {" "}
-                              <input
-                                type="time"
-                                name="bookingTime"
-                                id=""
-                                className="form-control table_reserv_form_input"
-                                value={updatedValues?.bookingTime}
-                                onChange={handleChange}
-                              />
-                            </>
+                            <Skeleton height={20} width={150} />
                           )}
-                        </Fragment>
-                      ) : (
-                        <Skeleton height={20} width={150} />
-                      )}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="reserv_table_sub_head">Booked By</td>
-                    <td className="reser_table_value">
-                      {!reservationLoading ? (
-                        <Fragment>{reservationDetails?.name ?? "N/A"}</Fragment>
-                      ) : (
-                        <Skeleton height={20} width={150} />
-                      )}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="reserv_table_sub_head">Email Address</td>
-                    <td className="reser_table_value">
-                      {!reservationLoading ? (
-                        <>{reservationDetails?.email ?? "N/A"}</>
-                      ) : (
-                        <Skeleton height={20} width={150} />
-                      )}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="reserv_table_sub_head">Phone Number</td>
-                    <td className="reser_table_value">
-                      {!reservationLoading ? (
-                        <>{reservationDetails?.phone ?? "N/A"}</>
-                      ) : (
-                        <Skeleton height={20} width={150} />
-                      )}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="reserv_table_sub_head">Chairs</td>
-                    <td className="reser_table_value">
-                      {!reservationLoading ? (
-                        <Fragment>
-                          {!isEdit ? (
-                            <>{reservationDetails?.chairs ?? "N/A"}</>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="reserv_table_sub_head">Booking Time</td>
+                        <td className="reser_table_value">
+                          {!reservationLoading ? (
+                            <Fragment>
+                              {!isEdit ? (
+                                <>
+                                  {reservationDetails?.bookingTime
+                                    ? Utils.formatDateTime(
+                                        reservationDetails?.bookingTime
+                                      )
+                                    : "N/A"}
+                                </>
+                              ) : (
+                                <>
+                                  {" "}
+                                  <input
+                                    type="time"
+                                    name="bookingTime"
+                                    id=""
+                                    className="form-control table_reserv_form_input"
+                                    value={updatedValues?.bookingTime}
+                                    onChange={handleChange}
+                                  />
+                                </>
+                              )}
+                            </Fragment>
                           ) : (
-                            <>
-                              {" "}
-                              <input
-                                type="number"
-                                name="chairs"
-                                id=""
-                                className="form-control table_reserv_form_input"
-                                value={updatedValues?.chairs}
-                                max={25}
-                                onChange={handleChange}
-                              />
-                            </>
+                            <Skeleton height={20} width={150} />
                           )}
-                        </Fragment>
-                      ) : (
-                        <Skeleton height={20} width={150} />
-                      )}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="reserv_table_sub_head">Message</td>
-                    <td className="reser_table_value">
-                      {!reservationLoading ? (
-                        <Fragment>
-                          {!isEdit ? (
-                            <>{reservationDetails?.message ?? "N/A"}</>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="reserv_table_sub_head">Booked By</td>
+                        <td className="reser_table_value">
+                          {!reservationLoading ? (
+                            <Fragment>
+                              {reservationDetails?.name ?? "N/A"}
+                            </Fragment>
                           ) : (
-                            <>
-                              {" "}
-                              <textarea
-                                type="text"
-                                name="message"
-                                id=""
-                                className="form-control table_reserv_form_input"
-                                value={updatedValues?.message}
-                                onChange={handleChange}
-                                rows={3}
-                              />
-                            </>
+                            <Skeleton height={20} width={150} />
                           )}
-                        </Fragment>
-                      ) : (
-                        <Skeleton height={20} width={150} />
-                      )}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="reserv_table_sub_head">
-                      Reservation Status
-                    </td>
-                    <td className="reser_table_value">
-                      {!reservationLoading ? (
-                        <Fragment>
-                          {reservationDetails?.status ?? "N/A"}
-                        </Fragment>
-                      ) : (
-                        <Skeleton height={20} width={100} />
-                      )}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </form>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="reserv_table_sub_head">Email Address</td>
+                        <td className="reser_table_value">
+                          {!reservationLoading ? (
+                            <>{reservationDetails?.email ?? "N/A"}</>
+                          ) : (
+                            <Skeleton height={20} width={150} />
+                          )}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="reserv_table_sub_head">Phone Number</td>
+                        <td className="reser_table_value">
+                          {!reservationLoading ? (
+                            <>{reservationDetails?.phone ?? "N/A"}</>
+                          ) : (
+                            <Skeleton height={20} width={150} />
+                          )}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="reserv_table_sub_head">Chairs</td>
+                        <td className="reser_table_value">
+                          {!reservationLoading ? (
+                            <Fragment>
+                              {!isEdit ? (
+                                <>{reservationDetails?.chairs ?? "N/A"}</>
+                              ) : (
+                                <>
+                                  {" "}
+                                  <input
+                                    type="number"
+                                    name="chairs"
+                                    id=""
+                                    className="form-control table_reserv_form_input"
+                                    value={updatedValues?.chairs}
+                                    max={25}
+                                    onChange={handleChange}
+                                  />
+                                </>
+                              )}
+                            </Fragment>
+                          ) : (
+                            <Skeleton height={20} width={150} />
+                          )}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="reserv_table_sub_head">Message</td>
+                        <td className="reser_table_value">
+                          {!reservationLoading ? (
+                            <Fragment>
+                              {!isEdit ? (
+                                <>{reservationDetails?.message ?? "N/A"}</>
+                              ) : (
+                                <>
+                                  {" "}
+                                  <textarea
+                                    type="text"
+                                    name="message"
+                                    id=""
+                                    className="form-control table_reserv_form_input"
+                                    value={updatedValues?.message}
+                                    onChange={handleChange}
+                                    rows={3}
+                                  />
+                                </>
+                              )}
+                            </Fragment>
+                          ) : (
+                            <Skeleton height={20} width={150} />
+                          )}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="reserv_table_sub_head">
+                          Reservation Status
+                        </td>
+                        <td className="reser_table_value">
+                          {!reservationLoading ? (
+                            <Fragment>
+                              {reservationDetails?.status ?? "N/A"}
+                            </Fragment>
+                          ) : (
+                            <Skeleton height={20} width={100} />
+                          )}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </form>
 
-            {isExpired === false &&
-            reservationDetails?.status != "Cancelled" ? (
-              <Fragment>
-                {!isEdit ? (
-                  <div className="btn_grp">
-                    {/* <button
+                {isExpired === false &&
+                reservationDetails?.status != "Cancelled" ? (
+                  <Fragment>
+                    {!isEdit ? (
+                      <div className="btn_grp">
+                        {/* <button
                       type="button"
                       className="resrv_btnn mail_reserv"
                       onClick={handleSendMail}
@@ -438,55 +500,159 @@ function ViewReservation({ reservId }) {
                       </i>
                       Mail to Restaurent
                     </button> */}
-                    <button
-                      type="button"
-                      className="resrv_btnn cancel_reserv"
-                      onClick={handleCancelConfirm}
-                      disabled={reservationLoading}
-                    >
-                      <i className="pe-2">
-                        <Tb.TbCalendarCancel />
-                      </i>
-                      Cancel Reservation
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    type="submit"
-                    className="resrv_btnn cancel_reserv mt-2"
-                    onClick={handleUpdate}
-                    style={{ width: "30%", margin: "0 auto" }}
-                    disabled={reservationLoading}
-                  >
-                    {!reservationLoading ? (
-                      <>
-                        {" "}
-                        <i className="pe-2">
-                          <Tb.TbPencilDown />
-                        </i>
-                        Update
-                      </>
+                        <button
+                          type="button"
+                          className="resrv_btnn cancel_reserv"
+                          onClick={handleCancelConfirm}
+                          disabled={reservationLoading}
+                        >
+                          <i className="pe-2">
+                            <Tb.TbCalendarCancel />
+                          </i>
+                          Cancel Reservation
+                        </button>
+                      </div>
                     ) : (
-                      <Fragment>
-                        <div
-                          className="spinner-border spinner-border-sm text-light"
-                          role="status"
-                        ></div>
-                        <span className="sr-only ps-2">Loading...</span>
-                      </Fragment>
+                      <button
+                        type="submit"
+                        className="resrv_btnn cancel_reserv mt-2"
+                        onClick={handleUpdate}
+                        style={{ width: "30%", margin: "0 auto" }}
+                        disabled={reservationLoading}
+                      >
+                        {!reservationLoading ? (
+                          <>
+                            {" "}
+                            <i className="pe-2">
+                              <Tb.TbPencilDown />
+                            </i>
+                            Update
+                          </>
+                        ) : (
+                          <Fragment>
+                            <div
+                              className="spinner-border spinner-border-sm text-light"
+                              role="status"
+                            ></div>
+                            <span className="sr-only ps-2">Loading...</span>
+                          </Fragment>
+                        )}
+                      </button>
                     )}
-                  </button>
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    <p className="expiry_reserv">{`This reservation is ${
+                      reservationDetails?.status == "Cancelled"
+                        ? "Cancelled"
+                        : "Expired"
+                    }!`}</p>
+                  </Fragment>
                 )}
-              </Fragment>
-            ) : (
-              <Fragment>
-                <p className="expiry_reserv">{`This reservation is ${
-                  reservationDetails?.status == "Cancelled"
-                    ? "Cancelled"
-                    : "Expired"
-                }!`}</p>
-              </Fragment>
-            )}
+              </div>
+            </div>
+            <div className="col-lg-4 col-md-6 col-sm-12">
+              {chatMessages && chatMessages.length != 0 && (
+                <div className="card manage_reserv_card">
+                  <button
+                    type="button"
+                    className="refresh_btn"
+                    onClick={refreshPage}
+                  >
+                    <Io.IoMdRefresh /> <span>Refresh</span>
+                  </button>
+                  <h3 className="table-reservation-form-head">Messages</h3>
+                  <div className="message-area" ref={chatContainerRef}>
+                    <div class="chat-container">
+                      {chatMessages.map((message, index) => {
+                        if (message?.auther == "customer") {
+                          return (
+                            <div class="message sender" key={index}>
+                              <span>
+                                {" "}
+                                {!reservationLoading ? (
+                                  <>{message?.message ?? "N/A"}</>
+                                ) : (
+                                  <Skeleton />
+                                )}
+                              </span>
+                              <p className="text-light">
+                                {!reservationLoading ? (
+                                  <>{message?.addedTime ?? "N/A"}</>
+                                ) : (
+                                  <Skeleton width={100} />
+                                )}
+                              </p>
+                            </div>
+                          );
+                        }
+
+                        if (message?.auther == "shop") {
+                          return (
+                            <div class="message receiver ">
+                              <span>
+                                {" "}
+                                {!reservationLoading ? (
+                                  <>{message?.message ?? "N/A"}</>
+                                ) : (
+                                  <Skeleton
+                                    baseColor="#459ced"
+                                    highlightColor="#9fc8ed"
+                                  />
+                                )}
+                              </span>
+                              <p>
+                                {!reservationLoading ? (
+                                  <>{message?.addedTime ?? "N/A"}</>
+                                ) : (
+                                  <Skeleton
+                                    width={100}
+                                    baseColor="#459ced"
+                                    highlightColor="#9fc8ed"
+                                  />
+                                )}
+                              </p>
+                            </div>
+                          );
+                        }
+                      })}
+                    </div>
+                  </div>
+                  <form
+                    className="send_message_form pt-3"
+                    onSubmit={sendMessageToShop}
+                  >
+                    <div className="searc_area d-flex">
+                      <input
+                        type="text"
+                        name=""
+                        id=""
+                        className="form-control"
+                        placeholder="Write Message.."
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                      />
+                      <button
+                        type="submit"
+                        className="send_message_btn"
+                        disabled={messageLoading}
+                      >
+                        {!messageLoading ? (
+                          <i>
+                            <Fi.FiSend />
+                          </i>
+                        ) : (
+                          <div
+                            class="spinner-border spinner-border-sm text-danger"
+                            role="status"
+                          ></div>
+                        )}
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </section>
