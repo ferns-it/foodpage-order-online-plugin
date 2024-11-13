@@ -297,7 +297,7 @@ function ViewReservation({ reservId }) {
             <Go.GoArrowLeft /> Back
           </button>
           <div className="row">
-            <div className="col-lg-8 col-md-6 col-sm-12 position-relative">
+            <div className="col-lg-8 col-md-10 col-sm-12 position-relative mx-auto">
               <div className="card manage_reserv_card" id="alter_card">
                 <h3 className="table-reservation-form-head">
                   Reservation Details
@@ -551,9 +551,9 @@ function ViewReservation({ reservId }) {
                 )}
               </div>
             </div>
-            <div className="col-lg-4 col-md-6 col-sm-12">
+            <div className="col-lg-4 col-md-10 col-sm-12 mx-auto">
               {chatMessages && chatMessages.length != 0 && (
-                <div className="card manage_reserv_card">
+                <div className="card manage_reserv_card mb-3 pb-3">
                   <button
                     type="button"
                     className="refresh_btn"

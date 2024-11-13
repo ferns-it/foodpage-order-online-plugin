@@ -1502,14 +1502,17 @@ a {
     margin-bottom: 5px;
     margin-left: 1px;
   }
-
-  .profile_details p {
-    font-size: 9px;
-    margin-bottom: 10px;
-    margin-left: 1px;
-    line-height: 4px;
+  .site-footer {
+    position: relative;
+    display: block;
+    background-color: var(--lockdown-black);
+    margin-top: 0;
+    z-index: 1;
   }
-
+  .manage_reserv_card {
+    padding-bottom: 20px;
+    width: 100%;
+  }
   .profile_img {
     width: 60px;
     height: 60px;
@@ -1812,8 +1815,16 @@ abbr[title] {
 @media screen and (max-width: 991px) {
   .manage_reserv_card {
     width: 70%;
+    height: auto;
   }
   .reserv_btn {
+    width: 100%;
+  }
+  .tbl_reserv_section {
+    padding-top: 0;
+    height: auto;
+  }
+  #alter_card {
     width: 100%;
   }
 }
