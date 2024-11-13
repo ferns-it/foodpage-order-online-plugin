@@ -1698,6 +1698,8 @@ body {
 
 .online_order_plugin_input_2939 {
   border-radius: 2px;
+  font-weight: 500;
+  font-family: sans-serif !important;
 }
 
 .online_order_plugin_input_2939.error___ {
