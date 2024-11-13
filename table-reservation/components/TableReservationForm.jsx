@@ -15,7 +15,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { setSessionStorageItem } from "../../_utils/ClientUtils";
 import foodPageLogo from "../assets/logo.png";
 import Image from "next/image";
-// import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 
 const RECAPTCHA_SITE_KEY = "6LeXD-8pAAAAAOpi7gUuH5-DO0iMu7J6C-CBA2fo";
 
@@ -303,7 +302,9 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
             setSessionStorageItem("reserv_details", saveObj);
             setSessionStorageItem("secretKey", secretKey);
             setIsActiveTablePage("otp-page");
-            router.push('/tablereservation?otp=true', undefined, { shallow: true });
+              router.push("/tablereservation?otp=true", undefined, {
+                shallow: true,
+              });
           }, 300);
         } else {
           toast.error("OTP not send!");
@@ -316,6 +317,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
       headers: headers,
     });
   };
+
   return (
     <div className="table_reserv__">
       <Fragment>
@@ -622,13 +624,12 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                   Guruviharrr, Kadakkavoor, Thiruvananthapuram
                 </p> */}
 
-                <div className="open_">
+                <p className="open_">
                   <i className="pe-1">
                     <Md.MdOutlineRestaurantMenu />
                   </i>
                   <span>Booking info</span>
                   <table className="table reserve_table">
-                    <tbody>
                     <tr>
                       <td>Date</td>
                       <td>
@@ -649,9 +650,8 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                       <td>Chairs</td>
                       <td>{count ?? 0}</td>
                     </tr>
-                      </tbody>
                   </table>
-                </div>
+                </p>
                 {/* <p className="open_">
                   <i className="pe-1">
                     <Io.IoTimeOutline />
