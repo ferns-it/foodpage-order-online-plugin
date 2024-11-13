@@ -104,17 +104,17 @@ function ViewReservation({ reservId }) {
   }, [reservationDetails]);
 
   const checkIsExpired = () => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const [date, time] =
+      reservationDetails && reservationDetails.bookingTime.split(" ");
+    const now = new Date();
 
-    const bookingDate =
-      reservationDetails && new Date(reservationDetails.bookingTime);
-    if (bookingDate) {
-      bookingDate.setHours(0, 0, 0, 0);
-    }
+    const bookingDateTime = new Date(`${date}T${time}`);
+    console.log("validation", bookingDateTime);
 
-    if (bookingDate && bookingDate < today) {
+    if (now > bookingDateTime) {
       setIsExpired(true);
+    } else {
+      setIsExpired(false);
     }
   };
 
@@ -247,8 +247,8 @@ function ViewReservation({ reservId }) {
     }
 
     const payload = {
-      reservationId: reservationDetails?.id,
-      pin: reservationDetails?.messaging_otp,
+      reservationId: reservId,
+      pin: 1234,
       message: message,
     };
     const headers = {
@@ -258,6 +258,8 @@ function ViewReservation({ reservId }) {
       onSuccess: async (res) => {
         toast.success("message sent successfully!");
         await getReservationDetails(reservId);
+        setMessage("");
+        scrollBottom();
       },
       onFailed: (err) => {
         console.log(err);
@@ -268,7 +270,7 @@ function ViewReservation({ reservId }) {
 
   const refreshPage = async () => {
     await getReservationDetails(reservId);
-    scrollBottom()
+    scrollBottom();
   };
 
   const scrollBottom = () => {
@@ -277,7 +279,6 @@ function ViewReservation({ reservId }) {
         chatContainerRef.current.scrollHeight;
     }
   };
-
 
   return (
     <Fragment>
@@ -574,14 +575,21 @@ function ViewReservation({ reservId }) {
                                 {!reservationLoading ? (
                                   <>{message?.message ?? "N/A"}</>
                                 ) : (
-                                  <Skeleton />
+                                  <Skeleton
+                                    baseColor="#459ced"
+                                    highlightColor="#9fc8ed"
+                                  />
                                 )}
                               </span>
-                              <p  className="text-light">
+                              <p className="text-light">
                                 {!reservationLoading ? (
                                   <>{message?.addedTime ?? "N/A"}</>
                                 ) : (
-                                  <Skeleton width={100} />
+                                  <Skeleton
+                                    width={100}
+                                    baseColor="#459ced"
+                                    highlightColor="#9fc8ed"
+                                  />
                                 )}
                               </p>
                             </div>
@@ -596,21 +604,14 @@ function ViewReservation({ reservId }) {
                                 {!reservationLoading ? (
                                   <>{message?.message ?? "N/A"}</>
                                 ) : (
-                                  <Skeleton
-                                    baseColor="#459ced"
-                                    highlightColor="#9fc8ed"
-                                  />
+                                  <Skeleton />
                                 )}
                               </span>
                               <p>
                                 {!reservationLoading ? (
                                   <>{message?.addedTime ?? "N/A"}</>
                                 ) : (
-                                  <Skeleton
-                                    width={100}
-                                    baseColor="#459ced"
-                                    highlightColor="#9fc8ed"
-                                  />
+                                  <Skeleton width={100} />
                                 )}
                               </p>
                             </div>
@@ -619,38 +620,42 @@ function ViewReservation({ reservId }) {
                       })}
                     </div>
                   </div>
-                  <form
-                    className="send_message_form pt-3"
-                    onSubmit={sendMessageToShop}
-                  >
-                    <div className="searc_area d-flex">
-                      <input
-                        type="text"
-                        name=""
-                        id=""
-                        className="form-control"
-                        placeholder="Write Message.."
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                      />
-                      <button
-                        type="submit"
-                        className="send_message_btn"
-                        disabled={messageLoading}
-                      >
-                        {!messageLoading ? (
-                          <i>
-                            <Fi.FiSend />
-                          </i>
-                        ) : (
-                          <div
-                            class="spinner-border spinner-border-sm text-danger"
-                            role="status"
-                          ></div>
-                        )}
-                      </button>
-                    </div>
-                  </form>
+                  {isExpired === false ? (
+                    <form
+                      className="send_message_form pt-3"
+                      onSubmit={sendMessageToShop}
+                    >
+                      <div className="searc_area d-flex">
+                        <input
+                          type="text"
+                          name=""
+                          id=""
+                          className="form-control"
+                          placeholder="Write Message.."
+                          value={message}
+                          onChange={(e) => setMessage(e.target.value)}
+                        />
+                        <button
+                          type="submit"
+                          className="send_message_btn"
+                          disabled={messageLoading}
+                        >
+                          {!messageLoading ? (
+                            <i>
+                              <Fi.FiSend />
+                            </i>
+                          ) : (
+                            <div
+                              class="spinner-border spinner-border-sm text-danger"
+                              role="status"
+                            ></div>
+                          )}
+                        </button>
+                      </div>
+                    </form>
+                  ) : (
+                    <p className="py-4"></p>
+                  )}
                 </div>
               )}
             </div>

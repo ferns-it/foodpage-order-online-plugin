@@ -47,6 +47,12 @@ input {
   float: right;
 }
 
+@media screen and (max-width: 678px) {
+  #alter_card {
+    width: 100%;
+  }
+}
+
 .table-reservation-form-head {
   text-align: center;
   text-transform: uppercase;
@@ -1774,6 +1780,7 @@ abbr[title] {
 }
 .tbl_reserv_section {
   padding-top: 7.5rem;
+  padding-bottom: 3rem;
 }
 .manage_reserv_card {
   width: 100%;
@@ -2051,4 +2058,15 @@ abbr[title] {
   border-color: transparent #e5e5ea transparent transparent;
   left: -10px;
   top: 10px;
+}
+.message-area::-webkit-scrollbar {
+  width: 10px;
+}
+
+.message-area::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.message-area::-webkit-scrollbar-thumb {
+  background-color: #eee;
 }
