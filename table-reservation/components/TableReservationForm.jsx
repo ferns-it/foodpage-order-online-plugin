@@ -402,7 +402,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                         <select
                           name="bookingTime"
                           className={
-                            "form-select table_reserv_form_input " +
+                            "form-select table_reserv_form_input_select d-block " +
                             (isReservErr &&
                             (!initialValues?.bookingTime ||
                               initialValues.bookingTime.length === 0)
@@ -575,8 +575,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                       <textarea
                         name="message"
                         id=""
-                        className="textarea form-control"
-                        rows={5}
+                        className="textarea form-control table_reserv_textarea"
                         onChange={handleChange}
                       ></textarea>
                     </div>

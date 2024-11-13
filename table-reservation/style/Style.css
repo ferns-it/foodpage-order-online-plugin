@@ -29,7 +29,7 @@ input {
   border: none;
   margin-left: 5px;
   outline: none;
-  font-family: "Roboto", sans-serif;
+  font-family: "Roboto", sans-serif !important;
 }
 
 /* table reservation */
@@ -40,6 +40,7 @@ input {
   border-color: #eee;
   border-width: 0 1px 0 0;
   border-radius: 0;
+  font-family: "Roboto", sans-serif !important;
 }
 
 #alter_card {
@@ -47,7 +48,11 @@ input {
   padding: 10px;
   float: right;
 }
-
+.table_reserv_form_input_select {
+  border: 1px solid gray !important;
+  border-radius: 4px;
+  font-family: "Roboto", sans-serif !important;
+}
 .table-reservation-form-head {
   text-transform: uppercase;
   font-size: 1rem;
@@ -57,11 +62,13 @@ input {
   text-align: left;
   margin: 15px 0;
   font-weight: 500;
+  font-family: "Roboto", sans-serif !important;
 }
 
 .table_reserv_form_label {
   font-size: 13px;
   font-weight: 600;
+  font-family: "Roboto", sans-serif !important;
 }
 
 .table_reserv_form_input.err__ {
@@ -1971,6 +1978,7 @@ abbr[title] {
   user-select: none;
   margin-top: 20px;
   padding: 0;
+  font-family: "Roboto", sans-serif !important;
 }
 .poweredBy_ {
   position: absolute;
@@ -2070,4 +2078,7 @@ abbr[title] {
   border-color: transparent #e5e5ea transparent transparent;
   left: -10px;
   top: 10px;
+}
+.table_reserv_textarea{
+  min-height: 100px;
 }
