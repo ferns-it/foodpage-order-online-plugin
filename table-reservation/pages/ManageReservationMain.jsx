@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import "react-tooltip/dist/react-tooltip.css";
 import "../style/style.css";
 import CryptoJS from "crypto-js";
+import Layout from "@/components/layout/Layout";
 
 function ManageReservationMain() {
   const router = useRouter();
@@ -52,87 +53,91 @@ function ManageReservationMain() {
     "You can find the reservation ID in the reservation confirmation email. ";
   return (
     <Fragment>
-      <div className="tbl_reserv_section">
-        <div className="container">
-          <button
-            type="button"
-            className="go_back"
-            style={{ zIndex: 9 }}
-            onClick={() => router.push("/tablereservation")}
-          >
-            <Go.GoArrowLeft /> Back
-          </button>
-          <div className="card manage_reserv_card w-50">
-            <h3 className="table-reservation-form-head">Manage Reservation</h3>
-            <form onSubmit={handleReservation}>
-              <div className="form-group">
-                <label
-                  htmlFor="reserv_id"
-                  className="form-label table_reserv_form_label"
+      <Layout>
+        <div className="tbl_reserv_section">
+          <div className="container">
+            <button
+              type="button"
+              className="go_back"
+              style={{ zIndex: 9 }}
+              onClick={() => router.push("/tablereservation")}
+            >
+              <Go.GoArrowLeft /> Back
+            </button>
+            <div className="card manage_reserv_card w-50">
+              <h3 className="table-reservation-form-head">
+                Manage Reservation
+              </h3>
+              <form onSubmit={handleReservation}>
+                <div className="form-group">
+                  <label
+                    htmlFor="reserv_id"
+                    className="form-label table_reserv_form_label"
+                  >
+                    Enter your reservation ID
+                  </label>
+                  <input
+                    type="text"
+                    name=""
+                    id="reserv_id"
+                    className={
+                      "form-control table_reserv_form_input p-3 " +
+                      (error && reservId.length === 0 ? "err__" : "")
+                    }
+                    value={reservId}
+                    onChange={(e) => setReservId(e.target.value)}
+                  />
+                  {error && reservId.length == 0 && (
+                    <span className="reserv_from_err">
+                      Select a valid Reservation ID!
+                    </span>
+                  )}
+                </div>
+
+                <Tooltip id="info_tooltip" />
+                <a
+                  data-tooltip-id="info_tooltip"
+                  data-tooltip-content={toolTipMsg}
+                  className="reservId_find"
+                  data-tooltip-place="right"
                 >
-                  Enter your reservation ID
-                </label>
-                <input
-                  type="text"
-                  name=""
-                  id="reserv_id"
-                  className={
-                    "form-control table_reserv_form_input p-3 " +
-                    (error && reservId.length === 0 ? "err__" : "")
-                  }
-                  value={reservId}
-                  onChange={(e) => setReservId(e.target.value)}
-                />
-                {error && reservId.length == 0 && (
-                  <span className="reserv_from_err">
-                    Select a valid Reservation ID!
-                  </span>
-                )}
-              </div>
+                  Where can I find my reservation ID?
+                </a>
 
-              <Tooltip id="info_tooltip" />
-              <a
-                data-tooltip-id="info_tooltip"
-                data-tooltip-content={toolTipMsg}
-                className="reservId_find"
-                data-tooltip-place="right"
-              >
-                Where can I find my reservation ID?
-              </a>
-
-              <button
-                type="submit"
-                className="submit_reserv_btn mt-3"
-                disabled={reservationLoading}
-              >
-                {reservationLoading === false ? (
-                  <Fragment>
-                    <span>Continue</span>
-                    <i className="ps-2">
-                      <Go.GoArrowRight />
-                    </i>
-                  </Fragment>
-                ) : (
-                  <Fragment>
-                    <div
-                      className="spinner-border spinner-border-sm text-light"
-                      role="status"
-                    ></div>
-                    <span className="sr-only ps-2">Loading...</span>
-                  </Fragment>
-                )}
-              </button>
-            </form>
-            <br />
-            <p className="reservId_response_info">
-              <i>
-                <Fa.FaInfoCircle />
-              </i>
-              {toolTipMsg}
-            </p>
+                <button
+                  type="submit"
+                  className="submit_reserv_btn mt-3"
+                  disabled={reservationLoading}
+                >
+                  {reservationLoading === false ? (
+                    <Fragment>
+                      <span>Continue</span>
+                      <i className="ps-2">
+                        <Go.GoArrowRight />
+                      </i>
+                    </Fragment>
+                  ) : (
+                    <Fragment>
+                      <div
+                        className="spinner-border spinner-border-sm text-light"
+                        role="status"
+                      ></div>
+                      <span className="sr-only ps-2">Loading...</span>
+                    </Fragment>
+                  )}
+                </button>
+              </form>
+              <br />
+              <p className="reservId_response_info">
+                <i>
+                  <Fa.FaInfoCircle />
+                </i>
+                {toolTipMsg}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      </Layout>
     </Fragment>
   );
 }
