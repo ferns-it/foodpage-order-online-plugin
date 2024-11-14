@@ -2600,11 +2600,12 @@ div.food_tile__.active img {
 }
 .orde_noe_brn {
   font-size: 15px;
-  background-color: #046169;
+  background-color: #268b94;
   color: #fff;
   border-radius: 4px;
   width: 20%;
-  padding: 0;
+  position: relative;
+  bottom: 0;
   margin: 0;
 }
 /* .billing_block{
