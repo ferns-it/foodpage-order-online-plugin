@@ -942,7 +942,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                   </div>
                 )} */}
 
-                <button
+                {/* <button
                   type="button"
                   className="reserv_btn my-3"
                   onClick={() => router.push("/manage-reservation")}
@@ -951,7 +951,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                     <Im.ImSpoonKnife />
                   </i>
                   Manage Reservation
-                </button>
+                </button> */}
               </div>
               <div className="poweredBy_ text-center" id="main___">
                 <span>Powered by</span> <Image src={foodPageLogo} />
