@@ -2604,9 +2604,9 @@ div.food_tile__.active img {
   color: #fff;
   border-radius: 4px;
   width: 20%;
-  position: relative;
-  bottom: 0;
   margin: 0;
+  position: absolute;
+  bottom: 40px;
 }
 /* .billing_block{
   position: fixed;
