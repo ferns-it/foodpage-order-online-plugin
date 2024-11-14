@@ -1,3 +1,4 @@
+"use client"
 import React, {
   Fragment,
   useContext,
@@ -16,7 +17,7 @@ import * as Fi from "react-icons/fi";
 import * as Io from "react-icons/io";
 
 import ReservModal from "../components/ReservModal";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import CryptoJS from "crypto-js";
 import toast from "react-hot-toast";
 import Skeleton from "react-loading-skeleton";
@@ -39,7 +40,10 @@ export const mergeBookingDateTime = (bookingDate, bookingTime) => {
   return formattedDateTime;
 };
 
-function ViewReservation({ reservId }) {
+function ViewReservation() {
+  const searchParams = useSearchParams();
+  const reservId = searchParams.get("reserv");
+
   const router = useRouter();
   const {
     reservationDetails,
@@ -297,7 +301,7 @@ function ViewReservation({ reservId }) {
             <Go.GoArrowLeft /> Back
           </button>
           <div className="row">
-            <div className="col-lg-8 col-md-6 col-sm-12 position-relative">
+            <div className="col-lg-8 col-md-2 col-sm-12 position-relative">
               <div className="card manage_reserv_card" id="alter_card">
                 <h3 className="table-reservation-form-head">
                   Reservation Details
