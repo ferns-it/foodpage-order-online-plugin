@@ -553,6 +553,7 @@ body {
   font-weight: 700;
   color: #7777;
   user-select: none;
+  margin-bottom: 0;
 }
 
 .summary_card {
@@ -671,7 +672,30 @@ body {
   font-size: 13px;
   font-weight: 700;
   margin-top: 20px;
+  color: #000;
+  padding-bottom: 0;
 }
+.minim_detail{
+  font-family: sans-serif;
+  margin-top: 0;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+input.opt_input_827.uppercase {
+  background-color: #fff;
+  width: 100%;
+  margin-top: 3px;
+  /* padding: 4px; */
+  border-radius: 4px;
+  border: 1px solid #7777;
+  outline: none;
+}
+input.opt_input_827.uppercase::placeholder {
+  color: #757575;
+  font-size: 15px;
+}
+
+
 
 .opt_input_827 {
   width: 100%;
@@ -680,6 +704,7 @@ body {
   border-radius: 4px;
   border: 1px solid #7777;
   outline: none;
+ 
 }
 
 .opt_input_827.err__ {
@@ -690,12 +715,13 @@ body {
 .order_now_192 {
   width: 100%;
   margin-top: 20px;
-  padding: 7px 0;
+  height: 53px !important;
+  /* padding: 7px 0; */
   border: none;
   outline: none;
   background-color: #fd4645;
   color: #fff;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   border-radius: 5px;
   transition: all 0.2s ease-in-out;
@@ -787,6 +813,7 @@ body {
   text-transform: capitalize;
   white-space: nowrap;
   font-size: 15px;
+  color: #000;
 }
 
 .food_category_009 a > i {
@@ -2503,7 +2530,7 @@ body {
 
 #fda_product_tile {
   position: relative;
-  min-height: 220px;
+  min-height: 302px;
   background: rgb(238, 238, 238);
   color: #af2329;
   /* border: 1px dashed #7777; */
@@ -2562,9 +2589,9 @@ div.food_tile__.active img {
 }
 
 .food_detail {
-  font-size: 10px;
+  font-size: 13px;
   color: #747474 !important;
-  margin-bottom: 15px;
+  margin-bottom: 41px;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -2572,7 +2599,10 @@ div.food_tile__.active img {
   -webkit-box-orient: vertical;
   text-align: center;
 }
-
+.deliver_ label{
+  color: #000;
+  font-size: 15px;
+}
 /* .billing_block{
   position: fixed;
   right: 10px;
@@ -2589,6 +2619,7 @@ div.food_tile__.active img {
   transform: translateX(-50%);
   font-size: 1.2rem;
   font-weight: 700 !important;
+  color: #000;
 }
 .add_to_cart {
   position: absolute;
@@ -2600,11 +2631,12 @@ div.food_tile__.active img {
   background-color: transparent;
   background-color: #e03f3f;
   font-size: 14px;
-  padding: 3px 20px;
+  padding: 3px 20px 44px 20px;
   border-radius: 5px;
   color: #fff;
   font-weight: 600;
   transition: all 0.2s ease-in-out;
+  height: 32px !important;
 }
 .add_to_cart:hover {
   background-color: #fe4645;

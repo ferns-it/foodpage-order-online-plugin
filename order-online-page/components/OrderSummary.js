@@ -497,7 +497,7 @@ function OrderSummary() {
         {settings?.shopStatus == "open" && (
           <>
             <div
-              className="row mt-3 mx-auto mx-auto"
+              className="row mt-3 mx-auto mx-auto deliver_"
               style={{ display: "flex" }}
             >
               <div className="col-md-6" style={{ flex: 1, fontSize: "15px" }}>
@@ -613,7 +613,7 @@ function OrderSummary() {
 
             <h6
               style={{ color: "#da6d6d", fontSize: "10px", fontWeight: "500" }}
-              className="text-center"
+              className="text-center minim_detail"
             >
               Minimum Amount for Card payment is £
               {settings?.deliveryInfo?.onlinePaymentMinAmount}
