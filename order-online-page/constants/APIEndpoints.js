@@ -1,8 +1,8 @@
 "use client";
 
-const id = 1;
+const id = 65;
 const shopId = `${id}-shop`;
-const shopURL = "le-arabia";
+const shopURL = "azuma-restaurant";
 
 export const APIEndpoints = {
   menulist: `products/${id}/0`,
