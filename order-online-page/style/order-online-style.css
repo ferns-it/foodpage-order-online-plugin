@@ -2598,7 +2598,15 @@ div.food_tile__.active img {
   -webkit-box-orient: vertical;
   text-align: center;
 }
-
+.orde_noe_brn {
+  font-size: 15px;
+  background-color: #046169;
+  color: #fff;
+  border-radius: 4px;
+  width: 20%;
+  padding: 0;
+  margin: 0;
+}
 /* .billing_block{
   position: fixed;
   right: 10px;

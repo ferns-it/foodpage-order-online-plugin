@@ -32,8 +32,7 @@ function FoodCards(category) {
 
     if (showModal) {
       const data = getSessionStorageItem("selectedProduct");
-
-      window.sessionStorage.removeItem("selectedProduct");
+      console.log(data, "data");
       if (data && data.length != 0) {
         const product = JSON.parse(data);
         setShowModal(true);
