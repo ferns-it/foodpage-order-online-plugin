@@ -1660,7 +1660,7 @@ deal_content p {
 .inc_dec_wrapper_0291 {
   display: block;
   position: relative;
-  margin: 0 auto;
+  /* margin: 0 auto; */
   margin-bottom: 34px;
 }
 

@@ -80,7 +80,7 @@ input {
 .inc_dec_wrapper_0291 {
   display: block;
   position: relative;
-  margin: 0 auto;
+  /* margin: 0 auto; */
   margin-bottom: 34px;
 }
 
@@ -2080,5 +2080,5 @@ abbr[title] {
   top: 10px;
 }
 .table_reserv_textarea{
-  min-height: 100px;
+  min-height: 100px !important;
 }
