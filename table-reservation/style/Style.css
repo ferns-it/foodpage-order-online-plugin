@@ -1025,7 +1025,14 @@ a {
   .vertical_line {
     display: none;
   }
-
+  .res-img {
+    width: 100px !important;
+    height: 100px !important;
+    margin: 0px auto;
+  }
+  .res-img img {
+    max-width: 100px !important;
+  }
   .arrow_btn {
     margin-top: -21px;
   }
@@ -2079,6 +2086,6 @@ abbr[title] {
   left: -10px;
   top: 10px;
 }
-.table_reserv_textarea{
+.table_reserv_textarea {
   min-height: 100px;
 }
