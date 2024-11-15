@@ -2604,6 +2604,9 @@ div.food_tile__.active img {
   -webkit-box-orient: vertical;
   text-align: center;
 }
+.small-card {
+  display: none;
+}
 .orde_noe_brn {
   font-size: 15px;
   background-color: #268b94;
@@ -2789,4 +2792,11 @@ div.food_tile__.active img {
   .lg_summary {
     display: none;
   }
+   .small-card {
+    display: block;
+  }
+  .web-res {
+    display: none;
+  }
 }
+
