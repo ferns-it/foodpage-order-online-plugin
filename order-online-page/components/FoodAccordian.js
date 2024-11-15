@@ -155,46 +155,47 @@ function FoodAccordian() {
                         .filter((product) => product.cID === list.cID)
                         .flatMap((product) =>
                           product.products && product.products.length != 0 ? (
-                            product.products.map((data, key) => (
-                              <a
-                                className="accord_food_anchor"
-                                key={index}
-                                onClick={() => addOnsModalData(data)}
-                              >
-                                <div className="card accord_food_card_19">
-                                  <div className="row">
-                                    <div className="col-9">
-                                      <h2 className="accord_food_name_19">
-                                        {data?.name ?? "N/A"}
-                                      </h2>
-                                      <p className="accord_desc_19">
-                                        {data?.description &&
-                                          Utils.removeSpecialCharacters(
-                                            data?.description
-                                          )}
-                                      </p>
-                                      <p className="accord_price_19">
-                                        {data?.price ?? "N/A"}
-                                      </p>
-                                    </div>
-                                    <div className="col-2">
-                                      {/* <div className="accord_img_19">
+                            product.products.map((data, keyIndex) => (
+                              <div key={keyIndex}>
+                                <a
+                                  className="accord_food_anchor"
+                                  onClick={() => addOnsModalData(data)}
+                                >
+                                  <div className="card accord_food_card_19">
+                                    <div className="row">
+                                      <div className="col-9">
+                                        <h2 className="accord_food_name_19">
+                                          {data?.name ?? "N/A"}
+                                        </h2>
+                                        <p className="accord_desc_19">
+                                          {data?.description &&
+                                            Utils.removeSpecialCharacters(
+                                              data?.description
+                                            )}
+                                        </p>
+                                        <p className="accord_price_19">
+                                          {data?.price ?? "N/A"}
+                                        </p>
+                                      </div>
+                                      <div className="col-2">
+                                        {/* <div className="accord_img_19">
                                         <img
                                           src={data?.photo}
                                           alt=""
                                           referrerPolicy="no-referrer"
                                         />
                                       </div> */}
-                                      <button
-                                        type="button"
-                                        className="add_prod_"
-                                      >
-                                        <Io.IoIosAddCircle />
-                                      </button>
+                                        <button
+                                          type="button"
+                                          className="add_prod_"
+                                        >
+                                          <Io.IoIosAddCircle />
+                                        </button>
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                              </a>
+                                </a>
+                              </div>
                             ))
                           ) : (
                             <Fragment>

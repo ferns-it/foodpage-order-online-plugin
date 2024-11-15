@@ -496,18 +496,18 @@ function AddOnsModal(props) {
 
               {foodValues.addons &&
                 foodValues.addons.length != 0 &&
-                foodValues.addons.map((item, index) => {
+                foodValues.addons.map((item, findex) => {
                   return (
                     <Fragment>
                       <div className="col-auto">
-                        <p className="sub_head_0291" key={index}>
+                        <p className="sub_head_0291" key={findex}>
                           {item?.name ?? "N/A"}{" "}
                         </p>
                         <table className="menu_table_0291">
                           {item?.options &&
-                            item?.options.map((data, index) => {
+                            item?.options.map((data, iindex) => {
                               return (
-                                <tr key={index}>
+                                <tr key={iindex}>
                                   <td className="d-flex">
                                     <label
                                       // htmlFor={varient?.name}

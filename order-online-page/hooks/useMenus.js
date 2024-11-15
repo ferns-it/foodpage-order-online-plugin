@@ -141,7 +141,8 @@ const useMenus = () => {
         BaseClient.get(
           APIEndpoints.productList +
             `/${data?.shopId}` +
-            `/${data?.categoryId}`,
+            `/${data?.categoryId}/all`,
+
           null,
           {
             onSuccess: (res) => {
