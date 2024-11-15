@@ -480,7 +480,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
 
                   <h3 className="sub_title_">Personal Information</h3>
                   <div className="row">
-                    <div className="col-lg-4 col-md-4 ol-sm-4">
+                    <div className="col-lg-4 col-md-6 ol-sm-12">
                       <div className="form-group">
                         <label
                           htmlFor="name"
@@ -507,7 +507,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                         </span>
                       )}
                     </div>
-                    <div className="col-lg-4 col-md-4 ol-sm-4">
+                    <div className="col-lg-4 col-md-6 ol-sm-12">
                       <div className="form-group">
                         <label
                           htmlFor="email"
@@ -535,7 +535,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                       )}
                     </div>
 
-                    <div className="col-lg-4 col-md-4 ol-sm-4">
+                    <div className="col-lg-4 col-md-6 ol-sm-12">
                       <div className="form-group">
                         <label
                           htmlFor="phone"
