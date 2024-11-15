@@ -439,6 +439,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                       >
                         No of Party Size
                       </label>
+                      
                       <div className="inc_dec_wrapper_0291">
                         <div className="incDec_wrapper_0291">
                           <input
@@ -447,7 +448,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                             min={1}
                             className="toggle-checkbox"
                           />
-                          <div className="counter-container">
+                          <div className="counter-container text-center mx-auto">
                             <label
                               htmlFor="toggle"
                               className="decrement-button"

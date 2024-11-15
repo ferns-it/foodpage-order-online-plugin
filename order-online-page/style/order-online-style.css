@@ -1186,6 +1186,7 @@ body {
   position: relative;
   width: 120px;
   height: 100%;
+  margin: 0px auto;
   padding: 10px;
   /* margin: 0 auto; */
   margin-bottom: 50px;
@@ -1197,6 +1198,8 @@ body {
   background-color: #f2f1f2;
   border-radius: 20px;
   overflow: hidden;
+  margin: 0px auto;
+  text-align: center;
   border: 1px solid #e03f3f;
 }
 
@@ -2792,11 +2795,10 @@ div.food_tile__.active img {
   .lg_summary {
     display: none;
   }
-   .small-card {
+  .small-card {
     display: block;
   }
   .web-res {
     display: none;
   }
 }
-
