@@ -1187,7 +1187,7 @@ body {
   width: 120px;
   height: 100%;
   padding: 10px;
-  margin: 0 auto;
+  /* margin: 0 auto; */
   margin-bottom: 50px;
 }
 
