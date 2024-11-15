@@ -152,7 +152,7 @@ function AddOnsModal(props) {
 
       totalAmount = priceAmt * count;
     }
-// console.log("cartTotal", totalAmount.toFixed(2));
+    // console.log("cartTotal", totalAmount.toFixed(2));
 
     setCardTotal(totalAmount.toFixed(2));
   };
@@ -392,7 +392,7 @@ function AddOnsModal(props) {
                 />
                 <div className="counter-container">
                   <label
-                    for="toggle"
+                    htmlFor="toggle"
                     className="decrement-button m-0"
                     onClick={handleDecrement}
                   >
@@ -400,7 +400,7 @@ function AddOnsModal(props) {
                   </label>
                   <span className="counter-text">{count}</span>
                   <label
-                    for="toggle"
+                    htmlFor="toggle"
                     className="increment-button red m-0"
                     onClick={() => setCount(count + 1)}
                   >

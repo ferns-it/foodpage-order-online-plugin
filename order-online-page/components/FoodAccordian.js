@@ -189,7 +189,7 @@ function FoodAccordian() {
                                         type="button"
                                         className="add_prod_"
                                       >
-                                        <Io.IoIosAddCircle  />
+                                        <Io.IoIosAddCircle />
                                       </button>
                                     </div>
                                   </div>

@@ -449,7 +449,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                           />
                           <div className="counter-container">
                             <label
-                              for="toggle"
+                              htmlFor="toggle"
                               className="decrement-button"
                               onClick={handleDecrement}
                             >
@@ -461,7 +461,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                               onChange={(e) => handleCountChange(e)}
                             />
                             <label
-                              for="toggle"
+                              htmlFor="toggle"
                               className="increment-button red"
                               onClick={handleIncrement}
                             >
@@ -954,7 +954,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                 </button> */}
               </div>
               <div className="poweredBy_ text-center" id="main___">
-                <span>Powered by</span> <Image src={foodPageLogo} />
+                <span>Powered by</span> <Image src={foodPageLogo} alt="Logo" />
               </div>
             </div>
           </div>
