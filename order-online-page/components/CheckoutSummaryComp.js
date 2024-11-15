@@ -176,7 +176,7 @@ function CheckoutSummaryComp() {
       </div>
 
       <div className="order_online_summary_checkout_table p-2 p-3">
-        <div className="d-flex justify-content-between align-items-center">
+        <div className="d-flex justify-content-between align-items-center checkout_type">
           Type
           <p>
             {" "}
@@ -185,7 +185,7 @@ function CheckoutSummaryComp() {
         </div>
         {type === "false" ? (
           <>
-            <div className="d-flex justify-content-between align-items-center">
+            <div className="d-flex justify-content-between align-items-center checkout_locn">
               Location
               <p>{code}</p>
             </div>
@@ -283,8 +283,8 @@ function CheckoutSummaryComp() {
                 <p className="m-0">{details?.cart_GrossAmount ?? 0}</p>
               </div>
               <Fragment>
-                <div className="d-flex justify-content-between align-items-center mt-3">
-                  <h6>Discount</h6>
+                <div className="d-flex justify-content-between align-items-center discount__ mt-3">
+                  <h6 className="checkout_discount">Discount</h6>
                   <p className="m-0">- £{details?.discountAmount ?? 0}</p>
                 </div>
 
@@ -309,19 +309,19 @@ function CheckoutSummaryComp() {
                 )} */}
 
                 {type === "false" || type === false ? (
-                  <div className="d-flex justify-content-between align-items-center">
-                    <h6 className="mt-2">Delivery fee </h6>
+                  <div className="d-flex justify-content-between align-items-center delivery__ ">
+                    <h6 className="checkout_discount mt-2">Delivery fee </h6>
                     <p className="m-0">£{details?.deliveryFeeAmount ?? 0}</p>
                   </div>
                 ) : (
                   <Fragment></Fragment>
                 )}
 
-                <div className="d-flex justify-content-between align-items-center">
-                  <h5 className="mt-2">
+                <div className="d-flex justify-content-between align-items-center total__">
+                  <h5 className="checkout_discount mt-2">
                     <b>Total</b>
                   </h5>
-                  <h5 className="m-0">
+                  <h5 className="checkout_discount mt-2">
                     <b>£{(details?.cart_NetAmount ?? 0).toFixed(2)}</b>
                   </h5>
                 </div>

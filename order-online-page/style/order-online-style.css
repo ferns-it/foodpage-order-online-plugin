@@ -586,6 +586,7 @@ body {
   color: #e61a16;
   margin-bottom: 0px;
   margin-left: auto;
+  margin-top: 0;
 }
 
 .remove {
@@ -1726,16 +1727,28 @@ filter: blur();
   font-size: 13px;
   color: #3c3c3c;
   margin-top: 10px;
+  margin-bottom: 16px;
 }
 
 .online_order_plugin_label_2939 {
   font-size: 13px;
+  color: #000;
+  padding-bottom: 0;
 }
 
 .online_order_plugin_input_2939 {
   border-radius: 2px;
+  border: 1px solid #e7e7e8 !important;
+  color: #000 !important;
+  font-weight: 400 !important;
 }
-
+.payment_complete{
+  color: #000;
+}
+.online_order_plugin_input_2939:disabled{
+  color: #000;
+  font-weight: 400;
+}
 .online_order_plugin_input_2939.error___ {
   border-color: #e61a16 !important;
 }
@@ -1772,8 +1785,28 @@ filter: blur();
   border-radius: 5px;
   margin: 0 auto;
   transition: all 0.2s ease-in-out;
+  line-height: 0 !important;
+  height:40px !important;
+  text-transform: capitalize;
 }
-
+.checkout_type{
+  margin-bottom: -44px;
+}
+.checkout_locn{
+  margin-bottom: -18px;
+}
+.checkout_discount{
+  color: #000;
+}
+.discount__{
+  margin-top: -29px !important;
+}
+.delivery__{
+  margin-top: -10px !important;
+}
+.total__{
+  margin-top: -5px;
+}
 .online_order_plugin_login_btn:hover {
   background-color: #ab2e2e;
 }
@@ -1781,9 +1814,9 @@ filter: blur();
 .online_order_plugin_login_btn:disabled {
   background-color: #da6d6d;
 }
-
 .payment_card_order_online_093 {
-  padding: 15px 0 12px 0;
+  margin-top: 10px;
+  /* padding: 15px 0 12px 0; */
   cursor: pointer;
 }
 
@@ -1801,6 +1834,9 @@ filter: blur();
   font-size: 18px;
   text-align: center;
   padding: 0 10px;
+  color: #000;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .payment_card_order_online_093:hover>i {
@@ -1881,6 +1917,7 @@ filter: blur();
   padding: 10px 0;
   margin: 0 auto;
   border-radius: 5px;
+  line-height: 0 !important;
 }
 
 .edit_btn_details {
@@ -2026,6 +2063,7 @@ filter: blur();
   border-radius: 4px;
   margin: 0 auto;
   transition: all 0.2s ease-in-out;
+  line-height: 0 !important;
 }
 
 .cash_payment_submit_btn_order_online:hover {

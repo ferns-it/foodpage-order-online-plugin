@@ -446,7 +446,7 @@ function OrderSummaryCheckout() {
                   <p>To proceed with your order, please register with us!</p>
                 ) : (
                   <div className="d-flex">
-                    <p>Complete your payment</p>
+                    <p className="payment_complete">Complete your payment</p>
                     <button
                       className="edit_btn_details"
                       type="button"
