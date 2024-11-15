@@ -439,7 +439,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                       >
                         No of Party Size
                       </label>
-                      
+
                       <div className="inc_dec_wrapper_0291">
                         <div className="incDec_wrapper_0291">
                           <input

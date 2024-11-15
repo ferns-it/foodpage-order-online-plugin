@@ -280,41 +280,43 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
                   <span>Reservation Details</span>
                 </p>
                 <table className="reserv_timing_table table">
-                  <tr>
-                    <td className="tbl_head">Booking Date</td>
-                    <td>
-                      {initialValues && initialValues?.bookingDate
-                        ? Utils.formatDate(initialValues?.bookingDate)
-                        : "N/A"}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="tbl_head">Booking Time</td>
-                    <td>{initialValues?.bookingTime ?? "N/A"}</td>
-                  </tr>
-                  <tr>
-                    <td className="tbl_head">Name</td>
-                    <td>{initialValues?.name ?? "N/A"}</td>
-                  </tr>
-                  <tr>
-                    <td className="tbl_head">Email Address</td>
-                    <td>{initialValues?.email ?? "N/A"}</td>
-                  </tr>
-                  <tr>
-                    <td className="tbl_head">Phone</td>
-                    <td>{initialValues?.phone ?? "N/A"}</td>
-                  </tr>
-
-                  <tr>
-                    <td className="tbl_head">people</td>
-                    <td>{initialValues?.noOfChairs ?? "N/A"}</td>
-                  </tr>
-                  {initialValues && initialValues.message && (
+                  <tbody>
                     <tr>
-                      <td className="tbl_head">Message</td>
-                      <td>{initialValues?.message ?? "N/A"}</td>
+                      <td className="tbl_head">Booking Date</td>
+                      <td>
+                        {initialValues && initialValues?.bookingDate
+                          ? Utils.formatDate(initialValues?.bookingDate)
+                          : "N/A"}
+                      </td>
                     </tr>
-                  )}
+                    <tr>
+                      <td className="tbl_head">Booking Time</td>
+                      <td>{initialValues?.bookingTime ?? "N/A"}</td>
+                    </tr>
+                    <tr>
+                      <td className="tbl_head">Name</td>
+                      <td>{initialValues?.name ?? "N/A"}</td>
+                    </tr>
+                    <tr>
+                      <td className="tbl_head">Email Address</td>
+                      <td>{initialValues?.email ?? "N/A"}</td>
+                    </tr>
+                    <tr>
+                      <td className="tbl_head">Phone</td>
+                      <td>{initialValues?.phone ?? "N/A"}</td>
+                    </tr>
+
+                    <tr>
+                      <td className="tbl_head">people</td>
+                      <td>{initialValues?.noOfChairs ?? "N/A"}</td>
+                    </tr>
+                    {initialValues && initialValues.message && (
+                      <tr>
+                        <td className="tbl_head">Message</td>
+                        <td>{initialValues?.message ?? "N/A"}</td>
+                      </tr>
+                    )}
+                  </tbody>
                 </table>
               </div>
             </div>

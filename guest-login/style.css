@@ -1846,6 +1846,9 @@ deal_content p {
   #alter_card {
     width: 100% !important;
   }
+  .resrv_btnn {
+    width: 100%;
+  }
 }
 
 .resend_otp_reservv {
