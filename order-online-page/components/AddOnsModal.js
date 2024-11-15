@@ -314,7 +314,7 @@ function AddOnsModal(props) {
     };
     const payload = {
       qty: count,
-      rID: JSON.stringify(shopId),
+      rID: shopId,
       pID: itemData?.pID,
       cOption: JSON.stringify(cOptionObj),
     };
@@ -383,7 +383,7 @@ function AddOnsModal(props) {
               {cardTotal}
             </p>
             <div className="inc_dec_wrapper_0291">
-              <div className="incDec_wrapper_0291 mx-auto text-center">
+              <div className="incDec_wrapper_0291">
                 <input
                   type="checkbox"
                   id="toggle"
