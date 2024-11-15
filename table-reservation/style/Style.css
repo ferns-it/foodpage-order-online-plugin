@@ -106,7 +106,9 @@ input {
   font-weight: 700;
   user-select: none;
 }
-
+.decrement-button{
+  color: #000;
+}
 .increment-button:hover,
 .decrement-button:hover {
   background-color: #ddd;
@@ -133,6 +135,7 @@ input {
   padding: 0 10px;
   user-select: none;
   text-align: center;
+  color: #000;
 }
 
 .submit_reserv_btn {

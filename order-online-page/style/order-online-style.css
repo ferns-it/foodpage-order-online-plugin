@@ -1122,6 +1122,7 @@ filter: blur();
   text-align: center;
   font-weight: 700;
   color: #3c3c3c;
+  margin-bottom: 0 !important;
 }
 
 .product_img_bg_029 {
@@ -1173,6 +1174,9 @@ filter: blur();
   font-size: 22px;
   font-weight: 700;
   text-align: center;
+  color: #000;
+  margin-top: 0 !important;
+  margin-bottom: 16px !important;
 }
 
 .inc_dec_wrapper_0291 {
@@ -1279,7 +1283,7 @@ filter: blur();
 .varient_name {
   font-size: 14px;
   font-weight: 600;
-  padding-left: 10px;
+  /* padding-left: 10px; */
   white-space: nowrap;
 }
 
@@ -1305,6 +1309,8 @@ filter: blur();
   font-weight: 600;
   font-size: 14px;
   transition: all 0.2s ease-in-out;
+  line-height: 0 !important;
+  height: 46px !important;
 }
 
 .btn_8392>i {
@@ -2320,6 +2326,7 @@ filter: blur();
   color: #747474;
   padding: 0 0 0 40px;
   user-select: none;
+  margin: 0 !important;
 }
 
 @keyframes skeleton-shine {

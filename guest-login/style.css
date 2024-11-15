@@ -1171,6 +1171,9 @@ deal_content p {
   .item_name::after {
     width: 100px;
   }
+  #fda_product_tile {
+    width: 150px;
+}
 }
 
 @media screen and (max-width: 991px) {
