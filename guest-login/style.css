@@ -135,7 +135,11 @@ input[type="checkbox"]:focus textarea,
 div.food_tile.active img {
   background-color: rgba(220, 230, 252, 0.85);
 }
-
+@media screen and (max-width:1024px) {
+  #fda_product_tile{
+    width: 150px !important;
+  }
+}
 .food_detail {
   font-size: 10px;
   color: rgba(38, 29, 86, 0.4);
@@ -973,6 +977,7 @@ deal_content p {
 }
 
 @media screen and (max-width: 1024px) {
+  
   .home_button {
     flex-wrap: wrap;
   }
@@ -995,6 +1000,8 @@ deal_content p {
   .bg_button button {
     padding: 17px 23px 17px 23px;
   }
+ 
+  
 }
 
 @media screen and (max-width: 768px) {
@@ -1171,9 +1178,7 @@ deal_content p {
   .item_name::after {
     width: 100px;
   }
-  #fda_product_tile {
-    width: 150px;
-}
+ 
 }
 
 @media screen and (max-width: 991px) {

@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import LoaderComp from "../components/LoaderComp";
 import { TableReservationContext } from "../../table-reservation/context/TableReservationContext";
 import Utils from "../../table-reservation/utils/Utils";
+// import "../style/order-online-style.css"
 
 const ThemeTitle = ({ htmlString }) => {
   const cleanHtmlString = htmlString.replace(/\r\n/g, "");

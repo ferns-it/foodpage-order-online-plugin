@@ -1,6 +1,6 @@
 import React, { Fragment, useContext, useEffect, useRef } from "react";
 import "../style/style.css";
-import "../../order-online-page/style/order-online-style.css"; //? style from order online
+// import "../../order-online-page/style/order-online-style.css"; //? style from order online
 import CryptoJS from "crypto-js";
 import { TableReservationContext } from "../context/TableReservationContext";
 import toast from "react-hot-toast";
