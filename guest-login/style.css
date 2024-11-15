@@ -1829,7 +1829,9 @@ deal_content p {
   height: 70px;
   font-size: 10px !important;
 }
-
+.justify {
+  text-align: justify;
+}
 @media screen and (max-width: 991px) {
   .otp_validation_reserv div > input {
     width: 40px;

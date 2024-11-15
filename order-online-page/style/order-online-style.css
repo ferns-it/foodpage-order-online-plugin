@@ -264,6 +264,12 @@ body {
     margin: 0px auto;
     width: 73%;
   }
+  .web-res {
+    display: none;
+  }
+  .mob-res {
+    display: block;
+  }
 }
 
 .order-online {
@@ -2607,6 +2613,18 @@ div.food_tile__.active img {
   margin: 0;
   position: absolute;
   bottom: 40px;
+}
+.button_order {
+  font-size: 15px;
+  background-color: #268b94;
+  color: #fff;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  width: 100px;
+  margin: 0;
+}
+.mob-res {
+  display: none;
 }
 /* .billing_block{
   position: fixed;

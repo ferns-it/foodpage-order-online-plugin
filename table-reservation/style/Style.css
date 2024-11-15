@@ -1025,7 +1025,14 @@ a {
   .vertical_line {
     display: none;
   }
-
+  .res-img {
+    width: 100px !important;
+    height: 100px !important;
+    margin: 0px auto;
+  }
+  .res-img img {
+    max-width: 100px !important;
+  }
   .arrow_btn {
     margin-top: -21px;
   }
