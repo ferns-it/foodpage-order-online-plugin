@@ -1032,8 +1032,8 @@ a {
     display: none;
   }
   .res-img {
-    width: 100px !important;
-    height: 100px !important;
+    width: auto;
+    height: auto;
     margin: 0px auto;
   }
   .res-img img {
