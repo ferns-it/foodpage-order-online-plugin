@@ -1843,6 +1843,9 @@ deal_content p {
   .table_reservation_card {
     border: none;
   }
+  #alter_card {
+    width: 100% !important;
+  }
 }
 
 .resend_otp_reservv {

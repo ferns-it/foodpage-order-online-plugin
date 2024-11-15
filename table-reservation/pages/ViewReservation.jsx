@@ -295,13 +295,13 @@ function ViewReservation() {
       <section className="tbl_reserv_section">
         <div className="container">
           <button
-            className="go_back"
+            className="go_back mb-2"
             onClick={() => router.push("/manage-reservation")}
           >
             <Go.GoArrowLeft /> Back
           </button>
           <div className="row">
-            <div className="col-lg-8 col-md-2 col-sm-12 position-relative">
+            <div className="col-lg-8 col-md-12 col-sm-12 position-relative">
               <div className="card manage_reserv_card" id="alter_card">
                 <h3 className="table-reservation-form-head">
                   Reservation Details

@@ -48,6 +48,12 @@ input {
   padding: 10px;
   float: right;
 }
+@media screen and (max-width: 600px) {
+  #alter_card {
+    width: 100% !important;
+    font-size: 8px;
+  }
+}
 .table_reserv_form_input_select {
   border: 1px solid gray !important;
   border-radius: 4px;
@@ -1893,6 +1899,14 @@ abbr[title] {
   width: 50%;
   user-select: none;
 }
+@media screen and (max-width: 600px) {
+  .reser_table_value {
+    font-size: 10px;
+  }
+  .reserv_table_sub_head {
+    font-size: 10px !important;
+  }
+}
 .reserv_table_sub_head {
   font-size: 14px;
   color: #727272;
@@ -2086,6 +2100,6 @@ abbr[title] {
   left: -10px;
   top: 10px;
 }
-.table_reserv_textarea{
+.table_reserv_textarea {
   min-height: 100px !important;
 }
