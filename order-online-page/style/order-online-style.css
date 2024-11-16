@@ -2804,3 +2804,13 @@ div.food_tile__.active img {
     display: none;
   }
 }
+  .orde_noe_brn {
+    font-size: 15px;
+    background-color: #268b94;
+    color: #fff;
+    border-radius: 4px;
+    width: 100px !important;
+    margin: 0;
+    bottom: auto !important;
+    position: relative !important;
+  }
