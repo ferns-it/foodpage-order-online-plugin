@@ -612,7 +612,12 @@ function OrderSummary() {
             )}
 
             <h6
-              style={{ color: "#da6d6d", fontSize: "10px", fontWeight: "500" }}
+              style={{
+                color: "#da6d6d",
+                fontSize: "10px",
+                fontWeight: "500",
+                fontFamily: "sans-serif",
+              }}
               className="text-center"
             >
               Minimum Amount for Card payment is £
