@@ -324,12 +324,12 @@ function OrderSummary() {
           {cartItems && cartItems.cartItems.length != 0 ? (
             <div className="summary_card card">
               {cartItems &&
-                cartItems.cartItems.map((item, index) => {
+                cartItems.cartItems.map((item, mainIndex) => {
                   const addOns = item?.addon_apllied;
                   const masterAddons = item?.master_addon_apllied;
                   return (
                     <>
-                      <div className="position-relative mb-4" key={index}>
+                      <div className="position-relative mb-4" key={mainIndex}>
                         <div className="d-flex">
                           <p className="food_menu m-0 food_title_299">
                             <strong>{item?.productName ?? "N/A"} - </strong>
@@ -341,7 +341,7 @@ function OrderSummary() {
                         </div>
                         <div
                           className={`add_ons_wrapper_order_summary ${
-                            showAddons && showAddons.includes(index)
+                            showAddons && showAddons.includes(mainIndex)
                               ? "show"
                               : ""
                           }`}
@@ -349,17 +349,17 @@ function OrderSummary() {
                           <table className="addOnsList028">
                             {addOns &&
                               addOns.length != 0 &&
-                              addOns.map((add, index) => {
+                              addOns.map((add, addsOnindex) => {
                                 return (
                                   <>
-                                    <span key={index}>
+                                    <span key={addsOnindex}>
                                       <strong>{add?.title}</strong>
                                     </span>
                                     {add &&
                                       add.choosedOption.length != 0 &&
-                                      add.choosedOption.map((data, index) => {
+                                      add.choosedOption.map((data, chooseIndex) => {
                                         return (
-                                          <tr key={index}>
+                                          <tr key={chooseIndex}>
                                             <td>{data?.text}</td>
                                             <td>{data?.price}</td>
                                           </tr>
@@ -372,10 +372,10 @@ function OrderSummary() {
                           <table className="addOnsList028">
                             {masterAddons &&
                               masterAddons.length != 0 &&
-                              masterAddons.map((add, index) => {
+                              masterAddons.map((add, masterAddindex) => {
                                 return (
                                   <>
-                                    <span key={index}>
+                                    <span key={masterAddindex}>
                                       <strong>{add?.title}</strong>
                                     </span>
                                     {add &&
@@ -399,9 +399,9 @@ function OrderSummary() {
                           (masterAddons && masterAddons.length != 0) ? (
                             <button
                               className="summary_addons_collapse_btn"
-                              onClick={() => toggleFoodLists(index)}
+                              onClick={() => toggleFoodLists(mainIndex)}
                             >
-                              {showAddons && showAddons.includes(index) ? (
+                              {showAddons && showAddons.includes(mainIndex) ? (
                                 <Fragment>
                                   <Io.IoIosArrowRoundUp />{" "}
                                   <span>Know less</span>
@@ -421,11 +421,11 @@ function OrderSummary() {
                             type="button"
                             className="remove"
                             onClick={() =>
-                              handleDeleteItem(item?.cartID, index)
+                              handleDeleteItem(item?.cartID, mainIndex)
                             }
-                            disabled={cartLoading && deleteIndex === index}
+                            disabled={cartLoading && deleteIndex === mainIndex}
                           >
-                            {cartLoading && deleteIndex === index ? (
+                            {cartLoading && deleteIndex === mainIndex ? (
                               <span
                                 className="spinner-border spinner-border-sm"
                                 role="status"
