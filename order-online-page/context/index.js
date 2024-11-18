@@ -86,6 +86,9 @@ export const AppContextProvider = (props) => {
     settingsLoading,
     setCartItems,
     clearCartItems,
+    diningMenuList,
+    diningLoading,
+    diningList,
   } = useMenus();
   const {
     authLoading,
@@ -146,6 +149,7 @@ export const AppContextProvider = (props) => {
     getShopSettings();
     fetchCategoriesList();
     fetchCartList(userId);
+    diningMenuList();
     fetchMenuList();
     // if (userToken) {
     //   fetchAddressList(userToken);
@@ -320,6 +324,9 @@ export const AppContextProvider = (props) => {
         deliveryLoading,
         GuestDiscountoftakeaway,
         GuestDeliveryDetails,
+        diningMenuList,
+        diningLoading,
+        diningList,
       }}
     >
       {props.children}

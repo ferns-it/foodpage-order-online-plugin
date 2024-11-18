@@ -9,7 +9,9 @@ const useMenus = () => {
   const [deliveryFee, setDeliveryFee] = useState(null);
   const [cartLoading, setCartLoading] = useState(false);
   const [categoryList, setCategoryList] = useState(null);
+  const [diningList, setDiningList] = useState(null);
   const [settings, setSettings] = useState(null);
+  const [diningLoading, setDiningLoading] = useState(false);
   const [deliveryInfo, setDeliveryInfo] = useState(null);
   const [menuLoading, setMenuLoading] = useState(false);
   const [locationResponse, setLocationResponse] = useState(null);
@@ -56,6 +58,22 @@ const useMenus = () => {
       });
     } finally {
       setCategoryLoading(false);
+    }
+  };
+  const diningMenuList = async () => {
+    try {
+      setDiningLoading(true);
+      await BaseClient.get(APIEndpoints.categoryList, [], {
+        onSuccess: (res) => {
+          console.log(res.data,"response");
+          setDiningList(res?.data?.data?.items);
+        },
+        onFailed: (err) => {
+          console.log("Error on fetching menus", err);
+        },
+      });
+    } finally {
+      setDiningLoading(false);
     }
   };
   const fetchCartList = async (userId) => {
@@ -197,6 +215,9 @@ const useMenus = () => {
     deleteSingleCartItem,
     cartLoading,
     getShopSettings,
+    diningMenuList,
+    diningLoading,
+    diningList,
     settings,
     deliveryInfo,
     categoryLoading,

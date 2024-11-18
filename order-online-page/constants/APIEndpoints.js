@@ -13,6 +13,7 @@ export const APIEndpoints = {
   clearCart: "user/web/carts/clear",
   productList: "products",
   shopSettings: `settings/${shopURL}`,
+  diningMenu: `products/${id}/0/dining`,
   createPaymentIntent: "user/web/checkout/createpaymentintent",
   locationSettings: "service",
   completecheckout: "user/web/checkout/complete",
