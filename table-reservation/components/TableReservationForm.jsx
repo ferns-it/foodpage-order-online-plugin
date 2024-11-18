@@ -214,11 +214,19 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   const handleIncrement = () => {
     if (count === 25) return;
     setCount(count + 1);
+    if (count > 50) {
+      toast.error("Number of Party Reservation limited to 50!");
+      return;
+    }
   };
 
   const handleDecrement = () => {
     if (count === 1) return;
     setCount(count - 1);
+    if (count > 50) {
+      toast.error("Number of Party Reservation limited to 50!");
+      return;
+    }
   };
 
   const handleCountChange = (e) => {
@@ -278,7 +286,10 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     const headers = {
       "x-secretkey": process.env.FOODPAGE_RESERVATION_SECRET_KEY,
     };
-
+    if (count > 50) {
+      toast.error("Maximum Limit is 50!");
+      return;
+    }
     const payload = {
       shopID: shopId,
       name: initialValues.name,
