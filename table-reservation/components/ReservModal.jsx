@@ -51,6 +51,7 @@ function ReservModal(props) {
 
     await cancelReservation(unqqId, {
       onSuccess: async (res) => {
+        // debugger;
         if (res && res.error == true) {
           let message = res.errorMessage ?? "Cancellation failed!";
           toast.error(message);
@@ -64,7 +65,7 @@ function ReservModal(props) {
       },
       onFailed: (err) => {
         let message =
-          err.response.data.errorMessage.message ?? "Cancellation failed!";
+          err?.response?.data?.errorMessage?.message ?? "Cancellation failed!";
         toast.error(message);
         console.log("Cancellation error", err);
       },

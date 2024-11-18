@@ -219,7 +219,8 @@ function ViewReservation({ reservId }) {
 
     await updateReservationDetails(payload, {
       onSuccess: async (res) => {
-        if (res && res.error == true) {
+        // debugger;
+        if (res && res?.error == true) {
           const msg = res?.errorMessage ?? "Updation failed, Please try again!";
           toast.error(msg);
           return;
@@ -228,7 +229,8 @@ function ViewReservation({ reservId }) {
         await getReservationDetails(reservId);
         setIsEdit(false);
       },
-      onFailed: (err) => {
+      onFailed: async (err) => {
+        // debugger;
         const msg =
           err?.response?.data?.errorMessage?.message ??
           "Updation failed, Please try again!";
