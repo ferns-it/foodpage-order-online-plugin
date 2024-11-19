@@ -15,6 +15,8 @@ function FoodCards(category) {
     settings,
     showModal,
     setShowModal,
+    settingsLoading,
+    currentStatus,
   } = useContext(AppContext);
 
   const params = useSearchParams();
@@ -54,7 +56,7 @@ function FoodCards(category) {
         setShowModal={setShowModal}
         productData={productDataValues}
       />
-      <div className="container position-relative">
+      {/* <div className="container position-relative">
         {(settings?.shopStatus === "close" ||
           (settings?.deliveryInfo?.takeAway_temp_off === "Yes" &&
             settings?.deliveryInfo?.homeDelivery_temp_off === "Yes")) && (
@@ -65,17 +67,19 @@ function FoodCards(category) {
             Sorry, We're Temporarily Closed! Be Back Soon.
           </p>
         )}
-      </div>
-      <div className="container position-relative">
-        {settings?.deliveryInfo?.shopOpen_temp_off == "No" && (
+      </div> */}
+
+      {settingsLoading == false &&
+        currentStatus != null &&
+        currentStatus?.status == true && (
           <p className="info-header">
             <i>
               <Pi.PiCallBellFill />
             </i>
-            Sorry, We're Closed! .
+            {currentStatus?.message ??
+              "Sorry, We're Temporarily Closed! Be Back Soon."}
           </p>
         )}
-      </div>
 
       <div className="product_wrapper_029">
         {productsListLoading ? (
