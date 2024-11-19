@@ -63,9 +63,9 @@ const useMenus = () => {
   const diningMenuList = async () => {
     try {
       setDiningLoading(true);
-      await BaseClient.get(APIEndpoints.categoryList, [], {
+      await BaseClient.get(APIEndpoints.diningMenu, [], {
         onSuccess: (res) => {
-          console.log(res.data,"response");
+          console.log(res.data, "response");
           setDiningList(res?.data?.data?.items);
         },
         onFailed: (err) => {
