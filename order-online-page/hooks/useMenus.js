@@ -18,6 +18,7 @@ const useMenus = () => {
   const [cartItems, setCartItems] = useState(null);
   const [categoryLoading, setCategoryLoading] = useState(false);
   const [settingsLoading, setSettingsLoading] = useState(true);
+  const [currentStatus, setCurrentStatus] = useState(null);
 
   const fetchMenuList = async () => {
     try {
@@ -197,6 +198,30 @@ const useMenus = () => {
     }
   };
 
+  const fetchCurrentShopStatus = async () => {
+    try {
+      setSettingsLoading(true);
+      await BaseClient.get(
+        APIEndpoints.getCurrentShopStatus,
+        {},
+        {
+          onSuccess: (res) => {
+            // debugger;
+            if (res && res?.data?.error == false) {
+              setCurrentStatus(res?.data?.data);
+            } else {
+              setCurrentStatus(null);
+            }
+          },
+          onFailed: (err) => {
+            setSettingsLoading(false);
+          },
+        }
+      );
+    } finally {
+    }
+  };
+
   return {
     fetchMenuList,
     fetchCategoriesList,
@@ -223,6 +248,8 @@ const useMenus = () => {
     settingsLoading,
     setCartItems,
     clearCartItems,
+    fetchCurrentShopStatus,
+    currentStatus,
   };
 };
 

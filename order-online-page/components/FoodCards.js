@@ -66,6 +66,16 @@ function FoodCards(category) {
           </p>
         )}
       </div>
+      <div className="container position-relative">
+        {settings?.deliveryInfo?.shopOpen_temp_off == "No" && (
+          <p className="info-header">
+            <i>
+              <Pi.PiCallBellFill />
+            </i>
+            Sorry, We're Closed! .
+          </p>
+        )}
+      </div>
 
       <div className="product_wrapper_029">
         {productsListLoading ? (
