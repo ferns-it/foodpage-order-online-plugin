@@ -7,7 +7,8 @@ const getUserId = () => {
   let storedUserId;
   if (typeof window !== "undefined") {
     storedUserId = window.localStorage.getItem("UserPersistent");
-  } else {
+  }
+ else {
     storedUserId = null;
   }
   return storedUserId;

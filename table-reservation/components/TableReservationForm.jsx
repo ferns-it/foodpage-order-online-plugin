@@ -13,8 +13,6 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useRouter, useSearchParams } from "next/navigation";
 import { setSessionStorageItem } from "../../_utils/ClientUtils";
-import foodPageLogo from "../assets/logo.png";
-import Image from "next/image";
 
 const RECAPTCHA_SITE_KEY = "6LeXD-8pAAAAAOpi7gUuH5-DO0iMu7J6C-CBA2fo";
 
@@ -955,7 +953,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                 </button> */}
               </div>
               <div className="poweredBy_ text-center" id="main___">
-                <span>Powered by</span> <Image src={foodPageLogo} alt="Logo" />
+                <span>Powered by Foodpage</span>
               </div>
             </div>
           </div>
