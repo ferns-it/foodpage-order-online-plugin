@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React, { Fragment } from "react";
-
+import Success from "../../../plugin/assets/success.png";
 import { useRouter } from "next/navigation";
 
 function ReservSuccess() {
@@ -9,7 +9,7 @@ function ReservSuccess() {
     <Fragment>
       <div className="container mt-5 mb-5">
         <div className="reser_success_">
-          {/* <Image src={Success} alt="Success image" /> */}
+          <Image src={Success} alt="Success image" />
           {/* <img src={require("../assets/success.png")} /> */}
         </div>
         <div className="reserv_content_success__">

@@ -157,7 +157,7 @@ function FoodAccordian() {
                           product.products && product.products.length != 0 ? (
                             product.products.map((data, keyIndex) => (
                               <div key={keyIndex}>
-                                <a
+                                <div
                                   className="accord_food_anchor"
                                   onClick={() => addOnsModalData(data)}
                                 >
@@ -194,7 +194,7 @@ function FoodAccordian() {
                                       </div>
                                     </div>
                                   </div>
-                                </a>
+                                </div>
                               </div>
                             ))
                           ) : (

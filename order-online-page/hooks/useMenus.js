@@ -68,9 +68,11 @@ const useMenus = () => {
         onSuccess: (res) => {
           console.log(res.data, "response");
           setDiningList(res?.data?.data?.items);
+          setDiningLoading(false);
         },
         onFailed: (err) => {
           console.log("Error on fetching menus", err);
+          setDiningLoading(false);
         },
       });
     } finally {

@@ -87,7 +87,9 @@ input {
   display: block;
   position: relative;
   /* margin: 0 auto; */
+  padding: 0 !important;
   margin-bottom: 34px;
+  margin: 0 !important;
 }
 
 .incDec_wrapper_0291 {
@@ -96,6 +98,7 @@ input {
   background-color: #f2f1f2;
   border-radius: 20px;
   overflow: hidden;
+  margin: 0 !important;
   border: 1px solid #e03f3f;
 }
 
@@ -2102,4 +2105,5 @@ abbr[title] {
 }
 .table_reserv_textarea {
   min-height: 100px !important;
+  text-transform: none;
 }

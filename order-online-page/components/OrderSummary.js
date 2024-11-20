@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import * as Fa from "react-icons/fa";
 import * as Io from "react-icons/io";
-import Utils from "../utils/Utils";
+import * as Tb from "react-icons/tb";
 import { toast, Toaster } from "react-hot-toast";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -27,6 +27,7 @@ function OrderSummary() {
     menuList,
     settings,
     getShopSettings,
+    clearCartItems,
     delivery,
     setDelivery,
     locationResponseData,
@@ -313,12 +314,40 @@ function OrderSummary() {
     setTime(formattedTime);
     setTakeawayTime(formattedTime);
   };
+  const clearcart = async () => {
+    const userID = getLocalStorageItem("UserPersistent");
+    console.log(userID, "useridsdas");
+    await clearCartItems(userID, {
+      onSuccess: async (res) => {
+        console.log("cart cleared", res);
+        toast.success("Cart Cleared!");
+        await fetchCartList(userID);
+      },
+      onFailed: (err) => {
+        console.log("Error on cart clear", err);
+        toast.err("Something Went Wrong!");
+      },
+    });
+  };
   console.log(settings, "settings");
   return (
     <Fragment>
       <Toaster position="top-center" reverseOrder={false} />
       <div style={{ width: "100%" }}>
-        <h3 className="order_title text-center">Order Summary</h3>
+        <h3 className="order_title col-md-6">Order Summary</h3>
+        {cartLoading ? (
+          <button disabled className="clr_cart_btn col-md-6">
+            Submitting..
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="clr_cart_btn col-md-6"
+            onClick={clearcart}
+          >
+            Clear Cart
+          </button>
+        )}
 
         <div className="summary_item_wrapper_029">
           {cartItems && cartItems.cartItems.length != 0 ? (
@@ -352,19 +381,24 @@ function OrderSummary() {
                               addOns.map((add, addsOnindex) => {
                                 return (
                                   <>
-                                    <span key={addsOnindex}>
-                                      <strong>{add?.title}</strong>
-                                    </span>
-                                    {add &&
-                                      add.choosedOption.length != 0 &&
-                                      add.choosedOption.map((data, chooseIndex) => {
-                                        return (
-                                          <tr key={chooseIndex}>
-                                            <td>{data?.text}</td>
-                                            <td>{data?.price}</td>
-                                          </tr>
-                                        );
-                                      })}
+                                    <tbody>
+                                      <span key={addsOnindex}>
+                                        <strong>{add?.title}</strong>
+                                      </span>
+
+                                      {add &&
+                                        add.choosedOption.length != 0 &&
+                                        add.choosedOption.map(
+                                          (data, chooseIndex) => {
+                                            return (
+                                              <tr key={chooseIndex}>
+                                                <td>{data?.text}</td>
+                                                <td>{data?.price}</td>
+                                              </tr>
+                                            );
+                                          }
+                                        )}
+                                    </tbody>
                                   </>
                                 );
                               })}
@@ -375,19 +409,21 @@ function OrderSummary() {
                               masterAddons.map((add, masterAddindex) => {
                                 return (
                                   <>
-                                    <span key={masterAddindex}>
-                                      <strong>{add?.title}</strong>
-                                    </span>
-                                    {add &&
-                                      add.choosedOption.length != 0 &&
-                                      add.choosedOption.map((data, index) => {
-                                        return (
-                                          <tr key={index}>
-                                            <td>{data?.text}</td>
-                                            <td>{data?.price}</td>
-                                          </tr>
-                                        );
-                                      })}
+                                    <tbody>
+                                      <span key={masterAddindex}>
+                                        <strong>{add?.title}</strong>
+                                      </span>
+                                      {add &&
+                                        add.choosedOption.length != 0 &&
+                                        add.choosedOption.map((data, index) => {
+                                          return (
+                                            <tr key={index}>
+                                              <td>{data?.text}</td>
+                                              <td>{data?.price}</td>
+                                            </tr>
+                                          );
+                                        })}
+                                    </tbody>
                                   </>
                                 );
                               })}
@@ -445,14 +481,16 @@ function OrderSummary() {
                 {delivery == true || delivery == "true" ? (
                   <>
                     <Fragment>
-                      <tr className="discount_order_summary">
-                        <td>
-                          <b>Cart total</b>
-                        </td>
-                        <td>
-                          <b>{cartItems?.cartTotal?.cartTotalPriceDisplay}</b>
-                        </td>
-                      </tr>
+                      <tbody>
+                        <tr className="discount_order_summary">
+                          <td>
+                            <b>Cart total</b>
+                          </td>
+                          <td>
+                            <b>{cartItems?.cartTotal?.cartTotalPriceDisplay}</b>
+                          </td>
+                        </tr>
+                      </tbody>
                       {/* <tr className="discount_order_summary">
                       <td>Discount</td>
                       <td>-£{takeaway}</td>
@@ -466,14 +504,21 @@ function OrderSummary() {
                 ) : (
                   <>
                     <Fragment>
-                      <tr className="discount_order_summary">
-                        <td>
-                          <b>Cart total</b>
-                        </td>
-                        <td id="sub_total_amt_order_summary">
-                          <b> {cartItems?.cartTotal?.cartTotalPriceDisplay}</b>
-                        </td>
-                      </tr>
+                      <tbody>
+                        {" "}
+                        <tr className="discount_order_summary">
+                          <td>
+                            <b>Cart total</b>
+                          </td>
+                          <td id="sub_total_amt_order_summary">
+                            <b>
+                              {" "}
+                              {cartItems?.cartTotal?.cartTotalPriceDisplay}
+                            </b>
+                          </td>
+                        </tr>
+                      </tbody>
+
                       {/* <tr className="discount_order_summary">
                       <td>Discount</td>
                       <td>-£ {discount}</td>
