@@ -1,6 +1,8 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import * as Fa from "react-icons/fa";
 import * as Io from "react-icons/io";
+import * as Md from "react-icons/md";
+import * as Vs from "react-icons/vsc";
 import Utils from "../utils/Utils";
 import { toast, Toaster } from "react-hot-toast";
 import axios from "axios";
@@ -31,6 +33,7 @@ function OrderSummary() {
     setDelivery,
     locationResponseData,
     setLocationResponseData,
+    clearCartItems,
     // setisCheckoutActive,
     deliveryInfo,
     GuestDiscountoftakeaway,
@@ -145,7 +148,6 @@ function OrderSummary() {
             sessionStorage.setItem("discount", takeaway);
             sessionStorage.setItem("takeawaytime", takeawayTime);
             sessionStorage.setItem("location", "checkout");
-            setLocalStorageItem("checkout", "initiated");
             const pathname = `/checkout?price=${deliveryResp?.cart_NetAmount}&&deliveryCharge=0&&discount=${deliveryResp?.discountAmount}`;
             setLocalStorageItem("path", pathname);
             setTimeout(() => {
@@ -204,7 +206,6 @@ function OrderSummary() {
                 res?.data?.data?.discountAmount
               );
               sessionStorage.setItem("isCheckoutActive", true);
-              setLocalStorageItem("checkout", "initiated");
               const pathname = `/checkout?price=${deliveryResp?.cart_NetAmount}&&deliveryCharge=${deliveryResp?.deliveryFeeAmount}&&discount=${deliveryResp?.discountAmount}`;
               setLocalStorageItem("path", pathname);
               setTimeout(() => {
@@ -279,9 +280,27 @@ function OrderSummary() {
         const userId = getSessionStorageItem("UserPersistent");
         await fetchCartList(userId);
         toast.success("Item removed from your cart");
+        setDeleteIndex(-1);
       },
       onFailed: (err) => {
         toast.error("Delete cart item failed!");
+        setDeleteIndex(-1);
+      },
+    });
+  };
+
+  const handleClearcart = async () => {
+    if (cartItems?.cartItems && cartItems?.cartItems.length == 0) return;
+    const userID = getLocalStorageItem("UserPersistent");
+    if (!userID) return;
+    await clearCartItems(userID, {
+      onSuccess: async (res) => {
+        toast.success("Cart items cleared!");
+        await fetchCartList(userID);
+      },
+      onFailed: (err) => {
+        console.log("Error on clearing cart", err);
+        toast.error("Something went wrong, please try again!");
       },
     });
   };
@@ -315,12 +334,39 @@ function OrderSummary() {
     setTime(formattedTime);
     setTakeawayTime(formattedTime);
   };
-  console.log(settings, "settings");
+
   return (
     <Fragment>
       <Toaster position="top-center" reverseOrder={false} />
       <div style={{ width: "100%" }}>
-        <h3 className="order_title text-center">Order Summary</h3>
+        <div className="row">
+          <div className="col-lg-6 col-md-6 col-sm-6">
+            <h3 className="order_title text-center">Order Summary</h3>
+          </div>
+          <div className="col-lg-6 col-md-6 col-sm-6 position-relative">
+            {cartItems?.cartItems &&
+              cartItems?.cartItems.length != 0 &&
+              !cartLoading && (
+                <button
+                  type="button"
+                  className="clear_cart"
+                  title="Clear cart"
+                  onClick={handleClearcart}
+                  disabled={cartLoading}
+                >
+                  {!cartLoading ? (
+                    <Vs.VscClearAll />
+                  ) : (
+                    <span
+                      className="spinner-border text-danger spinner-border-sm"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                  )}
+                </button>
+              )}
+          </div>
+        </div>
 
         <div className="summary_item_wrapper_029">
           {cartItems && cartItems.cartItems.length != 0 ? (

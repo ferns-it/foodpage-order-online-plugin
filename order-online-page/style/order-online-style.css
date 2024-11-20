@@ -1609,7 +1609,7 @@ body {
   background-color: #fff;
   overflow-y: scroll;
   z-index: 0;
-  padding-top: 7em;
+  padding-top: 8em;
 }
 
 .login_summary_card_0928 {
@@ -1622,15 +1622,9 @@ body {
   border: 1px solid #eee;
 }
 
-@media screen and (max-width:991px) {
-  .order_summary_checkout {
-    padding-top: 8rem;
-  }
-}
-
 @media screen and (max-width: 600px) {
   .order_summary_checkout {
-    padding-top: 5rem;
+    padding-top: 6rem;
   }
   .login_summary_card_0928 {
     padding: 10px;
@@ -2742,4 +2736,16 @@ div.food_tile__.active img {
   .lg_summary {
     display: none;
   }
+}
+.process_ {
+  font-weight: 600;
+  color: #7777 !important;
+}
+.clear_cart {
+  margin-top: 40px;
+  float: right;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 1.3rem;
 }
