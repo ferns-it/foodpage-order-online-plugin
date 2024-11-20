@@ -2820,3 +2820,16 @@ div.food_tile__.active img {
   color: red;
   font-size: 19px;
 }
+.clr_cart_btn {
+  border: 1px solid #e03f3f;
+  color: #e03f3f;
+  border-radius: 4px;
+  font-size: 10px;
+  background-color: transparent;
+  width: 70px;
+  font-weight: 700;
+  font-family: sans-serif;
+  float: right;
+  position: relative;
+  top: -40px;
+}

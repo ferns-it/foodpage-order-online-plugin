@@ -27,6 +27,7 @@ function OrderSummary() {
     menuList,
     settings,
     getShopSettings,
+    clearCartItems,
     delivery,
     setDelivery,
     locationResponseData,
@@ -313,24 +314,40 @@ function OrderSummary() {
     setTime(formattedTime);
     setTakeawayTime(formattedTime);
   };
+  const clearcart = async () => {
+    const userID = getLocalStorageItem("UserPersistent");
+    console.log(userID, "useridsdas");
+    await clearCartItems(userID, {
+      onSuccess: async (res) => {
+        console.log("cart cleared", res);
+        toast.success("Cart Cleared!");
+        await fetchCartList(userID);
+      },
+      onFailed: (err) => {
+        console.log("Error on cart clear", err);
+        toast.err("Something Went Wrong!");
+      },
+    });
+  };
   console.log(settings, "settings");
   return (
     <Fragment>
       <Toaster position="top-center" reverseOrder={false} />
       <div style={{ width: "100%" }}>
-        <div className="row">
-          <div className="col-md-7 col-sm-12 mt-2">
-            <h3 className="order_title">Order Summary</h3>
-          </div>
-          <div className="col-md-5 col-sm-12 mt-2">
-            <div className="d-flex">
-         Clear cart    
-              {/* <i className="button_clear">
-                <Tb.TbGardenCartOff />
-              </i> */}
-            </div>
-          </div>
-        </div>
+        <h3 className="order_title col-md-6">Order Summary</h3>
+        {cartLoading ? (
+          <button disabled className="clr_cart_btn col-md-6">
+            Submitting..
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="clr_cart_btn col-md-6"
+            onClick={clearcart}
+          >
+            Clear Cart
+          </button>
+        )}
 
         <div className="summary_item_wrapper_029">
           {cartItems && cartItems.cartItems.length != 0 ? (
