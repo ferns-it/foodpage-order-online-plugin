@@ -61,7 +61,9 @@ input {
   font-size: 13px;
   font-weight: 600;
 }
-
+.table_reserv_input{
+  padding: 10px;
+}
 .table_reserv_form_input.err__ {
   border-color: #e03f3f !important;
 }
@@ -79,7 +81,7 @@ input {
   background-color: #f2f1f2;
   border-radius: 20px;
   overflow: hidden;
-  border: 1px solid #e03f3f;
+  border: 1px solid #bdaf5b;
 }
 
 .incDec_wrapper_0291 > .toggle-checkbox {
@@ -114,7 +116,7 @@ input {
 }
 
 .increment-button.red {
-  background-color: #e03f3f;
+  background-color: #bdaf5b;
   color: #fff;
 }
 
@@ -146,13 +148,13 @@ input {
   width: 200px;
   display: block;
   margin: 0 auto;
-  background-color: #e03f3f;
+  background-color: #bdaf5b;
   color: #fff;
   white-space: nowrap;
 }
 
 .submit_reserv_btn:hover {
-  background-color: #ab2e2e;
+  background-color: #ae9e3a;
 }
 
 .timing_card_table_reserv {
@@ -1681,7 +1683,7 @@ a {
 }
 .react-calendar__month-view__weekdays {
   padding: 10px 0 !important;
-  background-color: #e03f3f;
+  background-color: #bdaf5b;
   color: #fff;
 }
 abbr[title] {
@@ -1727,12 +1729,15 @@ abbr[title] {
 .reserve_table {
   font-size: 14px;
 }
+.reserve_table td {
+  border-bottom-width: 0;
+}
 .go_back {
   border: none;
   outline: none;
   padding: 8px 27px;
   border-radius: 5px;
-  background-color: #e03f3f;
+  background-color: #bdaf5b;
   color: #fff;
   font-weight: 600;
 }
@@ -1760,14 +1765,14 @@ abbr[title] {
   outline: none;
   font-weight: 600;
   font-size: 13px;
-  background-color: #e03f3f;
+  background-color: #bdaf5b;
   color: #fff;
   border-radius: 5px;
   transition: all 0.2s ease-in-out;
   white-space: nowrap;
 }
 .reserv_btn:hover {
-  background-color: #ab2e2e;
+  background-color: #ae9e3a;
 }
 .reserv_btn > i {
   font-size: 14px;
@@ -1798,16 +1803,25 @@ abbr[title] {
 
 @media screen and (max-width: 991px) {
   .manage_reserv_card {
-    width: 70%;
+    width: 70% !important;
   }
   .reserv_btn {
-    width: 100%;
+    width: 100% !important;
   }
 }
-
+@media screen and (max-width: 1024px) {
+  .reserv_btn{
+    width: 80%;
+  }
+}
 @media screen and (max-width: 786px) {
   .manage_reserv_card {
-    width: 100%;
+    width: 100% ;
+  }
+}
+@media screen and (max-width:600px) {
+  .manage_reserv_card {
+    width: 100% !important;
   }
 }
 .reservId_find {
@@ -1886,11 +1900,11 @@ abbr[title] {
   font-size: 14px;
 }
 .cancel_reserv {
-  background-color: #ec6262;
+  background-color: #bdaf5b;
   color: #fff;
 }
 .cancel_reserv:hover {
-  background-color: #e03f3f;
+  background-color: #ae9e3a;
 }
 
 .update_reserv {
@@ -1921,10 +1935,10 @@ abbr[title] {
   border-radius: 5px;
 }
 .confirm_cancel {
-  background-color: #e03f3f;
+  background-color: #bdaf5b;
 }
 .confirm_cancel:hover {
-  background-color: #ab2e2e;
+  background-color: #ae9e3a;
 }
 .discard_btn_reserv {
   background-color: #727272;
@@ -1952,6 +1966,7 @@ abbr[title] {
   user-select: none;
   margin-top: 20px;
   padding: 0;
+  margin-bottom: 10px;
 }
 .poweredBy_ {
   position: absolute;

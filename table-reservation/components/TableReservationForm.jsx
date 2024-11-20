@@ -15,7 +15,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { setSessionStorageItem } from "../../_utils/ClientUtils";
 import foodPageLogo from "../assets/logo.png";
 import Image from "next/image";
-import { format, parseISO } from "date-fns";
+// import { format, parseISO } from "date-fns";
 // import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 
 const RECAPTCHA_SITE_KEY = "6LeXD-8pAAAAAOpi7gUuH5-DO0iMu7J6C-CBA2fo";
@@ -500,7 +500,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                           name="name"
                           id=""
                           className={
-                            "form-control table_reserv_form_input " +
+                            "form-control table_reserv_form_input table_reserv_input " +
                             (isReservErr && initialValues.name.length === 0
                               ? "err__"
                               : "")
@@ -527,7 +527,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                           name="email"
                           id=""
                           className={
-                            "form-control table_reserv_form_input " +
+                            "form-control table_reserv_form_input table_reserv_input" +
                             (isReservErr && initialValues.email.length === 0
                               ? "err__"
                               : "")
@@ -555,7 +555,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                           name="phone"
                           id=""
                           className={
-                            "form-control table_reserv_form_input " +
+                            "form-control table_reserv_form_input table_reserv_input" +
                             (isReservErr && initialValues.phone.length === 0
                               ? "err__"
                               : "")
@@ -631,12 +631,13 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                   Guruviharrr, Kadakkavoor, Thiruvananthapuram
                 </p> */}
 
-                <p className="open_">
+                <div className="open_">
                   <i className="pe-1">
                     <Md.MdOutlineRestaurantMenu />
                   </i>
                   <span>Booking info</span>
                   <table className="table reserve_table">
+                    <tbody>
                     <tr>
                       <td>Date</td>
                       <td>
@@ -657,8 +658,10 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                       <td>Chairs</td>
                       <td>{count ?? 0}</td>
                     </tr>
+                    </tbody>
+                    
                   </table>
-                </p>
+                </div>
                 {/* <p className="open_">
                   <i className="pe-1">
                     <Io.IoTimeOutline />

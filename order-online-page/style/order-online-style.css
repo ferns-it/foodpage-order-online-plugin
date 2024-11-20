@@ -1291,12 +1291,12 @@ body {
 }
 
 .submit_btn_8392 {
-  background-color: #e03f3f;
+  background-color: #bdaf5b;
   color: #fff;
 }
 
 .submit_btn_8392:hover {
-  background-color: #ab2e2e;
+  background-color: #ae9e3a;
 }
 
 .submit_btn_8392:disabled {
@@ -2591,6 +2591,7 @@ div.food_tile__.active img {
   transform: translateX(-50%);
   font-size: 1.2rem;
   font-weight: 700 !important;
+  color: #000;
 }
 .add_to_cart {
   position: absolute;
@@ -2600,7 +2601,7 @@ div.food_tile__.active img {
   border: none;
   outline: none;
   background-color: transparent;
-  background-color: #e03f3f;
+  background-color: #bdaf5b;
   font-size: 14px;
   padding: 3px 20px;
   border-radius: 5px;
@@ -2609,7 +2610,7 @@ div.food_tile__.active img {
   transition: all 0.2s ease-in-out;
 }
 .add_to_cart:hover {
-  background-color: #fe4645;
+  background-color: #ae9e3a;
 }
 .err_ {
   font-size: 0.8rem;

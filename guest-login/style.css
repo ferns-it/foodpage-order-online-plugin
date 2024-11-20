@@ -359,6 +359,7 @@ div.food_tile.active img {
   font-weight: 600;
   color: #252525;
   user-select: none;
+  margin-bottom: 5px;
 }
 
 .login_comp > .sub_title_login {
@@ -995,6 +996,7 @@ deal_content p {
   .bg_button button {
     padding: 17px 23px 17px 23px;
   }
+  
 }
 
 @media screen and (max-width: 768px) {
@@ -1035,7 +1037,9 @@ deal_content p {
   .line {
     margin: 0px auto;
   }
-
+  .login_btn{
+    width: 75% ;
+  }
   /* .test h1{
     font-size: 32px;
   }  */
@@ -1728,7 +1732,7 @@ deal_content p {
   width: 200px;
   display: block;
   margin: 0 auto;
-  background-color: #e03f3f;
+  background-color: #bdaf5b;
   color: #fff;
   white-space: nowrap;
 }
@@ -1867,12 +1871,22 @@ deal_content p {
   color: #fff;
 }
 
+  @media screen and (max-width: 1024px) {
+    .reserv_otp_validation_btn{
+      width: 30% !important;
+    }
+  }
+
 @media screen and (max-width: 991px) {
   .reserv_otp_validation_btn {
     width: 50%;
   }
 }
-
+@media screen and (max-width:600px) {
+  .reserv_otp_validation_btn{
+    width: 50% !important;
+  }
+}
 .reserv_otp_validation_btn:disabled {
   background-color: rgb(167, 87, 87);
   cursor: not-allowed;

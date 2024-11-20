@@ -7,8 +7,8 @@ import React, {
 } from "react";
 import { TableReservationContext } from "../context/TableReservationContext";
 import "../style/style.css";
-import Utils from "../../_utils/Utils";
-
+// import Utils from "../../_utils/Utils";
+import Utils from "@/app/_utils/Utils"
 import * as Tb from "react-icons/tb";
 import * as Md from "react-icons/md";
 import * as Go from "react-icons/go";

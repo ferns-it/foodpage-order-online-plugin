@@ -124,7 +124,7 @@ function ReservModal(props) {
                     props.setShowModal(false);
                   }}
                 >
-                  Disacrd
+                  Discard
                 </button>
               </div>
             </Fragment>

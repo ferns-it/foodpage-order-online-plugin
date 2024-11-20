@@ -1,3 +1,4 @@
+"use client"
 import React, { Fragment, useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Tooltip } from "react-tooltip";
@@ -6,7 +7,7 @@ import * as Go from "react-icons/go";
 import * as Fa from "react-icons/fa";
 import toast from "react-hot-toast";
 import "react-tooltip/dist/react-tooltip.css";
-import "../style/style.css";
+import "../style/Style.css"
 import CryptoJS from "crypto-js";
 
 function ManageReservationMain() {
@@ -55,7 +56,7 @@ function ManageReservationMain() {
         <div className="container">
           <button
             type="button"
-            className="go_back"
+            className="go_back back__go"
             style={{ zIndex: 9 }}
             onClick={() => router.push("/tablereservation")}
           >
