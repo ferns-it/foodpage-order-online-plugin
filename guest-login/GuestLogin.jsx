@@ -2,11 +2,12 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import CryptoJS from "crypto-js";
-import Utils from "@/src/app/_utils/Utils";
+
 
 import { useRouter } from "next/navigation";
 import { AppContext } from "../order-online-page/context/index";
 import "./style.css";
+import Utils from "@/app/_utils/Utils";
 
 function GuestLogin() {
   const router = useRouter();
