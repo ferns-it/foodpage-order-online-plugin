@@ -214,11 +214,12 @@ const useMenus = () => {
             }
           },
           onFailed: (err) => {
-            setSettingsLoading(false);
+            console.log("Shop status error", err);
           },
         }
       );
     } finally {
+      setSettingsLoading(false);
     }
   };
 
