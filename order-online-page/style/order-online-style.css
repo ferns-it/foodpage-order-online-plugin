@@ -1196,6 +1196,7 @@ body {
   position: absolute;
   /* width: 100%; */
   background-color: #f2f1f2;
+  margin: 0;
   border-radius: 20px;
   overflow: hidden;
   margin: 0px auto;

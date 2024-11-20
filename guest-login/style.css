@@ -1669,6 +1669,7 @@ deal_content p {
   /* width: 100%; */
   background-color: #f2f1f2;
   border-radius: 20px;
+  margin: 0;
   overflow: hidden;
   border: 1px solid #e03f3f;
 }

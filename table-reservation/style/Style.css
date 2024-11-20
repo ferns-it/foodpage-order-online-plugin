@@ -96,6 +96,7 @@ input {
   background-color: #f2f1f2;
   border-radius: 20px;
   overflow: hidden;
+  margin: 0 !important;
   border: 1px solid #e03f3f;
 }
 
