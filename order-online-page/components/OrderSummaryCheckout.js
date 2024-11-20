@@ -175,7 +175,10 @@ function OrderSummaryCheckout() {
       toast.error("Shop is currently closed");
       return;
     }
-
+    if (!formState.phone || !/^\d+$/.test(formState.phone)) {
+      setFieldError(true); 
+      return; 
+    }
     let deliveryTypeData;
 
     if (delivery == false || delivery == "false") {
@@ -604,7 +607,7 @@ function OrderSummaryCheckout() {
                       <div className="col-lg-4 col-md-4 col-sm-4">
                         <div className="form-group">
                           <label
-                            htmlFor="email"
+                            htmlFor="phone"
                             className="form-label online_order_plugin_label_2939"
                           >
                             Phone number
@@ -612,13 +615,13 @@ function OrderSummaryCheckout() {
                           <input
                             type="text"
                             name="phone"
-                            id=""
+                            id="phone"
                             className={
                               fieldError &&
                               (!formState.phone ||
-                                formState?.phone.length === 0)
+                                !/^\d+$/.test(formState.phone))
                                 ? "form-control online_order_plugin_input_2939 error___"
-                                : "form-control online_order_plugin_input_2939 "
+                                : "form-control online_order_plugin_input_2939"
                             }
                             onChange={handleChange}
                             value={formState.phone}
@@ -626,12 +629,13 @@ function OrderSummaryCheckout() {
                         </div>
                         {fieldError &&
                           (!formState.phone ||
-                            formState?.phone?.length === 0) && (
+                            !/^\d+$/.test(formState.phone)) && (
                             <span className="oos_err_29102">
-                              Phone is required!
+                              Phone is required and must be numeric!
                             </span>
                           )}
                       </div>
+
                       <div className="col-lg-4 col-md-4 col-sm-4">
                         <div className="form-group">
                           <label

@@ -116,7 +116,7 @@ function FoodCards(category) {
                                   >
                                     <div className="row fda_food_row">
                                       <div className="mx-auto">
-                                        <a
+                                        <div
                                           className="prod_anchor"
                                           style={{
                                             textDecoration: "none",
@@ -159,7 +159,7 @@ function FoodCards(category) {
                                               ADD
                                             </button>
                                           </div>
-                                        </a>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>

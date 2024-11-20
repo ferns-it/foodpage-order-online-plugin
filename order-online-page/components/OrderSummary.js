@@ -352,19 +352,24 @@ function OrderSummary() {
                               addOns.map((add, addsOnindex) => {
                                 return (
                                   <>
-                                    <span key={addsOnindex}>
-                                      <strong>{add?.title}</strong>
-                                    </span>
-                                    {add &&
-                                      add.choosedOption.length != 0 &&
-                                      add.choosedOption.map((data, chooseIndex) => {
-                                        return (
-                                          <tr key={chooseIndex}>
-                                            <td>{data?.text}</td>
-                                            <td>{data?.price}</td>
-                                          </tr>
-                                        );
-                                      })}
+                                    <tbody>
+                                      <span key={addsOnindex}>
+                                        <strong>{add?.title}</strong>
+                                      </span>
+
+                                      {add &&
+                                        add.choosedOption.length != 0 &&
+                                        add.choosedOption.map(
+                                          (data, chooseIndex) => {
+                                            return (
+                                              <tr key={chooseIndex}>
+                                                <td>{data?.text}</td>
+                                                <td>{data?.price}</td>
+                                              </tr>
+                                            );
+                                          }
+                                        )}
+                                    </tbody>
                                   </>
                                 );
                               })}
@@ -375,19 +380,21 @@ function OrderSummary() {
                               masterAddons.map((add, masterAddindex) => {
                                 return (
                                   <>
-                                    <span key={masterAddindex}>
-                                      <strong>{add?.title}</strong>
-                                    </span>
-                                    {add &&
-                                      add.choosedOption.length != 0 &&
-                                      add.choosedOption.map((data, index) => {
-                                        return (
-                                          <tr key={index}>
-                                            <td>{data?.text}</td>
-                                            <td>{data?.price}</td>
-                                          </tr>
-                                        );
-                                      })}
+                                    <tbody>
+                                      <span key={masterAddindex}>
+                                        <strong>{add?.title}</strong>
+                                      </span>
+                                      {add &&
+                                        add.choosedOption.length != 0 &&
+                                        add.choosedOption.map((data, index) => {
+                                          return (
+                                            <tr key={index}>
+                                              <td>{data?.text}</td>
+                                              <td>{data?.price}</td>
+                                            </tr>
+                                          );
+                                        })}
+                                    </tbody>
                                   </>
                                 );
                               })}
@@ -445,14 +452,16 @@ function OrderSummary() {
                 {delivery == true || delivery == "true" ? (
                   <>
                     <Fragment>
-                      <tr className="discount_order_summary">
-                        <td>
-                          <b>Cart total</b>
-                        </td>
-                        <td>
-                          <b>{cartItems?.cartTotal?.cartTotalPriceDisplay}</b>
-                        </td>
-                      </tr>
+                      <tbody>
+                        <tr className="discount_order_summary">
+                          <td>
+                            <b>Cart total</b>
+                          </td>
+                          <td>
+                            <b>{cartItems?.cartTotal?.cartTotalPriceDisplay}</b>
+                          </td>
+                        </tr>
+                      </tbody>
                       {/* <tr className="discount_order_summary">
                       <td>Discount</td>
                       <td>-£{takeaway}</td>
@@ -466,14 +475,21 @@ function OrderSummary() {
                 ) : (
                   <>
                     <Fragment>
-                      <tr className="discount_order_summary">
-                        <td>
-                          <b>Cart total</b>
-                        </td>
-                        <td id="sub_total_amt_order_summary">
-                          <b> {cartItems?.cartTotal?.cartTotalPriceDisplay}</b>
-                        </td>
-                      </tr>
+                      <tbody>
+                        {" "}
+                        <tr className="discount_order_summary">
+                          <td>
+                            <b>Cart total</b>
+                          </td>
+                          <td id="sub_total_amt_order_summary">
+                            <b>
+                              {" "}
+                              {cartItems?.cartTotal?.cartTotalPriceDisplay}
+                            </b>
+                          </td>
+                        </tr>
+                      </tbody>
+
                       {/* <tr className="discount_order_summary">
                       <td>Discount</td>
                       <td>-£ {discount}</td>
