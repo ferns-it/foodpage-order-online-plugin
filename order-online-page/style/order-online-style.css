@@ -2816,3 +2816,7 @@ div.food_tile__.active img {
   bottom: auto !important;
   position: relative !important;
 }
+.button_clear {
+  color: red;
+  font-size: 19px;
+}

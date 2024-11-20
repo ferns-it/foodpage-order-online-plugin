@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import * as Fa from "react-icons/fa";
 import * as Io from "react-icons/io";
-import Utils from "../utils/Utils";
+import * as Tb from "react-icons/tb";
 import { toast, Toaster } from "react-hot-toast";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -318,7 +318,19 @@ function OrderSummary() {
     <Fragment>
       <Toaster position="top-center" reverseOrder={false} />
       <div style={{ width: "100%" }}>
-        <h3 className="order_title text-center">Order Summary</h3>
+        <div className="row">
+          <div className="col-md-7 col-sm-12 mt-2">
+            <h3 className="order_title">Order Summary</h3>
+          </div>
+          <div className="col-md-5 col-sm-12 mt-2">
+            <div className="d-flex">
+         Clear cart    
+              {/* <i className="button_clear">
+                <Tb.TbGardenCartOff />
+              </i> */}
+            </div>
+          </div>
+        </div>
 
         <div className="summary_item_wrapper_029">
           {cartItems && cartItems.cartItems.length != 0 ? (
