@@ -203,7 +203,7 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
                 <Go.GoArrowLeft />
               </button>
               <div className="card table_reservation_card">
-                <h3 className="table-reservation-form-head">
+                <h3 className="table-reservation-form-head text-center">
                   VERIFICATION CODE
                 </h3>
                 <p className="table_reserv_info_sub_head text-center">

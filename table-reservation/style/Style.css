@@ -87,7 +87,9 @@ input {
   display: block;
   position: relative;
   /* margin: 0 auto; */
+  padding: 0 !important;
   margin-bottom: 34px;
+  margin: 0 !important;
 }
 
 .incDec_wrapper_0291 {
@@ -2103,4 +2105,5 @@ abbr[title] {
 }
 .table_reserv_textarea {
   min-height: 100px !important;
+  text-transform: none;
 }
