@@ -443,6 +443,7 @@ function ViewReservation() {
                                     onChange={(e) =>
                                       handleChairChange(e.target.value)
                                     }
+                                    min={0}
                                   />
                                 </>
                               )}
