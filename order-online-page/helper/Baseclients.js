@@ -17,7 +17,7 @@ const api = axios.create({
     User: userId,
   },
   // withCredentials: true,
-  timeout: 30000,
+  timeout: 5 * 10000,
 });
 
 class BaseClient {

@@ -23,7 +23,7 @@ const api = axios.create({
     User: userId,
   },
   // withCredentials: true,
-  timeout: 10000,
+  timeout: 5 * 10000,
 });
 
 //Interceptor for handle the response
