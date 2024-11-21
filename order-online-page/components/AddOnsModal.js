@@ -382,8 +382,8 @@ function AddOnsModal(props) {
               {/* £{total && total.length != 0 ? total.toFixed(2) : 0} */}£
               {cardTotal}
             </p>
-            <div className="inc_dec_wrapper_0291">
-              <div className="incDec_wrapper_0291">
+            <div className="mx-auto text-center" style={{width:"100%"}}>
+              <div className="order-modal-container">
                 <input
                   type="checkbox"
                   id="toggle"

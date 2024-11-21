@@ -1193,22 +1193,21 @@ body {
   margin-bottom: 50px;
 }
 
-.incDec_wrapper_0291 {
-  position: absolute;
-  /* width: 100%; */
+.order-modal-container {
   background-color: #f2f1f2;
   border-radius: 20px;
   overflow: hidden;
+  width: 120px;
   margin: 0px auto !important;
   text-align: center !important;
   border: 1px solid #e03f3f;
 }
 
-.incDec_wrapper_0291 > .toggle-checkbox {
+.order-modal-container > .toggle-checkbox {
   display: none;
 }
 
-.incDec_wrapper_0291 > .counter-container {
+.order-modal-container > .counter-container {
   display: flex;
   align-items: center;
 }
