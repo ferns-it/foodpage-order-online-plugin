@@ -108,6 +108,16 @@ function OrderSummaryCheckout() {
     });
   }, [searchParams]);
 
+  useEffect(() => {
+    const emptyValidation = checkForEmptyKeys(formState);
+
+    if (emptyValidation && emptyValidation.length != 0) {
+      setActiveCard("login");
+      setPaymentOption("");
+      return;
+    }
+  }, [formState]);
+
   // useEffect(() => {
   //   const handleBeforeUnload = (event) => {
   //     event.preventDefault();
