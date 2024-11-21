@@ -996,7 +996,12 @@ deal_content p {
   .bg_button button {
     padding: 17px 23px 17px 23px;
   }
-  
+  #fda_product_tile {
+    width: 150px;
+  } 
+  .login_btn {
+    width: 68%;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -1040,6 +1045,7 @@ deal_content p {
   .login_btn{
     width: 75% ;
   }
+  
   /* .test h1{
     font-size: 32px;
   }  */
@@ -1732,7 +1738,7 @@ deal_content p {
   width: 200px;
   display: block;
   margin: 0 auto;
-  background-color: #bdaf5b;
+  background-color: #e03f3f;
   color: #fff;
   white-space: nowrap;
 }

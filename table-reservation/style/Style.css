@@ -81,7 +81,7 @@ input {
   background-color: #f2f1f2;
   border-radius: 20px;
   overflow: hidden;
-  border: 1px solid #bdaf5b;
+  border: 1px solid #e03f3f;
 }
 
 .incDec_wrapper_0291 > .toggle-checkbox {
@@ -116,7 +116,7 @@ input {
 }
 
 .increment-button.red {
-  background-color: #bdaf5b;
+  background-color: #e03f3f;
   color: #fff;
 }
 
@@ -148,13 +148,13 @@ input {
   width: 200px;
   display: block;
   margin: 0 auto;
-  background-color: #bdaf5b;
+  background-color: #e03f3f;
   color: #fff;
   white-space: nowrap;
 }
 
 .submit_reserv_btn:hover {
-  background-color: #ae9e3a;
+  background-color: #ab2e2e;
 }
 
 .timing_card_table_reserv {
@@ -1683,7 +1683,7 @@ a {
 }
 .react-calendar__month-view__weekdays {
   padding: 10px 0 !important;
-  background-color: #bdaf5b;
+  background-color: #e03f3f;
   color: #fff;
 }
 abbr[title] {
@@ -1737,7 +1737,7 @@ abbr[title] {
   outline: none;
   padding: 8px 27px;
   border-radius: 5px;
-  background-color: #bdaf5b;
+  background-color: #e03f3f;
   color: #fff;
   font-weight: 600;
 }
@@ -1765,14 +1765,14 @@ abbr[title] {
   outline: none;
   font-weight: 600;
   font-size: 13px;
-  background-color: #bdaf5b;
+  background-color: #e03f3f;
   color: #fff;
   border-radius: 5px;
   transition: all 0.2s ease-in-out;
   white-space: nowrap;
 }
 .reserv_btn:hover {
-  background-color: #ae9e3a;
+  background-color: #ab2e2e;
 }
 .reserv_btn > i {
   font-size: 14px;
@@ -1800,7 +1800,11 @@ abbr[title] {
   padding: 0 10px;
   color: #018f43;
 }
-
+@media screen and (max-width:1200px) {
+  .reserv_btn{
+    width: 55% !important;
+  }
+}
 @media screen and (max-width: 991px) {
   .manage_reserv_card {
     width: 70% !important;
@@ -1900,11 +1904,11 @@ abbr[title] {
   font-size: 14px;
 }
 .cancel_reserv {
-  background-color: #bdaf5b;
+  background-color: #e03f3f;
   color: #fff;
 }
 .cancel_reserv:hover {
-  background-color: #ae9e3a;
+  background-color: #ab2e2e;
 }
 
 .update_reserv {
@@ -1935,10 +1939,10 @@ abbr[title] {
   border-radius: 5px;
 }
 .confirm_cancel {
-  background-color: #bdaf5b;
+  background-color: #e03f3f;
 }
 .confirm_cancel:hover {
-  background-color: #ae9e3a;
+  background-color: #ab2e2e;
 }
 .discard_btn_reserv {
   background-color: #727272;

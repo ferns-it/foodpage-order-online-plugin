@@ -1300,7 +1300,7 @@ body {
 }
 
 .submit_btn_8392:disabled {
-  background-color: rgb(167, 87, 87);
+  background-color: #ae9e3a;
 }
 
 .cancel_btn_8392:hover {
@@ -1624,9 +1624,9 @@ body {
 }
 
 @media screen and (max-width: 600px) {
-  .order_summary_checkout {
+  /* .order_summary_checkout {
     padding-top: 6rem;
-  }
+  } */
   .login_summary_card_0928 {
     padding: 10px;
   }
