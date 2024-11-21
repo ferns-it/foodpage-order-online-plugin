@@ -5,7 +5,7 @@ import OTPInput from "react-otp-input";
 import * as Go from "react-icons/go";
 import CryptoJS from "crypto-js";
 import toast, { Toaster } from "react-hot-toast";
-import Utils from "@/src/app/_utils/Utils";
+import Utils from "../_utils/Utils";
 import { useRouter } from "next/navigation";
 import {
   getLocalStorageItem,
@@ -13,7 +13,7 @@ import {
   removeLocalStorageItem,
   setLocalStorageItem,
   setSessionStorageItem,
-} from "@/src/app/_utils/ClientUtils";
+} from "../_utils/ClientUtils";
 import "./style.css";
 
 function OtpVerification() {
@@ -104,6 +104,7 @@ function OtpVerification() {
               onChange={(e) => setResertOTP(e)}
               numInputs={6}
               renderSeparator={<span>-</span>}
+              className="inputs"
               renderInput={(props) => <input {...props} />}
             />
             <p className="resend_otp_reservv">

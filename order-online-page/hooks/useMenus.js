@@ -9,13 +9,16 @@ const useMenus = () => {
   const [deliveryFee, setDeliveryFee] = useState(null);
   const [cartLoading, setCartLoading] = useState(false);
   const [categoryList, setCategoryList] = useState(null);
+  const [diningList, setDiningList] = useState(null);
   const [settings, setSettings] = useState(null);
+  const [diningLoading, setDiningLoading] = useState(false);
   const [deliveryInfo, setDeliveryInfo] = useState(null);
   const [menuLoading, setMenuLoading] = useState(false);
   const [locationResponse, setLocationResponse] = useState(null);
   const [cartItems, setCartItems] = useState(null);
   const [categoryLoading, setCategoryLoading] = useState(false);
   const [settingsLoading, setSettingsLoading] = useState(true);
+  const [currentStatus, setCurrentStatus] = useState(null);
 
   const fetchMenuList = async () => {
     try {
@@ -56,6 +59,24 @@ const useMenus = () => {
       });
     } finally {
       setCategoryLoading(false);
+    }
+  };
+  const diningMenuList = async () => {
+    try {
+      setDiningLoading(true);
+      await BaseClient.get(APIEndpoints.diningMenu, [], {
+        onSuccess: (res) => {
+          console.log(res.data, "response");
+          setDiningList(res?.data?.data?.items);
+          setDiningLoading(false);
+        },
+        onFailed: (err) => {
+          console.log("Error on fetching menus", err);
+          setDiningLoading(false);
+        },
+      });
+    } finally {
+      setDiningLoading(false);
     }
   };
   const fetchCartList = async (userId) => {
@@ -141,7 +162,7 @@ const useMenus = () => {
         BaseClient.get(
           APIEndpoints.productList +
             `/${data?.shopId}` +
-            `/${data?.categoryId}`,
+            `/${data?.categoryId}/online`,
           null,
           {
             onSuccess: (res) => {
@@ -179,6 +200,31 @@ const useMenus = () => {
     }
   };
 
+  const fetchCurrentShopStatus = async () => {
+    try {
+      setSettingsLoading(true);
+      await BaseClient.get(
+        APIEndpoints.getCurrentShopStatus,
+        {},
+        {
+          onSuccess: (res) => {
+            // debugger;
+            if (res && res?.data?.error == false) {
+              setCurrentStatus(res?.data?.data);
+            } else {
+              setCurrentStatus(null);
+            }
+          },
+          onFailed: (err) => {
+            console.log("Shop status error", err);
+          },
+        }
+      );
+    } finally {
+      setSettingsLoading(false);
+    }
+  };
+
   return {
     fetchMenuList,
     fetchCategoriesList,
@@ -196,12 +242,17 @@ const useMenus = () => {
     deleteSingleCartItem,
     cartLoading,
     getShopSettings,
+    diningMenuList,
+    diningLoading,
+    diningList,
     settings,
     deliveryInfo,
     categoryLoading,
     settingsLoading,
     setCartItems,
     clearCartItems,
+    fetchCurrentShopStatus,
+    currentStatus,
   };
 };
 

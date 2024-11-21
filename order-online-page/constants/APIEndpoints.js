@@ -1,8 +1,8 @@
 "use client";
 
-const id = 1;
+const id = 65;
 const shopId = `${id}-shop`;
-const shopURL = "le-arabia";
+const shopURL = "azuma-restaurant";
 
 export const APIEndpoints = {
   menulist: `products/${id}/0`,
@@ -13,6 +13,7 @@ export const APIEndpoints = {
   clearCart: "user/web/carts/clear",
   productList: "products",
   shopSettings: `settings/${shopURL}`,
+  diningMenu: `products/${id}/0/dining`,
   createPaymentIntent: "user/web/checkout/createpaymentintent",
   locationSettings: "service",
   completecheckout: "user/web/checkout/complete",
@@ -30,4 +31,5 @@ export const APIEndpoints = {
   getDefaultAddress: "user/setdefaultaddress",
   getDiscountForGuest: "guest/checkout/takeawaycalculator",
   getDeliveryDiscountGuest: "guest/checkout/deliverycalculator",
+  getCurrentShopStatus:`status/${id}`
 };

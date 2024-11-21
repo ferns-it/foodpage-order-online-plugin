@@ -1,3 +1,4 @@
+"use client";
 import React, {
   Fragment,
   useContext,
@@ -7,7 +8,7 @@ import React, {
 } from "react";
 import { TableReservationContext } from "../context/TableReservationContext";
 import "../style/style.css";
-import Utils from "../../_utils/Utils";
+import Utils from "../utils/Utils";
 
 import * as Tb from "react-icons/tb";
 import * as Md from "react-icons/md";
@@ -16,7 +17,7 @@ import * as Fi from "react-icons/fi";
 import * as Io from "react-icons/io";
 
 import ReservModal from "../components/ReservModal";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import CryptoJS from "crypto-js";
 import toast from "react-hot-toast";
 import Skeleton from "react-loading-skeleton";
@@ -39,7 +40,10 @@ export const mergeBookingDateTime = (bookingDate, bookingTime) => {
   return formattedDateTime;
 };
 
-function ViewReservation({ reservId }) {
+function ViewReservation() {
+  const searchParams = useSearchParams();
+  const reservId = searchParams.get("reserv");
+
   const router = useRouter();
   const {
     reservationDetails,
@@ -59,7 +63,7 @@ function ViewReservation({ reservId }) {
     name: "",
     email: "",
     phone: "",
-    chairs: "",
+    chairs: 1,
     message: "",
   });
   const [isExpired, setIsExpired] = useState(false);
@@ -122,6 +126,11 @@ function ViewReservation({ reservId }) {
     const { name, value } = e.target;
 
     setUpdatedValue((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleChairChange = (value) => {
+    const sanitizedValue = value.replace(/[^a-zA-Z0-9+\-*/]/g, "");
+    setUpdatedValue((prev) => ({ ...prev, chairs: sanitizedValue }));
   };
 
   const validateFields = () => {
@@ -205,6 +214,11 @@ function ViewReservation({ reservId }) {
       return;
     }
 
+    if (updatedValues.chairs <= 0) {
+      toast.error("Invalid chair selection");
+      return;
+    }
+
     const mergedBooking = mergeBookingDateTime(
       updatedValues?.bookingDate,
       updatedValues?.bookingTime
@@ -247,8 +261,8 @@ function ViewReservation({ reservId }) {
     }
 
     const payload = {
-      reservationId: reservId,
-      pin: 1234,
+      reservationId: reservationDetails?.id,
+      pin: reservationDetails?.messaging_otp,
       message: message,
     };
     const headers = {
@@ -258,8 +272,6 @@ function ViewReservation({ reservId }) {
       onSuccess: async (res) => {
         toast.success("message sent successfully!");
         await getReservationDetails(reservId);
-        setMessage("");
-        scrollBottom();
       },
       onFailed: (err) => {
         console.log(err);
@@ -292,14 +304,14 @@ function ViewReservation({ reservId }) {
       />
       <section className="tbl_reserv_section">
         <div className="container">
-          <button
-            className="go_back"
+          {/* <button
+            className="go_back mb-2"
             onClick={() => router.push("/manage-reservation")}
           >
             <Go.GoArrowLeft /> Back
-          </button>
+          </button> */}
           <div className="row">
-            <div className="col-lg-8 col-md-6 col-sm-12 position-relative">
+            <div className="col-lg-8 col-md-12 col-sm-12 position-relative">
               <div className="card manage_reserv_card" id="alter_card">
                 <h3 className="table-reservation-form-head">
                   Reservation Details
@@ -432,7 +444,10 @@ function ViewReservation({ reservId }) {
                                     className="form-control table_reserv_form_input"
                                     value={updatedValues?.chairs}
                                     max={25}
-                                    onChange={handleChange}
+                                    onChange={(e) =>
+                                      handleChairChange(e.target.value)
+                                    }
+                                    min={1}
                                   />
                                 </>
                               )}

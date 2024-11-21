@@ -15,6 +15,8 @@ function FoodCards(category) {
     settings,
     showModal,
     setShowModal,
+    settingsLoading,
+    currentStatus,
   } = useContext(AppContext);
 
   const params = useSearchParams();
@@ -32,8 +34,7 @@ function FoodCards(category) {
 
     if (showModal) {
       const data = getSessionStorageItem("selectedProduct");
-
-      window.sessionStorage.removeItem("selectedProduct");
+      console.log(data, "data");
       if (data && data.length != 0) {
         const product = JSON.parse(data);
         setShowModal(true);
@@ -55,7 +56,7 @@ function FoodCards(category) {
         setShowModal={setShowModal}
         productData={productDataValues}
       />
-      <div className="container position-relative">
+      {/* <div className="container position-relative">
         {(settings?.shopStatus === "close" ||
           (settings?.deliveryInfo?.takeAway_temp_off === "Yes" &&
             settings?.deliveryInfo?.homeDelivery_temp_off === "Yes")) && (
@@ -66,7 +67,19 @@ function FoodCards(category) {
             Sorry, We're Temporarily Closed! Be Back Soon.
           </p>
         )}
-      </div>
+      </div> */}
+
+      {settingsLoading == false &&
+        currentStatus != null &&
+        currentStatus?.status == true && (
+          <p className="info-header">
+            <i>
+              <Pi.PiCallBellFill />
+            </i>
+            {currentStatus?.message ??
+              "Sorry, We're Temporarily Closed! Be Back Soon."}
+          </p>
+        )}
 
       <div className="product_wrapper_029">
         {productsListLoading ? (
@@ -103,7 +116,7 @@ function FoodCards(category) {
                                   >
                                     <div className="row fda_food_row">
                                       <div className="mx-auto">
-                                        <a
+                                        <div
                                           className="prod_anchor"
                                           style={{
                                             textDecoration: "none",
@@ -146,7 +159,7 @@ function FoodCards(category) {
                                               ADD
                                             </button>
                                           </div>
-                                        </a>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
