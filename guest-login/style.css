@@ -346,7 +346,6 @@ div.food_tile.active img {
 
 .login_comp {
   padding: 2rem;
-
   margin-top: 5rem;
 }
 
@@ -3283,4 +3282,20 @@ a {
 .check_icon {
   font-size: 17px;
   color: #018f43;
+}
+#new_inpp{
+  font-family: sans-serif;
+  padding: 2px 10px;
+}
+
+@media screen and (max-width:1200px) {
+  .login_comp{
+    width: 60%;
+  }
+}
+
+@media screen and (max-width:600px) {
+  .login_comp{
+    width: 100%;
+  }
 }

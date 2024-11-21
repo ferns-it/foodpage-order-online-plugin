@@ -112,7 +112,7 @@ function GuestLogin() {
                 <input
                   type="text"
                   name="guestName"
-                  id=""
+                  id="new_inpp"
                   className="form-control"
                   value={userState.guestName}
                   onChange={handleInputChange}
@@ -126,7 +126,7 @@ function GuestLogin() {
                 <input
                   type="email"
                   name="email"
-                  id="email"
+                  id="new_inpp"
                   className="form-control password_inp"
                   value={userState.email}
                   onChange={handleInputChange}
