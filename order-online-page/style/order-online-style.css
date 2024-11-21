@@ -587,6 +587,7 @@ body {
 .summary_card {
   position: relative;
   padding: 10px;
+  width: 100%;
   background-color: #faf3cc;
   /* border: 1px solid #ffad02; */
   border: none;
