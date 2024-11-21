@@ -1633,7 +1633,9 @@ deal_content p {
 .table_reservation_card {
   padding: 10px;
   /* width: 75%; */
+  border: 1px solid rgb(179, 179, 179);
   margin: 0 auto;
+  border-radius: 4px;
 }
 
 .table-reservation-form-head {
@@ -1658,7 +1660,7 @@ deal_content p {
 }
 
 .inc_dec_wrapper_0291 {
-   padding: 0 !important;
+  padding: 0 !important;
   display: block;
   position: relative;
   /* margin: 0 auto; */
@@ -2584,6 +2586,9 @@ a {
 
   .order_items p {
     font-size: 12px;
+  }
+  .login_order_online_form_0283 {
+    height: auto !important;
   }
 }
 @media screen and (max-width: 991px) {
