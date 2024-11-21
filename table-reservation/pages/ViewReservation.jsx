@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, {
   Fragment,
   useContext,
@@ -434,6 +434,7 @@ function ViewReservation() {
                                     className="form-control table_reserv_form_input"
                                     value={updatedValues?.chairs}
                                     max={25}
+                                    min={0}
                                     onChange={handleChange}
                                   />
                                 </>
