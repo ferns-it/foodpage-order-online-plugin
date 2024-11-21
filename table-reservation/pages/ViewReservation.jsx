@@ -129,7 +129,8 @@ function ViewReservation() {
   };
 
   const handleChairChange = (value) => {
-    setUpdatedValue((prev) => ({ ...prev, chairs: value }));
+    const sanitizedValue = value.replace(/[^a-zA-Z0-9+\-*/]/g, "");
+    setUpdatedValue((prev) => ({ ...prev, chairs: sanitizedValue }));
   };
 
   const validateFields = () => {
@@ -210,6 +211,11 @@ function ViewReservation() {
     if (Object.keys(isValid) && Object.keys(isValid).length != 0) {
       const value = Object.values(isValid)[0];
       toast.error(value);
+      return;
+    }
+
+    if (updatedValues.chairs <= 0) {
+      toast.error("Invalid chair selection");
       return;
     }
 
