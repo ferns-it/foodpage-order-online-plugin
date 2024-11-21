@@ -128,6 +128,12 @@ function ViewReservation() {
     setUpdatedValue((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleChairChange = (value) => {
+    if (value != 0) {
+      setUpdatedValue((prev) => ({ ...prev, chairs: value }));
+    }
+  };
+
   const validateFields = () => {
     const errors = {};
 
@@ -434,8 +440,10 @@ function ViewReservation() {
                                     className="form-control table_reserv_form_input"
                                     value={updatedValues?.chairs}
                                     max={25}
+                                    onChange={(e) =>
+                                      handleChairChange(e.target.value)
+                                    }
                                     min={0}
-                                    onChange={handleChange}
                                   />
                                 </>
                               )}

@@ -337,6 +337,9 @@ input {
     width: 70%;
     white-space: nowrap;
   }
+  .card-manage{
+    width: 100% !important;
+  }
 }
 
 .reserv_content_success__ {
@@ -614,6 +617,9 @@ input {
     right: 50px;
     border-radius: 12px;
     text-align: center;
+  }
+  .card-manage{
+    width: 100% !important;
   }
 }
 
@@ -1819,10 +1825,7 @@ abbr[title] {
   background-color: #eee;
 }
 
-.manage_reserv_card {
-  width: 100%;
-  margin: 0 auto;
-}
+
 .message-area {
   position: relative;
   overflow-y: scroll;
@@ -1839,18 +1842,16 @@ abbr[title] {
 }
 
 @media screen and (max-width: 991px) {
-  .manage_reserv_card {
-    width: 70%;
-  }
+
   .reserv_btn {
     width: 100%;
   }
 }
 
-@media screen and (max-width: 786px) {
-  .manage_reserv_card {
-    width: 100%;
-  }
+
+
+@media screen and (max-width: 600px) {
+
 }
 .reservId_find {
   font-size: 13px;
@@ -2106,4 +2107,7 @@ abbr[title] {
 .table_reserv_textarea {
   min-height: 100px !important;
   text-transform: none;
+}
+.card-manage{
+  width: 50%;
 }

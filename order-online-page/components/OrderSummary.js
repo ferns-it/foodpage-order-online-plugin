@@ -149,7 +149,7 @@ function OrderSummary() {
             const pathname = `/checkout?price=${deliveryResp?.cart_NetAmount}&&deliveryCharge=0&&discount=${deliveryResp?.discountAmount}`;
             setLocalStorageItem("path", pathname);
             setTimeout(() => {
-              router.push(pathname);
+              router.replace(pathname);
             }, 200);
             setSessionStorageItem(
               "deliveryResponse",
@@ -207,7 +207,7 @@ function OrderSummary() {
               const pathname = `/checkout?price=${deliveryResp?.cart_NetAmount}&&deliveryCharge=${deliveryResp?.deliveryFeeAmount}&&discount=${deliveryResp?.discountAmount}`;
               setLocalStorageItem("path", pathname);
               setTimeout(() => {
-                router.push(pathname);
+                router.replace(pathname);
               }, 200);
             }
             return;
@@ -358,7 +358,10 @@ function OrderSummary() {
                   const masterAddons = item?.master_addon_apllied;
                   return (
                     <>
-                      <div className="position-relative mb-4" key={mainIndex}>
+                      <div
+                        className="position-relative mb-4"
+                        key={item.id || mainIndex}
+                      >
                         <div className="d-flex">
                           <p className="food_menu m-0 food_title_299">
                             <strong>{item?.productName ?? "N/A"} - </strong>
