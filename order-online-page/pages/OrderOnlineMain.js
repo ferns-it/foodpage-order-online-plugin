@@ -125,7 +125,7 @@ const OrderOnlineMain = () => {
                             categoryList.length != 0 &&
                             categoryList.map((list, index) => {
                               return (
-                                <a
+                                <div
                                   // href={`#category-${index}`}
                                   className={
                                     index === activeChipIndex
@@ -141,9 +141,9 @@ const OrderOnlineMain = () => {
                                     )
                                   }
                                 >
-                                  <li>{list?.name}</li>
+                                  <li className="links_order">{list?.name}</li>
                                   <i>{/* <Lu.LuArrowRightToLine /> */}</i>
-                                </a>
+                                </div>
                               );
                             })}
                         </Fragment>

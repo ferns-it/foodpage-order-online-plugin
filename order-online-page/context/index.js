@@ -8,7 +8,7 @@ import {
   getSessionStorageItem,
   setLocalStorageItem,
   setSessionStorageItem,
-} from "../../_utils/ClientUtils";
+} from "@/plugin/_utils/ClientUtils";
 import Utils from "../../_utils/Utils";
 import useProfile from "../hooks/useProfile";
 import useOrderHistory from "../hooks/useOrderHistory";
@@ -25,7 +25,7 @@ export const AppContextProvider = (props) => {
   const [isUserLogged, setIsUserLogged] = useState(null);
   const [amount, setAmount] = useState(0);
   const [deliveryFee, setDeliveryFee] = useState(null);
-  const shopId = 1;
+  const shopId = process.env.SHOP_ID;
   const [activeCard, setActiveCard] = useState("login");
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [filterLoading, setFilterLoading] = useState(false);
@@ -86,6 +86,11 @@ export const AppContextProvider = (props) => {
     settingsLoading,
     setCartItems,
     clearCartItems,
+    diningMenuList,
+    diningLoading,
+    diningList,
+    fetchCurrentShopStatus,
+    currentStatus,
   } = useMenus();
   const {
     authLoading,
@@ -146,7 +151,9 @@ export const AppContextProvider = (props) => {
     getShopSettings();
     fetchCategoriesList();
     fetchCartList(userId);
+    diningMenuList();
     fetchMenuList();
+    fetchCurrentShopStatus();
     // if (userToken) {
     //   fetchAddressList(userToken);
     //   fetchOrderList(userToken);
@@ -320,6 +327,10 @@ export const AppContextProvider = (props) => {
         deliveryLoading,
         GuestDiscountoftakeaway,
         GuestDeliveryDetails,
+        diningMenuList,
+        diningLoading,
+        diningList,
+        currentStatus,
       }}
     >
       {props.children}

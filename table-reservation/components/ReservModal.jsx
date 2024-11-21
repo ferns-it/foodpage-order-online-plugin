@@ -1,3 +1,4 @@
+"use client"
 import React, { Fragment, useContext, useEffect, useRef } from "react";
 import "../style/style.css";
 import "../../order-online-page/style/order-online-style.css"; //? style from order online

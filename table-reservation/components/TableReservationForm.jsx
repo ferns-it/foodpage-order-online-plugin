@@ -13,8 +13,6 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useRouter, useSearchParams } from "next/navigation";
 import { setSessionStorageItem } from "../../_utils/ClientUtils";
-import foodPageLogo from "../assets/logo.png";
-import Image from "next/image";
 
 const RECAPTCHA_SITE_KEY = "6LeXD-8pAAAAAOpi7gUuH5-DO0iMu7J6C-CBA2fo";
 
@@ -302,14 +300,9 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
             setSessionStorageItem("reserv_details", saveObj);
             setSessionStorageItem("secretKey", secretKey);
             setIsActiveTablePage("otp-page");
-            router.push(
-              {
-                pathname: "/tablereservation",
-                query: { otp: true },
-              },
-              undefined,
-              { shallow: true }
-            );
+            router.push("/tablereservation?otp=true", undefined, {
+              shallow: true,
+            });
           }, 300);
         } else {
           toast.error("OTP not send!");
@@ -407,7 +400,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                         <select
                           name="bookingTime"
                           className={
-                            "form-select table_reserv_form_input " +
+                            "form-select table_reserv_form_input_select d-block " +
                             (isReservErr &&
                             (!initialValues?.bookingTime ||
                               initialValues.bookingTime.length === 0)
@@ -444,6 +437,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                       >
                         No of Party Size
                       </label>
+
                       <div className="inc_dec_wrapper_0291">
                         <div className="incDec_wrapper_0291">
                           <input
@@ -452,9 +446,9 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                             min={1}
                             className="toggle-checkbox"
                           />
-                          <div className="counter-container">
+                          <div className="counter-container text-center mx-auto">
                             <label
-                              for="toggle"
+                              htmlFor="toggle"
                               className="decrement-button"
                               onClick={handleDecrement}
                             >
@@ -466,7 +460,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                               onChange={(e) => handleCountChange(e)}
                             />
                             <label
-                              for="toggle"
+                              htmlFor="toggle"
                               className="increment-button red"
                               onClick={handleIncrement}
                             >
@@ -482,10 +476,11 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                       )}
                     </div>
                   </div>
-
+                  <br />
+                  <hr />
                   <h3 className="sub_title_">Personal Information</h3>
                   <div className="row">
-                    <div className="col-lg-4 col-md-4 ol-sm-4">
+                    <div className="col-lg-4 col-md-6 ol-sm-12">
                       <div className="form-group">
                         <label
                           htmlFor="name"
@@ -512,7 +507,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                         </span>
                       )}
                     </div>
-                    <div className="col-lg-4 col-md-4 ol-sm-4">
+                    <div className="col-lg-4 col-md-6 ol-sm-12">
                       <div className="form-group">
                         <label
                           htmlFor="email"
@@ -540,7 +535,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                       )}
                     </div>
 
-                    <div className="col-lg-4 col-md-4 ol-sm-4">
+                    <div className="col-lg-4 col-md-6 ol-sm-12">
                       <div className="form-group">
                         <label
                           htmlFor="phone"
@@ -580,8 +575,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                       <textarea
                         name="message"
                         id=""
-                        className="form-control"
-                        rows={5}
+                        className="textarea form-control table_reserv_textarea"
                         onChange={handleChange}
                       ></textarea>
                     </div>
@@ -629,7 +623,37 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                   Guruviharrr, Kadakkavoor, Thiruvananthapuram
                 </p> */}
 
-                <p className="open_">
+                <div className="open_">
+                  <i className="pe-1">
+                    <Md.MdOutlineRestaurantMenu />
+                  </i>
+                  <span>Booking info</span>
+                  <table className="table reserve_table">
+                    <tbody>
+                      <tr>
+                        <td>Date</td>
+                        <td>
+                          {initialValues && initialValues?.bookingDate
+                            ? Utils.formatDate(initialValues?.bookingDate)
+                            : Utils.formatDate(new Date())}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Time</td>
+                        <td>
+                          {initialValues && initialValues.bookingTime
+                            ? Utils.convertTiming(initialValues?.bookingTime)
+                            : "00:00"}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Chairs</td>
+                        <td>{count ?? 0}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                {/* <p className="open_">
                   <i className="pe-1">
                     <Md.MdOutlineRestaurantMenu />
                   </i>
@@ -946,7 +970,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                   </div>
                 )} */}
 
-                <button
+                {/* <button
                   type="button"
                   className="reserv_btn my-3"
                   onClick={() => router.push("/manage-reservation")}
@@ -955,10 +979,10 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                     <Im.ImSpoonKnife />
                   </i>
                   Manage Reservation
-                </button>
+                </button> */}
               </div>
               <div className="poweredBy_ text-center" id="main___">
-                <span>Powered by</span> <Image src={foodPageLogo} />
+                <span>Powered by Foodpage</span>
               </div>
             </div>
           </div>

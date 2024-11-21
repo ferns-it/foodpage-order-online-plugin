@@ -187,13 +187,7 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
   };
 
   const handleNavigation = () => {
-    router.push(
-      {
-        pathname: "/tablereservation",
-      },
-      undefined,
-      { shallow: true }
-    );
+    router.back();
     setTimeout(() => {
       setIsActiveTablePage("reservation-form");
     }, 200);
@@ -209,7 +203,7 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
                 <Go.GoArrowLeft />
               </button>
               <div className="card table_reservation_card">
-                <h3 className="table-reservation-form-head">
+                <h3 className="table-reservation-form-head text-center">
                   VERIFICATION CODE
                 </h3>
                 <p className="table_reserv_info_sub_head text-center">
@@ -280,41 +274,43 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
                   <span>Reservation Details</span>
                 </p>
                 <table className="reserv_timing_table table">
-                  <tr>
-                    <td className="tbl_head">Booking Date</td>
-                    <td>
-                      {initialValues && initialValues?.bookingDate
-                        ? Utils.formatDate(initialValues?.bookingDate)
-                        : "N/A"}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="tbl_head">Booking Time</td>
-                    <td>{initialValues?.bookingTime ?? "N/A"}</td>
-                  </tr>
-                  <tr>
-                    <td className="tbl_head">Name</td>
-                    <td>{initialValues?.name ?? "N/A"}</td>
-                  </tr>
-                  <tr>
-                    <td className="tbl_head">Email Address</td>
-                    <td>{initialValues?.email ?? "N/A"}</td>
-                  </tr>
-                  <tr>
-                    <td className="tbl_head">Phone</td>
-                    <td>{initialValues?.phone ?? "N/A"}</td>
-                  </tr>
-
-                  <tr>
-                    <td className="tbl_head">people</td>
-                    <td>{initialValues?.noOfChairs ?? "N/A"}</td>
-                  </tr>
-                  {initialValues && initialValues.message && (
+                  <tbody>
                     <tr>
-                      <td className="tbl_head">Message</td>
-                      <td>{initialValues?.message ?? "N/A"}</td>
+                      <td className="tbl_head">Booking Date</td>
+                      <td>
+                        {initialValues && initialValues?.bookingDate
+                          ? Utils.formatDate(initialValues?.bookingDate)
+                          : "N/A"}
+                      </td>
                     </tr>
-                  )}
+                    <tr>
+                      <td className="tbl_head">Booking Time</td>
+                      <td>{initialValues?.bookingTime ?? "N/A"}</td>
+                    </tr>
+                    <tr>
+                      <td className="tbl_head">Name</td>
+                      <td>{initialValues?.name ?? "N/A"}</td>
+                    </tr>
+                    <tr>
+                      <td className="tbl_head">Email Address</td>
+                      <td>{initialValues?.email ?? "N/A"}</td>
+                    </tr>
+                    <tr>
+                      <td className="tbl_head">Phone</td>
+                      <td>{initialValues?.phone ?? "N/A"}</td>
+                    </tr>
+
+                    <tr>
+                      <td className="tbl_head">people</td>
+                      <td>{initialValues?.noOfChairs ?? "N/A"}</td>
+                    </tr>
+                    {initialValues && initialValues.message && (
+                      <tr>
+                        <td className="tbl_head">Message</td>
+                        <td>{initialValues?.message ?? "N/A"}</td>
+                      </tr>
+                    )}
+                  </tbody>
                 </table>
               </div>
             </div>

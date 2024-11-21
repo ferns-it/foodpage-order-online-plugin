@@ -346,7 +346,6 @@ div.food_tile.active img {
 
 .login_comp {
   padding: 2rem;
-
   margin-top: 5rem;
 }
 
@@ -1321,6 +1320,13 @@ deal_content p {
   }
 }
 
+@media screen and (max-width: 400px) {
+  .inputs {
+    margin: 0px auto;
+    text-align: center;
+    display: block;
+  }
+}
 @media screen and (max-width: 500px) {
   .background {
     height: 80vh;
@@ -1626,7 +1632,9 @@ deal_content p {
 .table_reservation_card {
   padding: 10px;
   /* width: 75%; */
+  border: 1px solid rgb(179, 179, 179);
   margin: 0 auto;
+  border-radius: 4px;
 }
 
 .table-reservation-form-head {
@@ -1641,18 +1649,21 @@ deal_content p {
 
 .table_reserv_form_label {
   font-size: 13px;
+  font-family: sans-serif;
   font-weight: 600;
 }
 
 .table_reserv_form_input.err__ {
   border-color: #e03f3f !important;
+  font-family: sans-serif !important;
 }
 
 .inc_dec_wrapper_0291 {
+  padding: 0 !important;
   display: block;
   position: relative;
-  margin: 0 auto;
-  margin-bottom: 34px;
+  /* margin: 0 auto; */
+  margin: 0 !important;
 }
 
 .incDec_wrapper_0291 {
@@ -1660,6 +1671,7 @@ deal_content p {
   /* width: 100%; */
   background-color: #f2f1f2;
   border-radius: 20px;
+  margin: 0;
   overflow: hidden;
   border: 1px solid #e03f3f;
 }
@@ -1770,7 +1782,11 @@ deal_content p {
   border-bottom: 1px dashed #7777;
   margin-bottom: 10px;
 }
-
+.note_ {
+  font-size: 12px;
+  color: orangered;
+  margin-top: 15px;
+}
 .day_wrapper_reserv_table > .day__ {
   position: relative;
   padding: 0 0 2px 0;
@@ -1778,6 +1794,7 @@ deal_content p {
   font-size: 13px;
   font-weight: 600;
   color: #747474;
+  margin-top: 10px;
   margin-bottom: 10px;
 }
 
@@ -1808,17 +1825,30 @@ deal_content p {
 }
 
 .otp_validation_reserv div > input {
-  width: 70px !important;
-  height: 70px;
   border: 1px solid #eee;
   border-radius: 4px;
-  font-size: 22px !important;
+  padding: 0px;
+  width: 70px !important;
+  height: 70px !important;
+  font-size: 18px !important;
+  font-family: sans-serif;
 }
-
+.justify {
+  text-align: justify;
+}
 @media screen and (max-width: 991px) {
   .otp_validation_reserv div > input {
-    width: 50px !important;
-    height: 50px;
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 14px !important;
+  }
+  .otp_validation_reserv div > input {
+    border: 1px solid #eee;
+    border-radius: 4px;
+    padding: 0px;
+    width: 70px;
+    height: 70px;
+    font-size: 10px !important;
   }
 }
 
@@ -1826,9 +1856,11 @@ deal_content p {
   .table_reservation_card {
     border: none;
   }
-  .otp_validation_reserv div > input {
-    width: 40px !important;
-    height: 40px;
+  #alter_card {
+    width: 100% !important;
+  }
+  .resrv_btnn {
+    width: 100%;
   }
 }
 
@@ -2554,6 +2586,9 @@ a {
   .order_items p {
     font-size: 12px;
   }
+  .login_order_online_form_0283 {
+    height: auto !important;
+  }
 }
 @media screen and (max-width: 991px) {
   .order-card {
@@ -3247,4 +3282,20 @@ a {
 .check_icon {
   font-size: 17px;
   color: #018f43;
+}
+#new_inpp{
+  font-family: sans-serif;
+  padding: 2px 10px;
+}
+
+@media screen and (max-width:1200px) {
+  .login_comp{
+    width: 60%;
+  }
+}
+
+@media screen and (max-width:600px) {
+  .login_comp{
+    width: 100%;
+  }
 }
