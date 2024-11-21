@@ -15,8 +15,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { setSessionStorageItem } from "../../_utils/ClientUtils";
 import foodPageLogo from "../assets/logo.png";
 import Image from "next/image";
-import { format, parseISO } from "date-fns";
-// import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 
 const RECAPTCHA_SITE_KEY = "6LeXD-8pAAAAAOpi7gUuH5-DO0iMu7J6C-CBA2fo";
 

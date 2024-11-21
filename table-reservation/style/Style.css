@@ -2063,3 +2063,6 @@ abbr[title] {
 .message-area::-webkit-scrollbar-thumb {
   background-color: #eee;
 }
+.pt-100{
+  padding-top: 70px;
+}
