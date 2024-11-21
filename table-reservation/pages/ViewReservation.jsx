@@ -63,7 +63,7 @@ function ViewReservation() {
     name: "",
     email: "",
     phone: "",
-    chairs: "",
+    chairs: 1,
     message: "",
   });
   const [isExpired, setIsExpired] = useState(false);
@@ -129,9 +129,7 @@ function ViewReservation() {
   };
 
   const handleChairChange = (value) => {
-    if (value != 0) {
-      setUpdatedValue((prev) => ({ ...prev, chairs: value }));
-    }
+    setUpdatedValue((prev) => ({ ...prev, chairs: value }));
   };
 
   const validateFields = () => {
@@ -300,12 +298,12 @@ function ViewReservation() {
       />
       <section className="tbl_reserv_section">
         <div className="container">
-          <button
+          {/* <button
             className="go_back mb-2"
             onClick={() => router.push("/manage-reservation")}
           >
             <Go.GoArrowLeft /> Back
-          </button>
+          </button> */}
           <div className="row">
             <div className="col-lg-8 col-md-12 col-sm-12 position-relative">
               <div className="card manage_reserv_card" id="alter_card">
@@ -443,7 +441,7 @@ function ViewReservation() {
                                     onChange={(e) =>
                                       handleChairChange(e.target.value)
                                     }
-                                    min={0}
+                                    min={1}
                                   />
                                 </>
                               )}
