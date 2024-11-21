@@ -476,7 +476,8 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                       )}
                     </div>
                   </div>
-
+                  <br />
+                  <hr />
                   <h3 className="sub_title_">Personal Information</h3>
                   <div className="row">
                     <div className="col-lg-4 col-md-6 ol-sm-12">

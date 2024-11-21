@@ -283,11 +283,9 @@ function OrderSummaryCheckout() {
   const checkForEmptyKeys = (formState) => {
     const emptyKeys = [];
 
-    // Iterate through formState keys
     for (const key in formState) {
       const value = formState[key];
 
-      // Exclude 'addressLine2' and 'notes' from the check
       if (key !== "addressLine2" && key !== "notes") {
         if (value === undefined || value === null || value === "") {
           emptyKeys.push(key);

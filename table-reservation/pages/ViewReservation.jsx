@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, {
   Fragment,
   useContext,
@@ -126,6 +126,12 @@ function ViewReservation() {
     const { name, value } = e.target;
 
     setUpdatedValue((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleChairChange = (value) => {
+    if (value != 0) {
+      setUpdatedValue((prev) => ({ ...prev, chairs: value }));
+    }
   };
 
   const validateFields = () => {
@@ -434,7 +440,9 @@ function ViewReservation() {
                                     className="form-control table_reserv_form_input"
                                     value={updatedValues?.chairs}
                                     max={25}
-                                    onChange={handleChange}
+                                    onChange={(e) =>
+                                      handleChairChange(e.target.value)
+                                    }
                                   />
                                 </>
                               )}
