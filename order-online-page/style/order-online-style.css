@@ -1716,6 +1716,13 @@ body {
 .online_order_plugin_input_2939.error___ {
   border-color: #e61a16 !important;
 }
+.table_reservation_card {
+  padding: 10px;
+  /* width: 75%; */
+  border: 1px solid rgb(179, 179, 179) !important;
+  margin: 0 auto;
+  border-radius: 4px;
+}
 
 .login_order_online_form_0283 {
   transition: all 0.3s ease-in-out;
