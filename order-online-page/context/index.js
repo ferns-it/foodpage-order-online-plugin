@@ -91,6 +91,8 @@ export const AppContextProvider = (props) => {
     diningList,
     fetchCurrentShopStatus,
     currentStatus,
+    fetchTakeawayMenus,
+    takeawayMenu,
   } = useMenus();
   const {
     authLoading,
@@ -154,6 +156,7 @@ export const AppContextProvider = (props) => {
     diningMenuList();
     fetchMenuList();
     fetchCurrentShopStatus();
+    fetchTakeawayMenus();
     // if (userToken) {
     //   fetchAddressList(userToken);
     //   fetchOrderList(userToken);
@@ -331,6 +334,8 @@ export const AppContextProvider = (props) => {
         diningLoading,
         diningList,
         currentStatus,
+        fetchTakeawayMenus,
+        takeawayMenu,
       }}
     >
       {props.children}

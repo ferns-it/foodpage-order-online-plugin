@@ -261,8 +261,8 @@ function ViewReservation() {
     }
 
     const payload = {
-      reservationId: reservationDetails?.id,
-      pin: reservationDetails?.messaging_otp,
+      reservationId: reservId,
+      pin: 1234,
       message: message,
     };
     const headers = {
@@ -271,6 +271,7 @@ function ViewReservation() {
     await sendMessage(payload, {
       onSuccess: async (res) => {
         toast.success("message sent successfully!");
+        setMessage("")
         await getReservationDetails(reservId);
       },
       onFailed: (err) => {
@@ -568,7 +569,7 @@ function ViewReservation() {
                 )}
               </div>
             </div>
-            <div className="col-lg-4 col-md-6 col-sm-12">
+            <div className="col-lg-4 col-md-12 col-sm-12 mt-3">
               {chatMessages && chatMessages.length != 0 && (
                 <div className="card manage_reserv_card">
                   <button

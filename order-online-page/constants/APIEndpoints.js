@@ -14,6 +14,7 @@ export const APIEndpoints = {
   productList: "products",
   shopSettings: `settings/${shopURL}`,
   diningMenu: `products/${id}/0/dining`,
+  getTakeawayMenus:`products/${id}/0/online`,
   createPaymentIntent: "user/web/checkout/createpaymentintent",
   locationSettings: "service",
   completecheckout: "user/web/checkout/complete",
@@ -31,5 +32,5 @@ export const APIEndpoints = {
   getDefaultAddress: "user/setdefaultaddress",
   getDiscountForGuest: "guest/checkout/takeawaycalculator",
   getDeliveryDiscountGuest: "guest/checkout/deliverycalculator",
-  getCurrentShopStatus:`status/${id}`
+  getCurrentShopStatus:`status/${id}`,
 };

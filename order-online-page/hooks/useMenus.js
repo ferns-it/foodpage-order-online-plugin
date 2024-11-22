@@ -19,6 +19,7 @@ const useMenus = () => {
   const [categoryLoading, setCategoryLoading] = useState(false);
   const [settingsLoading, setSettingsLoading] = useState(true);
   const [currentStatus, setCurrentStatus] = useState(null);
+  const [takeawayMenu, setTakeawayMenu] = useState(null);
 
   const fetchMenuList = async () => {
     try {
@@ -68,11 +69,26 @@ const useMenus = () => {
         onSuccess: (res) => {
           console.log(res.data, "response");
           setDiningList(res?.data?.data?.items);
-          setDiningLoading(false);
         },
         onFailed: (err) => {
           console.log("Error on fetching menus", err);
-          setDiningLoading(false);
+        },
+      });
+    } finally {
+      setDiningLoading(false);
+    }
+  };
+
+  const fetchTakeawayMenus = async () => {
+    try {
+      setDiningLoading(true);
+      await BaseClient.get(APIEndpoints.getTakeawayMenus, [], {
+        onSuccess: (res) => {
+          console.log(res.data, "response");
+          setTakeawayMenu(res?.data?.data?.items);
+        },
+        onFailed: (err) => {
+          console.log("Error on fetching menus", err);
         },
       });
     } finally {
@@ -253,6 +269,8 @@ const useMenus = () => {
     clearCartItems,
     fetchCurrentShopStatus,
     currentStatus,
+    fetchTakeawayMenus,
+    takeawayMenu,
   };
 };
 

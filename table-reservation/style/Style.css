@@ -47,8 +47,9 @@ input {
   width: 70%;
   padding: 10px;
   float: right;
+  transition: all 0.2s ease-in-out;
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 991px) {
   #alter_card {
     width: 100% !important;
     font-size: 8px;
@@ -337,7 +338,7 @@ input {
     width: 70%;
     white-space: nowrap;
   }
-  .card-manage{
+  .card-manage {
     width: 100% !important;
   }
 }
@@ -618,7 +619,7 @@ input {
     border-radius: 12px;
     text-align: center;
   }
-  .card-manage{
+  .card-manage {
     width: 100% !important;
   }
 }
@@ -1810,8 +1811,9 @@ abbr[title] {
   font-size: 14px;
 }
 .tbl_reserv_section {
-  margin-top: 120px !important;
-  height: 100vh;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  height: 100%;
 }
 .message-area::-webkit-scrollbar {
   width: 10px;
@@ -1825,12 +1827,12 @@ abbr[title] {
   background-color: #eee;
 }
 
-
 .message-area {
   position: relative;
   overflow-y: scroll;
   overflow-x: hidden;
   height: 345px;
+  padding: 10px;
 }
 
 .send_message_btn {
@@ -1842,16 +1844,12 @@ abbr[title] {
 }
 
 @media screen and (max-width: 991px) {
-
   .reserv_btn {
     width: 100%;
   }
 }
 
-
-
 @media screen and (max-width: 600px) {
-
 }
 .reservId_find {
   font-size: 13px;
@@ -2108,6 +2106,6 @@ abbr[title] {
   min-height: 100px !important;
   text-transform: none;
 }
-.card-manage{
+.card-manage {
   width: 50%;
 }

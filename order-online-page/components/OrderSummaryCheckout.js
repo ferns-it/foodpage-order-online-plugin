@@ -451,9 +451,9 @@ function OrderSummaryCheckout() {
           <div className="row">
             <div className="col-lg-8 col-md-12 col-sm-12 position-relative">
               <div className="card login_summary_card_0928">
-                <div className="login_summary_card_ico_0928">
+                {/* <div className="login_summary_card_ico_0928">
                   <PiKey />
-                </div>
+                </div> */}
                 {orderType == false || orderType == "false" ? (
                   <h4>Delivery Address</h4>
                 ) : (
@@ -509,7 +509,6 @@ function OrderSummaryCheckout() {
                             onChange={handleChange}
                             value={formState.fullname}
                           />
-                        </div>
                         {fieldError === true &&
                           (!formState.fullname ||
                             formState.fullname.length === 0) && (
@@ -517,6 +516,7 @@ function OrderSummaryCheckout() {
                               Name is required!
                             </span>
                           )}
+                        </div>
                       </div>
 
                       <>
@@ -576,7 +576,6 @@ function OrderSummaryCheckout() {
                                 //     : false
                                 // }
                               /> */}
-                          </div>
                           {fieldError == true &&
                             (!formState.postalCode ||
                               formState?.postalCode?.length === 0) && (
@@ -584,6 +583,7 @@ function OrderSummaryCheckout() {
                                 Postal code is required!
                               </span>
                             )}
+                          </div>
                         </div>
                       </>
 
@@ -609,7 +609,6 @@ function OrderSummaryCheckout() {
                             onChange={handleChange}
                             value={formState.emailAddress}
                           />
-                        </div>
                         {fieldError &&
                           (!formState.emailAddress ||
                             formState?.emailAddress?.length === 0) && (
@@ -617,6 +616,7 @@ function OrderSummaryCheckout() {
                               Email Address is required!
                             </span>
                           )}
+                        </div>
                       </div>
                       <div className="col-lg-4 col-md-4 col-sm-4">
                         <div className="form-group">
@@ -640,14 +640,14 @@ function OrderSummaryCheckout() {
                             onChange={handleChange}
                             value={formState.phone}
                           />
+                          {fieldError &&
+                            (!formState.phone ||
+                              !/^\d+$/.test(formState.phone)) && (
+                              <span className="oos_err_29102">
+                                Phone is required and must be numeric!
+                              </span>
+                            )}
                         </div>
-                        {fieldError &&
-                          (!formState.phone ||
-                            !/^\d+$/.test(formState.phone)) && (
-                            <span className="oos_err_29102">
-                              Phone is required and must be numeric!
-                            </span>
-                          )}
                       </div>
 
                       <div className="col-lg-4 col-md-4 col-sm-4">
@@ -672,14 +672,14 @@ function OrderSummaryCheckout() {
                             onChange={handleChange}
                             value={formState.addressLine1}
                           />
+                          {fieldError &&
+                            (!formState.addressLine1 ||
+                              formState?.addressLine1?.length == 0) && (
+                              <span className="oos_err_29102">
+                                Address Line 1 is required!
+                              </span>
+                            )}
                         </div>
-                        {fieldError &&
-                          (!formState.addressLine1 ||
-                            formState?.addressLine1?.length == 0) && (
-                            <span className="oos_err_29102">
-                              Address Line 1 is required!
-                            </span>
-                          )}
                       </div>
                       <div className="col-lg-4 col-md-4 col-sm-4">
                         <div className="form-group">
@@ -723,14 +723,14 @@ function OrderSummaryCheckout() {
                             onChange={handleChange}
                             value={formState.townCity}
                           />
+                          {fieldError &&
+                            (!formState.townCity ||
+                              formState?.townCity?.length == 0) && (
+                              <span className="oos_err_29102">
+                                Town/City is required!
+                              </span>
+                            )}
                         </div>
-                        {fieldError &&
-                          (!formState.townCity ||
-                            formState?.townCity?.length == 0) && (
-                            <span className="oos_err_29102">
-                              Town/City is required!
-                            </span>
-                          )}
                       </div>
                       <div className="col-lg-4 col-md-4 col-sm-4">
                         <div className="form-group">
@@ -744,18 +744,24 @@ function OrderSummaryCheckout() {
                             type="text"
                             name="county"
                             id=""
-                            className="form-control online_order_plugin_input_2939"
+                            className={
+                              fieldError &&
+                              (!formState.county ||
+                                formState?.county.length == 0)
+                                ? "form-control online_order_plugin_input_2939 error___"
+                                : "form-control online_order_plugin_input_2939 "
+                            }
                             onChange={handleChange}
                             value={formState.county}
                           />
+                          {fieldError &&
+                            (!formState.county ||
+                              formState?.county?.length == 0) && (
+                              <span className="oos_err_29102">
+                                County Required
+                              </span>
+                            )}
                         </div>
-                        {fieldError &&
-                          (!formState.county ||
-                            formState?.county?.length == 0) && (
-                            <span className="oos_err_29102">
-                              County Required
-                            </span>
-                          )}
                       </div>
                     </div>
                     <div className="form-group mt-3">
@@ -784,17 +790,17 @@ function OrderSummaryCheckout() {
                   {/* <button type="button" className="view_btn">View</button> */}
                 </div>
               </div>
-              <div
+              {/* <div
                 className={
                   activeCard == "payment"
                     ? "order_online_horiz_line short"
                     : "order_online_horiz_line "
                 }
-              ></div>
+              ></div> */}
               <div className="card login_summary_card_0928">
-                <div className="login_summary_card_ico_0928">
+                {/* <div className="login_summary_card_ico_0928">
                   <RiMoneyEuroCircleLine />
-                </div>
+                </div> */}
 
                 {!paymentLoading ? (
                   <Fragment>

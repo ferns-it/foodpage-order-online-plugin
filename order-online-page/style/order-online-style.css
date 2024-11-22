@@ -1281,8 +1281,7 @@ body {
 }
 
 .menu_table_0291 td:last-child {
-  width: 30%;
-  text-align: right;
+  width: 100%;
 }
 
 .varient_name {
@@ -2316,6 +2315,8 @@ body {
 }
 
 .small_desc {
+  display: flex;
+  align-items: flex-start;
   font-size: 13px;
   font-weight: 600;
   color: #747474;
@@ -2808,6 +2809,7 @@ div.food_tile__.active img {
   }
   .small-card {
     display: block;
+    border-radius: 16px;
   }
   .web-res {
     display: none;

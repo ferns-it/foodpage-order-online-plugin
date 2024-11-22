@@ -414,7 +414,7 @@ function AddOnsModal(props) {
                 foodValues?.variations[0].name != null && (
                   <div className="col">
                     <p className="sub_head_0291">Choose One</p>
-                    <table className="menu_table_0291">
+                    <table className="menu_table_0291 ">
                       <tbody>
                         {foodValues?.variations.length !== 0 &&
                           foodValues.variations.map((varient, vindex) => {
