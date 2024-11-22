@@ -5,13 +5,13 @@ import { MdTableBar } from "react-icons/md";
 import * as Go from "react-icons/go";
 import * as Fa from "react-icons/fa";
 import * as Md from "react-icons/md";
-import Utils from "../utils/Utils";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import {
   getSessionStorageItem,
   removeSessionStorageItem,
 } from "../../_utils/ClientUtils";
+import Utils from "../utils/Utils";
 
 export const mergeBookingDateTime = (bookingDate, bookingTime) => {
   const date = new Date(bookingDate);
@@ -159,7 +159,6 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
 
     await completeReservation(payload, {
       onSuccess: (res) => {
-      
         toast.success("OTP has been verified!");
         setSecretKey("");
         removeSessionStorageItem("reserv_details");
@@ -175,7 +174,8 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
   };
   const validateOTP = async () => {
     const encryptOTP = encryptToMD5(reservOTP);
-
+    console.log(encryptOTP, "otp");
+    console.log(secretKey, "secretKey");
     if (secretKey.length == 0) {
       console.log("OTP IS NOT DECRYPTED");
     }

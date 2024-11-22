@@ -35,7 +35,11 @@ input {
 /* table reservation */
 .table_reservation_card {
   padding: 10px;
+  border-radius: 4px;
   /* width: 75%; */
+  padding: 5px;
+  margin-top: 10px;
+  border: 1px solid rgb(201, 201, 201) !important;
   margin: 0 auto;
   border-color: #eee;
   border-width: 0 1px 0 0;
@@ -279,6 +283,7 @@ input {
   padding: 0;
   border: 1px solid #eee;
   width: 70px !important;
+   color: #000;
   height: 70px !important;
   border-radius: 4px;
   font-size: 22px !important;
