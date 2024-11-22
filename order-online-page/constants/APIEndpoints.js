@@ -5,7 +5,7 @@ const shopId = `${id}-shop`;
 const shopURL = "le-arabia";
 
 export const APIEndpoints = {
-  menulist: `products/${id}/0`,
+  menulist: `products/${id}/0/online`,
   categoryList: `categories/${shopId}`,
   cartCreation: "user/web/carts",
   getCartItems: "user/web/carts",
@@ -31,5 +31,5 @@ export const APIEndpoints = {
   getDefaultAddress: "user/setdefaultaddress",
   getDiscountForGuest: "guest/checkout/takeawaycalculator",
   getDeliveryDiscountGuest: "guest/checkout/deliverycalculator",
-  getCurrentShopStatus:`status/${id}`
+  getCurrentShopStatus: `status/${id}`,
 };

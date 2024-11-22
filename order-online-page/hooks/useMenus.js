@@ -25,7 +25,7 @@ const useMenus = () => {
       setMenuLoading(true);
       await BaseClient.get(APIEndpoints.menulist, [], {
         onSuccess: (res) => {
-          setMenuList(res?.data);
+          setMenuList(res?.data?.data?.items);
         },
         onFailed: (err) => {
           console.log("Error on fetching menus", err);

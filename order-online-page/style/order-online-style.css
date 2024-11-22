@@ -739,7 +739,7 @@ body {
 }
 
 .order_now_192:disabled {
-  background-color: #6ac6c9;
+  background-color: #f57171f5;
 }
 
 /* .summary_item_wrapper_029 {
@@ -784,6 +784,7 @@ body {
   /* margin: 10px 0; */
   border-radius: 0px;
   overflow: hidden;
+
   transition: all 0.2s ease-in-out;
 }
 
@@ -819,6 +820,7 @@ body {
   font-weight: 600;
   text-transform: capitalize;
   white-space: nowrap;
+  color: #dd3333;
   font-size: 15px;
 }
 
@@ -859,6 +861,7 @@ body {
     rgba(224, 63, 63, 0.242) 50%,
     rgba(224, 63, 63, 0.429) 100%
   ) !important; */
+  color: #49a26d !important;
   background: #eee !important;
   background: linear-gradient(
     90deg,
@@ -2672,7 +2675,7 @@ div.food_tile__.active img {
   border: none;
   outline: none;
   background-color: transparent;
-  background-color: #027881;
+  background-color: #49a26d;
   font-size: 14px;
   padding: 3px 20px;
   border-radius: 5px;
