@@ -8,7 +8,7 @@ import {
   getSessionStorageItem,
   setLocalStorageItem,
   setSessionStorageItem,
-} from "@/plugin/_utils/ClientUtils";
+} from "../../_utils/ClientUtils";
 import Utils from "../../_utils/Utils";
 import useProfile from "../hooks/useProfile";
 import useOrderHistory from "../hooks/useOrderHistory";

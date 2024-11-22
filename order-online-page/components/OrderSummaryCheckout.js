@@ -774,7 +774,7 @@ function OrderSummaryCheckout() {
                       ></textarea>
                     </div>
                     <div className="form-group mz-auto text-center">
-                      <button type="submit" className="btn_check">
+                      <button type="submit" className="btn_check mt-3">
                         Submit
                       </button>
                     </div>

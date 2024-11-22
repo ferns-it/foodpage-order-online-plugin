@@ -536,7 +536,9 @@ function OrderSummary() {
               </table>
             </div>
           ) : (
-            <h3 className="empty_indic_order_summary">No items added yet!</h3>
+            <h3 className="text-center mx-auto">
+              <h3 className="empty_indic_order_summary">No items added yet!</h3>
+            </h3>
           )}
         </div>
 

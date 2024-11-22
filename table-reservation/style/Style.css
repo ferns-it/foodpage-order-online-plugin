@@ -337,7 +337,7 @@ input {
     width: 70%;
     white-space: nowrap;
   }
-  .card-manage{
+  .card-manage {
     width: 100% !important;
   }
 }
@@ -618,7 +618,7 @@ input {
     border-radius: 12px;
     text-align: center;
   }
-  .card-manage{
+  .card-manage {
     width: 100% !important;
   }
 }
@@ -1825,7 +1825,6 @@ abbr[title] {
   background-color: #eee;
 }
 
-
 .message-area {
   position: relative;
   overflow-y: scroll;
@@ -1847,10 +1846,7 @@ abbr[title] {
   }
 }
 
-
-
 @media screen and (max-width: 600px) {
-
 }
 .reservId_find {
   font-size: 13px;
@@ -2107,6 +2103,7 @@ abbr[title] {
   min-height: 100px !important;
   text-transform: none;
 }
-.card-manage{
+.card-manage {
   width: 50%;
 }
+

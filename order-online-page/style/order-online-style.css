@@ -580,7 +580,10 @@ body {
 .empty_indic_order_summary {
   text-align: center;
   font-weight: 700;
+  font-size: 24px;
   color: #7777;
+  padding: 0;
+  margin: 0;
   user-select: none;
 }
 
