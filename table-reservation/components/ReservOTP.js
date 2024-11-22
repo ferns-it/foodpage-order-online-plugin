@@ -159,7 +159,7 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
 
     await completeReservation(payload, {
       onSuccess: (res) => {
-        console.log(res);
+      
         toast.success("OTP has been verified!");
         setSecretKey("");
         removeSessionStorageItem("reserv_details");

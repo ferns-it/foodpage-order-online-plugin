@@ -247,7 +247,6 @@ function ViewReservation() {
           err?.response?.data?.errorMessage?.message ??
           "Updation failed, Please try again!";
         toast.error(msg);
-        console.log("updating error", err);
       },
     });
   };

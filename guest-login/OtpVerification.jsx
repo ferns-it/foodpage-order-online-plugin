@@ -48,7 +48,7 @@ function OtpVerification() {
         }
       },
       onFailed: (err) => {
-        console.log(err);
+      
         const errMsg = err?.errorMessage?.message ?? "FAILED TO SEND OTP!";
         toast.error(errMsg);
       },

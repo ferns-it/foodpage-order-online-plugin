@@ -18,7 +18,7 @@ const useProfile = () => {
                 {
                     onSuccess: (res) => {
                         setAddress(res?.data?.data?.list)
-                        console.log(res?.data?.data?.list, "res");
+                       
                     },
                     onFailed: (err) => {
                         console.log("Error is fetched", err);
