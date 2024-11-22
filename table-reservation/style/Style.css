@@ -149,6 +149,7 @@ input {
   width: 40px;
   border: none;
   outline: none;
+  color: black;
   background: transparent;
   padding: 0 10px;
   user-select: none;
@@ -2106,4 +2107,3 @@ abbr[title] {
 .card-manage {
   width: 50%;
 }
-

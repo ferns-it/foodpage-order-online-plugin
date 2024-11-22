@@ -1254,6 +1254,7 @@ body {
 
 .counter-text {
   margin: 0 10px;
+  color: black;
 }
 
 .toggle-checkbox:checked + .increment-button {
