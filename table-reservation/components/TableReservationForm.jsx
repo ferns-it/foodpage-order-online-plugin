@@ -305,12 +305,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
             setSessionStorageItem("secretKey", secretKey);
             setIsActiveTablePage("otp-page");
             router.push(
-              {
-                pathname: "/tablereservation",
-                query: { otp: true },
-              },
-              undefined,
-              { shallow: true }
+             `/tablereservation?otp=true`
             );
           }, 300);
         } else {
@@ -951,7 +946,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                   </div>
                 )} */}
 
-                <button
+                {/* <button
                   type="button"
                   className="reserv_btn my-3"
                   onClick={() => router.push("/manage-reservation")}
@@ -960,7 +955,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                     <Im.ImSpoonKnife />
                   </i>
                   Manage Reservation
-                </button>
+                </button> */}
               </div>
               <div className="poweredBy_ text-center" id="main___">
                 <span>Powered by</span> <Image src={foodPageLogo} />
