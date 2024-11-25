@@ -181,7 +181,7 @@ input {
 }
 
 .timing_card_table_reserv {
-  background-color: #fff;
+  background-color: #fff !important;
   padding: 0 10px;
   user-select: none;
   border: none;
@@ -283,7 +283,7 @@ input {
   padding: 0;
   border: 1px solid #eee;
   width: 70px !important;
-   color: #000;
+  color: #000;
   height: 70px !important;
   border-radius: 4px;
   font-size: 22px !important;
