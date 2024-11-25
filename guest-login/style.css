@@ -1751,7 +1751,7 @@ deal_content p {
 }
 
 .timing_card_table_reserv {
-  background-color: transparent;
+  background-color: #fff;
   padding: 0 10px;
   user-select: none;
   border: none;
