@@ -179,9 +179,11 @@ input {
 .submit_reserv_btn:hover {
   background-color: #ab2e2e;
 }
-
+#timing_card_new {
+  background-color: #cbffe1 !important;
+}
 .timing_card_table_reserv {
-  background-color: #f4f1ea !important;
+  background-color: #cbffe1 !important;
   padding: 0 10px;
   user-select: none;
   border: none;
@@ -209,6 +211,7 @@ input {
 .timing_card_table_reserv .open_ > i {
   font-size: 16px;
 }
+
 @media screen and (max-width: 991px) {
   .timing_cart_reserv {
     overflow-y: scroll;
