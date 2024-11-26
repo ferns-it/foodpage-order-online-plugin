@@ -179,11 +179,8 @@ input {
 .submit_reserv_btn:hover {
   background-color: #ab2e2e;
 }
-#timing_card_new {
-  background-color: #cbffe1 !important;
-}
+
 .timing_card_table_reserv {
-  background-color: #cbffe1 !important;
   padding: 0 10px;
   user-select: none;
   border: none;
