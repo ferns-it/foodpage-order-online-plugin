@@ -264,7 +264,7 @@ input {
 
 .reserv_timing__ > li {
   padding: 2px 0;
-  white-space: nowrap;
+  white-space: break-spaces;
 }
 
 .otp_validation_reserv {
