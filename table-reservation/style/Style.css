@@ -1700,7 +1700,9 @@ abbr[title] {
   transition: all 0.2s ease-in-out;
   color: #000 !important;
 }
-
+.react-calendar__tile:disabled{
+  color: #ababab !important;
+}
 
 .react-calendar__month-view__days__day--weekend{
   color: #d10000 !important;

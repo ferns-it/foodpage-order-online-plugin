@@ -298,12 +298,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
             setSessionStorageItem("secretKey", secretKey);
             setIsActiveTablePage("otp-page");
             router.push( 
-              {
-                pathname: "/tablereservation",
-                query: { otp: true },
-              },
-              undefined,
-              { shallow: true }
+              `/tablereservation?otp=true`
             );
           }, 300);
         } else {

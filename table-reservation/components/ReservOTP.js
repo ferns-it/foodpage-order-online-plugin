@@ -188,11 +188,7 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
 
   const handleNavigation = () => {
     router.push(
-      {
-        pathname: "/tablereservation",
-      },
-      undefined,
-      { shallow: true }
+      `/tablereservation?page=reservation-form`
     );
     setTimeout(() => {
       setIsActiveTablePage("reservation-form");
