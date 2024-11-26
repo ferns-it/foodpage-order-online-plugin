@@ -418,7 +418,7 @@ function OrderSummaryCheckout() {
             setPaymentData(null);
           },
           onFailed: (err) => {
-            console.log("error message for confirm payment", err);
+          
             toast.error(err.message);
           },
         });

@@ -41,9 +41,7 @@ function ManageReservationMain() {
           router.push(`/view-reservation?reserv=${parsedId}`);
         }, 200);
       })
-      .catch((err) => {
-        console.log("error=>", err);
-
+      .catch((err) => {   
         toast.error("Couldn't find anything right now, Please try again!");
       });
   };

@@ -174,8 +174,7 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
   };
   const validateOTP = async () => {
     const encryptOTP = encryptToMD5(reservOTP);
-    console.log(encryptOTP, "otp");
-    console.log(secretKey, "secretKey");
+
     if (secretKey.length == 0) {
       console.log("OTP IS NOT DECRYPTED");
     }
