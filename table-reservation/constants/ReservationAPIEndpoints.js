@@ -6,4 +6,5 @@ export const ReservationAPIEndpoints = {
   fetchReservationDetails: "user/diningtable/reservation/view",
   cancelReservation: "user/diningtable/reservation/cancel",
   updateReservation: "user/diningtable/reservation/update",
+  sendMessageToShop:"user/diningtable/reservation/sendmailtoshop"
 };

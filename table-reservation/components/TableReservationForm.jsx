@@ -10,11 +10,13 @@ import Utils from "../utils/Utils";
 import { toast } from "react-hot-toast";
 import "../style/Style.css";
 import Calendar from "react-calendar";
-import 'react-calendar/dist/Calendar.css';
+import "react-calendar/dist/Calendar.css";
 import { useRouter, useSearchParams } from "next/navigation";
 import { setSessionStorageItem } from "../../_utils/ClientUtils";
 import foodPageLogo from "../assets/logo.png";
 import Image from "next/image";
+// import { format, parseISO } from "date-fns";
+// import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 
 const RECAPTCHA_SITE_KEY = "6LeXD-8pAAAAAOpi7gUuH5-DO0iMu7J6C-CBA2fo";
 
@@ -33,36 +35,6 @@ const findToday = () => {
   const dayName = daysOfWeek[today.getDay()];
 
   return dayName;
-};
-
-const isBookingValid = (bookingDate, bookingTime) => {
-  const now = new Date();
-  const bookingDay = new Date(bookingDate);
-
-  const isToday =
-    now.getDate() === bookingDay.getDate() &&
-    now.getMonth() === bookingDay.getMonth() &&
-    now.getFullYear() === bookingDay.getFullYear();
-
-  if (isToday) {
-    // debugger;
-    const [hours, minutes] = bookingTime.split(":").map(Number);
-
-    const bookingDateTime = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate(),
-      hours,
-      minutes
-    );
-
-    const timeDifference = bookingDateTime - now;
-
-    const oneHourInMilliseconds = 60 * 60 * 1000;
-    return timeDifference >= oneHourInMilliseconds;
-  }
-
-  return true;
 };
 
 function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
@@ -173,6 +145,43 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     }
   };
 
+  const isBookingValid = () => {
+    const bookingDate = initialValues?.bookingDate;
+    const bookingTime = initialValues?.bookingTime;
+    const now = new Date();
+
+    const bookingDateNew = new Date(bookingDate);
+
+    const isSameDay =
+      now.getDate() === bookingDateNew.getDate() &&
+      now.getMonth() === bookingDateNew.getMonth() &&
+      now.getFullYear() === bookingDateNew.getFullYear();
+
+    if (isSameDay) {
+      const [hours, minutes] = bookingTime.split(":").map(Number);
+
+      const bookingDateTime = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+        hours,
+        minutes
+      );
+
+      // Check if booking is within the valid time range (4 hours before)
+      const timeDifference = bookingDateTime - now;
+      const fourHoursInMilliseconds = 4 * 60 * 60 * 1000;
+
+      if (timeDifference > fourHoursInMilliseconds) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
   function removeSpecialChars(e) {
     const regex = /[^a-zA-Z0-9 ]/g;
     const value = e.target.value;
@@ -205,11 +214,19 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   const handleIncrement = () => {
     if (count === 25) return;
     setCount(count + 1);
+    if (count > 50) {
+      toast.error("Number of Party Reservation limited to 50!");
+      return;
+    }
   };
 
   const handleDecrement = () => {
     if (count === 1) return;
     setCount(count - 1);
+    if (count > 50) {
+      toast.error("Number of Party Reservation limited to 50!");
+      return;
+    }
   };
 
   const handleCountChange = (e) => {
@@ -244,13 +261,11 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     const isValid = validateReservForm();
 
     if (isValid) return;
-    const isValidBookingTIme = isBookingValid(
-      initialValues?.bookingDate,
-      initialValues?.bookingTime
-    );
+    const isValidBookingTIme = isBookingValid();
 
-    if (isValidBookingTIme === false) {
-      toast.error("Please choose a valid time!");
+    //! condition for current UK time
+    if (isValidBookingTIme === true) {
+      toast.error(`Please select a time at least 4 hours from now!`);
       return;
     }
 
@@ -271,7 +286,10 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     const headers = {
       "x-secretkey": process.env.FOODPAGE_RESERVATION_SECRET_KEY,
     };
-
+    if (count > 50) {
+      toast.error("Maximum Limit is 50!");
+      return;
+    }
     const payload = {
       shopID: shopId,
       name: initialValues.name,
@@ -297,8 +315,13 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
             setSessionStorageItem("reserv_details", saveObj);
             setSessionStorageItem("secretKey", secretKey);
             setIsActiveTablePage("otp-page");
-            router.push( 
-              `/tablereservation?otp=true`
+            router.push(
+              {
+                pathname: "/tablereservation",
+                query: { otp: true },
+              },
+              undefined,
+              { shallow: true }
             );
           }, 300);
         } else {
@@ -618,40 +641,8 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                 <p className="location___">
                   Guruviharrr, Kadakkavoor, Thiruvananthapuram
                 </p> */}
-                <div className="open_">
-                <i className="pe-1">
-                    <Md.MdOutlineRestaurantMenu />
-                  </i>
-                  <span>Booking info</span>
-                  <table className="table reserve_table">
-                    <tbody>
-                    <tr>
-                      <td>Date</td>
-                      <td>
-                      {initialValues && initialValues?.bookingDate
-                          ? Utils.formatDate(initialValues?.bookingDate)
-                          : Utils.formatDate(new Date())}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Time</td>
-                      <td>
-                      {initialValues && initialValues.bookingTime
-                          ? Utils.convertTiming(initialValues?.bookingTime)
-                          : "00:00"} 
-                        
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Chairs</td>
-                      <td>{count ?? 0}</td>
-                    </tr>
-                    </tbody>
-                  </table>
 
-                </div>
-{/* 
-                <div className="open_">
+                <p className="open_">
                   <i className="pe-1">
                     <Md.MdOutlineRestaurantMenu />
                   </i>
@@ -660,21 +651,25 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                     <tr>
                       <td>Date</td>
                       <td>
-                       
+                        {initialValues && initialValues?.bookingDate
+                          ? Utils.formatDate(initialValues?.bookingDate)
+                          : Utils.formatDate(new Date())}
                       </td>
                     </tr>
                     <tr>
                       <td>Time</td>
                       <td>
-                        
+                        {initialValues && initialValues.bookingTime
+                          ? Utils.convertTiming(initialValues?.bookingTime)
+                          : "00:00"}
                       </td>
                     </tr>
                     <tr>
                       <td>Chairs</td>
-                      <td></td>
+                      <td>{count ?? 0}</td>
                     </tr>
                   </table>
-                </div> */}
+                </p>
                 {/* <p className="open_">
                   <i className="pe-1">
                     <Io.IoTimeOutline />
@@ -842,7 +837,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                               )}
                           </ul>
                         </div>
-                      </div> 
+                      </div>
                     </div>
                     <div className="row">
                       <div className="col-lg-6 col-md-8 col-sm-12">

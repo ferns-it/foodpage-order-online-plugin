@@ -42,6 +42,17 @@ input {
   border-radius: 0;
 }
 
+#alter_card {
+  width: 70%;
+  float: right;
+}
+
+@media screen and (max-width: 678px) {
+  #alter_card {
+    width: 100%;
+  }
+}
+
 .table-reservation-form-head {
   text-align: center;
   text-transform: uppercase;
@@ -52,21 +63,15 @@ input {
   font-weight: 500;
 }
 
-
 .table_reserv_form_label {
   font-size: 13px;
   font-weight: 600;
 }
-.table_reserv_form_input{
-  border-radius: 5px;
-}
+
 .table_reserv_form_input.err__ {
   border-color: #e03f3f !important;
 }
-input.form-control.table_reserv_form_input {
-  height: 50px;
-  border-radius: 10px;
-}
+
 .inc_dec_wrapper_0291 {
   display: block;
   position: relative;
@@ -185,7 +190,6 @@ input.form-control.table_reserv_form_input {
 .timing_card_table_reserv .open_ > i {
   font-size: 16px;
 }
-
 @media screen and (max-width: 991px) {
   .timing_cart_reserv {
     overflow-y: scroll;
@@ -980,9 +984,6 @@ a {
   .order_items p {
     font-size: 12px;
   }
-  .head_edit{
-    font-size: 20px;
-  }
 }
 @media screen and (max-width: 991px) {
   .order-card {
@@ -1698,15 +1699,6 @@ abbr[title] {
   border: 1px dashed #eee !important;
   font-size: 16px !important;
   transition: all 0.2s ease-in-out;
-  color: #000 !important;
-}
-.react-calendar__tile:disabled{
-  color: #ababab !important;
-}
-
-.react-calendar__month-view__days__day--weekend{
-  color: #d10000 !important;
-
 }
 .react-calendar__tile--now {
   background-color: #eee !important;
@@ -1733,27 +1725,6 @@ abbr[title] {
 .calander_wrapper_.show {
   height: 100%;
 }
-.react-calendar__navigation button{
-  color: #000;
-}
-.react-calendar__navigation button:disabled{
-  color: #1010104d;
-}
-.react-calendar__navigation__arrow.react-calendar__navigation__prev2-button{
-  padding: 10px !important;
-}
-.react-calendar__navigation__arrow.react-calendar__navigation__prev-button{
-  padding: 10px;
-}
-.react-calendar__navigation__arrow.react-calendar__navigation__next-button{
-  padding: 10px;
-}
-.react-calendar__navigation__arrow.react-calendar__navigation__next2-button{
-  padding: 10px;
-}
-.react-calendar__navigation__label__labelText.react-calendar__navigation__label__labelText--from {
-  font-size: 16px;
-}
 .location___ {
   font-size: 14px;
   font-weight: 600;
@@ -1761,10 +1732,6 @@ abbr[title] {
 }
 .reserve_table {
   font-size: 14px;
-}
-.reserve_table td{
-  border-bottom-width: 0;
-  padding-bottom: 0;
 }
 .go_back {
   border: none;
@@ -1813,12 +1780,27 @@ abbr[title] {
 }
 .tbl_reserv_section {
   padding-top: 7.5rem;
+  padding-bottom: 3rem;
 }
 .manage_reserv_card {
-  width: 50%;
+  width: 100%;
   padding: 20px;
   margin: 0 auto;
   margin-top: 2rem;
+}
+.message-area {
+  position: relative;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 345px;
+}
+
+.send_message_btn {
+  background-color: transparent;
+  outline: none;
+  border: none;
+  padding: 0 10px;
+  color: #018f43;
 }
 
 @media screen and (max-width: 991px) {
@@ -1828,25 +1810,11 @@ abbr[title] {
   .reserv_btn {
     width: 100%;
   }
-  .table_reserv_form_label{
-    font-size: 11px;
-  }
-  input.form-control.table_reserv_form_input{
-    height: 35px;
-    border-radius: 5px;
-  }
-  
 }
 
 @media screen and (max-width: 786px) {
   .manage_reserv_card {
     width: 100%;
-  }
- 
-}
-@media screen and (max-width:600px){
-  .table_reserv_form_label{
-    font-size: 13px;
   }
 }
 .reservId_find {
@@ -2013,4 +1981,92 @@ abbr[title] {
 }
 .nice-select {
   display: none;
+}
+.refresh_btn {
+  position: absolute;
+  border: none;
+  outline: none;
+  background: transparent;
+  right: 20px;
+  top: 10px;
+}
+.refresh_btn > span {
+  font-size: 13px;
+}
+
+/* Container for messages */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  /* margin: 20px auto; */
+  font-family: Arial, sans-serif;
+}
+
+/* Message bubble base style */
+.message {
+  padding: 10px 15px;
+  margin: 5px 0;
+  border-radius: 15px;
+  display: inline-block;
+  position: relative;
+}
+
+.message > span {
+  font-weight: 500;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.message > p {
+  font-size: 11px;
+  color: #747474;
+  margin: 0;
+}
+
+/* Sender (right-aligned) message */
+.message.sender {
+  align-self: flex-end;
+  background-color: #0084ff;
+  color: white;
+}
+
+/* Receiver (left-aligned) message */
+.message.receiver {
+  align-self: flex-start;
+  background-color: #e5e5ea;
+  color: black;
+}
+
+.message.sender::after,
+.message.receiver::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+.message.sender::after {
+  border-width: 10px 0 10px 10px;
+  border-color: transparent transparent transparent #0084ff;
+  right: -10px;
+  top: 10px;
+}
+
+.message.receiver::after {
+  border-width: 10px 10px 10px 0;
+  border-color: transparent #e5e5ea transparent transparent;
+  left: -10px;
+  top: 10px;
+}
+.message-area::-webkit-scrollbar {
+  width: 10px;
+}
+
+.message-area::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.message-area::-webkit-scrollbar-thumb {
+  background-color: #eee;
 }

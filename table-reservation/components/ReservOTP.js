@@ -149,7 +149,7 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
       paymentMethod: "",
       transactionID: "",
       message: initialValues?.message,
-      baseUrl: "http://foodpage.co.uk/",
+      baseUrl: process.env.TABLE_RESERVATION_URL,
       source: "NextJs",
     };
 
@@ -188,7 +188,11 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
 
   const handleNavigation = () => {
     router.push(
-      `/tablereservation?page=reservation-form`
+      {
+        pathname: "/tablereservation",
+      },
+      undefined,
+      { shallow: true }
     );
     setTimeout(() => {
       setIsActiveTablePage("reservation-form");
@@ -197,7 +201,7 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
 
   return (
     <>
-      <section className="table_reserv__">
+      <section className="">
         <div className="container mt-5 mb-5">
           <div className="row">
             <div className="col-lg-8 col-md-6 col-sm-12">
