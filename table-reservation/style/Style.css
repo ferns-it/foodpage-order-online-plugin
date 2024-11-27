@@ -1718,6 +1718,13 @@ abbr[title] {
 .react-calendar__navigation {
   margin-bottom: 0 !important;
 }
+.react-calendar__navigation button{
+  color: #000 !important;
+  padding: 0 !important;
+}
+.react-calendar__navigation button:disabled{
+  color: #1010104d !important;
+}
 .calander_wrapper_ {
   height: 0;
   overflow: hidden;
