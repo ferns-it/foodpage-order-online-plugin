@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { Fragment, useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Tooltip } from "react-tooltip";
@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import "react-tooltip/dist/react-tooltip.css";
 import "../style/style.css";
 import CryptoJS from "crypto-js";
+import WellFoodLayout from "@/layout/WellFoodLayout";
 
 function ManageReservationMain() {
   const router = useRouter();
@@ -62,7 +63,7 @@ function ManageReservationMain() {
           >
             <Go.GoArrowLeft /> Back
           </button>
-          <div className="card manage_reserv_card w-50">
+          <div className="card card-manage p-3 pt-3 mt-3">
             <h3 className="table-reservation-form-head">Manage Reservation</h3>
             <form onSubmit={handleReservation}>
               <div className="form-group">

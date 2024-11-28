@@ -1,9 +1,7 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import * as Fa from "react-icons/fa";
 import * as Io from "react-icons/io";
-import * as Md from "react-icons/md";
-import * as Vs from "react-icons/vsc";
-import Utils from "../utils/Utils";
+import * as Tb from "react-icons/tb";
 import { toast, Toaster } from "react-hot-toast";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -15,7 +13,7 @@ import {
   removeSessionStorageItem,
   setLocalStorageItem,
   setSessionStorageItem,
-} from "@/src/app/_utils/ClientUtils";
+} from "../../_utils/ClientUtils";
 
 function OrderSummary() {
   const router = useRouter();
@@ -29,11 +27,11 @@ function OrderSummary() {
     menuList,
     settings,
     getShopSettings,
+    clearCartItems,
     delivery,
     setDelivery,
     locationResponseData,
     setLocationResponseData,
-    clearCartItems,
     // setisCheckoutActive,
     deliveryInfo,
     GuestDiscountoftakeaway,
@@ -151,7 +149,7 @@ function OrderSummary() {
             const pathname = `/checkout?price=${deliveryResp?.cart_NetAmount}&&deliveryCharge=0&&discount=${deliveryResp?.discountAmount}`;
             setLocalStorageItem("path", pathname);
             setTimeout(() => {
-              router.push(pathname);
+              router.replace(pathname);
             }, 200);
             setSessionStorageItem(
               "deliveryResponse",
@@ -209,7 +207,7 @@ function OrderSummary() {
               const pathname = `/checkout?price=${deliveryResp?.cart_NetAmount}&&deliveryCharge=${deliveryResp?.deliveryFeeAmount}&&discount=${deliveryResp?.discountAmount}`;
               setLocalStorageItem("path", pathname);
               setTimeout(() => {
-                router.push(pathname);
+                router.replace(pathname);
               }, 200);
             }
             return;
@@ -280,27 +278,9 @@ function OrderSummary() {
         const userId = getSessionStorageItem("UserPersistent");
         await fetchCartList(userId);
         toast.success("Item removed from your cart");
-        setDeleteIndex(-1);
       },
       onFailed: (err) => {
         toast.error("Delete cart item failed!");
-        setDeleteIndex(-1);
-      },
-    });
-  };
-
-  const handleClearcart = async () => {
-    if (cartItems?.cartItems && cartItems?.cartItems.length == 0) return;
-    const userID = getLocalStorageItem("UserPersistent");
-    if (!userID) return;
-    await clearCartItems(userID, {
-      onSuccess: async (res) => {
-        toast.success("Cart items cleared!");
-        await fetchCartList(userID);
-      },
-      onFailed: (err) => {
-        console.log("Error on clearing cart", err);
-        toast.error("Something went wrong, please try again!");
       },
     });
   };
@@ -334,50 +314,54 @@ function OrderSummary() {
     setTime(formattedTime);
     setTakeawayTime(formattedTime);
   };
-
+  const clearcart = async () => {
+    const userID = getLocalStorageItem("UserPersistent");
+    console.log(userID, "useridsdas");
+    await clearCartItems(userID, {
+      onSuccess: async (res) => {
+        console.log("cart cleared", res);
+        toast.success("Cart Cleared!");
+        await fetchCartList(userID);
+      },
+      onFailed: (err) => {
+        console.log("Error on cart clear", err);
+        toast.err("Something Went Wrong!");
+      },
+    });
+  };
+  console.log(settings, "settings");
   return (
     <Fragment>
       <Toaster position="top-center" reverseOrder={false} />
       <div style={{ width: "100%" }}>
-        <div className="row">
-          <div className="col-lg-6 col-md-6 col-sm-6">
-            <h3 className="order_title text-center">Order Summary</h3>
-          </div>
-          <div className="col-lg-6 col-md-6 col-sm-6 position-relative">
-            {cartItems?.cartItems &&
-              cartItems?.cartItems.length != 0 &&
-              !cartLoading && (
-                <button
-                  type="button"
-                  className="clear_cart"
-                  title="Clear cart"
-                  onClick={handleClearcart}
-                  disabled={cartLoading}
-                >
-                  {!cartLoading ? (
-                    <Vs.VscClearAll />
-                  ) : (
-                    <span
-                      className="spinner-border text-danger spinner-border-sm"
-                      role="status"
-                      aria-hidden="true"
-                    ></span>
-                  )}
-                </button>
-              )}
-          </div>
-        </div>
+        <h3 className="order_title col-md-6">Order Summary</h3>
+        {cartLoading ? (
+          <button disabled className="clr_cart_btn col-md-6">
+            Submitting..
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="clr_cart_btn col-md-6"
+            onClick={clearcart}
+          >
+            Clear Cart
+          </button>
+        )}
 
         <div className="summary_item_wrapper_029">
           {cartItems && cartItems.cartItems.length != 0 ? (
             <div className="summary_card card">
               {cartItems &&
-                cartItems.cartItems.map((item, index) => {
+                cartItems.cartItems.map((item, mainIndex) => {
                   const addOns = item?.addon_apllied;
                   const masterAddons = item?.master_addon_apllied;
                   return (
                     <>
-                      <div className="position-relative mb-4" key={index}>
+                      <div
+                        className="position-relative mb-4"
+                        key={item.id || mainIndex}
+                      >
                         <div className="d-flex">
                           <p className="food_menu m-0 food_title_299">
                             <strong>{item?.productName ?? "N/A"} - </strong>
@@ -389,7 +373,7 @@ function OrderSummary() {
                         </div>
                         <div
                           className={`add_ons_wrapper_order_summary ${
-                            showAddons && showAddons.includes(index)
+                            showAddons && showAddons.includes(mainIndex)
                               ? "show"
                               : ""
                           }`}
@@ -397,22 +381,27 @@ function OrderSummary() {
                           <table className="addOnsList028">
                             {addOns &&
                               addOns.length != 0 &&
-                              addOns.map((add, index) => {
+                              addOns.map((add, addsOnindex) => {
                                 return (
                                   <>
-                                    <span key={index}>
-                                      <strong>{add?.title}</strong>
-                                    </span>
-                                    {add &&
-                                      add.choosedOption.length != 0 &&
-                                      add.choosedOption.map((data, index) => {
-                                        return (
-                                          <tr key={index}>
-                                            <td>{data?.text}</td>
-                                            <td>{data?.price}</td>
-                                          </tr>
-                                        );
-                                      })}
+                                    <tbody>
+                                      <span key={addsOnindex}>
+                                        <strong>{add?.title}</strong>
+                                      </span>
+
+                                      {add &&
+                                        add.choosedOption.length != 0 &&
+                                        add.choosedOption.map(
+                                          (data, chooseIndex) => {
+                                            return (
+                                              <tr key={chooseIndex}>
+                                                <td>{data?.text}</td>
+                                                <td>{data?.price}</td>
+                                              </tr>
+                                            );
+                                          }
+                                        )}
+                                    </tbody>
                                   </>
                                 );
                               })}
@@ -420,22 +409,24 @@ function OrderSummary() {
                           <table className="addOnsList028">
                             {masterAddons &&
                               masterAddons.length != 0 &&
-                              masterAddons.map((add, index) => {
+                              masterAddons.map((add, masterAddindex) => {
                                 return (
                                   <>
-                                    <span key={index}>
-                                      <strong>{add?.title}</strong>
-                                    </span>
-                                    {add &&
-                                      add.choosedOption.length != 0 &&
-                                      add.choosedOption.map((data, index) => {
-                                        return (
-                                          <tr key={index}>
-                                            <td>{data?.text}</td>
-                                            <td>{data?.price}</td>
-                                          </tr>
-                                        );
-                                      })}
+                                    <tbody>
+                                      <span key={masterAddindex}>
+                                        <strong>{add?.title}</strong>
+                                      </span>
+                                      {add &&
+                                        add.choosedOption.length != 0 &&
+                                        add.choosedOption.map((data, index) => {
+                                          return (
+                                            <tr key={index}>
+                                              <td>{data?.text}</td>
+                                              <td>{data?.price}</td>
+                                            </tr>
+                                          );
+                                        })}
+                                    </tbody>
                                   </>
                                 );
                               })}
@@ -447,9 +438,9 @@ function OrderSummary() {
                           (masterAddons && masterAddons.length != 0) ? (
                             <button
                               className="summary_addons_collapse_btn"
-                              onClick={() => toggleFoodLists(index)}
+                              onClick={() => toggleFoodLists(mainIndex)}
                             >
-                              {showAddons && showAddons.includes(index) ? (
+                              {showAddons && showAddons.includes(mainIndex) ? (
                                 <Fragment>
                                   <Io.IoIosArrowRoundUp />{" "}
                                   <span>Know less</span>
@@ -469,11 +460,11 @@ function OrderSummary() {
                             type="button"
                             className="remove"
                             onClick={() =>
-                              handleDeleteItem(item?.cartID, index)
+                              handleDeleteItem(item?.cartID, mainIndex)
                             }
-                            disabled={cartLoading && deleteIndex === index}
+                            disabled={cartLoading && deleteIndex === mainIndex}
                           >
-                            {cartLoading && deleteIndex === index ? (
+                            {cartLoading && deleteIndex === mainIndex ? (
                               <span
                                 className="spinner-border spinner-border-sm"
                                 role="status"
@@ -493,14 +484,16 @@ function OrderSummary() {
                 {delivery == true || delivery == "true" ? (
                   <>
                     <Fragment>
-                      <tr className="discount_order_summary">
-                        <td>
-                          <b>Cart total</b>
-                        </td>
-                        <td>
-                          <b>{cartItems?.cartTotal?.cartTotalPriceDisplay}</b>
-                        </td>
-                      </tr>
+                      <tbody>
+                        <tr className="discount_order_summary">
+                          <td>
+                            <b>Cart total</b>
+                          </td>
+                          <td>
+                            <b>{cartItems?.cartTotal?.cartTotalPriceDisplay}</b>
+                          </td>
+                        </tr>
+                      </tbody>
                       {/* <tr className="discount_order_summary">
                       <td>Discount</td>
                       <td>-£{takeaway}</td>
@@ -514,14 +507,21 @@ function OrderSummary() {
                 ) : (
                   <>
                     <Fragment>
-                      <tr className="discount_order_summary">
-                        <td>
-                          <b>Cart total</b>
-                        </td>
-                        <td id="sub_total_amt_order_summary">
-                          <b> {cartItems?.cartTotal?.cartTotalPriceDisplay}</b>
-                        </td>
-                      </tr>
+                      <tbody>
+                        {" "}
+                        <tr className="discount_order_summary">
+                          <td>
+                            <b>Cart total</b>
+                          </td>
+                          <td id="sub_total_amt_order_summary">
+                            <b>
+                              {" "}
+                              {cartItems?.cartTotal?.cartTotalPriceDisplay}
+                            </b>
+                          </td>
+                        </tr>
+                      </tbody>
+
                       {/* <tr className="discount_order_summary">
                       <td>Discount</td>
                       <td>-£ {discount}</td>
@@ -660,7 +660,12 @@ function OrderSummary() {
             )}
 
             <h6
-              style={{ color: "#da6d6d", fontSize: "10px", fontWeight: "500" }}
+              style={{
+                color: "#da6d6d",
+                fontSize: "10px",
+                fontWeight: "500",
+                fontFamily: "sans-serif",
+              }}
               className="text-center"
             >
               Minimum Amount for Card payment is £

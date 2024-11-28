@@ -1,3 +1,4 @@
+"use client";
 import React, {
   Fragment,
   useContext,
@@ -7,7 +8,7 @@ import React, {
 } from "react";
 import { TableReservationContext } from "../context/TableReservationContext";
 import "../style/style.css";
-import Utils from "../../_utils/Utils";
+import Utils from "../utils/Utils";
 
 import * as Tb from "react-icons/tb";
 import * as Md from "react-icons/md";
@@ -16,7 +17,7 @@ import * as Fi from "react-icons/fi";
 import * as Io from "react-icons/io";
 
 import ReservModal from "../components/ReservModal";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import CryptoJS from "crypto-js";
 import toast from "react-hot-toast";
 import Skeleton from "react-loading-skeleton";
@@ -39,7 +40,10 @@ export const mergeBookingDateTime = (bookingDate, bookingTime) => {
   return formattedDateTime;
 };
 
-function ViewReservation({ reservId }) {
+function ViewReservation() {
+  const searchParams = useSearchParams();
+  const reservId = searchParams.get("reserv");
+
   const router = useRouter();
   const {
     reservationDetails,
@@ -59,7 +63,7 @@ function ViewReservation({ reservId }) {
     name: "",
     email: "",
     phone: "",
-    chairs: "",
+    chairs: 1,
     message: "",
   });
   const [isExpired, setIsExpired] = useState(false);
@@ -104,17 +108,17 @@ function ViewReservation({ reservId }) {
   }, [reservationDetails]);
 
   const checkIsExpired = () => {
-    const [date, time] =
-      reservationDetails && reservationDetails.bookingTime.split(" ");
-    const now = new Date();
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-    const bookingDateTime = new Date(`${date}T${time}`);
-    console.log("validation", bookingDateTime);
+    const bookingDate =
+      reservationDetails && new Date(reservationDetails.bookingTime);
+    if (bookingDate) {
+      bookingDate.setHours(0, 0, 0, 0);
+    }
 
-    if (now > bookingDateTime) {
+    if (bookingDate && bookingDate < today) {
       setIsExpired(true);
-    } else {
-      setIsExpired(false);
     }
   };
 
@@ -122,6 +126,11 @@ function ViewReservation({ reservId }) {
     const { name, value } = e.target;
 
     setUpdatedValue((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleChairChange = (value) => {
+    const sanitizedValue = value.replace(/[^a-zA-Z0-9+\-*/]/g, "");
+    setUpdatedValue((prev) => ({ ...prev, chairs: sanitizedValue }));
   };
 
   const validateFields = () => {
@@ -205,6 +214,11 @@ function ViewReservation({ reservId }) {
       return;
     }
 
+    if (updatedValues.chairs <= 0) {
+      toast.error("Invalid chair selection");
+      return;
+    }
+
     const mergedBooking = mergeBookingDateTime(
       updatedValues?.bookingDate,
       updatedValues?.bookingTime
@@ -219,8 +233,7 @@ function ViewReservation({ reservId }) {
 
     await updateReservationDetails(payload, {
       onSuccess: async (res) => {
-        // debugger;
-        if (res && res?.error == true) {
+        if (res && res.error == true) {
           const msg = res?.errorMessage ?? "Updation failed, Please try again!";
           toast.error(msg);
           return;
@@ -229,8 +242,7 @@ function ViewReservation({ reservId }) {
         await getReservationDetails(reservId);
         setIsEdit(false);
       },
-      onFailed: async (err) => {
-        // debugger;
+      onFailed: (err) => {
         const msg =
           err?.response?.data?.errorMessage?.message ??
           "Updation failed, Please try again!";
@@ -259,9 +271,8 @@ function ViewReservation({ reservId }) {
     await sendMessage(payload, {
       onSuccess: async (res) => {
         toast.success("message sent successfully!");
+        setMessage("")
         await getReservationDetails(reservId);
-        setMessage("");
-        scrollBottom();
       },
       onFailed: (err) => {
         console.log(err);
@@ -294,14 +305,14 @@ function ViewReservation({ reservId }) {
       />
       <section className="tbl_reserv_section">
         <div className="container">
-          <button
-            className="go_back"
+          {/* <button
+            className="go_back mb-2"
             onClick={() => router.push("/manage-reservation")}
           >
             <Go.GoArrowLeft /> Back
-          </button>
+          </button> */}
           <div className="row">
-            <div className="col-lg-8 col-md-6 col-sm-12 position-relative">
+            <div className="col-lg-8 col-md-12 col-sm-12 position-relative">
               <div className="card manage_reserv_card" id="alter_card">
                 <h3 className="table-reservation-form-head">
                   Reservation Details
@@ -434,7 +445,10 @@ function ViewReservation({ reservId }) {
                                     className="form-control table_reserv_form_input"
                                     value={updatedValues?.chairs}
                                     max={25}
-                                    onChange={handleChange}
+                                    onChange={(e) =>
+                                      handleChairChange(e.target.value)
+                                    }
+                                    min={1}
                                   />
                                 </>
                               )}
@@ -555,7 +569,7 @@ function ViewReservation({ reservId }) {
                 )}
               </div>
             </div>
-            <div className="col-lg-4 col-md-6 col-sm-12">
+            <div className="col-lg-4 col-md-12 col-sm-12 mt-3">
               {chatMessages && chatMessages.length != 0 && (
                 <div className="card manage_reserv_card">
                   <button
@@ -577,21 +591,14 @@ function ViewReservation({ reservId }) {
                                 {!reservationLoading ? (
                                   <>{message?.message ?? "N/A"}</>
                                 ) : (
-                                  <Skeleton
-                                    baseColor="#459ced"
-                                    highlightColor="#9fc8ed"
-                                  />
+                                  <Skeleton />
                                 )}
                               </span>
                               <p className="text-light">
                                 {!reservationLoading ? (
                                   <>{message?.addedTime ?? "N/A"}</>
                                 ) : (
-                                  <Skeleton
-                                    width={100}
-                                    baseColor="#459ced"
-                                    highlightColor="#9fc8ed"
-                                  />
+                                  <Skeleton width={100} />
                                 )}
                               </p>
                             </div>
@@ -606,14 +613,21 @@ function ViewReservation({ reservId }) {
                                 {!reservationLoading ? (
                                   <>{message?.message ?? "N/A"}</>
                                 ) : (
-                                  <Skeleton />
+                                  <Skeleton
+                                    baseColor="#459ced"
+                                    highlightColor="#9fc8ed"
+                                  />
                                 )}
                               </span>
                               <p>
                                 {!reservationLoading ? (
                                   <>{message?.addedTime ?? "N/A"}</>
                                 ) : (
-                                  <Skeleton width={100} />
+                                  <Skeleton
+                                    width={100}
+                                    baseColor="#459ced"
+                                    highlightColor="#9fc8ed"
+                                  />
                                 )}
                               </p>
                             </div>
@@ -622,42 +636,38 @@ function ViewReservation({ reservId }) {
                       })}
                     </div>
                   </div>
-                  {isExpired === false ? (
-                    <form
-                      className="send_message_form pt-3"
-                      onSubmit={sendMessageToShop}
-                    >
-                      <div className="searc_area d-flex">
-                        <input
-                          type="text"
-                          name=""
-                          id=""
-                          className="form-control"
-                          placeholder="Write Message.."
-                          value={message}
-                          onChange={(e) => setMessage(e.target.value)}
-                        />
-                        <button
-                          type="submit"
-                          className="send_message_btn"
-                          disabled={messageLoading}
-                        >
-                          {!messageLoading ? (
-                            <i>
-                              <Fi.FiSend />
-                            </i>
-                          ) : (
-                            <div
-                              class="spinner-border spinner-border-sm text-danger"
-                              role="status"
-                            ></div>
-                          )}
-                        </button>
-                      </div>
-                    </form>
-                  ) : (
-                    <p className="py-4"></p>
-                  )}
+                  <form
+                    className="send_message_form pt-3"
+                    onSubmit={sendMessageToShop}
+                  >
+                    <div className="searc_area d-flex">
+                      <input
+                        type="text"
+                        name=""
+                        id=""
+                        className="form-control"
+                        placeholder="Write Message.."
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                      />
+                      <button
+                        type="submit"
+                        className="send_message_btn"
+                        disabled={messageLoading}
+                      >
+                        {!messageLoading ? (
+                          <i>
+                            <Fi.FiSend />
+                          </i>
+                        ) : (
+                          <div
+                            class="spinner-border spinner-border-sm text-danger"
+                            role="status"
+                          ></div>
+                        )}
+                      </button>
+                    </div>
+                  </form>
                 </div>
               )}
             </div>

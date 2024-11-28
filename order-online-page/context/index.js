@@ -8,8 +8,8 @@ import {
   getSessionStorageItem,
   setLocalStorageItem,
   setSessionStorageItem,
-} from "@/src/app/_utils/ClientUtils";
-import Utils from "@/src/app/_utils/Utils";
+} from "@/plugin/_utils/ClientUtils";
+import Utils from "../../_utils/Utils";
 import useProfile from "../hooks/useProfile";
 import useOrderHistory from "../hooks/useOrderHistory";
 import { useRouter } from "next/router";
@@ -86,8 +86,13 @@ export const AppContextProvider = (props) => {
     settingsLoading,
     setCartItems,
     clearCartItems,
+    diningMenuList,
+    diningLoading,
+    diningList,
     fetchCurrentShopStatus,
     currentStatus,
+    fetchTakeawayMenus,
+    takeawayMenu,
   } = useMenus();
   const {
     authLoading,
@@ -148,8 +153,10 @@ export const AppContextProvider = (props) => {
     getShopSettings();
     fetchCategoriesList();
     fetchCartList(userId);
+    diningMenuList();
     fetchMenuList();
     fetchCurrentShopStatus();
+    fetchTakeawayMenus();
     // if (userToken) {
     //   fetchAddressList(userToken);
     //   fetchOrderList(userToken);
@@ -162,7 +169,6 @@ export const AppContextProvider = (props) => {
       setSelectedCategory(categoryList[0].cID);
     }
   }, [categoryList]);
-
   useEffect(() => {
     if (productsList.length == 0) {
       if (!categoryList || categoryList.length === 0) return;
@@ -324,8 +330,12 @@ export const AppContextProvider = (props) => {
         deliveryLoading,
         GuestDiscountoftakeaway,
         GuestDeliveryDetails,
-        fetchCurrentShopStatus,
+        diningMenuList,
+        diningLoading,
+        diningList,
         currentStatus,
+        fetchTakeawayMenus,
+        takeawayMenu,
       }}
     >
       {props.children}

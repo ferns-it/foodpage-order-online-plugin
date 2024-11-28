@@ -17,16 +17,14 @@ import VariationMasterAddons from "./variationMasterAddons";
 import {
   getLocalStorageItem,
   setLocalStorageItem,
-} from "@/src/app/_utils/ClientUtils";
+} from "../../_utils/ClientUtils";
 
 let userId = getLocalStorageItem("UserPersistent");
 
 function AddOnsModal(props) {
   const modalRef = useRef(null);
-  const { addToCart, fetchCartList, cartLoading, setCartItems } =
+  const { addToCart, fetchCartList, cartLoading, shopId, setCartItems } =
     useContext(AppContext);
-
-  const shopId = process.env.SHOP_ID;
 
   const [count, setCount] = useState(1);
   const [cardTotal, setCardTotal] = useState(0);
@@ -154,7 +152,7 @@ function AddOnsModal(props) {
 
       totalAmount = priceAmt * count;
     }
-// console.log("cartTotal", totalAmount.toFixed(2));
+    // console.log("cartTotal", totalAmount.toFixed(2));
 
     setCardTotal(totalAmount.toFixed(2));
   };
@@ -384,17 +382,16 @@ function AddOnsModal(props) {
               {/* £{total && total.length != 0 ? total.toFixed(2) : 0} */}£
               {cardTotal}
             </p>
-            <div className="inc_dec_wrapper_0291">
-              <div className="incDec_wrapper_0291">
+            <div className="mx-auto text-center" style={{width:"100%"}}>
+              <div className="order-modal-container">
                 <input
                   type="checkbox"
                   id="toggle"
                   className="toggle-checkbox"
-                  defaultChecked={false}
                 />
                 <div className="counter-container">
                   <label
-                    for="toggle"
+                    htmlFor="toggle"
                     className="decrement-button m-0"
                     onClick={handleDecrement}
                   >
@@ -402,7 +399,7 @@ function AddOnsModal(props) {
                   </label>
                   <span className="counter-text">{count}</span>
                   <label
-                    for="toggle"
+                    htmlFor="toggle"
                     className="increment-button red m-0"
                     onClick={() => setCount(count + 1)}
                   >
@@ -417,176 +414,141 @@ function AddOnsModal(props) {
                 foodValues?.variations[0].name != null && (
                   <div className="col">
                     <p className="sub_head_0291">Choose One</p>
-                    <table className="menu_table_0291">
-                      {foodValues &&
-                        foodValues.variations &&
-                        foodValues?.variations.length != 0 &&
-                        foodValues.variations.map((varient, index) => {
-                          const variationName = varient?.name
-                            ? varient?.name
-                            : foodValues?.name;
+                    <table className="menu_table_0291 ">
+                      <tbody>
+                        {foodValues?.variations.length !== 0 &&
+                          foodValues.variations.map((varient, vindex) => {
+                            const variationName =
+                              varient?.name || foodValues?.name;
 
-                          if (variationName == null) {
-                            setVariationValue({
-                              name: foodValues.name,
-                              // price: variationData?.price,
-                              // pvID: variationData?.pvID,
-                            });
-                          }
+                            if (!variationName) {
+                              setVariationValue({ name: foodValues.name });
+                            }
 
-                          return (
-                            <Fragment>
-                              {varient.name != null ? (
-                                <Fragment>
-                                  <tr key={index}>
-                                    <td className="d-flex">
-                                      <label
-                                        // htmlFor={varient?.name}
-                                        className="delivery_option_container"
-                                      >
-                                        <input
-                                          type="radio"
-                                          name="variationOption"
-                                          id="variations"
-                                          className="delivery_option"
-                                          checked={
-                                            variationValue.name ===
-                                              variationName &&
-                                            variationValue.pvID == varient?.pvID
+                            return varient.name ? (
+                              <Fragment key={vindex}>
+                                <tr key={`tr-main-${vindex}`}>
+                                  <td className="d-flex">
+                                    <label className="delivery_option_container">
+                                      <input
+                                        type="radio"
+                                        name="variationOption"
+                                        id="variations"
+                                        className="delivery_option"
+                                        checked={
+                                          variationValue.name ===
+                                            variationName &&
+                                          variationValue.pvID === varient?.pvID
+                                        }
+                                        onChange={() => {
+                                          setVariationValue({
+                                            name:
+                                              varient?.name || foodValues.name,
+                                            pvID: varient?.pvID,
+                                            price: varient?.price,
+                                          });
+                                          setCardTotal(varient?.price ?? 0);
+                                          setCount(1);
+                                          if (props?.productData?.isMeal) {
+                                            setMasterAddons({});
                                           }
-                                          onClick={() => {
-                                            setVariationValue({
-                                              name: varient?.name
-                                                ? varient?.name
-                                                : foodValues.name,
-                                              pvID: varient?.pvID,
-                                              price: varient?.price,
-                                            });
-                                            setCardTotal(varient?.price ?? 0);
-                                            setCount(1);
-                                            if (
-                                              props?.productData?.isMeal == true
-                                            ) {
-                                              setMasterAddons({});
-                                            }
-                                          }}
-                                        />
-                                        <span className="checkmark"></span>
-                                        <span className="varient_name">
-                                          {varient?.name ?? "N/A"}
-                                        </span>
-                                      </label>
-                                    </td>
-                                    <td style={{ userSelect: "none" }}>
-                                      {varient?.displayPrice ?? "N/A"}
-                                    </td>
-                                  </tr>
-                                  <p className="small_desc">
-                                    {Utils.stripHtml(varient?.ingredients) ??
-                                      ""}
-                                  </p>
-                                </Fragment>
-                              ) : (
-                                ""
-                              )}
-                            </Fragment>
-                          );
-                        })}
+                                        }}
+                                      />
+                                      <span className="checkmark"></span>
+                                      <span className="varient_name">
+                                        {varient?.name ?? "N/A"}
+                                      </span>
+                                    </label>
+                                  </td>
+                                  <td style={{ userSelect: "none" }}>
+                                    {varient?.displayPrice ?? "N/A"}
+                                  </td>
+                                </tr>
+                                <tr key={`tr-desc-${vindex}`}>
+                                  <td>
+                                    <span className="small_desc">
+                                      {Utils.stripHtml(varient?.ingredients) ??
+                                        ""}
+                                    </span>
+                                  </td>
+                                </tr>
+                              </Fragment>
+                            ) : null;
+                          })}
+                      </tbody>
                     </table>
                   </div>
                 )}
 
               {foodValues.addons &&
-                foodValues.addons.length != 0 &&
-                foodValues.addons.map((item, index) => {
-                  return (
-                    <Fragment>
-                      <div className="col-auto">
-                        <p className="sub_head_0291" key={index}>
-                          {item?.name ?? "N/A"}{" "}
-                        </p>
-                        <table className="menu_table_0291">
-                          {item?.options &&
-                            item?.options.map((data, index) => {
-                              return (
-                                <tr key={index}>
-                                  <td className="d-flex">
-                                    <label
-                                      // htmlFor={varient?.name}
-                                      className="delivery_option_container"
-                                    >
-                                      <input
-                                        type="checkbox"
-                                        name={data}
-                                        id="variations"
-                                        className="delivery_option"
-                                        disabled={
-                                          variationValue &&
-                                          variationValue.name &&
-                                          variationValue.name.length != 0
-                                            ? false
-                                            : true
+                foodValues.addons.length !== 0 &&
+                foodValues.addons.map((item, findex) => (
+                  <div key={findex} className="col-auto">
+                    <p className="sub_head_0291">{item?.name ?? "N/A"} </p>
+                    <table className="menu_table_0291">
+                      <tbody>
+                        {item?.options &&
+                          item?.options.map((data, iindex) => (
+                            <tr key={iindex}>
+                              <td className="d-flex">
+                                <label className="delivery_option_container">
+                                  <input
+                                    type="checkbox"
+                                    name={data}
+                                    id="variations"
+                                    className="delivery_option"
+                                    disabled={
+                                      variationValue &&
+                                      variationValue.name &&
+                                      variationValue.name.length !== 0
+                                        ? false
+                                        : true
+                                    }
+                                    onChange={(e) => {
+                                      const isChecked = e.target.checked;
+                                      const newValue = data?.value.toString();
+                                      setAddOns((prev) => {
+                                        if (isChecked) {
+                                          return {
+                                            ...prev,
+                                            [item?.id]: [
+                                              ...(prev[item?.id] ?? []),
+                                              newValue,
+                                            ],
+                                          };
+                                        } else {
+                                          const updatedAddOns = { ...prev };
+                                          if (updatedAddOns[item?.id]) {
+                                            updatedAddOns[item?.id] =
+                                              updatedAddOns[item?.id].filter(
+                                                (value) => value !== newValue
+                                              );
+                                          }
+                                          return updatedAddOns;
                                         }
-                                        onChange={(e) => {
-                                          const isChecked = e.target.checked;
-                                          const newValue =
-                                            data?.value.toString();
-                                          setAddOns((prev) => {
-                                            if (isChecked) {
-                                              return {
-                                                ...prev,
-                                                [item?.id]: [
-                                                  ...(prev[item?.id] ?? []),
-                                                  data?.value.toString(),
-                                                ],
-                                              };
-                                            } else {
-                                              const updatedAddOns = { ...prev };
-                                              if (updatedAddOns[item?.id]) {
-                                                updatedAddOns[item?.id] =
-                                                  updatedAddOns[
-                                                    item?.id
-                                                  ].filter(
-                                                    (value) =>
-                                                      value !== newValue
-                                                  );
-                                              }
-                                              return updatedAddOns;
-                                            }
-                                          });
-                                        }}
-                                        defaultChecked={false}
-                                      />
-                                      <span className="checkmark"></span>
-                                      <span
-                                        className={
-                                          variationValue &&
-                                          variationValue.name &&
-                                          variationValue.name.length != 0
-                                            ? "varient_name"
-                                            : "varient_name disabled"
-                                        }
-                                      >
-                                        {data?.text ?? "N/A"}
-                                      </span>
-                                    </label>
-                                  </td>
-                                  <td
-                                    style={{
-                                      whiteSpace: "nowrap",
-                                      userSelect: "none",
+                                      });
                                     }}
-                                  >
-                                    + {data?.price_formatted ?? "N/A"}
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                        </table>
-                      </div>
-                    </Fragment>
-                  );
-                })}
+                                  />
+                                  <span className="checkmark"></span>
+                                  <span className="varient_name">
+                                    {data?.text ?? "N/A"}
+                                  </span>
+                                </label>
+                              </td>
+                              <td
+                                style={{
+                                  whiteSpace: "nowrap",
+                                  userSelect: "none",
+                                }}
+                              >
+                                + {data?.price_formatted ?? "N/A"}
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ))}
 
               <div className="col-auto">
                 <div className="row">
@@ -599,14 +561,16 @@ function AddOnsModal(props) {
                 </div>
               </div>
             </div>
+
             {variationAddOns != null &&
               variationAddOns.length != 0 &&
-              variationAddOns.map((data, index) => {
+              variationAddOns.map((data, aindex) => {
                 if (data?.pVID == variationValue?.pvID) {
                   return (
                     <Fragment>
                       <VariationMasterAddons
                         foodValues={data}
+                        key={aindex}
                         setMasterAddons={setMasterAddons}
                         variationValue={variationValue}
                         setLimitExceeded={setLimitExceeded}

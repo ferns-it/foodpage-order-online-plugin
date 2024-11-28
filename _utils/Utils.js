@@ -75,19 +75,4 @@ export default class Utils {
 
     return normalDate;
   }
-
-  static formatDateTime = (dateTimeString) => {
-    const date = new Date(dateTimeString);
-
-    const formattedDate = date.toLocaleDateString("en-GB");
-
-    const formattedTime = date.toLocaleTimeString("en-GB", {
-      hour: "numeric",
-      minute: "numeric",
-      hour12: true,
-    });
-
-    return formattedTime;
-  };
-
 }

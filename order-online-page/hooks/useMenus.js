@@ -2,14 +2,16 @@
 import { useState } from "react";
 import BaseClient from "../helper/Baseclients";
 import { APIEndpoints } from "../constants/APIEndpoints";
-import { getLocalStorageItem } from "@/src/app/_utils/ClientUtils";
+import { getLocalStorageItem } from "../../_utils/ClientUtils";
 
 const useMenus = () => {
   const [menuList, setMenuList] = useState(null);
   const [deliveryFee, setDeliveryFee] = useState(null);
   const [cartLoading, setCartLoading] = useState(false);
   const [categoryList, setCategoryList] = useState(null);
+  const [diningList, setDiningList] = useState(null);
   const [settings, setSettings] = useState(null);
+  const [diningLoading, setDiningLoading] = useState(false);
   const [deliveryInfo, setDeliveryInfo] = useState(null);
   const [menuLoading, setMenuLoading] = useState(false);
   const [locationResponse, setLocationResponse] = useState(null);
@@ -17,6 +19,7 @@ const useMenus = () => {
   const [categoryLoading, setCategoryLoading] = useState(false);
   const [settingsLoading, setSettingsLoading] = useState(true);
   const [currentStatus, setCurrentStatus] = useState(null);
+  const [takeawayMenu, setTakeawayMenu] = useState(null);
 
   const fetchMenuList = async () => {
     try {
@@ -57,6 +60,39 @@ const useMenus = () => {
       });
     } finally {
       setCategoryLoading(false);
+    }
+  };
+  const diningMenuList = async () => {
+    try {
+      setDiningLoading(true);
+      await BaseClient.get(APIEndpoints.diningMenu, [], {
+        onSuccess: (res) => {
+          console.log(res.data, "response");
+          setDiningList(res?.data?.data?.items);
+        },
+        onFailed: (err) => {
+          console.log("Error on fetching menus", err);
+        },
+      });
+    } finally {
+      setDiningLoading(false);
+    }
+  };
+
+  const fetchTakeawayMenus = async () => {
+    try {
+      setDiningLoading(true);
+      await BaseClient.get(APIEndpoints.getTakeawayMenus, [], {
+        onSuccess: (res) => {
+          console.log(res.data, "response");
+          setTakeawayMenu(res?.data?.data?.items);
+        },
+        onFailed: (err) => {
+          console.log("Error on fetching menus", err);
+        },
+      });
+    } finally {
+      setDiningLoading(false);
     }
   };
   const fetchCartList = async (userId) => {
@@ -122,7 +158,7 @@ const useMenus = () => {
       setSettingsLoading(true);
       await BaseClient.get(APIEndpoints.shopSettings, [], {
         onSuccess: (res) => {
-          console.log("settings",res.data.data);
+          console.log("settings", res.data.data);
 
           setSettings(res?.data?.data);
           setDeliveryInfo(res?.data?.data?.deliveryInfo);
@@ -142,7 +178,7 @@ const useMenus = () => {
         BaseClient.get(
           APIEndpoints.productList +
             `/${data?.shopId}` +
-            `/${data?.categoryId}`,
+            `/${data?.categoryId}/online`,
           null,
           {
             onSuccess: (res) => {
@@ -222,6 +258,9 @@ const useMenus = () => {
     deleteSingleCartItem,
     cartLoading,
     getShopSettings,
+    diningMenuList,
+    diningLoading,
+    diningList,
     settings,
     deliveryInfo,
     categoryLoading,
@@ -229,7 +268,9 @@ const useMenus = () => {
     setCartItems,
     clearCartItems,
     fetchCurrentShopStatus,
-    currentStatus
+    currentStatus,
+    fetchTakeawayMenus,
+    takeawayMenu,
   };
 };
 

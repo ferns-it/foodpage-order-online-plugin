@@ -21,6 +21,19 @@ export default class Utils {
 
     return normalDate;
   }
+  static formatDateTime = (dateTimeString) => {
+    const date = new Date(dateTimeString);
+
+    const formattedDate = date.toLocaleDateString("en-GB");
+
+    const formattedTime = date.toLocaleTimeString("en-GB", {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    });
+
+    return formattedTime;
+  };
 
   static convertTiming = (time24) => {
     // Split the time into hours, minutes, and seconds
@@ -48,13 +61,13 @@ export default class Utils {
     const end = new Date(`1970-01-01T${closingTime}Z`);
 
     if (end <= start) {
-      end.setDate(end.getDate() + 1); 
+      end.setDate(end.getDate() + 1);
     }
 
     while (start <= end) {
-      intervals.push(start.toISOString().substr(11, 5)); 
+      intervals.push(start.toISOString().substr(11, 5));
       start.setMinutes(start.getMinutes() + 15);
-  }
+    }
 
     return intervals;
   }

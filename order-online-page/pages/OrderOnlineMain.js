@@ -107,10 +107,8 @@ const OrderOnlineMain = () => {
           <br />
           <div className="food_order_area mt-4">
             <div className="order_block">
-              <div className="row position-relative">
-                <div
-                  className="col-lg-3 col-md-3 col-sm-none cat_col_0229 "
-                >
+              <div className="row">
+                <div className="col-lg-3 col-md-3 col-sm-none cat_col_0229">
                   <div className="card category_card_009">
                     <ul className="food_category_009">
                       {categoryLoading ? (
@@ -127,7 +125,7 @@ const OrderOnlineMain = () => {
                             categoryList.length != 0 &&
                             categoryList.map((list, index) => {
                               return (
-                                <a
+                                <div
                                   // href={`#category-${index}`}
                                   className={
                                     index === activeChipIndex
@@ -143,9 +141,9 @@ const OrderOnlineMain = () => {
                                     )
                                   }
                                 >
-                                  <li>{list?.name}</li>
+                                  <li className="links_order">{list?.name}</li>
                                   <i>{/* <Lu.LuArrowRightToLine /> */}</i>
-                                </a>
+                                </div>
                               );
                             })}
                         </Fragment>
