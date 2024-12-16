@@ -378,7 +378,7 @@ function AddOnsModal(props) {
             <h2 className="food_name_02901">{itemData?.name ?? "N/A"}</h2>
             <p className="food_desc_02901">
               {itemData?.description &&
-                Utils.removeSpecialCharacters(itemData?.description)}
+                Utils.stripHtml(itemData?.description)}
             </p>
             <p className="price_02901">
               {/* £{total && total.length != 0 ? total.toFixed(2) : 0} */}£

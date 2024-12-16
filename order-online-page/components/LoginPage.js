@@ -91,8 +91,7 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
 
       await userLogin(payload, {
         onSuccess: async (res) => {
-          console.log("login response", res.data);
-
+          
           if (res && res.data && res.data.error == true) {
             let errMsg =
               res?.data?.errorMessage?.message ?? "Authentication failed!";
@@ -102,19 +101,16 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
 
           const userId = res?.data?.data?.user?.userID;
           const token = res?.data?.data?.token;
+
           const guestId = getLocalStorageItem("UserPersistent");
-          
+
           setLocalStorageItem("UserPersistent", userId);
           setLocalStorageItem("userToken", token);
           setLocalStorageItem("guest", false);
-          console.log("userId", userId);
-          console.log("guestId", guestId);
 
           if (guestId) {
             await transferCartItems(guestId, userId);
-          } else {
-            console.log("GUEST ID IS NOT AVAILABLE");
-          }
+          } 
 
           toast.success("User Logged in successfully!");
 

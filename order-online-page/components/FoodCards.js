@@ -24,7 +24,13 @@ function FoodCards(category) {
   function stripHtml(html) {
     const temporalDivElement = document.createElement("div");
     temporalDivElement.innerHTML = html;
-    return temporalDivElement.textContent || temporalDivElement.innerText || "";
+    const decodedHtml =
+      temporalDivElement.textContent || temporalDivElement.innerText || "";
+
+    // Create a temporary element to decode HTML entities
+    const tempElement = document.createElement("div");
+    tempElement.innerHTML = decodedHtml;
+    return tempElement.textContent || tempElement.innerText || "";
   }
 
   useEffect(() => {
