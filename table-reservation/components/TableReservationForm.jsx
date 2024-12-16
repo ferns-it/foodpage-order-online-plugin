@@ -476,7 +476,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
               class="alert alert-danger alert-dismissible fade show text-center"
               role="alert"
             >
-              <strong>Sorry for the inconvenience!</strong> Reservations are
+              <strong>Apologies!</strong> Reservations are
               unavailable today.
             </div>
           )}
