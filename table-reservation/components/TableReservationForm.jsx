@@ -63,6 +63,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   const [timeIntervals, setTimeIntervals] = useState(null);
   const [formValidationLoading, setFormValidationLoading] = useState(false);
   const [defaultDate, setDefaultDate] = useState(new Date());
+  const [isTodayHoliday, setIsTodayHoliday] = useState(false);
 
   useEffect(() => {
     setInitialValues((prev) => ({ ...prev, bookingDate: new Date() }));
@@ -98,11 +99,12 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
 
   useEffect(() => {
     const today = new Date();
-    const nextAvailableDate = isHoliday(today)
+    const holidayToday = isHoliday(today);
+    setIsTodayHoliday(holidayToday);
+
+    const nextAvailableDate = holidayToday
       ? findNextAvailableDay(new Date(today))
       : today;
-
-    console.log(nextAvailableDate);
 
     setDefaultDate(nextAvailableDate);
   }, []);
@@ -342,7 +344,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
 
   const handleCountChange = (e) => {
     const limit = tableReservationSettings.max_party_size;
-  
+
     const value = parseInt(e.target.value, 10);
     if (!isNaN(value)) {
       setCount(value);
@@ -460,16 +462,24 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     setInitialValues((prev) => ({ ...prev, bookingDate: e }));
     getSelectedDay(e);
     const allowBookingAfterDays = tableReservationSettings?.late_booking;
-   
+
     const minDate = new Date();
     const dateonly = minDate.getDate();
     const allowdate = dateonly + allowBookingAfterDays;
-
   };
   return (
     <div className="table_reserv__">
       <Fragment>
         <div className="container">
+          {!isTodayHoliday && (
+            <div
+              class="alert alert-danger alert-dismissible fade show text-center"
+              role="alert"
+            >
+              <strong>Sorry for the inconvenience!</strong> Reservations are
+              unavailable today.
+            </div>
+          )}
           <div className="row">
             <div className="col-lg-8 col-md-8 col-sm-12 order-lg-1 order-md-1 order-sm-2">
               <div className="card table_reservation_card">
