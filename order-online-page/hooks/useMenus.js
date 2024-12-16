@@ -29,7 +29,7 @@ const useMenus = () => {
           setMenuList(res?.data);
         },
         onFailed: (err) => {
-          console.log("Error on fetching menus", err);
+        
         },
       });
     } finally {
@@ -67,7 +67,7 @@ const useMenus = () => {
       setDiningLoading(true);
       await BaseClient.get(APIEndpoints.diningMenu, [], {
         onSuccess: (res) => {
-          console.log(res.data, "response");
+          
           setDiningList(res?.data?.data?.items);
         },
         onFailed: (err) => {
@@ -84,7 +84,7 @@ const useMenus = () => {
       setDiningLoading(true);
       await BaseClient.get(APIEndpoints.getTakeawayMenus, [], {
         onSuccess: (res) => {
-          console.log(res.data, "response");
+         
           setTakeawayMenu(res?.data?.data?.items);
         },
         onFailed: (err) => {
@@ -158,7 +158,7 @@ const useMenus = () => {
       setSettingsLoading(true);
       await BaseClient.get(APIEndpoints.shopSettings, [], {
         onSuccess: (res) => {
-          console.log("settings", res.data.data);
+    
 
           setSettings(res?.data?.data);
           setDeliveryInfo(res?.data?.data?.deliveryInfo);

@@ -151,8 +151,7 @@ function AddOnsModal(props) {
           : variationValue?.price;
 
       totalAmount = priceAmt * count;
-    }
-    // console.log("cartTotal", totalAmount.toFixed(2));
+    };
 
     setCardTotal(totalAmount.toFixed(2));
   };

@@ -8,7 +8,7 @@ import {
   getSessionStorageItem,
   setLocalStorageItem,
   setSessionStorageItem,
-} from "@/plugin/_utils/ClientUtils";
+} from "../../_utils/ClientUtils";
 import Utils from "../../_utils/Utils";
 import useProfile from "../hooks/useProfile";
 import useOrderHistory from "../hooks/useOrderHistory";
@@ -60,7 +60,7 @@ export const AppContextProvider = (props) => {
       const encodedToken = getLocalStorageItem("userToken");
 
       const decodedToken = jwt.decode(encodedToken, { complete: true });
-      console.log(decodedToken, "encodedToken");
+      
       setIsUserLogged(decodedToken);
     }
   }, []);
@@ -172,14 +172,14 @@ export const AppContextProvider = (props) => {
   useEffect(() => {
     if (productsList.length == 0) {
       if (!categoryList || categoryList.length === 0) return;
-      console.log(categoryList, "catehoskg");
+  
       const catId =
         categoryList &&
         Array.isArray(categoryList) &&
         categoryList.length != 0 &&
         categoryList &&
         categoryList[0]?.cID;
-      console.log(categoryList && categoryList[0], catId, "categoryList1");
+     
       const isCheck =
         productsList &&
         productsList.length != 0 &&

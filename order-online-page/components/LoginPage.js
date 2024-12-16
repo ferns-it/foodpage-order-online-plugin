@@ -35,7 +35,6 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
       [name]: value,
     }));
   };
-  console.log(settings, "settings");
   const validateLoginForm = () => {
     let valid = true;
     let errors = {};
@@ -54,8 +53,7 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
   };
 
   const transferCartItems = async (guestId, userId) => {
-    console.log(guestId, userId);
-    // debugger;
+  
     const payload = {
       guestId,
     };
@@ -91,7 +89,7 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
 
       await userLogin(payload, {
         onSuccess: async (res) => {
-          console.log("login response", res.data);
+     
 
           if (res && res.data && res.data.error == true) {
             let errMsg =
@@ -107,8 +105,7 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
           setLocalStorageItem("UserPersistent", userId);
           setLocalStorageItem("userToken", token);
           setLocalStorageItem("guest", false);
-          console.log("userId", userId);
-          console.log("guestId", guestId);
+        
 
           if (guestId) {
             await transferCartItems(guestId, userId);

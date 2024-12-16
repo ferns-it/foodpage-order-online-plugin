@@ -10,6 +10,7 @@ const useReservation = () => {
   const [reservationDetails, setReservationDetails] = useState(null);
   const [chatMessages, setChatMessages] = useState(null);
   const [messageLoading, setMessageLoading] = useState(false);
+  const [upcomingHolidays, setUpcomingHolidays] = useState(null);
 
   const sendReservationOTP = async (
     payload,
@@ -170,6 +171,34 @@ const useReservation = () => {
       setMessageLoading(false);
     }
   };
+
+  const getHolidays = async () => {
+    try {
+      setIsTimingLoading(true);
+      const headers = {
+        "x-secretkey": process.env.FOODPAGE_RESERVATION_SECRET_KEY,
+      };
+
+      await BaseClient.get(
+        APIEndpoints.getUpcomingHolidays,
+        {},
+        {
+          onSuccess: (res) => {
+            if (res?.data?.error === false) {
+              setUpcomingHolidays(res?.data?.data?.holidayList);
+            }
+          },
+          onFailed: (err) => {
+            console.log("Error on fetching holidays", err);
+          },
+          headers,
+        }
+      );
+    } finally {
+      setIsTimingLoading(false);
+    }
+  };
+
   return {
     getShopTiming,
     shopTiming,
@@ -183,7 +212,9 @@ const useReservation = () => {
     updateReservationDetails,
     chatMessages,
     sendMessage,
-    messageLoading
+    messageLoading,
+    getHolidays,
+    upcomingHolidays,
   };
 };
 

@@ -9,7 +9,6 @@ import toast from "react-hot-toast";
 import "react-tooltip/dist/react-tooltip.css";
 import "../style/style.css";
 import CryptoJS from "crypto-js";
-import WellFoodLayout from "@/layout/WellFoodLayout";
 
 function ManageReservationMain() {
   const router = useRouter();
@@ -43,8 +42,6 @@ function ManageReservationMain() {
         }, 200);
       })
       .catch((err) => {
-        console.log("error=>", err);
-
         toast.error("Couldn't find anything right now, Please try again!");
       });
   };

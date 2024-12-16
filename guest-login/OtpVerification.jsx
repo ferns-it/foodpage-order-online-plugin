@@ -73,8 +73,6 @@ function OtpVerification() {
   };
   const validateOTP = () => {
     const changedOtp = encryptToMD5(reservOTP);
-    // console.log(encryptedOTP, changedOtp);
-    // console.log(changedOtp, "chanes");
     if (changedOtp === encryptedOTP) {
       toast.success("OTP is Verified Successfully!!");
       generateToken();
