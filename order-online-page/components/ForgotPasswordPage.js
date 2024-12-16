@@ -4,6 +4,7 @@ import React, { Fragment, useContext, useState } from "react";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { AppContext } from "../context";
 import CryptoJS from "crypto-js";
+import Utils from "@/utils/Utils";
 import { toast } from "react-hot-toast";
 import { setSessionStorageItem } from "../../_utils/ClientUtils";
 
@@ -51,12 +52,12 @@ function ForgotPasswordPage() {
       // return
       await passwordResetMail(payload, {
         onSuccess: async (res) => {
-          setSessionStorageItem("loginMail",user.email)
+          setSessionStorageItem("loginMail", user.email);
           toast.success("OTP Sended Successfully!");
           router.push("/resetpassword");
         },
         onFailed: (err) => {
-          console.log(err);
+         
           const errMsg = err?.errorMessage?.message ?? "FAILED TO SEND OTP!";
           toast.error(errMsg);
         },
@@ -67,7 +68,7 @@ function ForgotPasswordPage() {
   return (
     <Fragment>
       <div className="container">
-        <div style={{height:"80px"}}></div>
+        <div style={{ height: "80px" }}></div>
         <div className="password_wrapper">
           <div className="card password_comp">
             <h2>Forgot password?</h2>

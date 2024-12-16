@@ -5,7 +5,7 @@ import { RiMoneyEuroCircleLine } from "react-icons/ri";
 // import * as Bs from "react-icons/bs";
 
 import toast from "react-hot-toast";
-import { AppContext } from "../context/index";
+import { AppContext } from "../context";
 import CheckoutSummaryComp from "./CheckoutSummaryComp";
 import { Elements } from "@stripe/react-stripe-js";
 import StripePaymentElementOrderOnline from "./StripePaymentElementOrderOnline";
@@ -25,7 +25,6 @@ import {
 
 function OrderSummaryCheckout() {
   const router = useRouter();
-  const [paymentLoading, setPaymentLoading] = useState(false);
   const searchParams = useSearchParams();
   const orderType = sessionStorage.getItem("type");
   const details = JSON.parse(getSessionStorageItem("deliveryResponse"));
@@ -58,6 +57,8 @@ function OrderSummaryCheckout() {
     cartItems,
     clearCartItems,
   } = useContext(AppContext);
+
+  const [paymentLoading, setPaymentloading] = useState(false);
 
   // const { fetchCartList } = useContext(AppContext);
 
@@ -107,16 +108,6 @@ function OrderSummaryCheckout() {
       deliveryFee: deliveryCharge,
     });
   }, [searchParams]);
-
-  useEffect(() => {
-    const emptyValidation = checkForEmptyKeys(formState);
-
-    if (emptyValidation && emptyValidation.length != 0) {
-      setActiveCard("login");
-      setPaymentOption("");
-      return;
-    }
-  }, [formState]);
 
   // useEffect(() => {
   //   const handleBeforeUnload = (event) => {
@@ -186,10 +177,7 @@ function OrderSummaryCheckout() {
       toast.error("Shop is currently closed");
       return;
     }
-    if (!formState.phone || !/^\d+$/.test(formState.phone)) {
-      setFieldError(true);
-      return;
-    }
+
     let deliveryTypeData;
 
     if (delivery == false || delivery == "false") {
@@ -199,7 +187,7 @@ function OrderSummaryCheckout() {
 
       deliveryTypeData = "Home Delivery";
       const isValid = handleEmptyValidation();
-      console.log(isValid);
+    
 
       if (isValid && isValid.length != 0) {
         setFieldError(true);
@@ -214,7 +202,7 @@ function OrderSummaryCheckout() {
       setActiveCard("payment");
       deliveryTypeData = "Take Away";
       const isValid = handleEmptyValidation();
-      console.log(isValid);
+    
 
       if (isValid && isValid.length != 0) {
         setFieldError(true);
@@ -293,9 +281,11 @@ function OrderSummaryCheckout() {
   const checkForEmptyKeys = (formState) => {
     const emptyKeys = [];
 
+    // Iterate through formState keys
     for (const key in formState) {
       const value = formState[key];
 
+      // Exclude 'addressLine2' and 'notes' from the check
       if (key !== "addressLine2" && key !== "notes") {
         if (value === undefined || value === null || value === "") {
           emptyKeys.push(key);
@@ -308,7 +298,15 @@ function OrderSummaryCheckout() {
 
   const completeOrder = async () => {
     try {
-      setPaymentLoading(true);
+      setPaymentloading(true);
+      if (
+        cartItems &&
+        cartItems?.cartItems &&
+        cartItems?.cartItems?.length == 0
+      ) {
+        toast.error("Your cart is Empty!");
+        return;
+      }
       const emptyValidation = checkForEmptyKeys(formState);
 
       if (emptyValidation && emptyValidation.length != 0) {
@@ -401,8 +399,10 @@ function OrderSummaryCheckout() {
           onSuccess: async (res) => {
             toast.success("Order Confirmed!");
             //! user token removed here
+            router.push("/order-online");
             // removeLocalStorageItem("userToken");
             // removeSessionStorageItem("userInfo");
+
             await fetchCartList(userID);
             await clearCartItems(userID, {
               onSuccess: (res) => {
@@ -411,20 +411,19 @@ function OrderSummaryCheckout() {
               onFailed: (err) => {
                 console.log("Error on cart clear", err);
               },
-            });
-            router.refresh();
-            router.push("/order-online");
+            });        
+           
             setActiveCard("login");
             setPaymentData(null);
           },
           onFailed: (err) => {
-            console.log("error message for confirm payment", err);
+          
             toast.error(err.message);
           },
         });
       }
     } finally {
-      setPaymentLoading(false);
+      setPaymentloading(false);
     }
   };
 
@@ -479,7 +478,7 @@ function OrderSummaryCheckout() {
                 <div
                   className={
                     activeCard == "login"
-                      ? "login_order_online_form_0283"
+                      ? "login_order_online_form_0283 "
                       : "login_order_online_form_0283 hide"
                   }
                   // className="login_order_online_form_0283"
@@ -621,7 +620,7 @@ function OrderSummaryCheckout() {
                       <div className="col-lg-4 col-md-4 col-sm-4">
                         <div className="form-group">
                           <label
-                            htmlFor="phone"
+                            htmlFor="email"
                             className="form-label online_order_plugin_label_2939"
                           >
                             Phone number
@@ -629,13 +628,13 @@ function OrderSummaryCheckout() {
                           <input
                             type="text"
                             name="phone"
-                            id="phone"
+                            id=""
                             className={
                               fieldError &&
                               (!formState.phone ||
-                                !/^\d+$/.test(formState.phone))
+                                formState?.phone.length === 0)
                                 ? "form-control online_order_plugin_input_2939 error___"
-                                : "form-control online_order_plugin_input_2939"
+                                : "form-control online_order_plugin_input_2939 "
                             }
                             onChange={handleChange}
                             value={formState.phone}
@@ -643,13 +642,12 @@ function OrderSummaryCheckout() {
                         </div>
                         {fieldError &&
                           (!formState.phone ||
-                            !/^\d+$/.test(formState.phone)) && (
+                            formState?.phone?.length === 0) && (
                             <span className="oos_err_29102">
-                              Phone is required and must be numeric!
+                              Phone is required!
                             </span>
                           )}
                       </div>
-
                       <div className="col-lg-4 col-md-4 col-sm-4">
                         <div className="form-group">
                           <label
@@ -773,14 +771,16 @@ function OrderSummaryCheckout() {
                         value={formState.notes}
                       ></textarea>
                     </div>
-                    <div className="form-group mz-auto text-center">
-                      <button type="submit" className="btn_check">
+                    {/* <br /> */}
+                    <div className="form-group mt-3">
+                      <button
+                        type="submit"
+                        className="online_order_plugin_login_btn"
+                      >
                         Submit
                       </button>
                     </div>
-                    {/* <br /> */}
                   </form>
-
                   {/* <button type="button" className="view_btn">View</button> */}
                 </div>
               </div>
@@ -803,6 +803,9 @@ function OrderSummaryCheckout() {
                       <>
                         {!intentLoading ? (
                           <Fragment>
+                            <h4>Payment</h4>
+                            <p>Secure Payment Options</p>
+
                             <div
                               className={
                                 activeCard === "payment"
@@ -863,17 +866,13 @@ function OrderSummaryCheckout() {
                                         paymentSuccess={async (
                                           intentResult
                                         ) => {
-                                          console.log(
-                                            "intentResult",
-                                            intentResult
-                                          );
                                           sessionStorage.clear(
                                             "isCheckoutActive"
                                           );
                                           await completeOrder();
                                         }}
                                         paymentFailure={(err) => {
-                                          console.log("error =>", err.message);
+                                         
                                           toast.error(err.message);
                                         }}
                                         discount={discountData}

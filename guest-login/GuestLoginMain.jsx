@@ -3,7 +3,8 @@ import React, { Fragment } from "react";
 import OrderSummaryCheckout from "../order-online-page/components/OrderSummaryCheckout";
 import LoaderComp from "../order-online-page/components/LoaderComp";
 import ProtectedRoute from "../protector/Protector";
-import { useAuth, AuthProvider } from "./context/AuthContext";
+import useAuth from "../order-online-page/hooks/useAuth";
+import { AuthProvider } from "./context/AuthContext";
 
 function PageContent() {
   const { validationLoading, user } = useAuth();

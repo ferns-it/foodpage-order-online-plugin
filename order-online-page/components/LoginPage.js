@@ -9,7 +9,7 @@ import {
   getSessionStorageItem,
   redirectToLocation,
   setLocalStorageItem,
-} from "@/src/app/_utils/ClientUtils";
+} from "../../_utils/ClientUtils";
 
 function LoginPage({ handleGuestLogin, errors, setErrors }) {
   const router = useRouter();
@@ -35,7 +35,7 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
       [name]: value,
     }));
   };
-  console.log(settings, "settings");
+
   const validateLoginForm = () => {
     let valid = true;
     let errors = {};
@@ -54,7 +54,7 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
   };
 
   const transferCartItems = async (guestId, userId) => {
-    console.log(guestId, userId);
+  
     // debugger;
     const payload = {
       guestId,
@@ -70,8 +70,7 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
           toast.error("cart items not transfered!");
           return;
         }
-        // debugger;
-        console.log("CART ITEMS TRANSFERED");
+   
       },
       onFailed: (err) => {
         toast.error("cart items not transfered!");
@@ -91,7 +90,7 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
 
       await userLogin(payload, {
         onSuccess: async (res) => {
-          console.log("login response", res.data);
+      
 
           if (res && res.data && res.data.error == true) {
             let errMsg =
@@ -103,13 +102,11 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
           const userId = res?.data?.data?.user?.userID;
           const token = res?.data?.data?.token;
           const guestId = getLocalStorageItem("UserPersistent");
-          
+
           setLocalStorageItem("UserPersistent", userId);
           setLocalStorageItem("userToken", token);
           setLocalStorageItem("guest", false);
-          console.log("userId", userId);
-          console.log("guestId", guestId);
-
+      
           if (guestId) {
             await transferCartItems(guestId, userId);
           } else {
@@ -128,7 +125,10 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
         },
         onFailed: (err) => {
           console.log("error=>", err);
-          toast.error(err?.response?.data?.errorMessage?.message ||"Authentication Failed");
+          toast.error(
+            err?.response?.data?.errorMessage?.message ||
+              "Authentication Failed"
+          );
         },
       });
     }

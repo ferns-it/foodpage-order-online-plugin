@@ -89,7 +89,7 @@ function GuestLogin() {
           }
         },
         onFailed: (err) => {
-          console.log(err);
+         
           const errMsg = err?.errorMessage?.message ?? "FAILED TO SEND OTP!";
           toast.error(errMsg);
         },
@@ -101,7 +101,7 @@ function GuestLogin() {
     <Fragment>
       <div className="login_wrapper row">
         <div className="card login_comp col-md-4 col-lg-3 col-sm-12 mx-auto">
-          <h2 className="ffm">Guest Login</h2>
+          <h2>Guest Login</h2>
           <p className="sub_title_login">
             Please fill below fields to continue as a Guest
           </p>
@@ -112,7 +112,7 @@ function GuestLogin() {
                 <input
                   type="text"
                   name="guestName"
-                  id="new_inpp"
+                  id=""
                   className="form-control"
                   value={userState.guestName}
                   onChange={handleInputChange}
@@ -126,7 +126,7 @@ function GuestLogin() {
                 <input
                   type="email"
                   name="email"
-                  id="new_inpp"
+                  id="email"
                   className="form-control password_inp"
                   value={userState.email}
                   onChange={handleInputChange}

@@ -7,8 +7,7 @@ const getUserId = () => {
   let storedUserId;
   if (typeof window !== "undefined") {
     storedUserId = window.localStorage.getItem("UserPersistent");
-  }
- else {
+  } else {
     storedUserId = null;
   }
   return storedUserId;
@@ -23,7 +22,7 @@ const api = axios.create({
     User: userId,
   },
   // withCredentials: true,
-  timeout: 5 * 10000,
+  timeout: 10000,
 });
 
 //Interceptor for handle the response
@@ -51,31 +50,11 @@ const api = axios.create({
 
 class BaseClient {
   //Get Method
-  static async get(
-    endpoint,
-    payload,
-    { onSuccess, onFailed, onProgress, headers }
-  ) {
-    try {
-      const config = {
-        headers: headers || {},
-        params: payload,
-        onDownloadProgress: (progressEvent) => {
-          if (onProgress) {
-            onProgress(progressEvent);
-          }
-        },
-      };
-
-      const data = await api.get(endpoint, config);
-      if (onSuccess) {
-        onSuccess(data);
-      }
-    } catch (error) {
-      if (onFailed) {
-        onFailed(error);
-      }
-    }
+  static async get(endpoint, payload, { onSuccess, onFailed }) {
+    await api
+      .get(endpoint, payload)
+      .then((data) => onSuccess && onSuccess(data))
+      .catch((error) => onFailed && onFailed(error));
   }
 
   //Post Method
@@ -112,20 +91,9 @@ class BaseClient {
   }
 
   //Put Method
-  static async put(
-    endpoint,
-    payload,
-    { onSuccess, onFailed, onProgress, headers }
-  ) {
+  static async put(endpoint, payload, { onSuccess, onFailed }) {
     await api
-      .put(endpoint, payload, {
-        headers: headers,
-        onUploadProgress: (progressEvent) => {
-          if (onProgress) {
-            onProgress(progressEvent);
-          }
-        },
-      })
+      .put(endpoint, payload)
       .then((data) => onSuccess && onSuccess(data))
       .catch((error) => onFailed && onFailed(error));
   }

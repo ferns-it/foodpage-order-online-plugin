@@ -97,7 +97,7 @@ export default function usePayment() {
         },
         onFailed: (error) => {
           setPaymentError(error);
-          console.error("error", error);
+        
         },
         // authentication: true,
       });

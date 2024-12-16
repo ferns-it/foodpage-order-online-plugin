@@ -15,8 +15,6 @@ function FoodCards(category) {
     settings,
     showModal,
     setShowModal,
-    settingsLoading,
-    currentStatus,
   } = useContext(AppContext);
 
   const params = useSearchParams();
@@ -26,7 +24,13 @@ function FoodCards(category) {
   function stripHtml(html) {
     const temporalDivElement = document.createElement("div");
     temporalDivElement.innerHTML = html;
-    return temporalDivElement.textContent || temporalDivElement.innerText || "";
+    const decodedHtml =
+      temporalDivElement.textContent || temporalDivElement.innerText || "";
+
+    // Create a temporary element to decode HTML entities
+    const tempElement = document.createElement("div");
+    tempElement.innerHTML = decodedHtml;
+    return tempElement.textContent || tempElement.innerText || "";
   }
 
   useEffect(() => {
@@ -34,7 +38,8 @@ function FoodCards(category) {
 
     if (showModal) {
       const data = getSessionStorageItem("selectedProduct");
-      console.log(data, "data");
+
+      window.sessionStorage.removeItem("selectedProduct");
       if (data && data.length != 0) {
         const product = JSON.parse(data);
         setShowModal(true);
@@ -56,7 +61,7 @@ function FoodCards(category) {
         setShowModal={setShowModal}
         productData={productDataValues}
       />
-      {/* <div className="container position-relative">
+      <div className="container position-relative">
         {(settings?.shopStatus === "close" ||
           (settings?.deliveryInfo?.takeAway_temp_off === "Yes" &&
             settings?.deliveryInfo?.homeDelivery_temp_off === "Yes")) && (
@@ -67,19 +72,7 @@ function FoodCards(category) {
             Sorry, We're Temporarily Closed! Be Back Soon.
           </p>
         )}
-      </div> */}
-
-      {settingsLoading == false &&
-        currentStatus != null &&
-        currentStatus?.status == true && (
-          <p className="info-header">
-            <i>
-              <Pi.PiCallBellFill />
-            </i>
-            {currentStatus?.message ??
-              "Sorry, We're Temporarily Closed! Be Back Soon."}
-          </p>
-        )}
+      </div>
 
       <div className="product_wrapper_029">
         {productsListLoading ? (
@@ -116,7 +109,7 @@ function FoodCards(category) {
                                   >
                                     <div className="row fda_food_row">
                                       <div className="mx-auto">
-                                        <div
+                                        <a
                                           className="prod_anchor"
                                           style={{
                                             textDecoration: "none",
@@ -159,7 +152,7 @@ function FoodCards(category) {
                                               ADD
                                             </button>
                                           </div>
-                                        </div>
+                                        </a>
                                       </div>
                                     </div>
                                   </div>

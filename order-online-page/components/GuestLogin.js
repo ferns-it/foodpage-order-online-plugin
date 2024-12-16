@@ -1,7 +1,7 @@
 import React, { Fragment, useContext } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import CryptoJS from "crypto-js";
-import Utils from "../utils/Utils";
+import Utils from "@/utils/Utils";
 
 import { useRouter } from "next/navigation";
 import { AppContext } from "../context";
@@ -69,7 +69,7 @@ function GuestLogin({
           }
         },
         onFailed: (err) => {
-          console.log(err);
+        
           const errMsg = err?.errorMessage?.message ?? "FAILED TO SEND OTP!";
           toast.error(errMsg);
         },
