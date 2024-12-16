@@ -15,7 +15,7 @@ const useOrderHistory=()=> {
         }
         await BaseClient.get(APIEndpoints.getOrderList,{},{
             onSuccess:(res)=>{
-                console.log(res?.data?.data?.History,"result");
+           
                 setOrderHistory(res?.data?.data?.History)
             },
             onFailed:(err)=>{

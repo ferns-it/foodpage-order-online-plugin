@@ -68,8 +68,7 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
           toast.error("cart items not transfered!");
           return;
         }
-        // debugger;
-        console.log("CART ITEMS TRANSFERED");
+      
       },
       onFailed: (err) => {
         toast.error("cart items not transfered!");
@@ -124,7 +123,7 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
           }, 800);
         },
         onFailed: (err) => {
-          console.log("error=>", err);
+        
           toast.error(err?.response?.data?.errorMessage?.message ||"Authentication Failed");
         },
       });

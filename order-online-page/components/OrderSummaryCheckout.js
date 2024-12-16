@@ -869,17 +869,14 @@ function OrderSummaryCheckout() {
                                         paymentSuccess={async (
                                           intentResult
                                         ) => {
-                                          console.log(
-                                            "intentResult",
-                                            intentResult
-                                          );
+                                         
                                           sessionStorage.clear(
                                             "isCheckoutActive"
                                           );
                                           await completeOrder();
                                         }}
                                         paymentFailure={(err) => {
-                                          console.log("error =>", err.message);
+                                         
                                           toast.error(err.message);
                                         }}
                                         discount={discountData}

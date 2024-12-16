@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
     try {
       setValidationLoading(true);
       const sessionUser = localStorage.getItem("userToken");
-      console.log("sessionUser", sessionUser);
+    
       if (sessionUser && sessionUser.length != 0) {
         const decodedToken = jwt.decode(sessionUser);
         const currentTime = Date.now() / 1000;

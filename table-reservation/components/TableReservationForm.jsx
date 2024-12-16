@@ -342,7 +342,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
 
   const handleCountChange = (e) => {
     const limit = tableReservationSettings.max_party_size;
-    console.log(limit, "limit");
+  
     const value = parseInt(e.target.value, 10);
     if (!isNaN(value)) {
       setCount(value);
@@ -460,13 +460,11 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     setInitialValues((prev) => ({ ...prev, bookingDate: e }));
     getSelectedDay(e);
     const allowBookingAfterDays = tableReservationSettings?.late_booking;
-    console.log(allowBookingAfterDays, "allow");
+   
     const minDate = new Date();
     const dateonly = minDate.getDate();
     const allowdate = dateonly + allowBookingAfterDays;
-    console.log(allowdate, "allowdate");
-    console.log(dateonly, "dateonl");
-    console.log(minDate, "mindate");
+
   };
   return (
     <div className="table_reserv__">
