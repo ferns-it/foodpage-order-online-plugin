@@ -1,7 +1,6 @@
-
-import React, { useState } from 'react'
-import BaseClient from '../helper/Baseclient';
-import { ReservationAPIEndpoints } from '../constants/ReservationAPIEndpoints';
+import React, { useState } from "react";
+import BaseClient from "../helper/Baseclient";
+import { ReservationAPIEndpoints } from "../constants/ReservationAPIEndpoints";
 
 const useReservation = () => {
   const [shopTiming, setShopTiming] = useState(null);
@@ -37,11 +36,10 @@ const useReservation = () => {
         {
           onSuccess: (res) => {
             console.log("response", res);
-            
+
             if (res && res.data && res.data.data) {
               setShopTiming(res.data.data);
             }
-
           },
           onFailed: (err) => {
             console.log("ERROR ON GETTING SHOP TIMING", err);
@@ -73,8 +71,8 @@ const useReservation = () => {
     isTimingLoading,
     reservationLoading,
     sendReservationOTP,
-    completeReservation
-  }
-}
+    completeReservation,
+  };
+};
 
-export default useReservation
+export default useReservation;

@@ -41,4 +41,36 @@ export default class Utils {
 
     return temporalDivElement.textContent || temporalDivElement.innerText || "";
   }
+
+  static get15MinuteIntervals(openingTime, closingTime) {
+    const intervals = [];
+    let start = new Date(`1970-01-01T${openingTime}Z`);
+    const end = new Date(`1970-01-01T${closingTime}Z`);
+
+    if (end <= start) {
+      end.setDate(end.getDate() + 1);
+    }
+
+    while (start <= end) {
+      intervals.push(start.toISOString().substr(11, 5));
+      start.setMinutes(start.getMinutes() + 15);
+    }
+
+    return intervals;
+  }
+
+  static convertTiming = (time24) => {
+    const [hours, minutes] = time24.split(":");
+
+    let hoursNumber = parseInt(hours, 10);
+
+    const period = hoursNumber >= 12 ? "PM" : "AM";
+
+    hoursNumber = hoursNumber % 12 || 12; // The modulo operation handles 0 and 12 appropriately
+
+    const paddedHours = hoursNumber.toString().padStart(2, "0");
+    const paddedMinutes = minutes.padStart(2, "0");
+
+    return `${paddedHours}:${paddedMinutes} ${period}`;
+  };
 }

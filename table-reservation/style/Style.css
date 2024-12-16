@@ -64,24 +64,6 @@ input {
   margin-bottom: 34px;
 }
 
-.incDec_wrapper_0291 {
-  position: absolute;
-  /* width: 100%; */
-  background-color: #f2f1f2;
-  border-radius: 20px;
-  overflow: hidden;
-  border: 1px solid #e03f3f;
-}
-
-.incDec_wrapper_0291 > .toggle-checkbox {
-  display: none;
-}
-
-.incDec_wrapper_0291 > .counter-container {
-  display: flex;
-  align-items: center;
-}
-
 .increment-button,
 .decrement-button {
   display: inline-block;
