@@ -1850,6 +1850,7 @@ deal_content p {
   border: none;
   outline: none;
   padding: 10px 20px;
+  display: flex;
   border-radius: 5px;
   font-weight: 600;
   font-size: 14px;

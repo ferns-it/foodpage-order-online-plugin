@@ -187,7 +187,6 @@ function OrderSummaryCheckout() {
 
       deliveryTypeData = "Home Delivery";
       const isValid = handleEmptyValidation();
-    
 
       if (isValid && isValid.length != 0) {
         setFieldError(true);
@@ -202,7 +201,6 @@ function OrderSummaryCheckout() {
       setActiveCard("payment");
       deliveryTypeData = "Take Away";
       const isValid = handleEmptyValidation();
-    
 
       if (isValid && isValid.length != 0) {
         setFieldError(true);
@@ -399,7 +397,7 @@ function OrderSummaryCheckout() {
           onSuccess: async (res) => {
             toast.success("Order Confirmed!");
             //! user token removed here
-            router.push("/order-online");
+            router.push("/orderonline");
             // removeLocalStorageItem("userToken");
             // removeSessionStorageItem("userInfo");
 
@@ -411,13 +409,12 @@ function OrderSummaryCheckout() {
               onFailed: (err) => {
                 console.log("Error on cart clear", err);
               },
-            });        
-           
+            });
+
             setActiveCard("login");
             setPaymentData(null);
           },
           onFailed: (err) => {
-          
             toast.error(err.message);
           },
         });
@@ -440,7 +437,7 @@ function OrderSummaryCheckout() {
         <div className="container">
           <button
             className="back_btn_order_online_828"
-            onClick={() => router.push("/order-online")}
+            onClick={() => router.push("/orderonline")}
           >
             <FiArrowLeft />
           </button>
@@ -872,7 +869,6 @@ function OrderSummaryCheckout() {
                                           await completeOrder();
                                         }}
                                         paymentFailure={(err) => {
-                                         
                                           toast.error(err.message);
                                         }}
                                         discount={discountData}
