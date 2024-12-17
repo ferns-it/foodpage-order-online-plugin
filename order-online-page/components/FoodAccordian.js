@@ -1,3 +1,4 @@
+"use client";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import * as Lu from "react-icons/lu";
 import * as Tb from "react-icons/tb";
