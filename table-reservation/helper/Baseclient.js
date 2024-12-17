@@ -99,11 +99,20 @@ class BaseClient {
   }
 
   //Delete Method
-  static async delete(endpoint, { onSuccess, onFailed }) {
-    await api
-      .delete(endpoint)
-      .then((data) => onSuccess && onSuccess(data))
-      .catch((error) => onFailed && onFailed(error));
+  static async delete(endpoint, { onSuccess, onFailed, headers, onProgress }) {
+    try {
+      const response = await api.delete(endpoint, {
+        headers: headers || {},
+        onUploadProgress: (progressEvent) => {
+          if (onProgress) {
+            onProgress(progressEvent);
+          }
+        },
+      });
+      if (onSuccess) onSuccess(response.data);
+    } catch (error) {
+      if (onFailed) onFailed(error);
+    }
   }
 }
 

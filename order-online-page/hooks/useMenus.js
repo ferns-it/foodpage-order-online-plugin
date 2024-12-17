@@ -35,10 +35,23 @@ const useMenus = () => {
   const deleteSingleCartItem = async (id, { onSuccess, onFailed }) => {
     try {
       setCartLoading(true);
+
+      userToken = getLocalStorageItem("UserPersistent");
+
+      if (!userToken) {
+        onFailed(new Error("User is not authenticated"));
+        return;
+      }
+      const headers = {
+        user: userToken,
+      };
       await BaseClient.delete(APIEndpoints.deleteCartItem + `/${id}`, {
+        headers: headers,
         onSuccess: onSuccess,
         onFailed: onFailed,
       });
+    } catch (error) {
+      onFailed(error);
     } finally {
       setCartLoading(false);
     }
