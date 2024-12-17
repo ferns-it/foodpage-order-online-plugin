@@ -1,12 +1,12 @@
 "use client";
 import { AppContext } from "../order-online-page/context/index";
-import React, { Fragment, useContext, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import OTPInput from "react-otp-input";
 import * as Go from "react-icons/go";
 import CryptoJS from "crypto-js";
 import toast, { Toaster } from "react-hot-toast";
 import Utils from "../_utils/Utils";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import {
   getLocalStorageItem,
   getSessionStorageItem,
@@ -14,18 +14,21 @@ import {
   setLocalStorageItem,
   setSessionStorageItem,
 } from "../_utils/ClientUtils";
-import "./style.css";
+// import "./style.css";
 
 function OtpVerification() {
   const { authLoading, settings, sentOTPtoUser } = useContext(AppContext);
-  const router = useRouter();
+  // const router = useRouter();
   const [reservOTP, setResertOTP] = useState("");
   const encryptedOTP = getSessionStorageItem("encryptedOTP");
-
+  const [loginMail,setLoginMail] =useState(null)
   const encryptToMD5 = (number) => {
     return CryptoJS.MD5(number).toString();
   };
-
+  useEffect(()=>{
+    const storedMail = getSessionStorageItem("loginMail");
+    setLoginMail(storedMail);
+  },[])
   const resendOTP = async () => {
     const otp = Utils.generateOTP();
     const encryptedOTP = encryptToMD5(otp);
@@ -82,7 +85,8 @@ function OtpVerification() {
       sessionStorage.removeItem("loginInfo");
       const pathname = getLocalStorageItem("path") ?? "/checkout";
       removeLocalStorageItem("path");
-      router.push(pathname);
+      window.location.href = pathname;
+      // router.push(pathname);
     } else {
       toast.error("invalid OTP!");
       setResertOTP("");
@@ -96,7 +100,7 @@ function OtpVerification() {
           <h3 className="table-reservation-form-head">OTP VERIFICATION </h3>
           <p className="table_reserv_info_sub_head text-center">
             Your OTP has been send to your mail addesss{" "}
-            <span>{getSessionStorageItem("loginMail")}</span>
+            <span>{loginMail}</span>
           </p>
           <div className="otp_validation_reserv">
             <OTPInput

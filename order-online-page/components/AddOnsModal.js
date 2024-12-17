@@ -464,14 +464,14 @@ function AddOnsModal(props) {
                                     {varient?.displayPrice ?? "N/A"}
                                   </td>
                                 </tr>
-                                <tr key={`tr-desc-${vindex}`}>
-                                  <td>
+                                {/* <tr key={`tr-desc-${vindex}`}>
+                                  <td> */}
                                     <span className="small_desc">
                                       {Utils.stripHtml(varient?.ingredients) ??
                                         ""}
                                     </span>
-                                  </td>
-                                </tr>
+                                  {/* </td>
+                                </tr> */}
                               </Fragment>
                             ) : null;
                           })}

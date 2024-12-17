@@ -1,6 +1,6 @@
 "use client";
 import React, { useContext, useEffect } from "react";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import LoaderComp from "../order-online-page/components/LoaderComp";
 import { getLocalStorageItem } from "../_utils/ClientUtils";
 import { AppContext } from "../order-online-page/context/index";
@@ -10,7 +10,7 @@ const ProtectedRoute = ({ children }) => {
   const { validationLoading, setValidationLoading } = useAuth();
 
   const { isUserLogged, setIsUserLogged } = useContext(AppContext);
-  const router = useRouter();
+  // const router = useRouter();
 
   useEffect(() => {
     const userToken = getLocalStorageItem("userToken");
@@ -19,9 +19,10 @@ const ProtectedRoute = ({ children }) => {
       setValidationLoading(false);
     } else {
       setValidationLoading(false);
-      router.push("/guest");
+      window.location.href = "/guest"
+      // router.push("/guest");
     }
-  }, [isUserLogged, router]);
+  }, [isUserLogged]);
 
   if (validationLoading) {
     return <LoaderComp />;

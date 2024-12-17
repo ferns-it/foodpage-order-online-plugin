@@ -4,12 +4,12 @@ import toast, { Toaster } from "react-hot-toast";
 import CryptoJS from "crypto-js";
 import Utils from "../_utils/Utils";
 
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import { AppContext } from "../order-online-page/context/index";
-import "./style.css";
+// import "./style.css";
 
 function GuestLogin() {
-  const router = useRouter();
+  // const router = useRouter();
   const [loginInfo, setLoginInfo] = useState("guest");
   const [userState, setUserState] = useState({
     userName: "",
@@ -85,7 +85,8 @@ function GuestLogin() {
             toast.error(res.errorMessage.message);
           } else {
             toast.success("OTP Sended Successfully!");
-            router.push("/otpverification");
+            window.location.href = "/otpverification"
+            // router.push("/otpverification");
           }
         },
         onFailed: (err) => {

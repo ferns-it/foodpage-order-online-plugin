@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useContext, useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import jwt from "jsonwebtoken";
 import { setLocalStorageItem } from "../../_utils/ClientUtils";
 
@@ -10,7 +10,7 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const router = useRouter();
+  // const router = useRouter();
   const [validationLoading, setValidationLoading] = useState(true);
 
   const login = (userData) => {
@@ -21,7 +21,9 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     sessionStorage.removeItem("userToken");
-    router.push("/");
+    if (typeof window !== "undefined") {
+      window.location.href = "/"; 
+    }
   };
 
   // Check if user is logged in on initial load
@@ -39,7 +41,7 @@ export const AuthProvider = ({ children }) => {
     } finally {
       setValidationLoading(false);
     }
-  }, [router]);
+  }, []);
 
   return (
     <AuthContext.Provider

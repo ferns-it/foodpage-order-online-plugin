@@ -12,7 +12,7 @@ import StripePaymentElementOrderOnline from "./StripePaymentElementOrderOnline";
 import PleaseWait from "./PleaseWait";
 import { FiArrowLeft } from "react-icons/fi";
 import { IoInformationCircleOutline } from "react-icons/io5";
-import { useRouter, useSearchParams } from "next/navigation";
+// import { useRouter, useSearchParams } from "next/navigation";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import {
   getLocalStorageItem,
@@ -24,9 +24,9 @@ import {
 } from "../../_utils/ClientUtils";
 
 function OrderSummaryCheckout() {
-  const router = useRouter();
+  // const router = useRouter();
   const [paymentLoading, setPaymentLoading] = useState(false);
-  const searchParams = useSearchParams();
+  // const searchParams = useSearchParams();
   const orderType = sessionStorage.getItem("type");
   const details = JSON.parse(getSessionStorageItem("deliveryResponse"));
   const [paramsValues, setParamsValues] = useState({
@@ -97,16 +97,17 @@ function OrderSummaryCheckout() {
   const [intentLoading, setIntentLoading] = useState(false);
 
   useEffect(() => {
-    const price = searchParams.get("price");
-    const deliveryCharge = searchParams.get("deliveryCharge");
-    const discount = searchParams.get("discount");
+    const queryParams = new URLSearchParams(window.location.search);
+    const price = queryParams.get("price");
+    const deliveryCharge = queryParams.get("deliveryCharge");
+    const discount = queryParams.get("discount");
 
     setParamsValues({
       price,
       discount,
       deliveryFee: deliveryCharge,
     });
-  }, [searchParams]);
+  }, []);
 
   useEffect(() => {
     const emptyValidation = checkForEmptyKeys(formState);
@@ -412,8 +413,8 @@ function OrderSummaryCheckout() {
                 console.log("Error on cart clear", err);
               },
             });
-            router.refresh();
-            router.push("/order-online");
+            window.location.reload();
+            window.location.href = "/order-online"
             setActiveCard("login");
             setPaymentData(null);
           },
@@ -431,7 +432,9 @@ function OrderSummaryCheckout() {
   const handleToggle = () => {
     setActiveCard("login");
   };
-
+  const handleBack =() =>{
+    window.location.href = "/order-online"
+  }
   return (
     <Fragment>
       <section className="order_summary_checkout">
@@ -441,7 +444,7 @@ function OrderSummaryCheckout() {
         <div className="container">
           <button
             className="back_btn_order_online_828"
-            onClick={() => router.push("/order-online")}
+            onClick={handleBack}
           >
             <FiArrowLeft />
           </button>
@@ -488,7 +491,7 @@ function OrderSummaryCheckout() {
                   <form onSubmit={(e) => handleSubmit(e)}>
                     <div className="row">
                       <div className="col-lg-4 col-md-4 col-sm-4">
-                        <div className="form-group">
+                        <div className="form-group detail-grp">
                           <label
                             htmlFor="fullname"
                             className="form-label online_order_plugin_label_2939"
@@ -509,19 +512,20 @@ function OrderSummaryCheckout() {
                             onChange={handleChange}
                             value={formState.fullname}
                           />
-                        </div>
-                        {fieldError === true &&
+                          {fieldError === true &&
                           (!formState.fullname ||
                             formState.fullname.length === 0) && (
                             <span className="oos_err_29102">
                               Name is required!
                             </span>
                           )}
+                        </div>
+                        
                       </div>
 
                       <>
                         <div className="col-lg-4 col-md-4 col-sm-4">
-                          <div className="form-group">
+                          <div className="form-group detail-grp">
                             <label
                               htmlFor="postalCode"
                               className="form-label online_order_plugin_label_2939"
@@ -576,19 +580,20 @@ function OrderSummaryCheckout() {
                                 //     : false
                                 // }
                               /> */}
-                          </div>
-                          {fieldError == true &&
+                              {fieldError == true &&
                             (!formState.postalCode ||
                               formState?.postalCode?.length === 0) && (
                               <span className="oos_err_29102">
                                 Postal code is required!
                               </span>
                             )}
+                          </div>
+                          
                         </div>
                       </>
 
                       <div className="col-lg-4 col-md-4 col-sm-4">
-                        <div className="form-group">
+                        <div className="form-group detail-grp">
                           <label
                             htmlFor="emailAddress"
                             className="form-label online_order_plugin_label_2939"
@@ -609,17 +614,18 @@ function OrderSummaryCheckout() {
                             onChange={handleChange}
                             value={formState.emailAddress}
                           />
-                        </div>
-                        {fieldError &&
+                          {fieldError &&
                           (!formState.emailAddress ||
                             formState?.emailAddress?.length === 0) && (
                             <span className="oos_err_29102">
                               Email Address is required!
                             </span>
                           )}
+                        </div>
+                        
                       </div>
                       <div className="col-lg-4 col-md-4 col-sm-4">
-                        <div className="form-group">
+                        <div className="form-group detail-grp">
                           <label
                             htmlFor="phone"
                             className="form-label online_order_plugin_label_2939"
@@ -640,18 +646,19 @@ function OrderSummaryCheckout() {
                             onChange={handleChange}
                             value={formState.phone}
                           />
-                        </div>
-                        {fieldError &&
+                          {fieldError &&
                           (!formState.phone ||
                             !/^\d+$/.test(formState.phone)) && (
                             <span className="oos_err_29102">
                               Phone is required and must be numeric!
                             </span>
                           )}
+                        </div>
+                        
                       </div>
 
                       <div className="col-lg-4 col-md-4 col-sm-4">
-                        <div className="form-group">
+                        <div className="form-group detail-grp">
                           <label
                             htmlFor="addressLine1"
                             className="form-label online_order_plugin_label_2939"
@@ -672,17 +679,18 @@ function OrderSummaryCheckout() {
                             onChange={handleChange}
                             value={formState.addressLine1}
                           />
-                        </div>
-                        {fieldError &&
+                          {fieldError &&
                           (!formState.addressLine1 ||
                             formState?.addressLine1?.length == 0) && (
                             <span className="oos_err_29102">
                               Address Line 1 is required!
                             </span>
                           )}
+                        </div>
+                        
                       </div>
                       <div className="col-lg-4 col-md-4 col-sm-4">
-                        <div className="form-group">
+                        <div className="form-group detail-grp">
                           <label
                             htmlFor="addressLine2"
                             className="form-label online_order_plugin_label_2939"
@@ -702,7 +710,7 @@ function OrderSummaryCheckout() {
                         </div>
                       </div>
                       <div className="col-lg-4 col-md-4 col-sm-4">
-                        <div className="form-group">
+                        <div className="form-group detail-grp">
                           <label
                             htmlFor="townCity"
                             className="form-label online_order_plugin_label_2939"
@@ -723,17 +731,18 @@ function OrderSummaryCheckout() {
                             onChange={handleChange}
                             value={formState.townCity}
                           />
-                        </div>
-                        {fieldError &&
+                          {fieldError &&
                           (!formState.townCity ||
                             formState?.townCity?.length == 0) && (
                             <span className="oos_err_29102">
                               Town/City is required!
                             </span>
                           )}
+                        </div>
+                        
                       </div>
                       <div className="col-lg-4 col-md-4 col-sm-4">
-                        <div className="form-group">
+                        <div className="form-group detail-grp">
                           <label
                             htmlFor="county"
                             className="form-label online_order_plugin_label_2939"
@@ -748,17 +757,18 @@ function OrderSummaryCheckout() {
                             onChange={handleChange}
                             value={formState.county}
                           />
-                        </div>
-                        {fieldError &&
+                          {fieldError &&
                           (!formState.county ||
                             formState?.county?.length == 0) && (
                             <span className="oos_err_29102">
                               County Required
                             </span>
                           )}
+                        </div>
+                        
                       </div>
                     </div>
-                    <div className="form-group mt-3">
+                    <div className="form-group detail-grp mt-3">
                       <label
                         htmlFor="notes"
                         className="form-label online_order_plugin_label_2939"
