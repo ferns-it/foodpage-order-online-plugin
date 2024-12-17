@@ -151,7 +151,7 @@ function FoodCards(category) {
                           ) : (
                             <Fragment>
                               <h3 className="products_placeholder">
-                                No items available.
+                                Dishes Not Available for Online
                               </h3>
                             </Fragment>
                           )}
