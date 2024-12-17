@@ -11,7 +11,7 @@ import { toast } from "react-hot-toast";
 // import "../style/Style.css";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { useRouter, useSearchParams } from "next/navigation";
+// import { useRouter, useSearchParams } from "next/navigation";
 import { setSessionStorageItem } from "../../_utils/ClientUtils";
 
 const RECAPTCHA_SITE_KEY = "6LeXD-8pAAAAAOpi7gUuH5-DO0iMu7J6C-CBA2fo";
@@ -34,8 +34,8 @@ const findToday = () => {
 };
 
 function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
-  const router = useRouter();
-  const searchparams = useSearchParams();
+  // const router = useRouter();
+  // const searchparams = useSearchParams();
   const {
     getShopTiming,
     shopTiming,
@@ -58,15 +58,23 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   useEffect(() => {
     setInitialValues((prev) => ({ ...prev, bookingDate: new Date() }));
   }, []);
-
   useEffect(() => {
-    const hasOtp = searchparams.has("otp");
+    const queryParams = new URLSearchParams(window.location.search);
+    const otp = queryParams.get('otp');
 
-    if (hasOtp) {
-      setIsActiveTablePage("otp-page");
-      return;
+    if (otp) {
+      setIsActiveTablePage('otp-page');
     }
-  }, [searchparams]);
+  }, [])
+
+  // useEffect(() => {
+  //   const hasOtp = searchparams.has("otp");
+
+  //   if (hasOtp) {
+  //     setIsActiveTablePage("otp-page");
+  //     return;
+  //   }
+  // }, [searchparams]);
 
   useEffect(() => {
     if (!shopId) return;
@@ -300,9 +308,10 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
             setSessionStorageItem("reserv_details", saveObj);
             setSessionStorageItem("secretKey", secretKey);
             setIsActiveTablePage("otp-page");
-            router.push("/tablereservation?otp=true", undefined, {
-              shallow: true,
-            });
+            window.location.href = '/tablereservation?otp=true';
+            // router.push("/tablereservation?otp=true", undefined, {
+            //   shallow: true,
+            // });
           }, 300);
         } else {
           toast.error("OTP not send!");
@@ -376,7 +385,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                           )}
                       </div> */}
                     <div className="col-lg-4 col-md-4 ol-sm-4">
-                      <div className="form-group">
+                      <div className="form-group table-grp">
                         <label
                           htmlFor="bookingTime"
                           className="form-label table_reserv_form_label"
@@ -431,6 +440,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                     </div>
 
                     <div className="col-lg-4 col-md-4 ol-sm-4">
+                      <div className="table-grp">
                       <label
                         htmlFor="phone"
                         className="form-label table_reserv_form_label"
@@ -474,6 +484,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                           Select a valid number of chairs!
                         </span>
                       )}
+                    </div>
                     </div>
                   </div>
                   <br />
@@ -564,7 +575,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                       )}
                     </div>
                   </div>
-                  <div className="row my-4">
+                  <div className="row my-3">
                     <div className="col-12">
                       <label
                         htmlFor="message"

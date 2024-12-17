@@ -7,7 +7,7 @@ import * as Fa from "react-icons/fa";
 import * as Md from "react-icons/md";
 import Utils from "../utils/Utils";
 import { toast } from "react-hot-toast";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import {
   getSessionStorageItem,
   removeSessionStorageItem,
@@ -30,7 +30,7 @@ export const mergeBookingDateTime = (bookingDate, bookingTime) => {
 };
 
 function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
-  const router = useRouter();
+  // const router = useRouter();
   const {
     initialValues,
     completeReservation,
@@ -187,7 +187,7 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
   };
 
   const handleNavigation = () => {
-    router.back();
+    window.history.back();
     setTimeout(() => {
       setIsActiveTablePage("reservation-form");
     }, 200);

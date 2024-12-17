@@ -1,9 +1,12 @@
 import Image from "next/image";
 import React, { Fragment } from "react";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 function ReservSuccess() {
-  const router = useRouter();
+  // const router = useRouter();
+  const gobackhome =()=>{
+    window.location.href="/"
+  }
   return (
     <Fragment>
       <div className="container mt-5 mb-5">
@@ -19,7 +22,7 @@ function ReservSuccess() {
         <br />
         <button
           className="reserv_success-btn-29"
-          onClick={() => router.push("/")}
+          onClick={gobackhome}
         >
           Go Home
         </button>
