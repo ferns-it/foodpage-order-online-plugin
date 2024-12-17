@@ -199,17 +199,17 @@ function FoodAccordian() {
                             ))
                           ) : (
                             <Fragment>
-                              <h3 className="products_placeholder">
-                                No items available.
-                              </h3>
+                              <h6 className="products_placeholder">
+                                Dishes Not Available for Online
+                              </h6>
                             </Fragment>
                           )
                         )
                     ) : (
                       <Fragment>
-                        <h3 className="products_placeholder">
-                          No items available.
-                        </h3>
+                        <h6 className="products_placeholder">
+                          Dishes Not Available for Online
+                        </h6>
                       </Fragment>
                     )}
                   </div>
