@@ -1,8 +1,8 @@
 "use client";
 
-const id = 1;
+const id = process.env.SHOP_ID;
 const shopId = `${id}-shop`;
-const shopURL = "le-arabia";
+const shopURL = process.env.SHOP_URL;
 
 export const APIEndpoints = {
   menulist: `products/${id}/0`,
@@ -23,6 +23,7 @@ export const APIEndpoints = {
   passwordResetOTP: "user/passwordresetotp",
   updateCartItem: "user/web/carts/transfer",
   getAddressList: "user/addresslist",
+  getCurrentShopStatus: `status/${id}`,
   addAddress: "user/newaddress",
   deleteAddressList: "user/deleteaddress",
   getOrderList: `user/orderhistory/${id}`,

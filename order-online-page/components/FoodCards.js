@@ -16,6 +16,8 @@ function FoodCards(category) {
     settings,
     showModal,
     setShowModal,
+    settingsLoading,
+    currentStatus,
   } = useContext(AppContext);
 
   const params = useSearchParams();
@@ -48,7 +50,7 @@ function FoodCards(category) {
     setShowModal(true);
     setProductDataValues(data);
   };
-
+  console.log(currentStatus, "current");
   return (
     <Fragment>
       <AddOnsModal
@@ -57,16 +59,16 @@ function FoodCards(category) {
         productData={productDataValues}
       />
       <div className="container position-relative">
-        {(settings?.shopStatus === "close" ||
-          (settings?.deliveryInfo?.takeAway_temp_off === "Yes" &&
-            settings?.deliveryInfo?.homeDelivery_temp_off === "Yes")) && (
-          <p className="info-header">
-            <i>
-              <Pi.PiCallBellFill />
-            </i>
-            Sorry, We're Temporarily Closed! Be Back Soon.
-          </p>
-        )}
+        {settingsLoading == false &&
+          currentStatus != null &&
+          currentStatus?.status == true && (
+            <p className="info-header">
+              <i>
+                <Pi.PiCallBellFill />
+              </i>
+              Sorry, We're Temporarily Closed! Be Back Soon.
+            </p>
+          )}
       </div>
 
       <div className="product_wrapper_029">

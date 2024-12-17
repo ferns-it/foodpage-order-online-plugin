@@ -14,6 +14,7 @@ const useMenus = () => {
   const [menuLoading, setMenuLoading] = useState(false);
   const [locationResponse, setLocationResponse] = useState(null);
   const [cartItems, setCartItems] = useState(null);
+  const [currentStatus, setCurrentStatus] = useState(null);
   const [categoryLoading, setCategoryLoading] = useState(false);
   const [settingsLoading, setSettingsLoading] = useState(true);
 
@@ -30,8 +31,32 @@ const useMenus = () => {
       });
     } finally {
       setMenuLoading(false);
-    }
+  }
   };
+    const fetchCurrentShopStatus = async () => {
+      try {
+        setSettingsLoading(true);
+        await BaseClient.get(
+          APIEndpoints.getCurrentShopStatus,
+          {},
+          {
+            onSuccess: (res) => {
+              // debugger;
+              if (res && res?.data?.error == false) {
+                setCurrentStatus(res?.data?.data);
+              } else {
+                setCurrentStatus(null);
+              }
+            },
+            onFailed: (err) => {
+              console.log("Shop status error", err);
+            },
+          }
+        );
+      } finally {
+        setSettingsLoading(false);
+      }
+    };
   const deleteSingleCartItem = async (id, { onSuccess, onFailed }) => {
     try {
       setCartLoading(true);
@@ -215,6 +240,7 @@ const useMenus = () => {
     settingsLoading,
     setCartItems,
     clearCartItems,
+    fetchCurrentShopStatus,currentStatus
   };
 };
 
