@@ -1,3 +1,4 @@
+"use client"
 import React, { Fragment } from "react";
 import OrderSummaryCheckout from "../order-online-page/components/OrderSummaryCheckout";
 import LoaderComp from "../order-online-page/components/LoaderComp";
