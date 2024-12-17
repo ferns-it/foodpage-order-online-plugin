@@ -313,7 +313,9 @@ function CheckoutSummaryComp() {
                 {type === "false" || type === false ? (
                   <div className="d-flex justify-content-between align-items-center">
                     <h6 className="mt-2">Delivery fee </h6>
-                    <p className="m-0">£{details?.deliveryFeeAmount ?? 0}</p>
+                    <p className="m-0">
+                      £{details?.deliveryFeeAmount.toFixed(2) ?? 0}
+                    </p>
                   </div>
                 ) : (
                   <Fragment></Fragment>
