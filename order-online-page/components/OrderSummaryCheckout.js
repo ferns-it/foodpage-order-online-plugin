@@ -340,11 +340,11 @@ function OrderSummaryCheckout() {
         (paymentMethod === "COD" && paymentData === null)
       ) {
         const priceValue = details
-          ? details?.cart_NetAmount
-          : paramsValues?.price;
+          ? details?.cart_NetAmount.toFixed(2)
+          : paramsValues?.price.toFixed(2);
         const discountValue = details
-          ? details?.discountAmount
-          : paramsValues?.discount;
+          ? details?.discountAmount.toFixed(2)
+          : paramsValues?.discount.toFixed(2);
         const deliveryChargeValue = details
           ? details?.deliveryFeeAmount
           : paramsValues?.deliveryFee;
