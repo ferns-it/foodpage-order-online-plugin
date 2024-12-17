@@ -265,7 +265,7 @@ function OrderSummary() {
         onFailed: (err) => {
           const errMsg =
             err?.response?.data?.errorMessage?.message ?? "Invalid postal code";
-          console.log("errMsg", err?.response?.data?.errorMessage.message);
+          // console.log("errMsg", err?.response?.data?.errorMessage.message);
 
           // toast.error(err?.response?.data?.errorMessage?.message);
           toast.error(errMsg);
