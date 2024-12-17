@@ -66,7 +66,8 @@ function FoodCards(category) {
               <i>
                 <Pi.PiCallBellFill />
               </i>
-              Sorry, We're Temporarily Closed! Be Back Soon.
+              {currentStatus?.message ??
+                "Sorry, We're Temporarily Closed! Be Back Soon."}
             </p>
           )}
       </div>
