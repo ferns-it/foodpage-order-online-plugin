@@ -36,7 +36,7 @@ const useMenus = () => {
     try {
       setCartLoading(true);
 
-      userToken = getLocalStorageItem("UserPersistent");
+      const userToken = getLocalStorageItem("UserPersistent");
 
       if (!userToken) {
         onFailed(new Error("User is not authenticated"));

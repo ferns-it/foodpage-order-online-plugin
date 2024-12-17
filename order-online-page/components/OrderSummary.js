@@ -340,6 +340,7 @@ function OrderSummary() {
       return newList;
     });
   };
+
   const handleDeleteItem = async (id, index) => {
     if (!id) return;
     setDeleteIndex(index);
