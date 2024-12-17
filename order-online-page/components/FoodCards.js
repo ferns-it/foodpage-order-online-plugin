@@ -4,9 +4,7 @@ import AddOnsModal from "./AddOnsModal";
 import * as Pi from "react-icons/pi";
 import "react-loading-skeleton/dist/skeleton.css";
 import FoodCardsSkeleton from "./FoodCardsSkeleton";
-import { useSearchParams } from "next/navigation";
 import { getSessionStorageItem } from "../../_utils/ClientUtils";
-import "../../guest-login/style.css";
 
 function FoodCards(category) {
   const {
@@ -19,9 +17,15 @@ function FoodCards(category) {
     currentStatus,
   } = useContext(AppContext);
 
-  const params = useSearchParams();
-
   const [productDataValues, setProductDataValues] = useState(null);
+
+  function getQueryParam(param) {
+    if (typeof window !== "undefined") {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+    return null;
+  }
 
   function stripHtml(html) {
     const temporalDivElement = document.createElement("div");
@@ -30,21 +34,20 @@ function FoodCards(category) {
   }
 
   useEffect(() => {
-    const showModal = params.get("addOnModal");
+    const showModal = getQueryParam("addOnModal");
 
     if (showModal) {
       const data = getSessionStorageItem("selectedProduct");
       console.log(data, "data");
-      if (data && data.length != 0) {
+      if (data && data.length !== 0) {
         const product = JSON.parse(data);
         setShowModal(true);
         setProductDataValues(product);
       }
     }
-  }, [params]);
+  }, []); // Empty dependency array to run this effect once on component mount
 
   const handleModal = (data) => {
-    // debugger;
     setShowModal(true);
     setProductDataValues(data);
   };
@@ -56,22 +59,9 @@ function FoodCards(category) {
         setShowModal={setShowModal}
         productData={productDataValues}
       />
-      {/* <div className="container position-relative">
-        {(settings?.shopStatus === "close" ||
-          (settings?.deliveryInfo?.takeAway_temp_off === "Yes" &&
-            settings?.deliveryInfo?.homeDelivery_temp_off === "Yes")) && (
-          <p className="info-header">
-            <i>
-              <Pi.PiCallBellFill />
-            </i>
-            Sorry, We're Temporarily Closed! Be Back Soon.
-          </p>
-        )}
-      </div> */}
-
-      {settingsLoading == false &&
+      {settingsLoading === false &&
         currentStatus != null &&
-        currentStatus?.status == true && (
+        currentStatus?.status === true && (
           <p className="info-header">
             <i>
               <Pi.PiCallBellFill />
@@ -88,9 +78,9 @@ function FoodCards(category) {
           <Fragment>
             {productsList &&
               Array.isArray(productsList) &&
-              productsList.length != 0 &&
+              productsList.length !== 0 &&
               productsList.map((list, catIndex) => {
-                if (list?.categoryName == category.category) {
+                if (list?.categoryName === category.category) {
                   const products = list?.products;
                   return (
                     <div className="tab-content" key={catIndex}>
@@ -100,11 +90,11 @@ function FoodCards(category) {
                       <br />
                       <div className="tab-pane fade show active mt-3">
                         <div className="row">
-                          {products && products.length != 0 ? (
-                            products?.map((data, index) => {
+                          {products && products.length !== 0 ? (
+                            products.map((data, index) => {
                               return (
                                 <div
-                                  className=" col-lg-4 col-md-2 col-sm-6 position-relative mb-3"
+                                  className="col-lg-4 col-md-2 col-sm-6 position-relative mb-3"
                                   key={index}
                                 >
                                   <div
@@ -118,25 +108,9 @@ function FoodCards(category) {
                                       <div className="mx-auto">
                                         <div
                                           className="prod_anchor"
-                                          style={{
-                                            textDecoration: "none",
-                                            // cursor: "pointer",
-                                          }}
-                                          // onClick={() => handleModal(data)}
+                                          style={{ textDecoration: "none" }}
                                         >
                                           <div className="food_tile__ active mb-4 p-3">
-                                            {/* <img
-                                              src={data?.photo}
-                                              alt=""
-                                              className={
-                                                data?.online === "No" ||
-                                                data?.isAvailable === false ||
-                                                data?.availability === false
-                                                  ? "fda_product_img fd_card_grayscale"
-                                                  : "fda_product_img "
-                                              }
-                                              referrerPolicy="no-referrer"
-                                            /> */}
                                             <h6 className="dish_name">
                                               {data?.name}
                                             </h6>
@@ -147,7 +121,6 @@ function FoodCards(category) {
                                             </span>
 
                                             <h4 className="prod_price">
-                                              {" "}
                                               <b>{data?.price ?? "N/A"}</b>
                                             </h4>
 

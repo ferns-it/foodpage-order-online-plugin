@@ -1,17 +1,15 @@
 "use client";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { AppContext } from "../context";
-import "../style/order-online-style.css";
+// import "../style/order-online-style.css";
 import FoodCards from "../components/FoodCards";
 import OrderSummary from "../components/OrderSummary";
 import FoodAccordian from "../components/FoodAccordian";
 import { MdTableBar } from "react-icons/md";
-import { useRouter } from "next/navigation";
+
 import LoaderComp from "../components/LoaderComp";
 import { TableReservationContext } from "../../table-reservation/context/TableReservationContext";
 import Utils from "../../table-reservation/utils/Utils";
-import "../../table-reservation/style/style.css";
-import "../style/order-online-style.css";
 
 const ThemeTitle = ({ htmlString }) => {
   const cleanHtmlString = htmlString.replace(/\r\n/g, "");
@@ -25,7 +23,6 @@ const ThemeTitle = ({ htmlString }) => {
 };
 
 const OrderOnlineMain = () => {
-  const router = useRouter();
   const {
     categoryList,
     productsList,

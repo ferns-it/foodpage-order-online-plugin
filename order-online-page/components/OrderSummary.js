@@ -6,7 +6,7 @@ import { toast, Toaster } from "react-hot-toast";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { AppContext } from "../context";
-import { useRouter } from "next/navigation";
+
 import {
   getLocalStorageItem,
   getSessionStorageItem,
@@ -14,6 +14,7 @@ import {
   setLocalStorageItem,
   setSessionStorageItem,
 } from "../../_utils/ClientUtils";
+import { useRouter } from "next/router";
 
 function OrderSummary() {
   const router = useRouter();
