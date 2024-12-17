@@ -1,3 +1,4 @@
+"use client";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { AppContext } from "../context";
 import AddOnsModal from "./AddOnsModal";
