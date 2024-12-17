@@ -13,7 +13,6 @@ import {
   removeSessionStorageItem,
 } from "../../_utils/ClientUtils";
 
-
 function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
   const router = useRouter();
   const {
@@ -108,7 +107,6 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
         },
         onFailed: (err) => {
           toast.error("Error on sending OTP");
-       
         },
         headers: headers,
       });
@@ -124,6 +122,7 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
     );
     const payload = {
       shopID: shopId,
+      userID: 0,
       name: initialValues?.name,
       phone: initialValues?.phone,
       email: initialValues?.email,
@@ -144,7 +143,6 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
 
     await completeReservation(payload, {
       onSuccess: (res) => {
-       
         toast.success("OTP has been verified!");
         setSecretKey("");
         removeSessionStorageItem("reserv_details");

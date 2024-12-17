@@ -247,7 +247,6 @@ function ViewReservation() {
           err?.response?.data?.errorMessage?.message ??
           "Updation failed, Please try again!";
         toast.error(msg);
-      
       },
     });
   };
@@ -271,7 +270,7 @@ function ViewReservation() {
     await sendMessage(payload, {
       onSuccess: async (res) => {
         toast.success("message sent successfully!");
-        setMessage("")
+        setMessage("");
         await getReservationDetails(reservId);
       },
       onFailed: (err) => {
@@ -302,6 +301,8 @@ function ViewReservation() {
         reservId={reservId}
         email={reservationDetails?.email}
         reservStringId={reservId}
+        bookingDate={updatedValues?.bookingDate}
+        bookingTime={updatedValues?.bookingTime}
       />
       <section className="tbl_reserv_section">
         <div className="container">

@@ -377,13 +377,13 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
       const isValid = validateReservForm();
 
       if (isValid) return;
-      const isValidBookingTIme = isBookingValid();
 
       //! condition for current UK time
-      if (isValidBookingTIme === true) {
-        toast.error(`Please select a time at least 4 hours from now!`);
-        return;
-      }
+      // const isValidBookingTIme = isBookingValid();
+      // if (isValidBookingTIme === true) {
+      //   toast.error(`Please select a time at least 4 hours from now!`);
+      //   return;
+      // }
 
       if (!shopId) {
         toast.error("Shop Id is required");
@@ -471,13 +471,12 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     <div className="table_reserv__">
       <Fragment>
         <div className="container">
-          {!isTodayHoliday && (
+          {isTodayHoliday && (
             <div
               class="alert alert-danger alert-dismissible fade show text-center"
               role="alert"
             >
-              <strong>Apologies!</strong> Reservations are
-              unavailable today.
+              <strong>Apologies!</strong> Reservations are unavailable today.
             </div>
           )}
           <div className="row">
@@ -501,6 +500,30 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                     onChange={(e) => handleDateChange(e)}
                     defaultValue={defaultDate}
                     tileDisabled={({ date }) => isHoliday(date)}
+                    // tileContent={({ date }) => {
+                    //   // Find the holiday reason for this date
+                    //   const holiday =
+                    //     upcomingHolidays &&
+                    //     upcomingHolidays.length != 0 &&
+                    //     upcomingHolidays.find((holiday) => {
+                    //       const start = new Date(holiday.startTime);
+                    //       const end = new Date(holiday.endTime);
+                    //       return date >= start && date <= end;
+                    //     });
+
+                    //   return holiday ? (
+                    //     <div
+                    //       className="holiday-reason"
+                    //       style={{
+                    //         color: "red",
+                    //         fontSize: "10px",
+                    //         textDecoration: "none",
+                    //       }}
+                    //     >
+                    //       {holiday.reason}
+                    //     </div>
+                    //   ) : null;
+                    // }}
                   />
                   <div className="row mt-3">
                     {/* <div className="col-lg-4 col-md-4 ol-sm-4">

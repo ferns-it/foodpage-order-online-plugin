@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { Fragment, useContext, useEffect, useRef } from "react";
 import "../style/style.css";
 import "../../order-online-page/style/order-online-style.css"; //? style from order online
@@ -8,12 +8,17 @@ import toast from "react-hot-toast";
 import * as Io5 from "react-icons/io5";
 import * as Gr from "react-icons/gr";
 import { appContext } from "../../order-online-page/context";
+import Utils from "../utils/Utils";
 
 function ReservModal(props) {
   const modalRef = useRef(null);
 
-  const { cancelReservation, reservationLoading, getReservationDetails } =
-    useContext(TableReservationContext);
+  const {
+    cancelReservation,
+    reservationLoading,
+    getReservationDetails,
+    tableReservationSettings,
+  } = useContext(TableReservationContext);
 
   const reservAction = props.action;
 
@@ -31,6 +36,17 @@ function ReservModal(props) {
     };
   }, [props.showModal]);
 
+  useEffect(() => {
+    if (!props.bookingDate || !props.bookingTime) return;
+
+    const mergedDateTime = Utils.mergeBookingDateTime(
+      props.bookingDate,
+      props.bookingTime
+    );
+
+    console.log(mergedDateTime);
+  }, [props]);
+
   const handleClickOutside = async (event) => {
     if (modalRef.current && !modalRef.current.contains(event.target)) {
       props.setShowModal(false);
@@ -43,12 +59,63 @@ function ReservModal(props) {
     }
   };
 
+  const lateCancel =
+    tableReservationSettings && tableReservationSettings?.late_cancel
+      ? tableReservationSettings?.late_cancel
+      : 0;
+
+  const validateLateCancel = () => {
+    const lateCancelMinutes = parseInt(lateCancel);
+    if (isNaN(lateCancelMinutes) || lateCancelMinutes < 0) {
+      console.log("Invalid lateCancel value");
+      return false;
+    }
+
+    const bookingDate = props.bookingDate;
+    const bookingTime = props.bookingTime;
+    if (!bookingDate || !bookingTime) return false;
+
+    const bookingDateTime = new Date(`${bookingDate}T${bookingTime}`);
+
+    if (isNaN(bookingDateTime)) {
+      console.log("Invalid booking date or time format");
+      return false;
+    }
+
+    const now = new Date();
+    const isToday =
+      now.getFullYear() === bookingDateTime.getFullYear() &&
+      now.getMonth() === bookingDateTime.getMonth() &&
+      now.getDate() === bookingDateTime.getDate();
+
+    if (isToday) {
+      const timeDifferenceInMinutes = Math.round(
+        (bookingDateTime - now) / (1000 * 60)
+      );
+      if (timeDifferenceInMinutes <= lateCancelMinutes) {
+        console.log(
+          "Cannot cancel. The booking is within ${lateCancelMinutes} minutes of the scheduled time."
+        );
+        return false;
+      }
+    }
+
+    return true;
+  };
+
   const handleConfirmCancellation = async () => {
     const unqqId = props.reservId;
     if (!unqqId) {
       toast.error("Something went wrong");
       return;
     }
+    
+    let isValid = true;
+    if (lateCancel != 0) {
+      isValid = validateLateCancel;
+    }
+
+    if (isValid === false) return;
 
     await cancelReservation(unqqId, {
       onSuccess: async (res) => {
@@ -67,7 +134,6 @@ function ReservModal(props) {
         let message =
           err.response.data.errorMessage.message ?? "Cancellation failed!";
         toast.error(message);
-    
       },
     });
   };
