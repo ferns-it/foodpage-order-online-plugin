@@ -17,6 +17,8 @@ import {
   setSessionStorageItem,
 } from "../../_utils/ClientUtils";
 import axios from "axios";
+import Lottie from "react-lottie";
+import lottieFile from "../assets/lottie/Animation - 1734505645259.json";
 
 const RECAPTCHA_SITE_KEY = "6LeXD-8pAAAAAOpi7gUuH5-DO0iMu7J6C-CBA2fo";
 
@@ -66,8 +68,8 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   const [isTodayHoliday, setIsTodayHoliday] = useState(false);
 
   useEffect(() => {
-    setInitialValues((prev) => ({ ...prev, bookingDate: new Date() }));
-  }, []);
+    setInitialValues((prev) => ({ ...prev, bookingDate: defaultDate }));
+  }, [upcomingHolidays]);
 
   useEffect(() => {
     const hasOtp = searchparams.has("otp");
@@ -102,13 +104,11 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     const holidayToday = isHoliday(today);
     setIsTodayHoliday(holidayToday);
 
-    const nextAvailableDate = holidayToday
-      ? findNextAvailableDay(new Date(today))
-      : today;
+    const nextAvailableDate =
+      holidayToday === true ? findNextAvailableDay(today) : today;
 
     setDefaultDate(nextAvailableDate);
-  }, []);
-
+  }, [upcomingHolidays]);
 
   useEffect(() => {
     if (!tableReservationSettings || !dayValue) return;
@@ -198,9 +198,6 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
       typeof tableReservationSettings?.late_booking === "string"
         ? parseInt(tableReservationSettings?.late_booking)
         : tableReservationSettings?.late_booking;
-    console.log(bookingDate);
-
-    console.log(bookingTime, "bookingTime");
 
     if (bookingDate == null || lateBooking == null) {
       toast.error("Invalid requirements!");
@@ -373,6 +370,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
 
   const handleTableReservation = async (e) => {
     e.preventDefault();
+
     try {
       setFormValidationLoading(true);
       const isValid = validateReservForm();
@@ -468,8 +466,18 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     const dateonly = minDate.getDate();
     const allowdate = dateonly + allowBookingAfterDays;
   };
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: lottieFile,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
   return (
-    <div className="table_reserv__">
+    <div className="table_reserv__ position-relative">
       <Fragment>
         <div className="container">
           {isTodayHoliday && (
@@ -480,54 +488,63 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
               <strong>Apologies!</strong> Reservations are unavailable today.
             </div>
           )}
-          <div className="row">
-            <div className="col-lg-8 col-md-8 col-sm-12 order-lg-1 order-md-1 order-sm-2">
-              <div className="card table_reservation_card">
-                <h3 className="table-reservation-form-head">
-                  Table Reservation Form
-                </h3>
-                <form
-                  action=""
-                  className="p-3"
-                  onSubmit={(e) => handleTableReservation(e)}
-                >
-                  <h3 className="sub_title_">Booking Information</h3>
-                  <Calendar
-                    className="booking_calendar"
-                    minDate={defaultDate}
-                    defaultView="month"
-                    calendarType="gregory"
-                    name="bookingDate"
-                    onChange={(e) => handleDateChange(e)}
-                    defaultValue={defaultDate}
-                    tileDisabled={({ date }) => isHoliday(date)}
-                    // tileContent={({ date }) => {
-                    //   // Find the holiday reason for this date
-                    //   const holiday =
-                    //     upcomingHolidays &&
-                    //     upcomingHolidays.length != 0 &&
-                    //     upcomingHolidays.find((holiday) => {
-                    //       const start = new Date(holiday.startTime);
-                    //       const end = new Date(holiday.endTime);
-                    //       return date >= start && date <= end;
-                    //     });
 
-                    //   return holiday ? (
-                    //     <div
-                    //       className="holiday-reason"
-                    //       style={{
-                    //         color: "red",
-                    //         fontSize: "10px",
-                    //         textDecoration: "none",
-                    //       }}
-                    //     >
-                    //       {holiday.reason}
-                    //     </div>
-                    //   ) : null;
-                    // }}
-                  />
-                  <div className="row mt-3">
-                    {/* <div className="col-lg-4 col-md-4 ol-sm-4">
+          {loading && isTimingLoading ? (
+            <div className="reservation_lottie">
+              <Lottie options={defaultOptions} width={200} height={200} />
+            </div>
+          ) : (
+            <>
+              <div className="row">
+                <div className="col-lg-8 col-md-8 col-sm-12 order-lg-1 order-md-1 order-sm-2">
+                  <div className="card table_reservation_card">
+                    <h3 className="table-reservation-form-head">
+                      Table Reservation Form
+                    </h3>
+                    <form
+                      action=""
+                      className="p-3"
+                      onSubmit={(e) => handleTableReservation(e)}
+                    >
+                      <h3 className="sub_title_">Booking Information</h3>
+                      <Calendar
+                        className="booking_calendar"
+                        minDate={defaultDate}
+                        defaultView="month"
+                        calendarType="gregory"
+                        name="bookingDate"
+                        onChange={(e) => handleDateChange(e)}
+                        defaultValue={defaultDate}
+                        tileDisabled={({ date }) => isHoliday(date)}
+                        // tileContent={({ date }) => {
+                        //   // Find the holiday reason for this date
+                        //   const holiday =
+                        //     upcomingHolidays &&
+                        //     upcomingHolidays.length != 0 &&
+                        //     upcomingHolidays.find((holiday) => {
+                        //       const start = new Date(holiday.startTime);
+                        //       const end = new Date(holiday.endTime);
+                        //       return date >= start && date <= end;
+                        //     });
+
+                        //   return holiday ? (
+                        //     <div
+                        //       className="holiday-reason"
+                        //       style={{
+                        //         color: "red",
+                        //         fontSize: "10px",
+                        //         textDecoration: "none",
+                        //       }}
+                        //     >
+                        //       {holiday?.reason ?? "N/A"}
+                        //     </div>
+                        //   ) : (
+                        //     ""
+                        //   );
+                        // }}
+                      />
+                      <div className="row mt-3">
+                        {/* <div className="col-lg-4 col-md-4 ol-sm-4">
                         <div className="form-group">
                           <label
                             htmlFor="bookingDate"
@@ -557,15 +574,15 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                             </span>
                           )}
                       </div> */}
-                    <div className="col-lg-4 col-md-4 ol-sm-4">
-                      <div className="form-group">
-                        <label
-                          htmlFor="bookingTime"
-                          className="form-label table_reserv_form_label"
-                        >
-                          Booking Time
-                        </label>
-                        {/* <input
+                        <div className="col-lg-4 col-md-4 ol-sm-4">
+                          <div className="form-group">
+                            <label
+                              htmlFor="bookingTime"
+                              className="form-label table_reserv_form_label"
+                            >
+                              Booking Time
+                            </label>
+                            {/* <input
                           type="time"
                           name="bookingTime"
                           id=""
@@ -579,228 +596,227 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                           onChange={handleChange}
                         ></input> */}
 
-                        <select
-                          name="bookingTime"
-                          className={
-                            "form-select table_reserv_form_input_select d-block " +
-                            (isReservErr &&
-                            (!initialValues?.bookingTime ||
-                              initialValues.bookingTime.length === 0)
-                              ? "err__"
-                              : "")
-                          }
-                          // style={{ width: "100%", display: "block !important" }}
-                          onChange={handleChange}
-                          value={initialValues?.bookingTime || "0"}
-                        >
-                          <option value="0" disabled>
-                            Please choose time
-                          </option>
-                          {timeIntervals &&
-                            timeIntervals.length !== 0 &&
-                            timeIntervals.map((interval, timeIndex) => (
-                              <option value={interval} key={timeIndex}>
-                                {interval && Utils.convertTiming(interval)}
-                              </option>
-                            ))}
-                        </select>
-                      </div>
-                      {isReservErr && initialValues.bookingTime == 0 && (
-                        <span className="reserv_from_err">
-                          Booking Time is Required!
-                        </span>
-                      )}
-                    </div>
-
-                    <div className="col-lg-4 col-md-4 ol-sm-4">
-                      <label
-                        htmlFor="phone"
-                        className="form-label table_reserv_form_label"
-                      >
-                        No of Party Size
-                      </label>
-
-                      <div className="inc_dec_wrapper_0291">
-                        <div className="incDec_wrapper_0291">
-                          <input
-                            type="checkbox"
-                            id="toggle"
-                            min={1}
-                            className="toggle-checkbox"
-                          />
-                          <div className="counter-container text-center mx-auto">
-                            <label
-                              htmlFor="toggle"
-                              className="decrement-button"
-                              onClick={handleDecrement}
+                            <select
+                              name="bookingTime"
+                              className={
+                                "form-select table_reserv_form_input_select d-block " +
+                                (isReservErr &&
+                                (!initialValues?.bookingTime ||
+                                  initialValues.bookingTime.length === 0)
+                                  ? "err__"
+                                  : "")
+                              }
+                              // style={{ width: "100%", display: "block !important" }}
+                              onChange={handleChange}
+                              value={initialValues?.bookingTime || "0"}
                             >
-                              -
+                              <option value="0" disabled>
+                                Please choose time
+                              </option>
+                              {timeIntervals &&
+                                timeIntervals.length !== 0 &&
+                                timeIntervals.map((interval, timeIndex) => (
+                                  <option value={interval} key={timeIndex}>
+                                    {interval && Utils.convertTiming(interval)}
+                                  </option>
+                                ))}
+                            </select>
+                          </div>
+                          {isReservErr && initialValues.bookingTime == 0 && (
+                            <span className="reserv_from_err">
+                              Booking Time is Required!
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="col-lg-4 col-md-4 ol-sm-4">
+                          <label
+                            htmlFor="phone"
+                            className="form-label table_reserv_form_label"
+                          >
+                            No of Party Size
+                          </label>
+
+                          <div className="inc_dec_wrapper_0291">
+                            <div className="incDec_wrapper_0291">
+                              <input
+                                type="checkbox"
+                                id="toggle"
+                                min={1}
+                                className="toggle-checkbox"
+                              />
+                              <div className="counter-container text-center mx-auto">
+                                <label
+                                  htmlFor="toggle"
+                                  className="decrement-button"
+                                  onClick={handleDecrement}
+                                >
+                                  -
+                                </label>
+                                <input
+                                  className="counter-text"
+                                  value={count}
+                                  onChange={(e) => handleCountChange(e)}
+                                />
+                                <label
+                                  htmlFor="toggle"
+                                  className="increment-button red"
+                                  onClick={handleIncrement}
+                                >
+                                  +
+                                </label>
+                              </div>
+                            </div>
+                            <br />
+                            <p className="info_txt">
+                              * Maximum prty size is{" "}
+                              {tableReservationSettings?.max_party_size}
+                            </p>
+                          </div>
+                          {isReservErr && initialValues.noOfChairs == 0 && (
+                            <span className="reserv_from_err">
+                              Select a valid number of chairs!
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <hr />
+                      <h3 className="sub_title_">Personal Information</h3>
+                      <div className="row">
+                        <div className="col-lg-4 col-md-6 ol-sm-12">
+                          <div className="form-group">
+                            <label
+                              htmlFor="name"
+                              className="form-label table_reserv_form_label"
+                            >
+                              Booking Person Name
                             </label>
                             <input
-                              className="counter-text"
-                              value={count}
-                              onChange={(e) => handleCountChange(e)}
-                            />
-                            <label
-                              htmlFor="toggle"
-                              className="increment-button red"
-                              onClick={handleIncrement}
-                            >
-                              +
-                            </label>
+                              type="text"
+                              name="name"
+                              id=""
+                              className={
+                                "form-control table_reserv_form_input " +
+                                (isReservErr && initialValues.name.length === 0
+                                  ? "err__"
+                                  : "")
+                              }
+                              onChange={removeSpecialChars}
+                            ></input>
                           </div>
+                          {isReservErr && initialValues.name.length === 0 && (
+                            <span className="reserv_from_err">
+                              Name is Required!
+                            </span>
+                          )}
                         </div>
-                        <br />
-                        <p className="info_txt">
-                          * Maximum prty size is{" "}
-                          {tableReservationSettings?.max_party_size}
-                        </p>
-                      </div>
-                      {isReservErr && initialValues.noOfChairs == 0 && (
-                        <span className="reserv_from_err">
-                          Select a valid number of chairs!
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  <br />
-                  <hr />
-                  <h3 className="sub_title_">Personal Information</h3>
-                  <div className="row">
-                    <div className="col-lg-4 col-md-6 ol-sm-12">
-                      <div className="form-group">
-                        <label
-                          htmlFor="name"
-                          className="form-label table_reserv_form_label"
-                        >
-                          Booking Person Name
-                        </label>
-                        <input
-                          type="text"
-                          name="name"
-                          id=""
-                          className={
-                            "form-control table_reserv_form_input " +
-                            (isReservErr && initialValues.name.length === 0
-                              ? "err__"
-                              : "")
-                          }
-                          onChange={removeSpecialChars}
-                        ></input>
-                      </div>
-                      {isReservErr && initialValues.name.length === 0 && (
-                        <span className="reserv_from_err">
-                          Name is Required!
-                        </span>
-                      )}
-                    </div>
-                    <div className="col-lg-4 col-md-6 ol-sm-12">
-                      <div className="form-group">
-                        <label
-                          htmlFor="email"
-                          className="form-label table_reserv_form_label"
-                        >
-                          Booking Email Address
-                        </label>
-                        <input
-                          type="email"
-                          name="email"
-                          id=""
-                          className={
-                            "form-control table_reserv_form_input " +
-                            (isReservErr && initialValues.email.length === 0
-                              ? "err__"
-                              : "")
-                          }
-                          onChange={handleChange}
-                        ></input>
-                      </div>
-                      {isReservErr && initialValues.email.length === 0 && (
-                        <span className="reserv_from_err">
-                          Email Address is Required!
-                        </span>
-                      )}
-                    </div>
+                        <div className="col-lg-4 col-md-6 ol-sm-12">
+                          <div className="form-group">
+                            <label
+                              htmlFor="email"
+                              className="form-label table_reserv_form_label"
+                            >
+                              Booking Email Address
+                            </label>
+                            <input
+                              type="email"
+                              name="email"
+                              id=""
+                              className={
+                                "form-control table_reserv_form_input " +
+                                (isReservErr && initialValues.email.length === 0
+                                  ? "err__"
+                                  : "")
+                              }
+                              onChange={handleChange}
+                            ></input>
+                          </div>
+                          {isReservErr && initialValues.email.length === 0 && (
+                            <span className="reserv_from_err">
+                              Email Address is Required!
+                            </span>
+                          )}
+                        </div>
 
-                    <div className="col-lg-4 col-md-6 ol-sm-12">
-                      <div className="form-group">
-                        <label
-                          htmlFor="phone"
-                          className="form-label table_reserv_form_label"
-                        >
-                          Phone number
-                        </label>
-                        <input
-                          type="text"
-                          name="phone"
-                          id=""
-                          className={
-                            "form-control table_reserv_form_input " +
-                            (isReservErr && initialValues.phone.length === 0
-                              ? "err__"
-                              : "")
-                          }
-                          onChange={validatePhoneNumber}
-                          maxLength={15}
-                        ></input>
+                        <div className="col-lg-4 col-md-6 ol-sm-12">
+                          <div className="form-group">
+                            <label
+                              htmlFor="phone"
+                              className="form-label table_reserv_form_label"
+                            >
+                              Phone number
+                            </label>
+                            <input
+                              type="text"
+                              name="phone"
+                              id=""
+                              className={
+                                "form-control table_reserv_form_input " +
+                                (isReservErr && initialValues.phone.length === 0
+                                  ? "err__"
+                                  : "")
+                              }
+                              onChange={validatePhoneNumber}
+                              maxLength={15}
+                            ></input>
+                          </div>
+                          {isReservErr && initialValues.phone.length === 0 && (
+                            <span className="reserv_from_err">
+                              Phone Number is Required!
+                            </span>
+                          )}
+                        </div>
                       </div>
-                      {isReservErr && initialValues.phone.length === 0 && (
-                        <span className="reserv_from_err">
-                          Phone Number is Required!
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  <div className="row my-4">
-                    <div className="col-12">
-                      <label
-                        htmlFor="message"
-                        className="form-label table_reserv_form_label"
+                      <div className="row my-4">
+                        <div className="col-12">
+                          <label
+                            htmlFor="message"
+                            className="form-label table_reserv_form_label"
+                          >
+                            Message to Restaurent
+                          </label>
+                          <textarea
+                            name="message"
+                            id=""
+                            className="textarea form-control table_reserv_textarea"
+                            onChange={handleChange}
+                          ></textarea>
+                        </div>
+                      </div>
+                      <button
+                        type="submit"
+                        className="submit_reserv_btn"
+                        disabled={formValidationLoading}
                       >
-                        Message to Restaurent
-                      </label>
-                      <textarea
-                        name="message"
-                        id=""
-                        className="textarea form-control table_reserv_textarea"
-                        onChange={handleChange}
-                      ></textarea>
-                    </div>
+                        {formValidationLoading === false ? (
+                          <Fragment>
+                            <span>Proceed to Booking</span>
+                            <i className="ps-2">
+                              <Go.GoArrowRight />
+                            </i>
+                          </Fragment>
+                        ) : (
+                          <Fragment>
+                            <div
+                              className="spinner-border spinner-border-sm text-light"
+                              role="status"
+                            ></div>
+                            <span className="sr-only ps-2">Loading...</span>
+                          </Fragment>
+                        )}
+                      </button>
+                    </form>
+                    {/* <GoogleReCaptchaProvider reCaptchaKey={process.env.REACT_CAPTCHA_SITE_KEY}/> */}
+                    <div
+                      className="g-recaptcha"
+                      data-sitekey={RECAPTCHA_SITE_KEY}
+                      data-size="invisible"
+                    ></div>
                   </div>
-                  <button
-                    type="submit"
-                    className="submit_reserv_btn"
-                    disabled={formValidationLoading}
-                  >
-                    {formValidationLoading === false ? (
-                      <Fragment>
-                        <span>Proceed to Booking</span>
-                        <i className="ps-2">
-                          <Go.GoArrowRight />
-                        </i>
-                      </Fragment>
-                    ) : (
-                      <Fragment>
-                        <div
-                          className="spinner-border spinner-border-sm text-light"
-                          role="status"
-                        ></div>
-                        <span className="sr-only ps-2">Loading...</span>
-                      </Fragment>
-                    )}
-                  </button>
-                </form>
-                {/* <GoogleReCaptchaProvider reCaptchaKey={process.env.REACT_CAPTCHA_SITE_KEY}/> */}
-                <div
-                  className="g-recaptcha"
-                  data-sitekey={RECAPTCHA_SITE_KEY}
-                  data-size="invisible"
-                ></div>
-              </div>
-            </div>
-            <div className="col-lg-4 col-md-4 col-sm-12 order-lg-2 order-md-2 order-sm-1 pb-2 position-relative">
-              <div className="card timing_card_table_reserv ">
-                {/* <p className="open_">
+                </div>
+                <div className="col-lg-4 col-md-4 col-sm-12 order-lg-2 order-md-2 order-sm-1 pb-2 position-relative">
+                  <div className="card timing_card_table_reserv ">
+                    {/* <p className="open_">
                   <i className="pe-1">
                     <GrLocation />
                   </i>
@@ -810,37 +826,39 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                   Guruviharrr, Kadakkavoor, Thiruvananthapuram
                 </p> */}
 
-                <div className="open_">
-                  <i className="pe-1">
-                    <Md.MdOutlineRestaurantMenu />
-                  </i>
-                  <span>Booking info</span>
-                  <table className="table reserve_table">
-                    <tbody>
-                      <tr>
-                        <td>Date</td>
-                        <td>
-                          {initialValues && initialValues?.bookingDate
-                            ? Utils.formatDate(initialValues?.bookingDate)
-                            : Utils.formatDate(new Date())}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Time</td>
-                        <td>
-                          {initialValues && initialValues.bookingTime
-                            ? Utils.convertTiming(initialValues?.bookingTime)
-                            : "00:00"}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Chairs</td>
-                        <td>{count ?? 0}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                {/*<p className="open_">
+                    <div className="open_">
+                      <i className="pe-1">
+                        <Md.MdOutlineRestaurantMenu />
+                      </i>
+                      <span>Booking info</span>
+                      <table className="table reserve_table">
+                        <tbody>
+                          <tr>
+                            <td>Date</td>
+                            <td>
+                              {initialValues && initialValues?.bookingDate
+                                ? Utils.formatDate(initialValues?.bookingDate)
+                                : Utils.formatDate(new Date())}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Time</td>
+                            <td>
+                              {initialValues && initialValues.bookingTime
+                                ? Utils.convertTiming(
+                                    initialValues?.bookingTime
+                                  )
+                                : "00:00"}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Chairs</td>
+                            <td>{count ?? 0}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    {/*<p className="open_">
                   <i className="pe-1">
                     <Io.IoTimeOutline />
                   </i>
@@ -1088,7 +1106,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                   </div>
                 )} */}
 
-                {/* <button
+                    {/* <button
                   type="button"
                   className="reserv_btn my-3"
                   onClick={() => router.push("/manage-reservation")}
@@ -1098,12 +1116,14 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                   </i>
                   Manage Reservation
                 </button> */}
+                  </div>
+                  <div className="poweredBy_ text-center" id="main___">
+                    <span>Powered by Foodpage</span>
+                  </div>
+                </div>
               </div>
-              <div className="poweredBy_ text-center" id="main___">
-                <span>Powered by Foodpage</span>
-              </div>
-            </div>
-          </div>
+            </>
+          )}
         </div>
       </Fragment>
     </div>

@@ -60,7 +60,7 @@ export const AppContextProvider = (props) => {
       const encodedToken = getLocalStorageItem("userToken");
 
       const decodedToken = jwt.decode(encodedToken, { complete: true });
-      
+
       setIsUserLogged(decodedToken);
     }
   }, []);
@@ -172,14 +172,14 @@ export const AppContextProvider = (props) => {
   useEffect(() => {
     if (productsList.length == 0) {
       if (!categoryList || categoryList.length === 0) return;
-  
+
       const catId =
         categoryList &&
         Array.isArray(categoryList) &&
         categoryList.length != 0 &&
         categoryList &&
         categoryList[0]?.cID;
-     
+
       const isCheck =
         productsList &&
         productsList.length != 0 &&
@@ -208,7 +208,10 @@ export const AppContextProvider = (props) => {
       };
 
       const pro = await fetchProductsList(data);
-      const category = categoryList && categoryList.find((x) => x.cID == catId);
+      const category =
+        categoryList &&
+        categoryList.length != 0 &&
+        categoryList.find((x) => x.cID == catId);
       const productData = {
         categoryName: category?.name,
         cID: category?.cID,
