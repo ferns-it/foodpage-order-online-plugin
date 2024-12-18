@@ -80,93 +80,6 @@ function CheckoutSummaryComp() {
     }
   }, [cartItems, deliveryInfo, type]);
 
-  const findDeliveryfee = () => {
-    if (!deliveryInfo || !cartItems) return;
-
-    const typeofDelivery = deliveryInfo?.fixedDeliveryCharge;
-    let deliveryCharge = null;
-
-    const cartSubTotal = cartItems?.cartTotal?.cartTotalPrice / 100;
-    const freeDeliveryRadius = deliveryInfo?.freeDeliveryRadius;
-    const distanceRadius = parseFloat(sessionStorage.getItem("distance"));
-    const minDeliveryCharge = deliveryInfo?.minDeliveryCharge;
-    const deliveryChargeType = deliveryInfo?.deliveryChargeType;
-    const chargeType = deliveryInfo?.deliveryMinAmountType;
-    const cartTotalIncludesAllCharge = cartSubTotal - parseFloat(discount || 0);
-    const totalAmt =
-      chargeType === "Gross" ? cartSubTotal : cartTotalIncludesAllCharge;
-    const minAmount = deliveryInfo?.freeDeliveryMinOrder;
-    const maxRadius = deliveryInfo?.maxDeliveryRadius;
-    const roundedDistance = Math.round(distanceRadius);
-
-    const freeDelivery =
-      distanceRadius <= freeDeliveryRadius && totalAmt >= minAmount;
-
-    if (typeofDelivery === "byDefault") {
-      if (!freeDelivery) {
-        if (!deliveryChargeType) return;
-
-        if (deliveryChargeType === "1") {
-          deliveryCharge = minDeliveryCharge;
-        } else if (deliveryChargeType === "2") {
-          const additionalRadius = distanceRadius - freeDeliveryRadius;
-          const ratePerMile = deliveryInfo?.ratePerMile;
-          const ratePerMileAmt = roundedDistance * ratePerMile;
-
-          deliveryCharge =
-            minDeliveryCharge >= ratePerMileAmt
-              ? minDeliveryCharge
-              : ratePerMileAmt;
-        }
-
-        if (deliveryCharge == null) return;
-      } else {
-        deliveryCharge = 0;
-      }
-    } else if (typeofDelivery === "byDistance") {
-      const charge = sessionStorage.getItem("newfee");
-      console.log(charge, "charge");
-      deliveryCharge = charge && charge != undefined && charge / 100;
-    } else if (typeofDelivery === "byPostCode") {
-      const postcodelist = deliveryInfo?.FixedDeliveryLocationList;
-      const isDeliveryPossible = postcodelist?.find((location) => {
-        const cleanedPostcode = location.postcode
-          .replace(/\s+/g, "")
-          .toLowerCase();
-        const cleanedCode = code.replace(/\s+/g, "").toLowerCase();
-        return cleanedPostcode === cleanedCode;
-      });
-
-      setPostcodeData(isDeliveryPossible);
-
-      if (!isDeliveryPossible) {
-        toast.error("Delivery is not Available at this Location!");
-        return null;
-      }
-      deliveryCharge = postcodeData != null && postcodeData.amount / 100;
-    } else {
-      toast.error("Postal Code is not Recognised!");
-    }
-
-    return deliveryCharge;
-  };
-
-  // useEffect(() => {
-  //   const deliveryCharge = findDeliveryfee();
-
-  //   if (
-  //     deliveryCharge != null ||
-  //     deliveryCharge != false ||
-  //     deliveryCharge != undefined
-  //   ) {
-  //     setDeliveryCharge(deliveryCharge);
-  //     setDeliveryFee(deliveryCharge);
-  //     sessionStorage.setItem("deliveryFee", deliveryCharge);
-  //   } else {
-  //     setDeliveryFee(0);
-  //   }
-  // }, [cartItems, deliveryInfo, discount]);
-
   return (
     <Fragment>
       <div className="m-0 p-0">
@@ -285,7 +198,9 @@ function CheckoutSummaryComp() {
               <Fragment>
                 <div className="d-flex justify-content-between align-items-center mt-3">
                   <h6>Discount</h6>
-                  <p className="m-0">- £{details?.discountAmount ?? 0}</p>
+                  <p className="m-0">
+                    - £{details?.discountAmount.toFixed(2) ?? 0}
+                  </p>
                 </div>
 
                 {/* {type === "true" ? (
