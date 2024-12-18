@@ -109,6 +109,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     setDefaultDate(nextAvailableDate);
   }, []);
 
+
   useEffect(() => {
     if (!tableReservationSettings || !dayValue) return;
 
