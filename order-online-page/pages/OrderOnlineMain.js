@@ -34,6 +34,7 @@ const OrderOnlineMain = () => {
     settings,
     settingsLoading,
     menuLoading,
+    mergedState,
   } = useContext(AppContext);
   const {
     getShopTiming,
@@ -50,6 +51,8 @@ const OrderOnlineMain = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [isSticky, setIsSticky] = useState(false);
   const shopId = process.env.SHOP_ID;
+
+  console.log("mergedState", mergedState);
 
   useEffect(() => {
     if (!categoryList) return;
@@ -77,7 +80,7 @@ const OrderOnlineMain = () => {
   };
 
   const handleScroll = () => {
-    if (window.pageYOffset >= 100) {
+    if (window.pageYOffset >= 150) {
       setIsSticky(true);
     } else {
       setIsSticky(false);
@@ -107,8 +110,11 @@ const OrderOnlineMain = () => {
             <div className="order_block">
               <div className="row position-relative">
                 <div className="col-lg-3 col-md-3 col-sm-none cat_col_0229 ">
-                  <div className="card category_card_009">
-                    <ul className="food_category_009">
+                  <div
+                    className="card category_card_009"
+                    
+                  >
+                    <ul className="food_category_009" style={{ marginTop: "100px" }}>
                       {categoryLoading ? (
                         <Fragment>
                           <h2 className="card-title-order-online-920 skeleton"></h2>
@@ -119,10 +125,10 @@ const OrderOnlineMain = () => {
                         </Fragment>
                       ) : (
                         <Fragment>
-                          {categoryList &&
-                            categoryList.length > 0 &&
-                            categoryList.map((list, index) => {
-                              const children = list?.childrens;
+                          {mergedState &&
+                            mergedState.length > 0 &&
+                            mergedState.map((list, index) => {
+                              const children = list?.category?.childrens;
 
                               if (children && children.length > 0) {
                                 const hasValidChildren = children.some(
@@ -138,20 +144,23 @@ const OrderOnlineMain = () => {
                                           ? "nav-link active_009"
                                           : "nav-link"
                                       }
-                                      onClick={() =>
-                                        handleChipClick(
-                                          index,
-                                          list?.name,
-                                          list?.cID
-                                        )
-                                      }
+                                      // onClick={() =>
+                                      //   handleChipClick(
+                                      //     index,
+                                      //     list?.category?.name,
+                                      //     list?.category?.cID
+                                      //   )
+                                      // }
+                                      href={`#${list?.category?.name}`}
                                     >
-                                      <li>{list?.name}</li>
+                                      <li>{list?.category?.name}</li>
                                       <i>{/* Optional icon */}</i>
                                     </a>
                                   );
                                 }
-                              } else if (list.productsCount?.online > 0) {
+                              } else if (
+                                list?.category?.productsCount?.online > 0
+                              ) {
                                 return (
                                   <a
                                     key={index}
@@ -160,15 +169,16 @@ const OrderOnlineMain = () => {
                                         ? "nav-link active_009"
                                         : "nav-link"
                                     }
-                                    onClick={() =>
-                                      handleChipClick(
-                                        index,
-                                        list?.name,
-                                        list?.cID
-                                      )
-                                    }
+                                    href={`#${list?.category?.name}`}
+                                    // onClick={() =>
+                                    //   handleChipClick(
+                                    //     index,
+                                    //     list?.category?.name,
+                                    //     list?.category?.cID
+                                    //   )
+                                    // }
                                   >
-                                    <li>{list?.name}</li>
+                                    <li>{list?.category?.name}</li>
                                     <i>{/* Optional icon */}</i>
                                   </a>
                                 );

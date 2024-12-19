@@ -33,6 +33,8 @@ export const AppContextProvider = (props) => {
   const [orderHistoryLoading, setOrderHistoryLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
 
+  const [mergedState, setMergedState] = useState(null);
+
   const isCheckoutActive = false;
   const [listLoading, setListLoading] = useState(false);
 
@@ -320,6 +322,8 @@ export const AppContextProvider = (props) => {
         deliveryLoading,
         GuestDiscountoftakeaway,
         GuestDeliveryDetails,
+        mergedState,
+        setMergedState,
       }}
     >
       {props.children}

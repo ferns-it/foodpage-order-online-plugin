@@ -18,6 +18,7 @@ function FoodCards(category) {
     setShowModal,
     settingsLoading,
     currentStatus,
+    mergedState,
   } = useContext(AppContext);
 
   const params = useSearchParams();
@@ -76,89 +77,85 @@ function FoodCards(category) {
           <FoodCardsSkeleton />
         ) : (
           <Fragment>
-            {productsList &&
-              Array.isArray(productsList) &&
-              productsList.length != 0 &&
-              productsList.map((list, catIndex) => {
-                if (list?.categoryName == category.category) {
-                  const products = list?.products;
-                  return (
-                    <div className="tab-content" key={catIndex}>
-                      <h6 className="cat_name__ text-center">
-                        {list?.categoryName ?? "N/A"}
-                      </h6>
-                      <br />
-                      <div className="tab-pane fade show active mt-3">
-                        <div className="row">
-                          {products && products.length != 0 ? (
-                            products?.map((data, index) => {
-                              return (
-                                <div
-                                  className=" col-lg-4 col-md-2 col-sm-6 position-relative mb-3"
-                                  key={index}
-                                >
-                                  <div id="fda_product_tile">
-                                    <div className="row fda_food_row">
-                                      <div className="mx-auto">
-                                        <a
-                                          className="prod_anchor user-select-none"
+            {mergedState &&
+              mergedState.map((data, index) => {
+                const category = data?.category;
+                const products = data?.products;
+                return (
+                  <div className="tab-content" key={index} id={category?.name} style={{paddingTop:"100px"}}>
+                    <h6 className="cat_name__ text-center">
+                      {category?.name ?? "N/A"}
+                    </h6>
+                    <div className="tab-pane fade show active mt-3">
+                      <div className="row">
+                        {products && products.length != 0 ? (
+                          products?.map((data, index) => {
+                            return (
+                              <div
+                                className=" col-lg-4 col-md-2 col-sm-6 position-relative mb-3"
+                                key={index}
+                              >
+                                <div id="fda_product_tile">
+                                  <div className="row fda_food_row">
+                                    <div className="mx-auto">
+                                      <a
+                                        className="prod_anchor user-select-none"
 
-                                          // onClick={() => handleModal(data)}
-                                        >
-                                          <div className="food_tile__ active mb-4 p-3">
-                                            {/* <img
-                                              src={data?.photo}
-                                              alt=""
-                                              className={
-                                                data?.online === "No" ||
-                                                data?.isAvailable === false ||
-                                                data?.availability === false
-                                                  ? "fda_product_img fd_card_grayscale"
-                                                  : "fda_product_img "
-                                              }
-                                              referrerPolicy="no-referrer"
-                                            /> */}
-                                            <h6 className="dish_name">
-                                              {data?.name}
-                                            </h6>
-                                            <span className="food_detail">
-                                              {stripHtml(
-                                                data?.description ?? "N/A"
-                                              )}
-                                            </span>
+                                        // onClick={() => handleModal(data)}
+                                      >
+                                        <div className="food_tile__ active mb-4 p-3">
+                                          {/* <img
+                                           src={data?.photo}
+                                           alt=""
+                                           className={
+                                             data?.online === "No" ||
+                                             data?.isAvailable === false ||
+                                             data?.availability === false
+                                               ? "fda_product_img fd_card_grayscale"
+                                               : "fda_product_img "
+                                           }
+                                           referrerPolicy="no-referrer"
+                                         /> */}
+                                          <h6 className="dish_name">
+                                            {data?.name}
+                                          </h6>
+                                          <span className="food_detail">
+                                            {stripHtml(
+                                              data?.description ?? "N/A"
+                                            )}
+                                          </span>
 
-                                            <h4 className="prod_price">
-                                              {" "}
-                                              <b>{data?.price ?? "N/A"}</b>
-                                            </h4>
+                                          <h4 className="prod_price">
+                                            {" "}
+                                            <b>{data?.price ?? "N/A"}</b>
+                                          </h4>
 
-                                            <button
-                                              type="button"
-                                              className="add_to_cart"
-                                              onClick={() => handleModal(data)}
-                                            >
-                                              ADD
-                                            </button>
-                                          </div>
-                                        </a>
-                                      </div>
+                                          <button
+                                            type="button"
+                                            className="add_to_cart"
+                                            onClick={() => handleModal(data)}
+                                          >
+                                            ADD
+                                          </button>
+                                        </div>
+                                      </a>
                                     </div>
                                   </div>
                                 </div>
-                              );
-                            })
-                          ) : (
-                            <Fragment>
-                              <h3 className="products_placeholder">
-                                Dishes Not Available for Online
-                              </h3>
-                            </Fragment>
-                          )}
-                        </div>
+                              </div>
+                            );
+                          })
+                        ) : (
+                          <Fragment>
+                            <h3 className="products_placeholder">
+                              Dishes Not Available for Online
+                            </h3>
+                          </Fragment>
+                        )}
                       </div>
                     </div>
-                  );
-                }
+                  </div>
+                );
               })}
           </Fragment>
         )}
