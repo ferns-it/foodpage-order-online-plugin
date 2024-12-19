@@ -49,7 +49,6 @@ const OrderOnlineMain = () => {
   const [activeChipIndex, setActiveChipIndex] = useState(-1);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [isSticky, setIsSticky] = useState(false);
-  const shopId = process.env.SHOP_ID;
 
   useEffect(() => {
     if (!categoryList) return;
@@ -62,7 +61,6 @@ const OrderOnlineMain = () => {
   //   if (!shopId) return;
   //   getShopTiming(shopId);
   // }, [shopId]);
-
   const handleChipClick = async (index, catName, cID) => {
     setActiveChipIndex(index);
     setSelectedCategory(catName);
@@ -98,8 +96,7 @@ const OrderOnlineMain = () => {
     return temporalDivElement.textContent || temporalDivElement.innerText || "";
   }
 
-  // const title = settings && settings?.themeTitle ? JSON.parse(settings?.themeTitle) : "";
-  // console.log("title", title);
+  console.log(categoryList, "categ");
   return (
     <Fragment>
       {!settingsLoading ? (
@@ -120,34 +117,35 @@ const OrderOnlineMain = () => {
                           <h2 className="card-title-order-online-920 skeleton"></h2>
                         </Fragment>
                       ) : (
-                        <Fragment>
+                        <>
                           {categoryList &&
-                            categoryList.length != 0 &&
+                            categoryList.length !== 0 &&
                             categoryList.map((list, index) => {
-                              return (
-                                <a
-                                  // href={`#category-${index}`}
-                                  className={
-                                    index === activeChipIndex
-                                      ? "nav-link active_009"
-                                      : "nav-link"
-                                  }
-                                  key={index}
-                                  onClick={() =>
-                                    handleChipClick(
-                                      index,
-                                      list?.name,
-                                      list?.cID
-                                    )
-                                  }
-                                >
-                                  <li>{list?.name}</li>
-                                  <i>{/* <Lu.LuArrowRightToLine /> */}</i>
-                                </a>
-                              );
+                              if (list?.productsCount?.online !== 0) {
+                                return (
+                                  <a
+                                    key={index}
+                                    className={
+                                      index === activeChipIndex
+                                        ? "nav-link active_009"
+                                        : "nav-link"
+                                    }
+                                    onClick={() =>
+                                      handleChipClick(
+                                        index,
+                                        list?.name,
+                                        list?.cID
+                                      )
+                                    }
+                                  >
+                                    <li>{list?.name}</li>
+                                    <i>{/* <Lu.LuArrowRightToLine /> */}</i>
+                                  </a>
+                                );
+                              }
+                              return null;
                             })}
-                          
-                        </Fragment>
+                        </>
                       )}
                     </ul>
                   </div>

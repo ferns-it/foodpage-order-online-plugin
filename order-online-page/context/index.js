@@ -25,7 +25,7 @@ export const AppContextProvider = (props) => {
   const [isUserLogged, setIsUserLogged] = useState(null);
   const [amount, setAmount] = useState(0);
   const [deliveryFee, setDeliveryFee] = useState(null);
-  const shopId = 1;
+  const shopId = process.env.SHOP_ID;
   const [activeCard, setActiveCard] = useState("login");
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [filterLoading, setFilterLoading] = useState(false);
@@ -88,6 +88,7 @@ export const AppContextProvider = (props) => {
     clearCartItems,
     fetchCurrentShopStatus,
     currentStatus,
+    fetchFilteredCategories,
   } = useMenus();
   const {
     authLoading,
@@ -145,9 +146,12 @@ export const AppContextProvider = (props) => {
   useEffect(() => {
     const userToken = getLocalStorageItem("userToken");
     const userId = getSessionStorageItem("UserPersistent");
+    const id = process.env.SHOP_ID;
+    const shopId = `${id}-shop`;
     getShopSettings();
     fetchCategoriesList();
     fetchCartList(userId);
+    fetchFilteredCategories(shopId);
     fetchMenuList();
     fetchCurrentShopStatus();
     // if (userToken) {
@@ -325,6 +329,7 @@ export const AppContextProvider = (props) => {
         GuestDeliveryDetails,
         fetchCurrentShopStatus,
         currentStatus,
+        fetchFilteredCategories,
       }}
     >
       {props.children}

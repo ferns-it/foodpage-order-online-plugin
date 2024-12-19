@@ -385,7 +385,7 @@ function OrderSummary() {
     setTime(formattedTime);
     setTakeawayTime(formattedTime);
   };
-  console.log(shopTiming, "shopTiming");
+
   return (
     <Fragment>
       <Toaster position="top-center" reverseOrder={false} />

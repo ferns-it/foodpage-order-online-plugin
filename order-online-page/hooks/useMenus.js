@@ -31,32 +31,32 @@ const useMenus = () => {
       });
     } finally {
       setMenuLoading(false);
-  }
+    }
   };
-    const fetchCurrentShopStatus = async () => {
-      try {
-        setSettingsLoading(true);
-        await BaseClient.get(
-          APIEndpoints.getCurrentShopStatus,
-          {},
-          {
-            onSuccess: (res) => {
-              // debugger;
-              if (res && res?.data?.error == false) {
-                setCurrentStatus(res?.data?.data);
-              } else {
-                setCurrentStatus(null);
-              }
-            },
-            onFailed: (err) => {
-              console.log("Shop status error", err);
-            },
-          }
-        );
-      } finally {
-        setSettingsLoading(false);
-      }
-    };
+  const fetchCurrentShopStatus = async () => {
+    try {
+      setSettingsLoading(true);
+      await BaseClient.get(
+        APIEndpoints.getCurrentShopStatus,
+        {},
+        {
+          onSuccess: (res) => {
+            // debugger;
+            if (res && res?.data?.error == false) {
+              setCurrentStatus(res?.data?.data);
+            } else {
+              setCurrentStatus(null);
+            }
+          },
+          onFailed: (err) => {
+            console.log("Shop status error", err);
+          },
+        }
+      );
+    } finally {
+      setSettingsLoading(false);
+    }
+  };
   const deleteSingleCartItem = async (id, { onSuccess, onFailed }) => {
     try {
       setCartLoading(true);
@@ -86,7 +86,7 @@ const useMenus = () => {
       setCategoryLoading(true);
       await BaseClient.get(APIEndpoints.categoryList, [], {
         onSuccess: (res) => {
-          setCategoryList(res?.data?.data?.items);
+          // setCategoryList(res?.data?.data?.items);
         },
         onFailed: (err) => {
           console.log("Error on fetching menus", err);
@@ -94,6 +94,26 @@ const useMenus = () => {
       });
     } finally {
       setCategoryLoading(false);
+    }
+  };
+  const fetchFilteredCategories = async (shopId) => {
+    try {
+      setCartLoading(true);
+      await BaseClient.get(
+        APIEndpoints.getFilteredCategory + `/${shopId}`,
+        [],
+        {
+          onSuccess: (res) => {
+            setCategoryList(res?.data?.data?.items);
+          },
+          onFailed: (err) => {
+            console.log("Error on fetching menus", err);
+          },
+        }
+      );
+    } catch (e) {
+    } finally {
+      setCartLoading(false);
     }
   };
   const fetchCartList = async (userId) => {
@@ -226,6 +246,7 @@ const useMenus = () => {
     menuLoading,
     addToCart,
     fetchCartList,
+    fetchFilteredCategories,
     cartItems,
     getLocation,
     locationResponse,
@@ -240,7 +261,8 @@ const useMenus = () => {
     settingsLoading,
     setCartItems,
     clearCartItems,
-    fetchCurrentShopStatus,currentStatus
+    fetchCurrentShopStatus,
+    currentStatus,
   };
 };
 
