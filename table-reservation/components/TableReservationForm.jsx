@@ -676,7 +676,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                               </div>
                               <br />
                               <p className="info_txt">
-                                * Maximum prty size is{" "}
+                                * Maximum party size is{" "}
                                 {tableReservationSettings?.max_party_size}
                               </p>
                             </div>

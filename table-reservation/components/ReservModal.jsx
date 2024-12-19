@@ -43,8 +43,6 @@ function ReservModal(props) {
       props.bookingDate,
       props.bookingTime
     );
-
-    console.log(mergedDateTime);
   }, [props]);
 
   const handleClickOutside = async (event) => {
@@ -109,13 +107,15 @@ function ReservModal(props) {
       toast.error("Something went wrong");
       return;
     }
-    
+
     let isValid = true;
     if (lateCancel != 0) {
       isValid = validateLateCancel;
     }
 
     if (isValid === false) return;
+
+
 
     await cancelReservation(unqqId, {
       onSuccess: async (res) => {

@@ -291,9 +291,6 @@ function ViewReservation() {
     }
   };
 
-  // console.log("reservationSetting", sett);
-  
-
   return (
     <Fragment>
       <ReservModal
