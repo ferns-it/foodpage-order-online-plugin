@@ -50,7 +50,6 @@ function FoodCards(category) {
     setShowModal(true);
     setProductDataValues(data);
   };
-  console.log(currentStatus, "current");
   return (
     <Fragment>
       <AddOnsModal
