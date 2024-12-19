@@ -23,7 +23,6 @@ export const APIEndpoints = {
   passwordResetOTP: "user/passwordresetotp",
   updateCartItem: "user/web/carts/transfer",
   getAddressList: "user/addresslist",
-  getCurrentShopStatus: `status/${id}`,
   addAddress: "user/newaddress",
   deleteAddressList: "user/deleteaddress",
   getOrderList: `user/orderhistory/${id}`,
@@ -31,5 +30,4 @@ export const APIEndpoints = {
   getDefaultAddress: "user/setdefaultaddress",
   getDiscountForGuest: "guest/checkout/takeawaycalculator",
   getDeliveryDiscountGuest: "guest/checkout/deliverycalculator",
-  getFilteredCategory: "/categories",
 };

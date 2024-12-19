@@ -14,7 +14,6 @@ const useMenus = () => {
   const [menuLoading, setMenuLoading] = useState(false);
   const [locationResponse, setLocationResponse] = useState(null);
   const [cartItems, setCartItems] = useState(null);
-  const [currentStatus, setCurrentStatus] = useState(null);
   const [categoryLoading, setCategoryLoading] = useState(false);
   const [settingsLoading, setSettingsLoading] = useState(true);
 
@@ -33,36 +32,14 @@ const useMenus = () => {
       setMenuLoading(false);
     }
   };
-  const fetchCurrentShopStatus = async () => {
-    try {
-      setSettingsLoading(true);
-      await BaseClient.get(
-        APIEndpoints.getCurrentShopStatus,
-        {},
-        {
-          onSuccess: (res) => {
-            // debugger;
-            if (res && res?.data?.error == false) {
-              setCurrentStatus(res?.data?.data);
-            } else {
-              setCurrentStatus(null);
-            }
-          },
-          onFailed: (err) => {
-            console.log("Shop status error", err);
-          },
-        }
-      );
-    } finally {
-      setSettingsLoading(false);
-    }
-  };
+
   const deleteSingleCartItem = async (id, { onSuccess, onFailed }) => {
     try {
       setCartLoading(true);
-
-      const userToken = getLocalStorageItem("UserPersistent");
-
+      let userToken = getLocalStorageItem("userToken");
+      if (!userToken) {
+        userToken = getLocalStorageItem("UserPersistent");
+      }
       if (!userToken) {
         onFailed(new Error("User is not authenticated"));
         return;
@@ -81,12 +58,24 @@ const useMenus = () => {
       setCartLoading(false);
     }
   };
+
+  // const deleteSingleCartItem = async (id, { onSuccess, onFailed }) => {
+  //   try {
+  //     setCartLoading(true);
+  //     await BaseClient.delete(APIEndpoints.deleteCartItem + `/${id}`, {
+  //       onSuccess: onSuccess,
+  //       onFailed: onFailed,
+  //     });
+  //   } finally {
+  //     setCartLoading(false);
+  //   }
+  // };
   const fetchCategoriesList = async () => {
     try {
       setCategoryLoading(true);
       await BaseClient.get(APIEndpoints.categoryList, [], {
         onSuccess: (res) => {
-          // setCategoryList(res?.data?.data?.items);
+          setCategoryList(res?.data?.data?.items);
         },
         onFailed: (err) => {
           console.log("Error on fetching menus", err);
@@ -94,26 +83,6 @@ const useMenus = () => {
       });
     } finally {
       setCategoryLoading(false);
-    }
-  };
-  const fetchFilteredCategories = async (shopId) => {
-    try {
-      setCartLoading(true);
-      await BaseClient.get(
-        APIEndpoints.getFilteredCategory + `/${shopId}`,
-        [],
-        {
-          onSuccess: (res) => {
-            setCategoryList(res?.data?.data?.items);
-          },
-          onFailed: (err) => {
-            console.log("Error on fetching menus", err);
-          },
-        }
-      );
-    } catch (e) {
-    } finally {
-      setCartLoading(false);
     }
   };
   const fetchCartList = async (userId) => {
@@ -246,7 +215,6 @@ const useMenus = () => {
     menuLoading,
     addToCart,
     fetchCartList,
-    fetchFilteredCategories,
     cartItems,
     getLocation,
     locationResponse,
@@ -261,8 +229,6 @@ const useMenus = () => {
     settingsLoading,
     setCartItems,
     clearCartItems,
-    fetchCurrentShopStatus,
-    currentStatus,
   };
 };
 

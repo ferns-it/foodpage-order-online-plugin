@@ -86,9 +86,6 @@ export const AppContextProvider = (props) => {
     settingsLoading,
     setCartItems,
     clearCartItems,
-    fetchCurrentShopStatus,
-    currentStatus,
-    fetchFilteredCategories,
   } = useMenus();
   const {
     authLoading,
@@ -146,14 +143,10 @@ export const AppContextProvider = (props) => {
   useEffect(() => {
     const userToken = getLocalStorageItem("userToken");
     const userId = getSessionStorageItem("UserPersistent");
-    const id = process.env.SHOP_ID;
-    const shopId = `${id}-shop`;
     getShopSettings();
     fetchCategoriesList();
     fetchCartList(userId);
-    fetchFilteredCategories(shopId);
     fetchMenuList();
-    fetchCurrentShopStatus();
     // if (userToken) {
     //   fetchAddressList(userToken);
     //   fetchOrderList(userToken);
@@ -169,14 +162,14 @@ export const AppContextProvider = (props) => {
   useEffect(() => {
     if (productsList.length == 0) {
       if (!categoryList || categoryList.length === 0) return;
-      console.log(categoryList, "catehoskg");
+
       const catId =
         categoryList &&
         Array.isArray(categoryList) &&
         categoryList.length != 0 &&
         categoryList &&
         categoryList[0]?.cID;
-      console.log(categoryList && categoryList[0], catId, "categoryList1");
+
       const isCheck =
         productsList &&
         productsList.length != 0 &&
@@ -327,9 +320,6 @@ export const AppContextProvider = (props) => {
         deliveryLoading,
         GuestDiscountoftakeaway,
         GuestDeliveryDetails,
-        fetchCurrentShopStatus,
-        currentStatus,
-        fetchFilteredCategories,
       }}
     >
       {props.children}
