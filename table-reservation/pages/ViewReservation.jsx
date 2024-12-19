@@ -200,13 +200,12 @@ function ViewReservation() {
 
     const isValid = validateFields();
 
-    const isValidBookingTIme = isBookingValid();
-
     //! condition for current UK time
-    if (isValidBookingTIme === true) {
-      toast.error(`Please select a time at least 4 hours from now!`);
-      return;
-    }
+    // const isValidBookingTIme = isBookingValid();
+    // if (isValidBookingTIme === true) {
+    //   toast.error(`Please select a time at least 4 hours from now!`);
+    //   return;
+    // }
 
     if (Object.keys(isValid) && Object.keys(isValid).length != 0) {
       const value = Object.values(isValid)[0];
@@ -292,6 +291,9 @@ function ViewReservation() {
     }
   };
 
+  // console.log("reservationSetting", sett);
+  
+
   return (
     <Fragment>
       <ReservModal
@@ -370,27 +372,11 @@ function ViewReservation() {
                         <td className="reser_table_value">
                           {!reservationLoading ? (
                             <Fragment>
-                              {!isEdit ? (
-                                <>
-                                  {reservationDetails?.bookingTime
-                                    ? Utils.formatDateTime(
-                                        reservationDetails?.bookingTime
-                                      )
-                                    : "N/A"}
-                                </>
-                              ) : (
-                                <>
-                                  {" "}
-                                  <input
-                                    type="time"
-                                    name="bookingTime"
-                                    id=""
-                                    className="form-control table_reserv_form_input"
-                                    value={updatedValues?.bookingTime}
-                                    onChange={handleChange}
-                                  />
-                                </>
-                              )}
+                              {reservationDetails?.bookingTime
+                                ? Utils.formatDateTime(
+                                    reservationDetails?.bookingTime
+                                  )
+                                : "N/A"}
                             </Fragment>
                           ) : (
                             <Skeleton height={20} width={150} />
