@@ -8,6 +8,7 @@ export const TableReservationContext = createContext();
 
 export const TableReservationContextProvider = (props) => {
   const [oneTimePass, setOneTimePass] = useState("");
+  
   const [secretKey, setSecretKey] = useState("");
   const [initialValues, setInitialValues] = useState({
     name: "",
@@ -48,6 +49,7 @@ export const TableReservationContextProvider = (props) => {
       value={{
         getShopTiming,
         shopTiming,
+      
         isTimingLoading,
         reservationLoading,
         sendReservationOTP,
