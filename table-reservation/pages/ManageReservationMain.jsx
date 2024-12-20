@@ -7,7 +7,6 @@ import * as Go from "react-icons/go";
 import * as Fa from "react-icons/fa";
 import toast from "react-hot-toast";
 import "react-tooltip/dist/react-tooltip.css";
-import "../style/style.css";
 import CryptoJS from "crypto-js";
 import WellFoodLayout from "@/layout/WellFoodLayout";
 

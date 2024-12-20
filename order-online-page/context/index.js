@@ -8,11 +8,12 @@ import {
   getSessionStorageItem,
   setLocalStorageItem,
   setSessionStorageItem,
-} from "@/plugin/_utils/ClientUtils";
-import Utils from "../../_utils/Utils";
+} from "../../_utils/ClientUtils";
+
 import useProfile from "../hooks/useProfile";
 import useOrderHistory from "../hooks/useOrderHistory";
 import { useRouter } from "next/router";
+import Utils from "../../_utils/Utils";
 
 export const AppContext = createContext();
 

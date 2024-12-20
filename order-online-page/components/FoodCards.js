@@ -6,7 +6,6 @@ import "react-loading-skeleton/dist/skeleton.css";
 import FoodCardsSkeleton from "./FoodCardsSkeleton";
 import { useSearchParams } from "next/navigation";
 import { getSessionStorageItem } from "../../_utils/ClientUtils";
-import "../../guest-login/style.css";
 
 function FoodCards(category) {
   const {
@@ -90,6 +89,7 @@ function FoodCards(category) {
               Array.isArray(productsList) &&
               productsList.length != 0 &&
               productsList.map((list, catIndex) => {
+                console.log(list,"list");
                 if (list?.categoryName == category.category) {
                   const products = list?.products;
                   return (

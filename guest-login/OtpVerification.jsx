@@ -14,7 +14,7 @@ import {
   setLocalStorageItem,
   setSessionStorageItem,
 } from "../_utils/ClientUtils";
-import "./style.css";
+
 
 function OtpVerification() {
   const { authLoading, settings, sentOTPtoUser } = useContext(AppContext);

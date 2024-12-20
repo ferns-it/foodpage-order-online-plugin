@@ -6,7 +6,7 @@ import Utils from "../_utils/Utils";
 
 import { useRouter } from "next/navigation";
 import { AppContext } from "../order-online-page/context/index";
-import "./style.css";
+
 
 function GuestLogin() {
   const router = useRouter();

@@ -7,7 +7,6 @@ import React, {
   useState,
 } from "react";
 import { TableReservationContext } from "../context/TableReservationContext";
-import "../style/style.css";
 import Utils from "../utils/Utils";
 
 import * as Tb from "react-icons/tb";
@@ -21,8 +20,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import CryptoJS from "crypto-js";
 import toast from "react-hot-toast";
 import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
-import "../style/Style.css";
 
 export const mergeBookingDateTime = (bookingDate, bookingTime) => {
   const date = new Date(bookingDate);

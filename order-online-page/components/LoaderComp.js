@@ -2,7 +2,6 @@ import { Fragment } from "react";
 import { FadeLoader } from "react-spinners";
 import Lottie from "react-lottie";
 import animationData from "../assets/loaderrr.json";
-import "../style/order-online-style.css";
 
 function LoaderComp() {
   const defaultOptions = {

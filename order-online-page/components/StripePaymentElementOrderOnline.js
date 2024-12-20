@@ -5,7 +5,7 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import { AppContext } from "../context";
-import "../style/order-online-style.css";
+
 
 function StripePaymentElementOrderOnline({
   formState,
