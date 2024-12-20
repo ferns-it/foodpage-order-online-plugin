@@ -444,9 +444,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
               setSessionStorageItem("reserv_details", saveObj);
               setSessionStorageItem("secretKey", secretKey);
               setIsActiveTablePage("otp-page");
-              router.push("/tablereservation?otp=true", undefined, {
-                shallow: true,
-              });
+              router.push("/tablereservation?otp=true");
             }, 300);
           } else {
             toast.error("OTP not send!");
@@ -502,7 +500,8 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                         </h3>
                         {isTodayHoliday && (
                           <p className="text-danger fw-bold text-center user-select-none mt-2">
-                           There are no reservations today. Please select another available date!
+                            There are no reservations today. Please select
+                            another available date!
                           </p>
                         )}
 
