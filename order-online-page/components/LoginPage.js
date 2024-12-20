@@ -35,7 +35,6 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
       [name]: value,
     }));
   };
-  console.log(settings, "settings");
   const validateLoginForm = () => {
     let valid = true;
     let errors = {};

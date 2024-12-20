@@ -329,7 +329,7 @@ function OrderSummary() {
       },
     });
   };
-  console.log(settings, "settings");
+  
   return (
     <Fragment>
       <Toaster position="top-center" reverseOrder={false} />
