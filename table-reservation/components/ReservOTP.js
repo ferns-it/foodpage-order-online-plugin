@@ -13,22 +13,6 @@ import {
   removeSessionStorageItem,
 } from "../../_utils/ClientUtils";
 
-export const mergeBookingDateTime = (bookingDate, bookingTime) => {
-  const date = new Date(bookingDate);
-
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-
-  const timeWithSeconds = bookingTime.includes(":")
-    ? bookingTime
-    : `${bookingTime}:00`;
-
-  const formattedDateTime = `${year}-${month}-${day} ${timeWithSeconds}`;
-
-  return formattedDateTime;
-};
-
 function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
   const router = useRouter();
   const {
@@ -123,7 +107,6 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
         },
         onFailed: (err) => {
           toast.error("Error on sending OTP");
-          console.log("OTP ERROR", err);
         },
         headers: headers,
       });
@@ -133,12 +116,13 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
   };
 
   const completeNewReservation = async () => {
-    const mergedBooking = mergeBookingDateTime(
+    const mergedBooking = Utils.mergeBookingDateTime(
       initialValues?.bookingDate,
       initialValues?.bookingTime
     );
     const payload = {
       shopID: shopId,
+      userID: 0,
       name: initialValues?.name,
       phone: initialValues?.phone,
       email: initialValues?.email,
@@ -159,7 +143,6 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
 
     await completeReservation(payload, {
       onSuccess: (res) => {
-        console.log(res);
         toast.success("OTP has been verified!");
         setSecretKey("");
         removeSessionStorageItem("reserv_details");
