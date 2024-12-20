@@ -3283,19 +3283,19 @@ a {
   font-size: 17px;
   color: #018f43;
 }
-#new_inpp{
+#new_inpp {
   font-family: sans-serif;
   padding: 2px 10px;
 }
 
-@media screen and (max-width:1200px) {
-  .login_comp{
+@media screen and (max-width: 1200px) {
+  .login_comp {
     width: 60%;
   }
 }
 
-@media screen and (max-width:600px) {
-  .login_comp{
+@media screen and (max-width: 600px) {
+  .login_comp {
     width: 100%;
   }
 }
