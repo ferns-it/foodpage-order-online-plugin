@@ -12,7 +12,6 @@ import {
 
 import useProfile from "../hooks/useProfile";
 import useOrderHistory from "../hooks/useOrderHistory";
-import { useRouter } from "next/router";
 import Utils from "../../_utils/Utils";
 
 export const AppContext = createContext();
