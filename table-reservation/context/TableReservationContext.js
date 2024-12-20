@@ -10,6 +10,9 @@ export const TableReservationContextProvider = (props) => {
   const [oneTimePass, setOneTimePass] = useState("");
   
   const [secretKey, setSecretKey] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [tableReservationSettings, setTableReservationSettings] =
+    useState(null);
   const [initialValues, setInitialValues] = useState({
     name: "",
     email: "",
@@ -20,6 +23,24 @@ export const TableReservationContextProvider = (props) => {
     message: "",
   });
   // const [otp, setOtp, clearOtp] = useLocalStorage('userOTP', '');
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(
+          `https://shopadmin.vgrex.com/settings/fetch-reservation-settings/ ${process.env.SHOP_ID}`
+        );
+        const json = await response.json();
+        setTableReservationSettings(json?.data);
+      } catch (err) {
+        console.log(err, "error");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const {
     getShopTiming,
@@ -35,6 +56,8 @@ export const TableReservationContextProvider = (props) => {
     chatMessages,
     sendMessage,
     messageLoading,
+    getHolidays,
+    upcomingHolidays,
   } = useReservation();
 
   useEffect(() => {
@@ -42,6 +65,8 @@ export const TableReservationContextProvider = (props) => {
     if (shopId && shopId != 0) {
       getShopTiming(shopId);
     }
+
+    getHolidays();
   }, []);
 
   return (
@@ -67,6 +92,9 @@ export const TableReservationContextProvider = (props) => {
         chatMessages,
         sendMessage,
         messageLoading,
+        tableReservationSettings,
+        loading,
+        upcomingHolidays,
         // otp,
         // setOtp,
         // clearOtp

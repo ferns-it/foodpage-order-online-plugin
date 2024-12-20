@@ -89,7 +89,7 @@ function FoodCards(category) {
               Array.isArray(productsList) &&
               productsList.length != 0 &&
               productsList.map((list, catIndex) => {
-                console.log(list,"list");
+               
                 if (list?.categoryName == category.category) {
                   const products = list?.products;
                   return (
