@@ -412,8 +412,8 @@ function OrderSummaryCheckout() {
                 console.log("Error on cart clear", err);
               },
             });
-            router.refresh();
-            router.push("/order-online");
+            window.location.reload();
+            window.location.href = "/order-online"
             setActiveCard("login");
             setPaymentData(null);
           },
