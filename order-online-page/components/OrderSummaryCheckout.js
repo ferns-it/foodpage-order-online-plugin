@@ -40,6 +40,7 @@ function OrderSummaryCheckout() {
     activeCard,
     setActiveCard,
     deliveryFee,
+    setDelivery,
     createPaymentIntent,
     paymentData,
     setStripeClientSecret,
@@ -94,11 +95,14 @@ function OrderSummaryCheckout() {
   const [fieldError, setFieldError] = useState(false);
   const [discountData, setDiscountData] = useState(null);
   const [intentLoading, setIntentLoading] = useState(false);
+  const [deliveryTypeParams, setDeliveryTypeParams] = useState(false);
 
   useEffect(() => {
     const price = searchParams.get("price");
+    const deliveryTypeParamsSingle = searchParams.get("delivery");
     const deliveryCharge = searchParams.get("deliveryCharge");
     const discount = searchParams.get("discount");
+    // setDeliveryTypeParams(deliveryTypeParamsSingle);
 
     setParamsValues({
       price,
@@ -106,6 +110,11 @@ function OrderSummaryCheckout() {
       deliveryFee: deliveryCharge,
     });
   }, [searchParams]);
+
+  useEffect(() => {
+    const deliveryCond = getSessionStorageItem("type");
+    setDeliveryTypeParams(deliveryCond);
+  }, []);
 
   // useEffect(() => {
   //   const handleBeforeUnload = (event) => {
@@ -122,7 +131,8 @@ function OrderSummaryCheckout() {
   // }, []);
 
   useEffect(() => {
-    if (delivery == false) {
+    const deliveryCond = getSessionStorageItem("type");
+    if (deliveryCond === false) {
       const postalCode = getSessionStorageItem("postcode");
       if (!postalCode) {
         toast.error("Postal code is undefined");
@@ -135,7 +145,7 @@ function OrderSummaryCheckout() {
         isUserLogged != null && isUserLogged?.payload?.data?.userPostCode;
       setFormState({ ...formState, postalCode });
     }
-  }, [delivery]);
+  }, [deliveryTypeParams]);
 
   // useEffect(() => {
   //   if (delivery === null) return;
@@ -398,7 +408,11 @@ function OrderSummaryCheckout() {
               console.log("Error on cart clear", err);
             },
           });
-
+          removeSessionStorageItem("type");
+          removeSessionStorageItem("deliveryResponse");
+          removeLocalStorageItem("discount");
+          removeLocalStorageItem("isCheckoutActive");
+          removeLocalStorageItem("takeawaytime");
           router.push("/order-online");
           setActiveCard("login");
           setPaymentData(null);
