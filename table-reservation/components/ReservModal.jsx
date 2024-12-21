@@ -86,16 +86,21 @@ function ReservModal(props) {
       now.getMonth() === bookingDateTime.getMonth() &&
       now.getDate() === bookingDateTime.getDate();
 
-    if (isToday) {
-      const timeDifferenceInMinutes = Math.round(
-        (bookingDateTime - now) / (1000 * 60)
+    const timeDifferenceInMinutes = Math.round(
+      (bookingDateTime - now) / (1000 * 60)
+    );
+
+    if (timeDifferenceInMinutes <= lateCancelMinutes) {
+      const hours = Math.floor(lateCancelMinutes / 60);
+      const remainingMinutes = lateCancelMinutes % 60;
+      const message = hours <= 0 ? lateCancelMinutes : hours;
+      console.log(
+        `Cannot cancel. The booking is within ${hours} hour(s) of the scheduled time. late booking is ${lateCancelMinutes}`
       );
-      if (timeDifferenceInMinutes <= lateCancelMinutes) {
-        console.log(
-          "Cannot cancel. The booking is within ${lateCancelMinutes} minutes of the scheduled time."
-        );
-        return false;
-      }
+      toast.error(
+        `Cannot cancel. The booking is within ${message} hour(s) of the scheduled time.`
+      );
+      return false;
     }
 
     return true;
@@ -109,13 +114,13 @@ function ReservModal(props) {
     }
 
     let isValid = true;
+
     if (lateCancel != 0) {
-      isValid = validateLateCancel;
+      isValid = validateLateCancel();
     }
 
+    console.log("lateCancel", isValid);
     if (isValid === false) return;
-
-
 
     await cancelReservation(unqqId, {
       onSuccess: async (res) => {

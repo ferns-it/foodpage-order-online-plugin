@@ -53,6 +53,7 @@ function ViewReservation() {
     chatMessages,
     sendMessage,
     messageLoading,
+    tableReservationSettings,
   } = useContext(TableReservationContext);
   const chatContainerRef = useRef(null);
   const [showModal, setShowModal] = useState(false);
@@ -109,13 +110,14 @@ function ViewReservation() {
 
   const checkIsExpired = () => {
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    // today.setHours(0, 0, 0, 0);
 
     const bookingDate =
       reservationDetails && new Date(reservationDetails.bookingTime);
-    if (bookingDate) {
-      bookingDate.setHours(0, 0, 0, 0);
-    }
+
+    // if (bookingDate) {
+    //   bookingDate.setHours(0, 0, 0, 0);
+    // }
 
     if (bookingDate && bookingDate < today) {
       setIsExpired(true);
@@ -213,8 +215,15 @@ function ViewReservation() {
       return;
     }
 
+    const partySize = tableReservationSettings?.max_party_size ?? 0;
+
     if (updatedValues.chairs <= 0) {
       toast.error("Invalid chair selection");
+      return;
+    }
+
+    if (updatedValues.chairs > partySize) {
+      toast.error(`Prty size must be less than ${partySize}!`);
       return;
     }
 
@@ -290,6 +299,8 @@ function ViewReservation() {
         chatContainerRef.current.scrollHeight;
     }
   };
+
+  console.log("isexpp", isExpired);
 
   return (
     <Fragment>
