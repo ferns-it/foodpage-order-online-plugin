@@ -25,7 +25,6 @@ import {
 
 function OrderSummaryCheckout() {
   const router = useRouter();
-  const [paymentLoading, setPaymentLoading] = useState(false);
   const searchParams = useSearchParams();
   const orderType = sessionStorage.getItem("type");
   const details = JSON.parse(getSessionStorageItem("deliveryResponse"));
@@ -108,16 +107,6 @@ function OrderSummaryCheckout() {
     });
   }, [searchParams]);
 
-  useEffect(() => {
-    const emptyValidation = checkForEmptyKeys(formState);
-
-    if (emptyValidation && emptyValidation.length != 0) {
-      setActiveCard("login");
-      setPaymentOption("");
-      return;
-    }
-  }, [formState]);
-
   // useEffect(() => {
   //   const handleBeforeUnload = (event) => {
   //     event.preventDefault();
@@ -186,10 +175,7 @@ function OrderSummaryCheckout() {
       toast.error("Shop is currently closed");
       return;
     }
-    if (!formState.phone || !/^\d+$/.test(formState.phone)) {
-      setFieldError(true);
-      return;
-    }
+
     let deliveryTypeData;
 
     if (delivery == false || delivery == "false") {
@@ -293,9 +279,11 @@ function OrderSummaryCheckout() {
   const checkForEmptyKeys = (formState) => {
     const emptyKeys = [];
 
+    // Iterate through formState keys
     for (const key in formState) {
       const value = formState[key];
 
+      // Exclude 'addressLine2' and 'notes' from the check
       if (key !== "addressLine2" && key !== "notes") {
         if (value === undefined || value === null || value === "") {
           emptyKeys.push(key);
@@ -307,124 +295,119 @@ function OrderSummaryCheckout() {
   };
 
   const completeOrder = async () => {
-    try {
-      setPaymentLoading(true);
-      const emptyValidation = checkForEmptyKeys(formState);
+    const emptyValidation = checkForEmptyKeys(formState);
 
-      if (emptyValidation && emptyValidation.length != 0) {
-        toast.error("Please fill All the required Details before checkout!");
-        setActiveCard("login");
-        setPaymentOption("");
-        return;
-      }
+    if (emptyValidation && emptyValidation.length != 0) {
+      toast.error("Please fill All the required Details before checkout!");
+      setActiveCard("login");
+      setPaymentOption("");
+      return;
+    }
 
-      const data = paymentData?.data?.data;
-      const discount = sessionStorage.getItem("discount");
-      const details = JSON.parse(getSessionStorageItem("deliveryResponse"));
-      const deliveryAmount = sessionStorage.getItem("deliveryFee");
-      let deliveryType;
+    const data = paymentData?.data?.data;
+    const discount = sessionStorage.getItem("discount");
+    const details = JSON.parse(getSessionStorageItem("deliveryResponse"));
+    const deliveryAmount = sessionStorage.getItem("deliveryFee");
+    let deliveryType;
 
-      if (delivery == false || delivery == "false") {
-        deliveryType = "door_delivery";
-      } else {
-        deliveryType = "store_pickup";
-      }
-      const paymentMethod = paymentOption === "stripe" ? "STRIPE" : "COD";
+    if (delivery == false || delivery == "false") {
+      deliveryType = "door_delivery";
+    } else {
+      deliveryType = "store_pickup";
+    }
+    const paymentMethod = paymentOption === "stripe" ? "STRIPE" : "COD";
 
-      const userID = getLocalStorageItem("UserPersistent");
-      const isGuest = getLocalStorageItem("guest");
-      const userToken = getLocalStorageItem("userToken");
+    const userID = getLocalStorageItem("UserPersistent");
+    const isGuest = getLocalStorageItem("guest");
+    const userToken = getLocalStorageItem("userToken");
 
-      if (
-        (paymentMethod === "STRIPE" && paymentData != null) ||
-        (paymentMethod === "COD" && paymentData === null)
-      ) {
-        const priceValue = details
-          ? details?.cart_NetAmount
-          : paramsValues?.price;
-        const discountValue = details
-          ? details?.discountAmount
-          : paramsValues?.discount;
-        const deliveryChargeValue = details
-          ? details?.deliveryFeeAmount
-          : paramsValues?.deliveryFee;
+    if (
+      (paymentMethod === "STRIPE" && paymentData != null) ||
+      (paymentMethod === "COD" && paymentData === null)
+    ) {
+      const priceValue = details
+        ? details?.cart_NetAmount
+        : paramsValues?.price;
+      const discountValue = details
+        ? details?.discountAmount
+        : paramsValues?.discount;
+      const deliveryChargeValue = details
+        ? details?.deliveryFeeAmount
+        : paramsValues?.deliveryFee;
 
-        //!payload here
-        const payload = {
-          shopID: data?.shopID != null ? data?.shopID : shopId,
-          discount: discountValue,
-          amount: priceValue * 100,
-          deliveryType: deliveryType,
-          deliveryCharge:
-            deliveryType === "store_pickup" ? 0 : deliveryChargeValue * 100,
-          // couponCode: "",
-          // couponType: "",
-          // couponValue: "",
-          // couponAmount: "",
-          paymentStatus: paymentMethod === "COD" ? 0 : 1,
-          paymentGatway: paymentMethod,
-          transactionID: paymentMethod === "COD" ? "" : data?.paymentIntent?.id,
-          approxDeliveryTime:
-            deliveryType === "store_pickup"
-              ? settings?.deliveryInfo?.minWaitingTime
-              : "",
-          deliveryNotes: formState?.notes,
-          deliveryLocation: formState?.postalCode,
-          takeawayTime:
-            deliveryType === "store_pickup"
-              ? sessionStorage.getItem("takeawaytime")
-              : "",
-          customer: {
-            customerName: formState?.fullname,
-            line1: formState?.addressLine1,
-            line2: formState?.addressLine2,
-            town: formState?.townCity,
-            postcode: formState?.postalCode,
-            county: formState?.county,
-            landmark: "",
-            email: formState?.emailAddress,
-            phone: formState?.phone,
-          },
-          source: "NextJs",
-        };
+      //!payload here
+      const payload = {
+        shopID: data?.shopID != null ? data?.shopID : shopId,
+        discount: discountValue,
+        amount: priceValue * 100,
+        deliveryType: deliveryType,
+        deliveryCharge:
+          deliveryType === "store_pickup" ? 0 : deliveryChargeValue * 100,
+        // couponCode: "",
+        // couponType: "",
+        // couponValue: "",
+        // couponAmount: "",
+        paymentStatus: paymentMethod === "COD" ? 0 : 1,
+        paymentGatway: paymentMethod,
+        transactionID: paymentMethod === "COD" ? "" : data?.paymentIntent?.id,
+        approxDeliveryTime:
+          deliveryType === "store_pickup"
+            ? settings?.deliveryInfo?.minWaitingTime
+            : "",
+        deliveryNotes: formState?.notes,
+        deliveryLocation: formState?.postalCode,
+        takeawayTime:
+          deliveryType === "store_pickup"
+            ? sessionStorage.getItem("takeawaytime")
+            : "",
+        customer: {
+          customerName: formState?.fullname,
+          line1: formState?.addressLine1,
+          line2: formState?.addressLine2,
+          town: formState?.townCity,
+          postcode: formState?.postalCode,
+          county: formState?.county,
+          landmark: "",
+          email: formState?.emailAddress,
+          phone: formState?.phone,
+        },
+        source: "NextJs",
+      };
 
-        // let headers = {
-        //   User: userToken ? userToken : userID,
-        // };
+      // let headers = {
+      //   User: userToken ? userToken : userID,
+      // };
 
-        let headers = {
-          User: userID,
-        };
+      let headers = {
+        User: userID,
+      };
 
-        await completeCheckout(payload, {
-          headers: headers,
-          onSuccess: async (res) => {
-            toast.success("Order Confirmed!");
-            //! user token removed here
-            // removeLocalStorageItem("userToken");
-            // removeSessionStorageItem("userInfo");
-            await fetchCartList(userID);
-            await clearCartItems(userID, {
-              onSuccess: (res) => {
-                console.log("cart cleared", res);
-              },
-              onFailed: (err) => {
-                console.log("Error on cart clear", err);
-              },
-            });
-            window.location.reload();
-            window.location.href = "/order-online"
-            setActiveCard("login");
-            setPaymentData(null);
-          },
-          onFailed: (err) => {
-            console.log("error message for confirm payment", err);
-            toast.error(err.message);
-          },
-        });
-      }
-    } finally {
-      setPaymentLoading(false);
+      await completeCheckout(payload, {
+        headers: headers,
+        onSuccess: async (res) => {
+          toast.success("Order Confirmed!");
+          //! user token removed here
+          // removeLocalStorageItem("userToken");
+          // removeSessionStorageItem("userInfo");
+          await fetchCartList(userID);
+          await clearCartItems(userID, {
+            onSuccess: (res) => {
+              console.log("cart cleared", res);
+            },
+            onFailed: (err) => {
+              console.log("Error on cart clear", err);
+            },
+          });
+
+          router.push("/order-online");
+          setActiveCard("login");
+          setPaymentData(null);
+        },
+        onFailed: (err) => {
+          console.log("error message for confirm payment", err);
+          toast.error(err.message);
+        },
+      });
     }
   };
 
@@ -479,7 +462,7 @@ function OrderSummaryCheckout() {
                 <div
                   className={
                     activeCard == "login"
-                      ? "login_order_online_form_0283"
+                      ? "login_order_online_form_0283 "
                       : "login_order_online_form_0283 hide"
                   }
                   // className="login_order_online_form_0283"
@@ -621,7 +604,7 @@ function OrderSummaryCheckout() {
                       <div className="col-lg-4 col-md-4 col-sm-4">
                         <div className="form-group">
                           <label
-                            htmlFor="phone"
+                            htmlFor="email"
                             className="form-label online_order_plugin_label_2939"
                           >
                             Phone number
@@ -629,13 +612,13 @@ function OrderSummaryCheckout() {
                           <input
                             type="text"
                             name="phone"
-                            id="phone"
+                            id=""
                             className={
                               fieldError &&
                               (!formState.phone ||
-                                !/^\d+$/.test(formState.phone))
+                                formState?.phone.length === 0)
                                 ? "form-control online_order_plugin_input_2939 error___"
-                                : "form-control online_order_plugin_input_2939"
+                                : "form-control online_order_plugin_input_2939 "
                             }
                             onChange={handleChange}
                             value={formState.phone}
@@ -643,13 +626,12 @@ function OrderSummaryCheckout() {
                         </div>
                         {fieldError &&
                           (!formState.phone ||
-                            !/^\d+$/.test(formState.phone)) && (
+                            formState?.phone?.length === 0) && (
                             <span className="oos_err_29102">
-                              Phone is required and must be numeric!
+                              Phone is required!
                             </span>
                           )}
                       </div>
-
                       <div className="col-lg-4 col-md-4 col-sm-4">
                         <div className="form-group">
                           <label
@@ -773,14 +755,16 @@ function OrderSummaryCheckout() {
                         value={formState.notes}
                       ></textarea>
                     </div>
-                    <div className="form-group mz-auto text-center">
-                      <button type="submit" className="btn_check">
+                    {/* <br /> */}
+                    <div className="form-group mt-3">
+                      <button
+                        type="submit"
+                        className="online_order_plugin_login_btn"
+                      >
                         Submit
                       </button>
                     </div>
-                    {/* <br /> */}
                   </form>
-
                   {/* <button type="button" className="view_btn">View</button> */}
                 </div>
               </div>
@@ -796,139 +780,124 @@ function OrderSummaryCheckout() {
                   <RiMoneyEuroCircleLine />
                 </div>
 
-                {!paymentLoading ? (
-                  <Fragment>
-                    {cartItems?.paymentOptions != null &&
-                    cartItems?.paymentOptions.shopStatus != "closed" ? (
-                      <>
-                        {!intentLoading ? (
-                          <Fragment>
-                            <div
-                              className={
-                                activeCard === "payment"
-                                  ? "checkout_order_online_form_0283"
-                                  : "checkout_order_online_form_0283 hide"
-                              }
-                            >
-                              <div className="row">
-                                {cartItems?.paymentOptions?.stripe ==
-                                  "Enabled" && (
-                                  <>
-                                    <div className="col-6">
-                                      <div
-                                        className={
-                                          paymentOption === "stripe"
-                                            ? "card payment_card_order_online_093 selected"
-                                            : "card payment_card_order_online_093"
-                                        }
-                                        onClick={createPaymentIntentRequest}
-                                      >
-                                        <i>
-                                          {/* <Bs.BsCreditCard /> */}
-                                          <h4>Card Payment</h4>
-                                        </i>
-                                      </div>
-                                    </div>
-                                  </>
-                                )}
-                                {cartItems?.paymentOptions?.cod ==
-                                  "Enabled" && (
-                                  <>
-                                    <div className="col-6">
-                                      <div
-                                        className={
-                                          paymentOption === "cash"
-                                            ? "card payment_card_order_online_093 selected"
-                                            : "card payment_card_order_online_093"
-                                        }
-                                        onClick={() => handlecashondelivery()}
-                                      >
-                                        <i>
-                                          {/* <Bs.BsCashCoin /> */}
-                                          <h4>Cash Payment</h4>
-                                        </i>
-                                      </div>
-                                    </div>
-                                  </>
-                                )}
-                              </div>
-                              {paymentOption === "stripe" &&
-                                stripePaymentClientSecret && (
-                                  <div className="payement_method checkout_form mt-3 pt-3 card p-3 m-1">
-                                    <Elements
-                                      stripe={stripePromise}
-                                      options={options}
-                                    >
-                                      <StripePaymentElementOrderOnline
-                                        paymentSuccess={async (
-                                          intentResult
-                                        ) => {
-                                          console.log(
-                                            "intentResult",
-                                            intentResult
-                                          );
-                                          sessionStorage.clear(
-                                            "isCheckoutActive"
-                                          );
-                                          await completeOrder();
-                                        }}
-                                        paymentFailure={(err) => {
-                                          console.log("error =>", err.message);
-                                          toast.error(err.message);
-                                        }}
-                                        discount={discountData}
-                                        formState={formState}
-                                        paymentMethod={paymentOption}
-                                      />
-                                    </Elements>
+                {cartItems?.paymentOptions != null &&
+                cartItems?.paymentOptions.shopStatus != "closed" ? (
+                  <>
+                    {!intentLoading ? (
+                      <Fragment>
+                        <h4>Payment</h4>
+                        <p>Secure Payment Options</p>
+
+                        <div
+                          className={
+                            activeCard === "payment"
+                              ? "checkout_order_online_form_0283"
+                              : "checkout_order_online_form_0283 hide"
+                          }
+                        >
+                          <div className="row">
+                            {cartItems?.paymentOptions?.stripe == "Enabled" && (
+                              <>
+                                <div className="col-6">
+                                  <div
+                                    className={
+                                      paymentOption === "stripe"
+                                        ? "card payment_card_order_online_093 selected"
+                                        : "card payment_card_order_online_093"
+                                    }
+                                    onClick={createPaymentIntentRequest}
+                                  >
+                                    <i>
+                                      {/* <Bs.BsCreditCard /> */}
+                                      <h4>Card Payment</h4>
+                                    </i>
                                   </div>
-                                )}
-                            </div>
-                            {paymentOption === "cash" && (
-                              <Fragment>
-                                <p className="cash_payment_info_939">
-                                  <IoInformationCircleOutline />{" "}
-                                  <span>
-                                    You are Choosing Cash on Delivery Press
-                                    Submit Button to Continue
-                                  </span>
-                                </p>
-                                <br />
-                                <button
-                                  type="button"
-                                  className="cash_payment_submit_btn_order_online"
-                                  onClick={completeOrder}
-                                  disabled={loading}
-                                >
-                                  {!loading ? (
-                                    "Submit"
-                                  ) : (
-                                    <Fragment>
-                                      <span
-                                        className="spinner-border spinner-border-sm"
-                                        role="status"
-                                        aria-hidden="true"
-                                      ></span>
-                                      <span className="sr-only">
-                                        {" "}
-                                        Loading...
-                                      </span>
-                                    </Fragment>
-                                  )}
-                                </button>
-                              </Fragment>
+                                </div>
+                              </>
                             )}
+                            {cartItems?.paymentOptions?.cod == "Enabled" && (
+                              <>
+                                <div className="col-6">
+                                  <div
+                                    className={
+                                      paymentOption === "cash"
+                                        ? "card payment_card_order_online_093 selected"
+                                        : "card payment_card_order_online_093"
+                                    }
+                                    onClick={() => handlecashondelivery()}
+                                  >
+                                    <i>
+                                      {/* <Bs.BsCashCoin /> */}
+                                      <h4>Cash Payment</h4>
+                                    </i>
+                                  </div>
+                                </div>
+                              </>
+                            )}
+                          </div>
+                          {paymentOption === "stripe" &&
+                            stripePaymentClientSecret && (
+                              <div className="payement_method checkout_form mt-3 pt-3 card p-3 m-1">
+                                <Elements
+                                  stripe={stripePromise}
+                                  options={options}
+                                >
+                                  <StripePaymentElementOrderOnline
+                                    paymentSuccess={async (intentResult) => {
+                                      console.log("intentResult", intentResult);
+                                      sessionStorage.clear("isCheckoutActive");
+                                      await completeOrder();
+                                    }}
+                                    paymentFailure={(err) => {
+                                      console.log("error =>", err.message);
+                                      toast.error(err.message);
+                                    }}
+                                    discount={discountData}
+                                    formState={formState}
+                                    paymentMethod={paymentOption}
+                                  />
+                                </Elements>
+                              </div>
+                            )}
+                        </div>
+                        {paymentOption === "cash" && (
+                          <Fragment>
+                            <p className="cash_payment_info_939">
+                              <IoInformationCircleOutline />{" "}
+                              <span>
+                                You are Choosing Cash on Delivery Press Submit
+                                Button to Continue
+                              </span>
+                            </p>
+                            <br />
+                            <button
+                              type="button"
+                              className="cash_payment_submit_btn_order_online"
+                              onClick={completeOrder}
+                              disabled={loading}
+                            >
+                              {!loading ? (
+                                "Submit"
+                              ) : (
+                                <Fragment>
+                                  <span
+                                    className="spinner-border spinner-border-sm"
+                                    role="status"
+                                    aria-hidden="true"
+                                  ></span>
+                                  <span className="sr-only"> Loading...</span>
+                                </Fragment>
+                              )}
+                            </button>
                           </Fragment>
-                        ) : (
-                          <PleaseWait />
                         )}
-                      </>
+                      </Fragment>
                     ) : (
-                      <h6 style={{ color: "red" }}></h6>
+                      <PleaseWait />
                     )}
-                  </Fragment>
+                  </>
                 ) : (
-                  <PleaseWait />
+                  <h6 style={{ color: "red" }}></h6>
                 )}
               </div>
             </div>

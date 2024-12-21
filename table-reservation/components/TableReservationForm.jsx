@@ -8,7 +8,7 @@ import { GrLocation } from "react-icons/gr";
 import { TableReservationContext } from "../context/TableReservationContext";
 import Utils from "../utils/Utils";
 import { toast } from "react-hot-toast";
-// import "../style/Style.css";
+import "../style/Style.css";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -177,8 +177,6 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
       shopId: process.env.SHOP_ID,
       shopUrl: process.env.SHOP_URL,
     };
-
-    console.log(requestBody);
 
     const url = "https://shopadmin.vgrex.com/settings/validate-enquiry";
 
@@ -444,7 +442,9 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
               setSessionStorageItem("reserv_details", saveObj);
               setSessionStorageItem("secretKey", secretKey);
               setIsActiveTablePage("otp-page");
-              router.push("/tablereservation?otp=true");
+              router.push("/tablereservation?otp=true", undefined, {
+                shallow: true,
+              });
             }, 300);
           } else {
             toast.error("OTP not send!");
