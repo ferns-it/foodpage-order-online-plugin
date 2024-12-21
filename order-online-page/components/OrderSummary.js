@@ -191,11 +191,7 @@ function OrderSummary() {
       await GuestDeliveryDetails(payload, {
         headers: headers,
         onSuccess: async (res) => {
-<<<<<<< HEAD
         
-=======
-          
->>>>>>> 535b8723d34b8444423be6fc0a8a3256b81a512d
           if (res?.data?.error == false) {
             const deliveryResp = res.data.data;
             if (deliveryResp) {
