@@ -118,105 +118,215 @@ function FoodAccordian() {
             </button>
           )}
           {categoryList &&
-            categoryList.length != 0 &&
+            categoryList.length > 0 &&
             categoryList.map((list, index) => {
-              return (
-                <div className="accordian_space_001" key={index}>
-                  <button
-                    type="button"
-                    className="accor_btn_001"
-                    onClick={() => handleToggleAccordion(index, list)}
-                  >
-                    <span className="accord_category_name_19">
-                      {list?.name ?? "N/A"}
-                    </span>
-                    <span
+              const children = list?.childrens;
+
+              if (children && children.length > 0) {
+                const hasValidChildren = children.some(
+                  (child) => child.productsCount?.online > 0
+                );
+
+                if (hasValidChildren) {
+                  return (
+                    <><div className="accordian_space_001" key={index}>
+                      <button
+                        type="button"
+                        className="accor_btn_001"
+                        onClick={() => handleToggleAccordion(index, list)}
+                      >
+                        <span className="accord_category_name_19">
+                          {list?.name ?? "N/A"}
+                        </span>
+                        <span
+                          className={
+                            accordionStates && accordionStates[index]
+                              ? "accord_arrow_19 "
+                              : "accord_arrow_19 down"
+                          }
+                        >
+                          <Lu.LuArrowUpFromDot />
+                        </span>
+                      </button>
+
+                      <div
+                        className={
+                          accordionStates && accordionStates[index]
+                            ? "food_list_are_001"
+                            : "food_list_are_001 hide"
+                        }
+                      >
+                        {productsListLoading && accordionIndex === index ? (
+                          <FoodCardsSkeleton />
+                        ) : productsList && productsList.length !== 0 ? (
+                          productsList
+                            .filter((product) => product.cID === list.cID)
+                            .flatMap((product) =>
+                              product.products && product.products.length != 0 ? (
+                                product.products.map((data, keyIndex) => (
+                                  <div key={keyIndex}>
+                                    <div
+                                      className="accord_food_anchor"
+                                      onClick={() => addOnsModalData(data)}
+                                    >
+                                      <div className="card accord_food_card_19">
+                                        <div className="row">
+                                          <div className="col-9">
+                                            <h2 className="accord_food_name_19">
+                                              {data?.name ?? "N/A"}
+                                            </h2>
+                                            <p className="accord_desc_19">
+                                              {data?.description &&
+                                                Utils.removeSpecialCharacters(
+                                                  data?.description
+                                                )}
+                                            </p>
+                                            <p className="accord_price_19">
+                                              {data?.price ?? "N/A"}
+                                            </p>
+                                          </div>
+                                          <div className="col-2">
+                                            {/* <div className="accord_img_19">
+                                                        <img
+                                                          src={data?.photo}
+                                                          alt=""
+                                                          referrerPolicy="no-referrer"
+                                                        />
+                                                      </div> */}
+                                            <button
+                                              type="button"
+                                              className="add_prod_"
+                                            >
+                                              <Io.IoIosAddCircle />
+                                            </button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))
+                              ) : (
+                                <Fragment>
+                                  <h3 className="products_placeholder">
+                                    No items available.
+                                  </h3>
+                                </Fragment>
+                              )
+                            )
+                        ) : (
+                          <Fragment>
+                            <h3 className="products_placeholder">
+                              No items available.
+                            </h3>
+                          </Fragment>
+                        )}
+                      </div>
+
+                      <hr />
+                    </div></>
+                  );
+                }
+              } else if (list.productsCount?.online > 0) {
+                return (
+                  <><div className="accordian_space_001" key={index}>
+                    <button
+                      type="button"
+                      className="accor_btn_001"
+                      onClick={() => handleToggleAccordion(index, list)}
+                    >
+                      <span className="accord_category_name_19">
+                        {list?.name ?? "N/A"}
+                      </span>
+                      <span
+                        className={
+                          accordionStates && accordionStates[index]
+                            ? "accord_arrow_19 "
+                            : "accord_arrow_19 down"
+                        }
+                      >
+                        <Lu.LuArrowUpFromDot />
+                      </span>
+                    </button>
+
+                    <div
                       className={
                         accordionStates && accordionStates[index]
-                          ? "accord_arrow_19 "
-                          : "accord_arrow_19 down"
+                          ? "food_list_are_001"
+                          : "food_list_are_001 hide"
                       }
                     >
-                      <Lu.LuArrowUpFromDot />
-                    </span>
-                  </button>
-
-                  <div
-                    className={
-                      accordionStates && accordionStates[index]
-                        ? "food_list_are_001"
-                        : "food_list_are_001 hide"
-                    }
-                  >
-                    {productsListLoading && accordionIndex === index ? (
-                      <FoodCardsSkeleton />
-                    ) : productsList && productsList.length !== 0 ? (
-                      productsList
-                        .filter((product) => product.cID === list.cID)
-                        .flatMap((product) =>
-                          product.products && product.products.length != 0 ? (
-                            product.products.map((data, keyIndex) => (
-                              <div key={keyIndex}>
-                                <div
-                                  className="accord_food_anchor"
-                                  onClick={() => addOnsModalData(data)}
-                                >
-                                  <div className="card accord_food_card_19">
-                                    <div className="row">
-                                      <div className="col-9">
-                                        <h2 className="accord_food_name_19">
-                                          {data?.name ?? "N/A"}
-                                        </h2>
-                                        <p className="accord_desc_19">
-                                          {data?.description &&
-                                            Utils.removeSpecialCharacters(
-                                              data?.description
-                                            )}
-                                        </p>
-                                        <p className="accord_price_19">
-                                          {data?.price ?? "N/A"}
-                                        </p>
-                                      </div>
-                                      <div className="col-2">
-                                        {/* <div className="accord_img_19">
+                      {productsListLoading && accordionIndex === index ? (
+                        <FoodCardsSkeleton />
+                      ) : productsList && productsList.length !== 0 ? (
+                        productsList
+                          .filter((product) => product.cID === list.cID)
+                          .flatMap((product) =>
+                            product.products && product.products.length != 0 ? (
+                              product.products.map((data, keyIndex) => (
+                                <div key={keyIndex}>
+                                  <div
+                                    className="accord_food_anchor"
+                                    onClick={() => addOnsModalData(data)}
+                                  >
+                                    <div className="card accord_food_card_19">
+                                      <div className="row">
+                                        <div className="col-9">
+                                          <h2 className="accord_food_name_19">
+                                            {data?.name ?? "N/A"}
+                                          </h2>
+                                          <p className="accord_desc_19">
+                                            {data?.description &&
+                                              Utils.removeSpecialCharacters(
+                                                data?.description
+                                              )}
+                                          </p>
+                                          <p className="accord_price_19">
+                                            {data?.price ?? "N/A"}
+                                          </p>
+                                        </div>
+                                        <div className="col-2">
+                                          {/* <div className="accord_img_19">
                                         <img
                                           src={data?.photo}
                                           alt=""
                                           referrerPolicy="no-referrer"
                                         />
                                       </div> */}
-                                        <button
-                                          type="button"
-                                          className="add_prod_"
-                                        >
-                                          <Io.IoIosAddCircle />
-                                        </button>
+                                          <button
+                                            type="button"
+                                            className="add_prod_"
+                                          >
+                                            <Io.IoIosAddCircle />
+                                          </button>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-                              </div>
-                            ))
-                          ) : (
-                            <Fragment>
-                              <h3 className="products_placeholder">
-                                No items available.
-                              </h3>
-                            </Fragment>
+                              ))
+                            ) : (
+                              <Fragment>
+                                <h3 className="products_placeholder">
+                                  No items available.
+                                </h3>
+                              </Fragment>
+                            )
                           )
-                        )
-                    ) : (
-                      <Fragment>
-                        <h3 className="products_placeholder">
-                          No items available.
-                        </h3>
-                      </Fragment>
-                    )}
-                  </div>
+                      ) : (
+                        <Fragment>
+                          <h3 className="products_placeholder">
+                            No items available.
+                          </h3>
+                        </Fragment>
+                      )}
+                    </div>
 
-                  <hr />
-                </div>
-              );
+                    <hr />
+                  </div></>
+                );
+              }
+
+              return null;
             })}
         </section>
       )}
