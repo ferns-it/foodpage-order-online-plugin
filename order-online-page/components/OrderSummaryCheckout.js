@@ -114,6 +114,7 @@ function OrderSummaryCheckout() {
   useEffect(() => {
     const deliveryCond = getSessionStorageItem("type");
     setDeliveryTypeParams(deliveryCond);
+    setDelivery(deliveryCond);
   }, []);
 
   // useEffect(() => {
@@ -391,7 +392,7 @@ function OrderSummaryCheckout() {
       let headers = {
         User: userID,
       };
-
+      
       await completeCheckout(payload, {
         headers: headers,
         onSuccess: async (res) => {
