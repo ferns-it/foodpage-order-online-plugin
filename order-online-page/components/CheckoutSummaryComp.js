@@ -125,7 +125,7 @@ function CheckoutSummaryComp() {
       }
     } else if (typeofDelivery === "byDistance") {
       const charge = sessionStorage.getItem("newfee");
-      console.log(charge, "charge");
+ 
       deliveryCharge = charge && charge != undefined && charge / 100;
     } else if (typeofDelivery === "byPostCode") {
       const postcodelist = deliveryInfo?.FixedDeliveryLocationList;

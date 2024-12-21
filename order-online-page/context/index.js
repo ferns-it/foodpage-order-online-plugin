@@ -60,7 +60,7 @@ export const AppContextProvider = (props) => {
       const encodedToken = getLocalStorageItem("userToken");
 
       const decodedToken = jwt.decode(encodedToken, { complete: true });
-      console.log(decodedToken, "encodedToken");
+     
       setIsUserLogged(decodedToken);
     }
   }, []);

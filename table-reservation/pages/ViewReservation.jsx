@@ -300,7 +300,6 @@ function ViewReservation() {
     }
   };
 
-  console.log("isexpp", isExpired);
 
   return (
     <Fragment>

@@ -187,7 +187,7 @@ function OrderSummary() {
       await GuestDeliveryDetails(payload, {
         headers: headers,
         onSuccess: async (res) => {
-          console.log(res, ":respones");
+        
           if (res?.data?.error == false) {
             const deliveryResp = res.data.data;
             if (deliveryResp) {
@@ -316,15 +316,15 @@ function OrderSummary() {
   };
   const clearcart = async () => {
     const userID = getLocalStorageItem("UserPersistent");
-    console.log(userID, "useridsdas");
+   
     await clearCartItems(userID, {
       onSuccess: async (res) => {
-        console.log("cart cleared", res);
+    
         toast.success("Cart Cleared!");
         await fetchCartList(userID);
       },
       onFailed: (err) => {
-        console.log("Error on cart clear", err);
+      
         toast.err("Something Went Wrong!");
       },
     });
