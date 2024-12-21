@@ -191,7 +191,7 @@ function OrderSummary() {
       await GuestDeliveryDetails(payload, {
         headers: headers,
         onSuccess: async (res) => {
-          
+        
           if (res?.data?.error == false) {
             const deliveryResp = res.data.data;
             if (deliveryResp) {
@@ -318,6 +318,22 @@ function OrderSummary() {
     setTime(formattedTime);
     setTakeawayTime(formattedTime);
   };
+  const clearcart = async () => {
+    const userID = getLocalStorageItem("UserPersistent");
+   
+    await clearCartItems(userID, {
+      onSuccess: async (res) => {
+    
+        toast.success("Cart Cleared!");
+        await fetchCartList(userID);
+      },
+      onFailed: (err) => {
+      
+        toast.err("Something Went Wrong!");
+      },
+    });
+  };
+  
 
   return (
     <Fragment>

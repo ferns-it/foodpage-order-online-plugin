@@ -53,8 +53,7 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
   };
 
   const transferCartItems = async (guestId, userId) => {
-    console.log(guestId, userId);
-    // debugger;
+  
     const payload = {
       guestId,
     };
@@ -70,7 +69,7 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
           return;
         }
         // debugger;
-        console.log("CART ITEMS TRANSFERED");
+       
       },
       onFailed: (err) => {
         toast.error("cart items not transfered!");
@@ -90,8 +89,7 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
 
       await userLogin(payload, {
         onSuccess: async (res) => {
-          console.log("login response", res.data);
-
+         
           if (res && res.data && res.data.error == true) {
             let errMsg =
               res?.data?.errorMessage?.message ?? "Authentication failed!";
@@ -106,8 +104,7 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
           setLocalStorageItem("UserPersistent", userId);
           setLocalStorageItem("userToken", token);
           setLocalStorageItem("guest", false);
-          console.log("userId", userId);
-          console.log("guestId", guestId);
+         
 
           if (guestId) {
             await transferCartItems(guestId, userId);
@@ -126,7 +123,7 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
           }, 800);
         },
         onFailed: (err) => {
-          console.log("error=>", err);
+         
           toast.error(err?.response?.data?.errorMessage?.message ||"Authentication Failed");
         },
       });
