@@ -194,9 +194,16 @@ function OrderSummaryCheckout() {
       deliveryTypeData = "Home Delivery";
       const isValid = handleEmptyValidation();
       window.scrollTo(0, 400);
-      if (formState.postalCode == null || formState.postalCode == undefined) {
-        toast.error("Please enter a valid postal code");
-        return;
+      if (orderType == true || orderType == "true") {
+        if (
+          formState?.postalCode.length == 0 ||
+          formState?.postalCode == null ||
+          formState?.postalCode == undefined ||
+          formState?.postalCode == ""
+        ) {
+          toast.error("Please update Postal code");
+          return;
+        }
       }
 
       // const elem = document.getElementById("payment_area");
