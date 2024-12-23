@@ -5,7 +5,7 @@ import { RiMoneyEuroCircleLine } from "react-icons/ri";
 // import * as Bs from "react-icons/bs";
 
 import toast from "react-hot-toast";
-import { AppContext } from "../context/index";
+import { AppContext } from "../context";
 import CheckoutSummaryComp from "./CheckoutSummaryComp";
 import { Elements } from "@stripe/react-stripe-js";
 import StripePaymentElementOrderOnline from "./StripePaymentElementOrderOnline";
@@ -22,6 +22,7 @@ import {
   removeSessionStorageItem,
   setLocalStorageItem,
 } from "../../_utils/ClientUtils";
+import Utils from "../../_utils/Utils";
 
 function OrderSummaryCheckout() {
   const router = useRouter();
@@ -40,7 +41,6 @@ function OrderSummaryCheckout() {
     activeCard,
     setActiveCard,
     deliveryFee,
-    setDelivery,
     createPaymentIntent,
     paymentData,
     setStripeClientSecret,
@@ -95,14 +95,11 @@ function OrderSummaryCheckout() {
   const [fieldError, setFieldError] = useState(false);
   const [discountData, setDiscountData] = useState(null);
   const [intentLoading, setIntentLoading] = useState(false);
-  const [deliveryTypeParams, setDeliveryTypeParams] = useState(false);
 
   useEffect(() => {
     const price = searchParams.get("price");
-    const deliveryTypeParamsSingle = searchParams.get("delivery");
     const deliveryCharge = searchParams.get("deliveryCharge");
     const discount = searchParams.get("discount");
-    // setDeliveryTypeParams(deliveryTypeParamsSingle);
 
     setParamsValues({
       price,
@@ -110,12 +107,6 @@ function OrderSummaryCheckout() {
       deliveryFee: deliveryCharge,
     });
   }, [searchParams]);
-
-  useEffect(() => {
-    const deliveryCond = getSessionStorageItem("type");
-    setDeliveryTypeParams(deliveryCond);
-    setDelivery(deliveryCond);
-  }, []);
 
   // useEffect(() => {
   //   const handleBeforeUnload = (event) => {
@@ -132,11 +123,10 @@ function OrderSummaryCheckout() {
   // }, []);
 
   useEffect(() => {
-    const deliveryCond = getSessionStorageItem("type");
-    if (deliveryCond === false) {
+    if (delivery == false) {
       const postalCode = getSessionStorageItem("postcode");
       if (!postalCode) {
-        toast.error("Postal code is undefined");
+        // toast.error("Postal code is undefined");
         return;
       }
       setFormState({ ...formState, postalCode });
@@ -146,13 +136,20 @@ function OrderSummaryCheckout() {
         isUserLogged != null && isUserLogged?.payload?.data?.userPostCode;
       setFormState({ ...formState, postalCode });
     }
-  }, [deliveryTypeParams]);
+  }, [delivery]);
 
   // useEffect(() => {
   //   if (delivery === null) return;
 
   //   setActiveCard(!delivery ? "login" : "payment");
   // }, [delivery]);
+
+  const handlePhonenumber = (e) => {
+    const { name, value } = e.target;
+    const cleanedNumber = value.replace(/\D/g, "");
+
+    setFormState((prev) => ({ ...prev, [name]: cleanedNumber }));
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -164,7 +161,7 @@ function OrderSummaryCheckout() {
 
     for (const key in formState) {
       if (Object.prototype.hasOwnProperty.call(formState, key)) {
-        if (key === "addressLine2" || key === "notes") {
+        if (key === "addressLine2" || key === "notes" || key === "postalCode") {
           continue;
         }
 
@@ -189,13 +186,23 @@ function OrderSummaryCheckout() {
 
     let deliveryTypeData;
 
-    if (delivery == false || delivery == "false") {
+    if (delivery == false || delivery == "f alse") {
       if (settings?.deliveryInfo?.homeDelivery_temp_off == "Yes") {
         toast.error("Home Delivery Currently Not available!");
       }
 
       deliveryTypeData = "Home Delivery";
       const isValid = handleEmptyValidation();
+      window.scrollTo(0, 400);
+      if (formState.postalCode == null || formState.postalCode == undefined) {
+        toast.error("Please enter a valid postal code");
+        return;
+      }
+
+      // const elem = document.getElementById("payment_area");
+      // if (elem) {
+      //   elem.scrollIntoView({ behavior: "smooth", block: "end" });
+      // }
 
       if (isValid && isValid.length != 0) {
         setFieldError(true);
@@ -210,6 +217,7 @@ function OrderSummaryCheckout() {
       setActiveCard("payment");
       deliveryTypeData = "Take Away";
       const isValid = handleEmptyValidation();
+      console.log(isValid);
 
       if (isValid && isValid.length != 0) {
         setFieldError(true);
@@ -304,6 +312,14 @@ function OrderSummaryCheckout() {
   };
 
   const completeOrder = async () => {
+    if (
+      cartItems &&
+      cartItems?.cartItems &&
+      cartItems?.cartItems?.length == 0
+    ) {
+      toast.error("Your cart is Empty!");
+      return;
+    }
     const emptyValidation = checkForEmptyKeys(formState);
 
     if (emptyValidation && emptyValidation.length != 0) {
@@ -398,6 +414,7 @@ function OrderSummaryCheckout() {
           //! user token removed here
           // removeLocalStorageItem("userToken");
           // removeSessionStorageItem("userInfo");
+          setLocalStorageItem("checkout", "completed");
           await fetchCartList(userID);
           await clearCartItems(userID, {
             onSuccess: (res) => {
@@ -407,12 +424,8 @@ function OrderSummaryCheckout() {
               console.log("Error on cart clear", err);
             },
           });
-          removeSessionStorageItem("type");
-          removeSessionStorageItem("deliveryResponse");
-          removeLocalStorageItem("discount");
-          removeLocalStorageItem("isCheckoutActive");
-          removeLocalStorageItem("takeawaytime");
-          router.push("/order-online");
+
+          router.replace("/order-online");
           setActiveCard("login");
           setPaymentData(null);
         },
@@ -530,15 +543,15 @@ function OrderSummaryCheckout() {
                                 name="postalCode"
                                 id=""
                                 className={
-                                  fieldError == true &&
+                                  fieldError &&
                                   (!formState.postalCode ||
                                     formState?.postalCode.length === 0)
                                     ? "form-control online_order_plugin_input_2939 error___"
-                                    : "form-control online_order_plugin_input_2939 "
+                                    : "form-control online_order_plugin_input_2939"
                                 }
                                 style={{ textTransform: "uppercase" }}
                                 onChange={handleChange}
-                                // value={formState?.postalCode ?? ""}
+                                value={formState?.postalCode ?? ""}
                               />
                             ) : (
                               <input
@@ -552,28 +565,10 @@ function OrderSummaryCheckout() {
                                 disabled
                               />
                             )}
-                            {/* <input
-                                type="text"
-                                name="postalCode"
-                                id=""
-                                className={
-                                  fieldError == true &&
-                                  (!formState.postalCode ||
-                                    formState?.postalCode.length === 0)
-                                    ? "form-control online_order_plugin_input_2939 error___"
-                                    : "form-control online_order_plugin_input_2939 "
-                                }
-                                style={{ textTransform: "uppercase" }}
-                                onChange={handleChange}
-                                value={formState.postalCode}
-                                // disabled={
-                                //   delivery !== false || delivery !== "false"
-                                //     ? true
-                                //     : false
-                                // }
-                              /> */}
                           </div>
-                          {fieldError == true &&
+                          {/* Validation message */}
+                          {fieldError &&
+                            orderType == true && // Check only when manual entry is enabled
                             (!formState.postalCode ||
                               formState?.postalCode?.length === 0) && (
                               <span className="oos_err_29102">
@@ -633,7 +628,7 @@ function OrderSummaryCheckout() {
                                 ? "form-control online_order_plugin_input_2939 error___"
                                 : "form-control online_order_plugin_input_2939 "
                             }
-                            onChange={handleChange}
+                            onChange={handlePhonenumber}
                             value={formState.phone}
                           />
                         </div>
@@ -814,7 +809,7 @@ function OrderSummaryCheckout() {
                               : "checkout_order_online_form_0283 hide"
                           }
                         >
-                          <div className="row">
+                          <div className="row" id="payment_area">
                             {cartItems?.paymentOptions?.stripe == "Enabled" && (
                               <>
                                 <div className="col-6">
@@ -863,10 +858,12 @@ function OrderSummaryCheckout() {
                                 >
                                   <StripePaymentElementOrderOnline
                                     paymentSuccess={async (intentResult) => {
+                                      console.log("intentResult", intentResult);
                                       sessionStorage.clear("isCheckoutActive");
                                       await completeOrder();
                                     }}
                                     paymentFailure={(err) => {
+                                      console.log("error =>", err.message);
                                       toast.error(err.message);
                                     }}
                                     discount={discountData}
