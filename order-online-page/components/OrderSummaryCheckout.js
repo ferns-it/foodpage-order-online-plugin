@@ -186,7 +186,7 @@ function OrderSummaryCheckout() {
 
     let deliveryTypeData;
 
-    if (delivery == false || delivery == "f alse") {
+    if (delivery == false || delivery == "false") {
       if (settings?.deliveryInfo?.homeDelivery_temp_off == "Yes") {
         toast.error("Home Delivery Currently Not available!");
       }
