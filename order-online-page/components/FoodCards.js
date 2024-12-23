@@ -33,7 +33,7 @@ function FoodCards(category) {
 
     if (showModal) {
       const data = getSessionStorageItem("selectedProduct");
-    
+
       if (data && data.length != 0) {
         const product = JSON.parse(data);
         setShowModal(true);
@@ -89,7 +89,6 @@ function FoodCards(category) {
               Array.isArray(productsList) &&
               productsList.length != 0 &&
               productsList.map((list, catIndex) => {
-               
                 if (list?.categoryName == category.category) {
                   const products = list?.products;
                   return (
@@ -146,9 +145,20 @@ function FoodCards(category) {
                                               )}
                                             </span>
 
-                                            <h4 className="prod_price">
+                                            <h4
+                                              style={{
+                                                fontFamily: "sans-sarif",
+                                              }}
+                                              className="prod_price"
+                                            >
                                               {" "}
-                                              <b>{data?.price ?? "N/A"}</b>
+                                              <b
+                                                style={{
+                                                  fontFamily: "sans-serif",
+                                                }}
+                                              >
+                                                {data?.price ?? "N/A"}
+                                              </b>
                                             </h4>
 
                                             <button

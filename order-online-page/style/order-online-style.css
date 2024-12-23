@@ -2658,7 +2658,7 @@ div.food_tile__.active img {
   left: 50%;
   transform: translateX(-50%);
   font-size: 1.2rem;
-  font-family: sans-serif;
+  font-family: sans-serif !important;
   font-weight: 700 !important;
 }
 .add_to_cart {
