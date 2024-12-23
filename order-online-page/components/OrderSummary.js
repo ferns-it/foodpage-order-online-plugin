@@ -340,6 +340,19 @@ function OrderSummary() {
       <Toaster position="top-center" reverseOrder={false} />
       <div style={{ width: "100%" }}>
         <h3 className="order_title text-center">Order Summary</h3>
+        {cartLoading ? (
+          <button disabled className="clr_cart_btn col-md-6">
+            Submitting..
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="clr_cart_btn col-md-6"
+            onClick={clearcart}
+          >
+            Clear Cart
+          </button>
+        )}
 
         <div className="summary_item_wrapper_029">
           {cartItems && cartItems.cartItems.length != 0 ? (
