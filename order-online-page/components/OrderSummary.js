@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import {
   getLocalStorageItem,
   getSessionStorageItem,
+  reloadCurrentPage,
   removeSessionStorageItem,
   setLocalStorageItem,
   setSessionStorageItem,
@@ -36,6 +37,7 @@ function OrderSummary() {
     GuestDiscountoftakeaway,
     shopId,
     GuestDeliveryDetails,
+    clearCartItems,
   } = useContext(AppContext);
 
   const [showAddons, setShowAddons] = useState(null);
@@ -86,8 +88,6 @@ function OrderSummary() {
     removeSessionStorageItem("deliveryFee");
   };
 
- 
-  
   const processLocationData = (locationData) => {
     if (!locationData) return;
     const mileToKMConversionFactor = 0.62137119;
@@ -123,7 +123,7 @@ function OrderSummary() {
     setTakeawayTime(null);
     setDelivery(false);
     removeSessionStorageItem("guest");
-    setSessionStorageItem("deliveryCondition", false)
+    setSessionStorageItem("deliveryCondition", false);
   };
 
   const calculateTakwawayDiscount = async () => {
@@ -191,7 +191,6 @@ function OrderSummary() {
       await GuestDeliveryDetails(payload, {
         headers: headers,
         onSuccess: async (res) => {
-        
           if (res?.data?.error == false) {
             const deliveryResp = res.data.data;
             if (deliveryResp) {
@@ -318,22 +317,21 @@ function OrderSummary() {
     setTime(formattedTime);
     setTakeawayTime(formattedTime);
   };
+
   const clearcart = async () => {
     const userID = getLocalStorageItem("UserPersistent");
-   
+
     await clearCartItems(userID, {
       onSuccess: async (res) => {
-    
         toast.success("Cart Cleared!");
+        reloadCurrentPage();
         await fetchCartList(userID);
       },
       onFailed: (err) => {
-      
         toast.err("Something Went Wrong!");
       },
     });
   };
-  
 
   return (
     <Fragment>
