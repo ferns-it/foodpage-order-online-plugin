@@ -66,7 +66,6 @@ const useMenus = () => {
       setDiningLoading(true);
       await BaseClient.get(APIEndpoints.diningMenu, [], {
         onSuccess: (res) => {
-          console.log(res.data, "response");
           setDiningList(res?.data?.data?.items);
           setDiningLoading(false);
         },

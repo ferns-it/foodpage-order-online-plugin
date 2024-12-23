@@ -196,7 +196,6 @@ function OrderSummaryCheckout() {
 
       deliveryTypeData = "Home Delivery";
       const isValid = handleEmptyValidation();
-     
 
       if (isValid && isValid.length != 0) {
         setFieldError(true);
@@ -211,7 +210,6 @@ function OrderSummaryCheckout() {
       setActiveCard("payment");
       deliveryTypeData = "Take Away";
       const isValid = handleEmptyValidation();
-    
 
       if (isValid && isValid.length != 0) {
         setFieldError(true);
@@ -392,7 +390,7 @@ function OrderSummaryCheckout() {
       let headers = {
         User: userID,
       };
-      
+
       await completeCheckout(payload, {
         headers: headers,
         onSuccess: async (res) => {
@@ -741,7 +739,13 @@ function OrderSummaryCheckout() {
                             type="text"
                             name="county"
                             id=""
-                            className="form-control online_order_plugin_input_2939"
+                            className={
+                              fieldError &&
+                              (!formState.county ||
+                                formState?.county.length == 0)
+                                ? "form-control online_order_plugin_input_2939 error___"
+                                : "form-control online_order_plugin_input_2939 "
+                            }
                             onChange={handleChange}
                             value={formState.county}
                           />
@@ -859,12 +863,10 @@ function OrderSummaryCheckout() {
                                 >
                                   <StripePaymentElementOrderOnline
                                     paymentSuccess={async (intentResult) => {
-                                    
                                       sessionStorage.clear("isCheckoutActive");
                                       await completeOrder();
                                     }}
                                     paymentFailure={(err) => {
-                                    
                                       toast.error(err.message);
                                     }}
                                     discount={discountData}
