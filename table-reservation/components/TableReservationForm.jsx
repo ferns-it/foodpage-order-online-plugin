@@ -297,14 +297,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
             setSessionStorageItem("reserv_details", saveObj);
             setSessionStorageItem("secretKey", secretKey);
             setIsActiveTablePage("otp-page");
-            router.push( 
-              {
-                pathname: "/tablereservation",
-                query: { otp: true },
-              },
-              undefined,
-              { shallow: true }
-            );
+            router.push(`/tablereservation?otp=true`);
           }, 300);
         } else {
           toast.error("OTP not send!");

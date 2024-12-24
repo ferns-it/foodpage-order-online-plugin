@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { Fragment, useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Tooltip } from "react-tooltip";
@@ -28,12 +28,12 @@ function ManageReservationMain() {
         const idd =
           res?.id && typeof res?.id == "string" ? parseInt(res?.id) : res?.id;
         const id = btoa(idd);
+        debugger;
 
         if (res.error == true) {
           toast.error(res.message);
           return;
         }
-
         setTimeout(() => {
           router.push(`/view-reservation?reserv=${reservId}&&unq=${id}`);
         }, 200);
