@@ -2,13 +2,12 @@
 import React, { Fragment, useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Tooltip } from "react-tooltip";
-import { TableReservationContext } from "../context/TableReservationContext";
 import * as Go from "react-icons/go";
 import * as Fa from "react-icons/fa";
 import toast from "react-hot-toast";
 import "react-tooltip/dist/react-tooltip.css";
-import "../style/style.css";
 import CryptoJS from "crypto-js";
+import { TableReservationContext } from "../context/TableReservationContext";
 
 function ManageReservationMain() {
   const router = useRouter();
@@ -80,6 +79,7 @@ function ManageReservationMain() {
                   }
                   value={reservId}
                   onChange={(e) => setReservId(e.target.value)}
+                  autoComplete="off"
                 />
                 {error && reservId.length == 0 && (
                   <span className="reserv_from_err">

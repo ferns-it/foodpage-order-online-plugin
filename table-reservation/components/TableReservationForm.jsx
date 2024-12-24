@@ -227,6 +227,9 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
       return dates;
     }, []);
 
+    console.log(upcomingHolidays, "disabledDates");
+    
+
   const isHoliday = (date) => {
     return (
       disabledDates &&

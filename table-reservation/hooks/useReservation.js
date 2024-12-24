@@ -180,7 +180,7 @@ const useReservation = () => {
       };
 
       await BaseClient.get(
-        APIEndpoints.getUpcomingHolidays,
+        ReservationAPIEndpoints.getUpcomingHolidays,
         {},
         {
           onSuccess: (res) => {
