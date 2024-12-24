@@ -119,7 +119,6 @@ function ReservModal(props) {
       isValid = validateLateCancel();
     }
 
-    console.log("lateCancel", isValid);
     if (isValid === false) return;
 
     await cancelReservation(unqqId, {
