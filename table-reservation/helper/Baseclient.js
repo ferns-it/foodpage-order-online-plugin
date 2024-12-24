@@ -1,17 +1,25 @@
 "use client";
+import { getLocalStorageItem } from "@/plugin/_utils/ClientUtils";
 import axios from "axios";
+import Utils from "../utils/Utils";
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const getUserId = () => {
-  let storedUserId;
-  if (typeof window !== "undefined") {
-    storedUserId = window.localStorage.getItem("UserPersistent");
+  const token = getLocalStorageItem("token");
+  let userId;
+
+  if (token === undefined || token === null) {
+    userId = getLocalStorageItem("UserPersistent");
+  } else {
+    userId = token;
   }
- else {
-    storedUserId = null;
+
+  if (!userId) {
+    userId = Utils.generateRandomId();
+    return;
   }
-  return storedUserId;
+  return userId;
 };
 
 let userId = getUserId();

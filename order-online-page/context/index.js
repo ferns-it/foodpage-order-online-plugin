@@ -58,9 +58,10 @@ export const AppContextProvider = (props) => {
     if ((token != null && isGuest == false) || isGuest == "false") {
       const jwt = require("jsonwebtoken");
       const encodedToken = getLocalStorageItem("userToken");
-
+      getUserInformation(token);
+      fetchOrderHistory();
+      fetchAddressList(token);
       const decodedToken = jwt.decode(encodedToken, { complete: true });
-     
       setIsUserLogged(decodedToken);
     }
   }, []);
@@ -102,13 +103,19 @@ export const AppContextProvider = (props) => {
     passwordResetMail,
   } = useAuth();
   const {
-    fetchAddressList,
     address,
     addressLoading,
     addNewAddress,
     deleteAddress,
     fetchDefaultAddress,
     addressDetails,
+    userLoading,
+    userInfo,
+    userNewAddress,
+    getUserInformation,
+    fetchAddressList,
+
+    userAddressList,
   } = useProfile();
   const {
     fetchOrderList,
@@ -116,7 +123,8 @@ export const AppContextProvider = (props) => {
     orderHistory,
     fetchOrderDetails,
     orderList,
-    // orderDetails
+    // orderDetails,
+    fetchOrderHistory,
   } = useOrderHistory();
   const {
     createPaymentIntent,
@@ -169,7 +177,6 @@ export const AppContextProvider = (props) => {
   useEffect(() => {
     if (productsList.length == 0) {
       if (!categoryList || categoryList.length === 0) return;
-      console.log(categoryList, "catehoskg");
 
       if (!categoryList) return;
 
@@ -254,6 +261,7 @@ export const AppContextProvider = (props) => {
         fetchCartList,
         cartItems,
         getLocation,
+        userNewAddress,
         productsList,
         fetchSingleProduct,
         productsListLoading,
@@ -336,6 +344,11 @@ export const AppContextProvider = (props) => {
         diningLoading,
         diningList,
         currentStatus,
+        getUserInformation,
+        userLoading,
+        userInfo,
+        userAddressList,
+        fetchOrderHistory,
       }}
     >
       {props.children}
