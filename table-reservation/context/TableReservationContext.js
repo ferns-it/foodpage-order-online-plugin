@@ -31,6 +31,9 @@ export const TableReservationContextProvider = (props) => {
     reservationDetails,
     cancelReservation,
     updateReservationDetails,
+    chatMessages,
+    sendMessage,
+    messageLoading,
   } = useReservation();
 
   useEffect(() => {
@@ -38,7 +41,6 @@ export const TableReservationContextProvider = (props) => {
     if (shopId && shopId != 0) {
       getShopTiming(shopId);
     }
-    
   }, []);
 
   return (
@@ -60,6 +62,9 @@ export const TableReservationContextProvider = (props) => {
         reservationDetails,
         cancelReservation,
         updateReservationDetails,
+        chatMessages,
+        sendMessage,
+        messageLoading,
         // otp,
         // setOtp,
         // clearOtp

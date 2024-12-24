@@ -8,6 +8,7 @@ import * as Fa from "react-icons/fa";
 import toast from "react-hot-toast";
 import "react-tooltip/dist/react-tooltip.css";
 import "../style/style.css";
+import CryptoJS from "crypto-js";
 
 function ManageReservationMain() {
   const router = useRouter();
@@ -30,12 +31,14 @@ function ManageReservationMain() {
         const id = btoa(idd);
         debugger;
 
+        const parsedId = CryptoJS.MD5(res?.id);
+
         if (res.error == true) {
           toast.error(res.message);
           return;
         }
         setTimeout(() => {
-          router.push(`/view-reservation?reserv=${reservId}&&unq=${id}`);
+          router.push(`/view-reservation?reserv=${parsedId}`);
         }, 200);
       })
       .catch((err) => {
@@ -50,7 +53,7 @@ function ManageReservationMain() {
   return (
     <Fragment>
       <div className="tbl_reserv_section">
-        <div className="container mt-4">
+        <div className="container">
           <button
             type="button"
             className="go_back"
@@ -59,7 +62,7 @@ function ManageReservationMain() {
           >
             <Go.GoArrowLeft /> Back
           </button>
-          <div className="card manage_reserv_card">
+          <div className="card manage_reserv_card w-50">
             <h3 className="table-reservation-form-head">Manage Reservation</h3>
             <form onSubmit={handleReservation}>
               <div className="form-group">

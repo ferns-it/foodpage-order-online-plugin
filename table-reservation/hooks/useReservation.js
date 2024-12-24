@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import BaseClient from "../helper/Baseclient";
 import { ReservationAPIEndpoints } from "../constants/ReservationAPIEndpoints";
+import { APIEndpoints } from "../../order-online-page/constants/APIEndpoints";
 
 const useReservation = () => {
   const [shopTiming, setShopTiming] = useState(null);
   const [isTimingLoading, setIsTimingLoading] = useState(false);
   const [reservationLoading, setReservationLoading] = useState(false);
   const [reservationDetails, setReservationDetails] = useState(null);
+  const [chatMessages, setChatMessages] = useState(null);
+  const [messageLoading, setMessageLoading] = useState(false);
 
   const sendReservationOTP = async (
     payload,
@@ -82,9 +85,11 @@ const useReservation = () => {
               if (res && res.data && res.data.error == false && res.data.data) {
                 // debugger;
                 const reservResponse = res.data.data?.ReservationData;
+                const msgResponse = res.data.data?.chatMessages;
 
                 if (reservResponse) {
-                  setReservationDetails(res.data.data?.ReservationData);
+                  setReservationDetails(reservResponse);
+                  setChatMessages(msgResponse);
                   resolve(res.data.data?.ReservationData);
                 } else {
                   let errResp = {
@@ -147,6 +152,24 @@ const useReservation = () => {
       setReservationLoading(false);
     }
   };
+
+  const sendMessage = async (payload, { onSuccess, onFailed, headers }) => {
+    try {
+      setMessageLoading(true);
+
+      await BaseClient.post(
+        ReservationAPIEndpoints.sendMessageToShop,
+        payload,
+        {
+          onSuccess: onSuccess,
+          onFailed: onFailed,
+          headers: headers,
+        }
+      );
+    } finally {
+      setMessageLoading(false);
+    }
+  };
   return {
     getShopTiming,
     shopTiming,
@@ -158,6 +181,9 @@ const useReservation = () => {
     reservationDetails,
     cancelReservation,
     updateReservationDetails,
+    chatMessages,
+    sendMessage,
+    messageLoading
   };
 };
 
