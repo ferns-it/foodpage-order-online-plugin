@@ -16,6 +16,7 @@ import {
   setSessionStorageItem,
 } from "../../_utils/ClientUtils";
 import { TableReservationContext } from "../../table-reservation/context/TableReservationContext";
+import { reloadCurrentPage } from "@/app/utils/ClientUtils";
 
 const days = [
   "sunday",
@@ -372,7 +373,7 @@ function OrderSummary() {
     await clearCartItems(userID, {
       onSuccess: async (res) => {
         toast.success("Cart Cleared!");
-        reloadCurrentPage();
+        // reloadCurrentPage();
         await fetchCartList(userID);
       },
       onFailed: (err) => {
@@ -386,18 +387,22 @@ function OrderSummary() {
       <Toaster position="top-center" reverseOrder={false} />
       <div style={{ width: "100%" }}>
         <h3 className="order_title text-center">Order Summary</h3>
-        {cartLoading ? (
-          <button disabled className="clr_cart_btn col-md-6">
-            Submitting..
-          </button>
-        ) : (
-          <button
-            type="button"
-            className="clr_cart_btn col-md-6"
-            onClick={clearcart}
-          >
-            Clear Cart
-          </button>
+        {cartItems && cartItems.length != 0 && (
+          <>
+            {cartLoading ? (
+              <button disabled className="clr_cart_btn col-md-6">
+                Submitting..
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="clr_cart_btn col-md-6"
+                onClick={clearcart}
+              >
+                Clear Cart
+              </button>
+            )}
+          </>
         )}
 
         <div className="summary_item_wrapper_029">

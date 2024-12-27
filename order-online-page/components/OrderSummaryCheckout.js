@@ -161,7 +161,12 @@ function OrderSummaryCheckout() {
 
     for (const key in formState) {
       if (Object.prototype.hasOwnProperty.call(formState, key)) {
-        if (key === "addressLine2" || key === "notes" || key === "postalCode") {
+        if (
+          key === "addressLine2" ||
+          key === "notes" ||
+          key === "postalCode" ||
+          key === "county"
+        ) {
           continue;
         }
 
@@ -432,7 +437,7 @@ function OrderSummaryCheckout() {
             },
           });
 
-          router.replace("/order-online");
+          redirectToLocation("/order-online");
           setActiveCard("login");
           setPaymentData(null);
         },
@@ -741,24 +746,18 @@ function OrderSummaryCheckout() {
                             type="text"
                             name="county"
                             id=""
-                            className={
-                              fieldError &&
-                              (!formState.county ||
-                                formState?.county.length == 0)
-                                ? "form-control online_order_plugin_input_2939 error___"
-                                : "form-control online_order_plugin_input_2939 "
-                            }
+                            className="form-control online_order_plugin_input_2939 "
                             onChange={handleChange}
                             value={formState.county}
                           />
                         </div>
-                        {fieldError &&
+                        {/* {fieldError &&
                           (!formState.county ||
                             formState?.county?.length == 0) && (
                             <span className="oos_err_29102">
                               County Required
                             </span>
-                          )}
+                          )} */}
                       </div>
                     </div>
                     <div className="form-group mt-3">
