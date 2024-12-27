@@ -56,12 +56,13 @@ function OrderSummaryCheckout() {
     isUserLogged,
     cartItems,
     clearCartItems,
+    userAddressList,
+    userInfo,
   } = useContext(AppContext);
 
   // const { fetchCartList } = useContext(AppContext);
 
   const [paymentOption, setPaymentOption] = useState("");
-  const [addressDefault, setAddressDefault] = useState(null);
   // useEffect(() => {
   //   const storeDefaultAddressDetails = JSON.parse(getSessionStorageItem("defaultAddressDetails"))
   //   if (storeDefaultAddressDetails) {
@@ -84,13 +85,13 @@ function OrderSummaryCheckout() {
       (isUserLogged != null && isUserLogged?.payload?.data?.userEmail) || "",
     phone:
       (isUserLogged != null && isUserLogged?.payload?.data?.userMobile) || "",
-    addressLine1: (savedAddress != null && savedAddress?.line1) || "",
-    addressLine2: (savedAddress != null && savedAddress?.line2) || "",
-    townCity: (savedAddress != null && savedAddress?.town) || "",
-    county: (savedAddress != null && savedAddress?.county) || "",
+    addressLine1: userInfo?.line1 || "",
+    addressLine2: userInfo?.line2 || "",
+    townCity: userInfo?.town || "",
+    county: userInfo?.county || "",
     notes: "",
   });
-
+  console.log(userInfo, "userInfo");
   const [fieldError, setFieldError] = useState(false);
   const [discountData, setDiscountData] = useState(null);
   const [intentLoading, setIntentLoading] = useState(false);
@@ -129,11 +130,11 @@ function OrderSummaryCheckout() {
         return;
       }
       setFormState({ ...formState, postalCode });
-    } else {
+    } else if (delivery == true) {
       // setActiveCard("payment");
       const postalCode =
         isUserLogged != null && isUserLogged?.payload?.data?.userPostCode;
-      setFormState({ ...formState, postalCode });
+      setFormState({ ...formState, postalCode: "" });
     }
   }, [delivery]);
 
@@ -864,12 +865,10 @@ function OrderSummaryCheckout() {
                                 >
                                   <StripePaymentElementOrderOnline
                                     paymentSuccess={async (intentResult) => {
-                                    
                                       sessionStorage.clear("isCheckoutActive");
                                       await completeOrder();
                                     }}
                                     paymentFailure={(err) => {
-                                      
                                       toast.error(err.message);
                                     }}
                                     discount={discountData}
@@ -932,6 +931,5 @@ function OrderSummaryCheckout() {
     </Fragment>
   );
 }
-
 
 export default OrderSummaryCheckout;
