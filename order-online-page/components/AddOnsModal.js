@@ -378,7 +378,7 @@ function AddOnsModal(props) {
               {itemData?.description &&
                 Utils.removeSpecialCharacters(itemData?.description)}
             </p>
-            <p className="price_02901">
+            <p className="price_02901 Montserrat-font-family">
               {/* £{total && total.length != 0 ? total.toFixed(2) : 0} */}£
               {cardTotal}
             </p>
@@ -460,7 +460,7 @@ function AddOnsModal(props) {
                                       </span>
                                     </label>
                                   </td>
-                                  <td style={{ userSelect: "none" }}>
+                                  <td style={{ userSelect: "none" }} className="Montserrat-font-family">
                                     {varient?.displayPrice ?? "N/A"}
                                   </td>
                                 </tr>
@@ -540,6 +540,7 @@ function AddOnsModal(props) {
                                   whiteSpace: "nowrap",
                                   userSelect: "none",
                                 }}
+                                className="Montserrat-font-family"
                               >
                                 + {data?.price_formatted ?? "N/A"}
                               </td>

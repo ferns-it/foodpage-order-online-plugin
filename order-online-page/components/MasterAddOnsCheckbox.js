@@ -92,7 +92,7 @@ function MasterAddOnsCheckbox({ foodValues, setMasterAddons, variationValue }) {
           return (
             <Fragment key={key}>
               <div className="col">
-                <p className="sub_head_0291 mb-0">
+                <p className="sub_head_0291 mb-0 ">
                   {item?.name ?? "N/A"}{" "}
                   {(item?.minimumRequired != 0 ||
                     item?.maximumRequired != 0) && (
@@ -147,7 +147,8 @@ function MasterAddOnsCheckbox({ foodValues, setMasterAddons, variationValue }) {
                                     //     ? "varient_name disabled"
                                     //     : "varient_name "
                                     // }
-                                    className="varient_name"
+                                    className="varient_name Montserrat-font-family"
+                                    
                                   >
                                     {data?.text ?? "N/A"}
                                   </span>
@@ -158,6 +159,7 @@ function MasterAddOnsCheckbox({ foodValues, setMasterAddons, variationValue }) {
                                   whiteSpace: "nowrap",
                                   userSelect: "none",
                                 }}
+                                className="Montserrat-font-family"
                               >
                                 + {data?.price_formatted ?? "N/A"}
                               </td>
