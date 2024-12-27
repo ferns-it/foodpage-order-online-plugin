@@ -25,7 +25,7 @@ const useOrderHistory = () => {
             }
           },
           onFailed: (err) => {
-            console.log("Error on address list", err);
+         
           },
         }
       );

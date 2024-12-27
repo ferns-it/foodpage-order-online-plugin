@@ -52,3 +52,8 @@ export const reloadCurrentPage = () => {
     window.location.reload();
   }
 };
+export const reloadCurrentLocation = () => {
+  if (isClient) {
+    window.location.reload();
+  }
+};

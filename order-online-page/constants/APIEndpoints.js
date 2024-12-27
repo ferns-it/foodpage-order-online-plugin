@@ -34,4 +34,6 @@ export const APIEndpoints = {
   getDiscountForGuest: "guest/checkout/takeawaycalculator",
   getDeliveryDiscountGuest: "guest/checkout/deliverycalculator",
   getCurrentShopStatus: `status/${id}`,
+  defaultAddress: "user/setdefaultaddress",
+  deleteAddress: "user/deleteaddress",
 };

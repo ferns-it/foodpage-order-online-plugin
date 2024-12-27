@@ -76,10 +76,7 @@ function OrderSummaryCheckout() {
   // console.log(savedAddress, "saved");
   const [formState, setFormState] = useState({
     fullname:
-      (isUserLogged != null &&
-        isUserLogged?.payload?.data?.userFirstName +
-          " " +
-          isUserLogged?.payload?.data?.userLastName) ||
+      (userInfo != null && userInfo?.firstName + " " + userInfo?.lastName) ||
       "",
     postalCode: "",
     emailAddress:
@@ -135,7 +132,7 @@ function OrderSummaryCheckout() {
       // setActiveCard("payment");
       const postalCode =
         isUserLogged != null && isUserLogged?.payload?.data?.userPostCode;
-      setFormState({ ...formState, postalCode });
+      setFormState({ ...formState, postalCode: "" });
     }
   }, [delivery]);
 
@@ -742,24 +739,11 @@ function OrderSummaryCheckout() {
                             type="text"
                             name="county"
                             id=""
-                            className={
-                              fieldError &&
-                              (!formState.county ||
-                                formState?.county.length == 0)
-                                ? "form-control online_order_plugin_input_2939 error___"
-                                : "form-control online_order_plugin_input_2939 "
-                            }
+                            className="form-control online_order_plugin_input_2939 "
                             onChange={handleChange}
                             value={formState.county}
                           />
                         </div>
-                        {fieldError &&
-                          (!formState.county ||
-                            formState?.county?.length == 0) && (
-                            <span className="oos_err_29102">
-                              County Required
-                            </span>
-                          )}
                       </div>
                     </div>
                     <div className="form-group mt-3">

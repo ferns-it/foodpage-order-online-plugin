@@ -100,6 +100,7 @@ export const AppContextProvider = (props) => {
     registerUser,
     transferCartItem,
     passwordResetMail,
+    resetPassword,
   } = useAuth();
   const {
     address,
@@ -114,6 +115,8 @@ export const AppContextProvider = (props) => {
     getUserInformation,
     fetchAddressList,
     expired,
+    setDefaultAddress,
+    deleteSavedAddress,
     userAddressList,
   } = useProfile();
   const {
@@ -349,6 +352,9 @@ export const AppContextProvider = (props) => {
         userInfo,
         userAddressList,
         fetchOrderHistory,
+        resetPassword,
+        setDefaultAddress,
+        deleteSavedAddress,
       }}
     >
       {props.children}

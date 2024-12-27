@@ -50,6 +50,17 @@ const useAuth = () => {
       setAuthLoading(false);
     }
   };
+  const resetPassword = async (payload, { onSuccess, onFailed }) => {
+    try {
+      setAuthLoading(true);
+      await BaseClient.post(APIEndpoints.resetPassword, payload, {
+        onSuccess: onSuccess,
+        onFailed: onFailed,
+      });
+    } finally {
+      setAuthLoading(false);
+    }
+  };
   const confirmPassword = async (payload, { onSuccess, onFailed }) => {
     try {
       setAuthLoading(true);
@@ -62,7 +73,10 @@ const useAuth = () => {
     }
   };
 
-  const transferCartItem = async (payload, { headers, onSuccess, onFailed }) => {
+  const transferCartItem = async (
+    payload,
+    { headers, onSuccess, onFailed }
+  ) => {
     try {
       setAuthLoading(true);
 
@@ -82,6 +96,7 @@ const useAuth = () => {
     confirmPassword,
     registerUser,
     transferCartItem,
+    resetPassword,
     passwordResetMail,
   };
 };

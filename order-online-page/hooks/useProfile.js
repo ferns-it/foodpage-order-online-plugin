@@ -35,16 +35,29 @@ const useProfile = () => {
               return;
             }
           },
-          onFailed: (err) => {
-            console.log("Error on address list", err);
-          },
+          onFailed: (err) => {},
         }
       );
     } finally {
       setUserLoading(false);
     }
   };
-
+  const setDefaultAddress = async (id, { onSuccess, onFailed, headers }) => {
+    try {
+      setUserLoading(true);
+      await BaseClient.put(
+        APIEndpoints.defaultAddress + `/${id}`,
+        {},
+        {
+          headers: headers,
+          onSuccess: onSuccess,
+          onFailed: onFailed,
+        }
+      );
+    } finally {
+      setUserLoading(false);
+    }
+  };
   const getUserInformation = async (token) => {
     try {
       setUserLoading(true);
@@ -71,9 +84,7 @@ const useProfile = () => {
             }
           },
           onFailed: (err) => {
-            console.log("Error on address list", err);
             if (err?.status == 401) {
-              router.push("/login");
               setExpired(true);
             }
           },
@@ -157,6 +168,20 @@ const useProfile = () => {
       setUserLoading(false);
     }
   };
+    const deleteSavedAddress = async (id, { onSuccess, onFailed, headers }) => {
+      try {
+        setUserLoading(true);
+        await BaseClient.delete(APIEndpoints.deleteAddress + `/${id}`, {
+          headers: headers,
+          onSuccess: onSuccess,
+          onFailed: onFailed,
+        });
+      } catch (error) {
+        onFailed(error);
+      } finally {
+        setUserLoading(false);
+      }
+    };
   return {
     fetchAddressList,
     address,
@@ -173,6 +198,8 @@ const useProfile = () => {
     userAddressList,
     setUserInfo,
     expired,
+    setDefaultAddress,
+    deleteSavedAddress,
   };
 };
 
