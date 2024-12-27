@@ -93,7 +93,7 @@ function OrderSummaryCheckout() {
     county: userInfo?.county || "",
     notes: "",
   });
-  console.log(userInfo, "userInfo");
+  // console.log(userInfo, "userInfo");
   const [fieldError, setFieldError] = useState(false);
   const [discountData, setDiscountData] = useState(null);
   const [intentLoading, setIntentLoading] = useState(false);
@@ -263,12 +263,22 @@ function OrderSummaryCheckout() {
     setDiscountData(discount);
     setPaymentOption("stripe");
 
+    const emptyValidation = checkForEmptyKeys(formState);
+
+    if (emptyValidation && emptyValidation.length != 0) {
+      toast.error("Please fill All the required Details before checkout!");
+      setActiveCard("login");
+      setPaymentOption("");
+      return;
+    }
+
     if (paymentData == null) {
       try {
         const userID = getLocalStorageItem("UserPersistent");
         let headers = {
           User: userID,
         };
+
         setIntentLoading(true);
         const discountam = Number(details?.discount ?? paramsValues.discount);
         const delivFeeAmt = deliveryFee ?? paramsValues?.deliveryFee;
@@ -303,6 +313,13 @@ function OrderSummaryCheckout() {
   };
 
   const handlecashondelivery = () => {
+    const emptyValidation = checkForEmptyKeys(formState);
+    if (emptyValidation && emptyValidation.length != 0) {
+      toast.error("Please fill All the required Details before checkout!");
+      setActiveCard("login");
+      setPaymentOption("");
+      return;
+    }
     setPaymentOption("cash");
     setPaymentData(null);
   };
@@ -315,12 +332,13 @@ function OrderSummaryCheckout() {
       const value = formState[key];
 
       // Exclude 'addressLine2' and 'notes' from the check
-      if (key !== "addressLine2" && key !== "notes") {
+      if (key !== "addressLine2" && key !== "notes" && key !== "county") {
         if (value === undefined || value === null || value === "") {
           emptyKeys.push(key);
         }
       }
     }
+    console.log("emptyKeys", emptyKeys);
 
     return emptyKeys;
   };
@@ -357,15 +375,18 @@ function OrderSummaryCheckout() {
         deliveryType = "store_pickup";
       }
       const paymentMethod = paymentOption === "stripe" ? "STRIPE" : "COD";
-
       const userID = getLocalStorageItem("UserPersistent");
       const isGuest = getLocalStorageItem("guest");
       const userToken = getLocalStorageItem("userToken");
 
+      console.log(paymentData, paymentMethod, "paymentData");
+
+      // debugger;
       if (
         (paymentMethod === "STRIPE" && paymentData != null) ||
         (paymentMethod === "COD" && paymentData === null)
       ) {
+        // debugger;
         const priceValue = details
           ? details?.cart_NetAmount
           : paramsValues?.price;
@@ -423,6 +444,8 @@ function OrderSummaryCheckout() {
           User: userID,
         };
 
+        // debugger;
+
         await completeCheckout(payload, {
           headers: headers,
           onSuccess: async (res) => {
@@ -446,6 +469,7 @@ function OrderSummaryCheckout() {
             setPaymentData(null);
           },
           onFailed: (err) => {
+            // debugger;
             console.log("error message for confirm payment", err);
             toast.error(err.message);
           },
@@ -876,6 +900,7 @@ function OrderSummaryCheckout() {
                                         sessionStorage.clear(
                                           "isCheckoutActive"
                                         );
+
                                         await completeOrder();
                                       }}
                                       paymentFailure={(err) => {
