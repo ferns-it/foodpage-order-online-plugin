@@ -54,9 +54,6 @@ export const AppContextProvider = (props) => {
     if (!isCheckout) {
       setSessionStorageItem("isCheckoutActive", false);
     }
-    if (userInfo == null || userInfo == undefined) {
-      setIsUserLogged(null);
-    }
     if ((token != null && isGuest == false) || isGuest == "false") {
       const jwt = require("jsonwebtoken");
       const encodedToken = getLocalStorageItem("userToken");
