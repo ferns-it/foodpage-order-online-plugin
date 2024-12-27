@@ -57,7 +57,7 @@ function ManageReservationMain() {
             style={{ zIndex: 9 }}
             onClick={() => router.push("/tablereservation")}
           >
-            <Go.GoArrowLeft /> Back
+            <Go.GoArrowLeft /> Table Reservation
           </button>
           <div className="card card-manage p-3 pt-3 mt-3">
             <h3 className="table-reservation-form-head">Manage Reservation</h3>

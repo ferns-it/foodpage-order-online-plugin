@@ -4,6 +4,7 @@ import BaseClient from "../helper/Baseclients";
 import { APIEndpoints } from "../constants/APIEndpoints";
 import { AppContext } from "../context";
 import { useRouter } from "next/navigation";
+import { getLocalStorageItem } from "@/plugin/_utils/ClientUtils";
 
 const useProfile = () => {
   const router = useRouter();
@@ -11,6 +12,7 @@ const useProfile = () => {
   const [addressLoading, setAddressLoading] = useState(false);
   const [userLoading, setUserLoading] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
+  const [orderHistory, setOrderHistory] = useState(null);
   const [expired, setExpired] = useState(false);
   const [userAddressList, setUserAddressList] = useState(null);
 
@@ -156,6 +158,33 @@ const useProfile = () => {
       setAddressLoading(false);
     }
   };
+  const fetchOrderHistory = async () => {
+    const token = getLocalStorageItem("userToken");
+    try {
+      setUserLoading(true);
+      let headers = {
+        "x-user": token,
+      };
+      await BaseClient.get(
+        APIEndpoints.getOrderHistory,
+        {},
+        {
+          headers,
+          onSuccess: (res) => {
+            console.log(res, "response");
+            if (res.data.data.History) {
+              setOrderHistory(res.data.data.History);
+            }
+          },
+          onFailed: (err) => {
+            console.log("Error on address list", err);
+          },
+        }
+      );
+    } finally {
+      setUserLoading(false);
+    }
+  };
   const userNewAddress = async (payload, { onSuccess, onFailed, headers }) => {
     try {
       setUserLoading(true);
@@ -168,20 +197,20 @@ const useProfile = () => {
       setUserLoading(false);
     }
   };
-    const deleteSavedAddress = async (id, { onSuccess, onFailed, headers }) => {
-      try {
-        setUserLoading(true);
-        await BaseClient.delete(APIEndpoints.deleteAddress + `/${id}`, {
-          headers: headers,
-          onSuccess: onSuccess,
-          onFailed: onFailed,
-        });
-      } catch (error) {
-        onFailed(error);
-      } finally {
-        setUserLoading(false);
-      }
-    };
+  const deleteSavedAddress = async (id, { onSuccess, onFailed, headers }) => {
+    try {
+      setUserLoading(true);
+      await BaseClient.delete(APIEndpoints.deleteAddress + `/${id}`, {
+        headers: headers,
+        onSuccess: onSuccess,
+        onFailed: onFailed,
+      });
+    } catch (error) {
+      onFailed(error);
+    } finally {
+      setUserLoading(false);
+    }
+  };
   return {
     fetchAddressList,
     address,
@@ -200,6 +229,8 @@ const useProfile = () => {
     expired,
     setDefaultAddress,
     deleteSavedAddress,
+    orderHistory,
+    fetchOrderHistory,
   };
 };
 

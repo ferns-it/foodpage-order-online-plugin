@@ -4,35 +4,9 @@ import { APIEndpoints } from "../constants/APIEndpoints";
 import { getLocalStorageItem } from "@/plugin/_utils/ClientUtils";
 
 const useOrderHistory = () => {
-  const [orderHistory, setOrderHistory] = useState(null);
   const [orderLoading, setOrderLoading] = useState(false);
   const [orderList, setOrderList] = useState(null);
-  const fetchOrderHistory = async () => {
-    const token = getLocalStorageItem("token");
-    try {
-      setOrderLoading(true);
-      let headers = {
-        "x-user": token,
-      };
-      await BaseClient.get(
-        APIEndpoints.getOrderHistory,
-        {},
-        {
-          headers,
-          onSuccess: (res) => {
-            if (res.data.data.History) {
-              setOrderHistory(res.data.data.History);
-            }
-          },
-          onFailed: (err) => {
-         
-          },
-        }
-      );
-    } finally {
-      setOrderLoading(false);
-    }
-  };
+
   const fetchOrderList = async (userToken) => {
     try {
       setOrderLoading(true);
@@ -82,10 +56,9 @@ const useOrderHistory = () => {
   return {
     fetchOrderList,
     orderLoading,
-    orderHistory,
+
     fetchOrderDetails,
     orderList,
-    fetchOrderHistory,
   };
 };
 

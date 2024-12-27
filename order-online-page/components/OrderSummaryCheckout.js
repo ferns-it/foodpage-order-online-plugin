@@ -346,11 +346,10 @@ function OrderSummaryCheckout() {
       deliveryType = "store_pickup";
     }
     const paymentMethod = paymentOption === "stripe" ? "STRIPE" : "COD";
-
-    const userID = getLocalStorageItem("UserPersistent");
-    const isGuest = getLocalStorageItem("guest");
-    const userToken = getLocalStorageItem("userToken");
-
+    let userID = getLocalStorageItem("userToken");
+    if (!userID) {
+      userID = getLocalStorageItem("UserPersistent");
+    }
     if (
       (paymentMethod === "STRIPE" && paymentData != null) ||
       (paymentMethod === "COD" && paymentData === null)
@@ -430,7 +429,7 @@ function OrderSummaryCheckout() {
             },
           });
 
-          router.replace("/order-online");
+          router.push("/order-online");
           setActiveCard("login");
           setPaymentData(null);
         },

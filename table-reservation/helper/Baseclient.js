@@ -12,6 +12,7 @@ const getUserId = () => {
   if (token === undefined || token === null) {
     userId = getLocalStorageItem("UserPersistent");
   } else {
+    
     userId = token;
   }
 

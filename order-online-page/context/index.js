@@ -29,12 +29,9 @@ export const AppContextProvider = (props) => {
   const [activeCard, setActiveCard] = useState("login");
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [filterLoading, setFilterLoading] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [orderHistoryLoading, setOrderHistoryLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState("");
-
   const isCheckoutActive = false;
-  const [listLoading, setListLoading] = useState(false);
 
   useEffect(() => {
     const isCheckout = sessionStorage.getItem("isCheckoutActive");
@@ -58,7 +55,7 @@ export const AppContextProvider = (props) => {
       const jwt = require("jsonwebtoken");
       const encodedToken = getLocalStorageItem("userToken");
       getUserInformation(token);
-      fetchOrderHistory();
+      fetchOrderHistory(token);
       fetchAddressList(token);
       const decodedToken = jwt.decode(encodedToken, { complete: true });
       setIsUserLogged(decodedToken);
@@ -118,15 +115,15 @@ export const AppContextProvider = (props) => {
     setDefaultAddress,
     deleteSavedAddress,
     userAddressList,
+    orderHistory,
+    fetchOrderHistory,
   } = useProfile();
   const {
     fetchOrderList,
     orderLoading,
-    orderHistory,
     fetchOrderDetails,
     orderList,
     // orderDetails,
-    fetchOrderHistory,
   } = useOrderHistory();
   const {
     createPaymentIntent,
@@ -351,10 +348,11 @@ export const AppContextProvider = (props) => {
         userLoading,
         userInfo,
         userAddressList,
-        fetchOrderHistory,
         resetPassword,
         setDefaultAddress,
         deleteSavedAddress,
+        orderHistory,
+        fetchOrderHistory,
       }}
     >
       {props.children}
