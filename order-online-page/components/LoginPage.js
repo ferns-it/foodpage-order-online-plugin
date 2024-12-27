@@ -9,7 +9,7 @@ import {
   getSessionStorageItem,
   redirectToLocation,
   setLocalStorageItem,
-} from "@/src/app/_utils/ClientUtils";
+} from "@/utils/ClientUtils";
 
 function LoginPage({ handleGuestLogin, errors, setErrors }) {
   const router = useRouter();

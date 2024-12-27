@@ -16,9 +16,12 @@ function FoodCardsSkeleton() {
               {items.map((_, index) => {
                 return (
                   <div className="col-md-6 col-lg-4 col-sm-6" key={index}>
-                    <div id="fda_product_tile">
+                    <div
+                      id="fda_product_tile"
+                      style={{ height: "200px", overflow: "hidden" }}
+                    >
                       <div className="row fda_food_row position-relative">
-                        <div className="mx-auto w-100" >
+                        <div className="mx-auto w-100">
                           <a
                             className="prod_anchor"
                             style={{

@@ -2503,7 +2503,7 @@ body {
 
 #fda_product_tile {
   position: relative;
-  min-height: 220px;
+  min-height: 220px !important;
   background: rgb(238, 238, 238);
   color: #af2329;
   /* border: 1px dashed #7777; */
