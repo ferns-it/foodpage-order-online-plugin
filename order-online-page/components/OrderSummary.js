@@ -373,7 +373,7 @@ function OrderSummary() {
     await clearCartItems(userID, {
       onSuccess: async (res) => {
         toast.success("Cart Cleared!");
-        // reloadCurrentPage();
+        reloadCurrentPage();
         await fetchCartList(userID);
       },
       onFailed: (err) => {
