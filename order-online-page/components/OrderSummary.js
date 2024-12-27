@@ -42,7 +42,6 @@ function OrderSummary() {
 
   const [showAddons, setShowAddons] = useState(null);
   const [deleteIndex, setDeleteIndex] = useState(-1);
-  const [locationData, setLocationData] = useState(null);
   const [takeawayTime, setTakeawayTime] = useState(null);
   const [error, setError] = useState(false);
   const [discount, setDiscount] = useState(0);
@@ -50,9 +49,8 @@ function OrderSummary() {
   const [convertedDistance, setConvertedDistance] = useState(null);
   const [time, setTime] = useState("");
   const [takeaway, setTakeaway] = useState(null);
-  const [response, setResponse] = useState(null);
   const [takeawayTotal, setTakeawayTotal] = useState(null);
-  const [postcodeData, setPostcodeData] = useState(null);
+
   const [postalCode, setPostalCode] = useState("");
   const [locationLoading, setLocationLoading] = useState(false);
 

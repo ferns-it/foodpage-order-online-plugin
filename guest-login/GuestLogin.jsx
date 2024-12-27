@@ -7,7 +7,6 @@ import Utils from "../_utils/Utils";
 import { useRouter } from "next/navigation";
 import { AppContext } from "../order-online-page/context/index";
 
-
 function GuestLogin() {
   const router = useRouter();
   const [loginInfo, setLoginInfo] = useState("guest");
@@ -89,14 +88,16 @@ function GuestLogin() {
           }
         },
         onFailed: (err) => {
-       
           const errMsg = err?.errorMessage?.message ?? "FAILED TO SEND OTP!";
           toast.error(errMsg);
         },
       });
     }
   };
-
+  const handleLogin = () => {
+    setLoginInfo("login");
+    router.push("/login");
+  };
   return (
     <Fragment>
       <div className="login_wrapper row">
@@ -143,14 +144,14 @@ function GuestLogin() {
               </button>
             </form>
           </div>
-          {/* <p className="or_">or</p>
+          <p className="or_">or</p>
           <button
             type="button"
             className="guest_btn"
-            onClick={() => setLoginInfo("login")}
+            onClick={() => handleLogin()}
           >
             SignIn
-          </button> */}
+          </button>
         </div>
       </div>
     </Fragment>

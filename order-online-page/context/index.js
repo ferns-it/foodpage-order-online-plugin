@@ -54,7 +54,6 @@ export const AppContextProvider = (props) => {
     if (!isCheckout) {
       setSessionStorageItem("isCheckoutActive", false);
     }
-
     if ((token != null && isGuest == false) || isGuest == "false") {
       const jwt = require("jsonwebtoken");
       const encodedToken = getLocalStorageItem("userToken");
@@ -114,7 +113,7 @@ export const AppContextProvider = (props) => {
     userNewAddress,
     getUserInformation,
     fetchAddressList,
-
+    expired,
     userAddressList,
   } = useProfile();
   const {
@@ -323,6 +322,7 @@ export const AppContextProvider = (props) => {
         passwordResetMail,
         showModal,
         setShowModal,
+        expired,
         fetchAddressList,
         address,
         addressLoading,

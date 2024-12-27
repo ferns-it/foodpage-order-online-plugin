@@ -1,13 +1,17 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import BaseClient from "../helper/Baseclients";
 import { APIEndpoints } from "../constants/APIEndpoints";
+import { AppContext } from "../context";
+import { useRouter } from "next/navigation";
 
 const useProfile = () => {
+  const router = useRouter();
   const [address, setAddress] = useState(null);
   const [addressLoading, setAddressLoading] = useState(false);
   const [userLoading, setUserLoading] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
+  const [expired, setExpired] = useState(false);
   const [userAddressList, setUserAddressList] = useState(null);
 
   const fetchAddressList = async (token) => {
@@ -41,7 +45,6 @@ const useProfile = () => {
     }
   };
 
-
   const getUserInformation = async (token) => {
     try {
       setUserLoading(true);
@@ -69,6 +72,10 @@ const useProfile = () => {
           },
           onFailed: (err) => {
             console.log("Error on address list", err);
+            if (err?.status == 401) {
+              router.push("/login");
+              setExpired(true);
+            }
           },
         }
       );
@@ -164,6 +171,8 @@ const useProfile = () => {
     userNewAddress,
     fetchAddressList,
     userAddressList,
+    setUserInfo,
+    expired,
   };
 };
 
