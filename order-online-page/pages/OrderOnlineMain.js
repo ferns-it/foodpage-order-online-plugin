@@ -34,7 +34,6 @@ const OrderOnlineMain = () => {
     settings,
     settingsLoading,
     menuLoading,
-    mergedState,
   } = useContext(AppContext);
   const {
     getShopTiming,
@@ -52,12 +51,22 @@ const OrderOnlineMain = () => {
   const [isSticky, setIsSticky] = useState(false);
   const shopId = process.env.SHOP_ID;
 
-  console.log("mergedState", mergedState);
-
   useEffect(() => {
     if (!categoryList) return;
-    const catName = categoryList[0]?.name;
-    setSelectedCategory(catName);
+
+    const validCategories = categoryList.filter(
+      (list) => list.productsCount?.online > 0
+    );
+    console.log(validCategories, "valid");
+    // Set the first valid category as selectedCategory
+    if (validCategories.length > 0) {
+      const catName = validCategories[0]?.name;
+
+      // setSelectedCategory(catName);
+      setSelectedCategory(validCategories[0].name);
+      setActiveChipIndex(0);
+    }
+
     setActiveChipIndex(0);
   }, [categoryList]);
 
@@ -80,7 +89,7 @@ const OrderOnlineMain = () => {
   };
 
   const handleScroll = () => {
-    if (window.pageYOffset >= 150) {
+    if (window.pageYOffset >= 100) {
       setIsSticky(true);
     } else {
       setIsSticky(false);
@@ -100,7 +109,7 @@ const OrderOnlineMain = () => {
     temporalDivElement.innerHTML = html;
     return temporalDivElement.textContent || temporalDivElement.innerText || "";
   }
-  console.log(categoryList, "categorylIst");
+
   return (
     <Fragment>
       {!settingsLoading ? (
@@ -108,13 +117,10 @@ const OrderOnlineMain = () => {
           <br />
           <div className="food_order_area mt-4">
             <div className="order_block">
-              <div className="row position-relative">
-                <div className="col-lg-3 col-md-3 col-sm-none cat_col_0229 ">
-                  <div
-                    className="card category_card_009"
-                    
-                  >
-                    <ul className="food_category_009" style={{ marginTop: "100px" }}>
+              <div className="row">
+                <div className="col-lg-3 col-md-3 col-sm-none cat_col_0229">
+                  <div className="card category_card_009">
+                    <ul className="food_category_009">
                       {categoryLoading ? (
                         <Fragment>
                           <h2 className="card-title-order-online-920 skeleton"></h2>
@@ -125,10 +131,10 @@ const OrderOnlineMain = () => {
                         </Fragment>
                       ) : (
                         <Fragment>
-                          {mergedState &&
-                            mergedState.length > 0 &&
-                            mergedState.map((list, index) => {
-                              const children = list?.category?.childrens;
+                          {categoryList &&
+                            categoryList.length > 0 &&
+                            categoryList.map((list, index) => {
+                              const children = list?.childrens;
 
                               if (children && children.length > 0) {
                                 const hasValidChildren = children.some(
@@ -144,23 +150,20 @@ const OrderOnlineMain = () => {
                                           ? "nav-link active_009"
                                           : "nav-link"
                                       }
-                                      // onClick={() =>
-                                      //   handleChipClick(
-                                      //     index,
-                                      //     list?.category?.name,
-                                      //     list?.category?.cID
-                                      //   )
-                                      // }
-                                      href={`#${list?.category?.name}`}
+                                      onClick={() =>
+                                        handleChipClick(
+                                          index,
+                                          list?.name,
+                                          list?.cID
+                                        )
+                                      }
                                     >
-                                      <li>{list?.category?.name}</li>
+                                      <li>{list?.name}</li>
                                       <i>{/* Optional icon */}</i>
                                     </a>
                                   );
                                 }
-                              } else if (
-                                list?.category?.productsCount?.online > 0
-                              ) {
+                              } else if (list.productsCount?.online > 0) {
                                 return (
                                   <a
                                     key={index}
@@ -169,16 +172,15 @@ const OrderOnlineMain = () => {
                                         ? "nav-link active_009"
                                         : "nav-link"
                                     }
-                                    href={`#${list?.category?.name}`}
-                                    // onClick={() =>
-                                    //   handleChipClick(
-                                    //     index,
-                                    //     list?.category?.name,
-                                    //     list?.category?.cID
-                                    //   )
-                                    // }
+                                    onClick={() =>
+                                      handleChipClick(
+                                        index,
+                                        list?.name,
+                                        list?.cID
+                                      )
+                                    }
                                   >
-                                    <li>{list?.category?.name}</li>
+                                    <li>{list?.name}</li>
                                     <i>{/* Optional icon */}</i>
                                   </a>
                                 );

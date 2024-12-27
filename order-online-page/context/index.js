@@ -165,12 +165,16 @@ export const AppContextProvider = (props) => {
     if (productsList.length == 0) {
       if (!categoryList || categoryList.length === 0) return;
 
+      if (!categoryList) return;
+
+      const validCategories = categoryList.filter(
+        (list) => list.productsCount?.online > 0
+      );
+
       const catId =
-        categoryList &&
-        Array.isArray(categoryList) &&
-        categoryList.length != 0 &&
-        categoryList &&
-        categoryList[0]?.cID;
+        validCategories &&
+        validCategories.length > 0 &&
+        validCategories[0]?.cID;
 
       const isCheck =
         productsList &&
