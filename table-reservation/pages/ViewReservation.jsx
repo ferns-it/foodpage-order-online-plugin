@@ -507,7 +507,7 @@ function ViewReservation() {
                       <i className="pe-2">
                         <Tb.TbMailStar />
                       </i>
-                      Mail to Restaurent
+                      Mail to Restaurant
                     </button> */}
                         <button
                           type="button"

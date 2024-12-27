@@ -227,8 +227,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
       return dates;
     }, []);
 
-    console.log(upcomingHolidays, "disabledDates");
-    
+  console.log(upcomingHolidays, "disabledDates");
 
   const isHoliday = (date) => {
     return (
@@ -787,7 +786,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                                 htmlFor="message"
                                 className="form-label table_reserv_form_label"
                               >
-                                Message to Restaurent
+                                Message to Restaurant
                               </label>
                               <textarea
                                 name="message"
@@ -1160,7 +1159,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                         </p>
                         <br />
                         <p className="text-center fs-6 user-select-none">
-                          <i>For further queries, contact Restaurent!</i>
+                          <i>For further queries, contact Restaurant!</i>
                         </p>
                       </div>
                     </div>
