@@ -13,6 +13,7 @@ import "react-calendar/dist/Calendar.css";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   getLocalStorageItem,
+  removeSessionStorageItem,
   setSessionStorageItem,
 } from "../../_utils/ClientUtils";
 import axios from "axios";
@@ -56,6 +57,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     tableReservationSettings,
     loading,
     upcomingHolidays,
+    completeReservation,
   } = useContext(TableReservationContext);
   const [count, setCount] = useState(1);
   const [hashcode, setHashcode] = useState("");
@@ -71,15 +73,6 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   useEffect(() => {
     setInitialValues((prev) => ({ ...prev, bookingDate: defaultDate }));
   }, [upcomingHolidays]);
-
-  useEffect(() => {
-    const hasOtp = searchparams.has("otp");
-
-    if (hasOtp) {
-      setIsActiveTablePage("otp-page");
-      return;
-    }
-  }, [searchparams]);
 
   useEffect(() => {
     if (!shopId) return;
@@ -433,20 +426,19 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
           setSecretKey(md5Num);
           const errStatus = res.data.error;
           if (errStatus == false) {
-            toast.success("OTP send successfully!");
-            setTimeout(() => {
-              const saveObj =
-                initialValues && typeof initialValues == "object"
-                  ? JSON.stringify(initialValues)
-                  : initialValues;
+            const saveObj =
+              initialValues && typeof initialValues == "object"
+                ? JSON.stringify(initialValues)
+                : initialValues;
 
-              setSessionStorageItem("reserv_details", saveObj);
-              setSessionStorageItem("secretKey", secretKey);
-              setIsActiveTablePage("otp-page");
-              router.push("/tablereservation?otp=true", undefined, {
-                shallow: true,
-              });
-            }, 300);
+            setSessionStorageItem("reserv_details", saveObj);
+            setSessionStorageItem("secretKey", secretKey);
+            const token = getLocalStorageItem("userToken");
+            if (token == null || token == undefined) {
+              router.push("/loginReservation");
+            } else {
+              completeNewReservation();
+            }
           } else {
             toast.error("OTP not send!");
           }
@@ -460,6 +452,69 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     } finally {
       setFormValidationLoading(false);
     }
+  };
+  const completeNewReservation = async () => {
+    console.log("reached");
+
+    const mergedBooking = Utils.mergeBookingDateTime(
+      initialValues?.bookingDate,
+      initialValues?.bookingTime
+    );
+    const token = getLocalStorageItem("userToken");
+    const decodeBase64 = (str) => {
+      try {
+        return JSON.parse(atob(str));
+      } catch (e) {
+        console.error("Invalid Base64 string", e);
+        return null;
+      }
+    };
+
+    const parts = token.split(".");
+    if (parts.length >= 2) {
+      const header = decodeBase64(parts[0]); // Decode Header
+      const payload = decodeBase64(parts[1]); // Decode Payload
+
+      console.log("Header:", header);
+      console.log("Payload:", payload);
+    } else {
+      console.error("Invalid token format");
+    }
+    const payload = {
+      shopID: shopId,
+      userID: 0,
+      name: initialValues?.name,
+      phone: initialValues?.phone,
+      email: initialValues?.email,
+      totalChair: initialValues?.noOfChairs,
+      reservationDateTime: mergedBooking,
+      advancePayment: "No",
+      advanceAmount: "",
+      paymentMethod: "",
+      transactionID: "",
+      message: initialValues?.message,
+      baseUrl: process.env.TABLE_RESERVATION_URL,
+      source: "NextJs",
+    };
+
+    const headers = {
+      "x-secretkey": process.env.FOODPAGE_RESERVATION_SECRET_KEY,
+    };
+
+    await completeReservation(payload, {
+      onSuccess: (res) => {
+        toast.success("OTP has been verified!");
+        setSecretKey("");
+        removeSessionStorageItem("reserv_details");
+        setTimeout(() => {
+          setIsActiveTablePage("success-page");
+        }, 1000);
+      },
+      onFailed: (err) => {
+        console.log(err);
+      },
+      headers,
+    });
   };
   const handleDateChange = (e) => {
     setInitialValues((prev) => ({ ...prev, bookingDate: e }));

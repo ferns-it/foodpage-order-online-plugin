@@ -24,6 +24,7 @@ export const APIEndpoints = {
   registerUser: "user/registration",
   passwordResetOTP: "user/passwordresetotp",
   updateCartItem: "user/web/carts/transfer",
+  getReservationDetails: "user/table/reservationhistory/0",
   getAddressList: "user/addresslist",
   addAddress: "user/newaddress",
   deleteAddressList: "user/deleteaddress",

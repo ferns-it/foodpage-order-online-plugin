@@ -29,7 +29,7 @@ export const AppContextProvider = (props) => {
   const [activeCard, setActiveCard] = useState("login");
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [filterLoading, setFilterLoading] = useState(false);
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const isCheckoutActive = false;
 
@@ -57,6 +57,7 @@ export const AppContextProvider = (props) => {
       getUserInformation(token);
       fetchOrderHistory(token);
       fetchAddressList(token);
+      fetchReservationData(token);
       const decodedToken = jwt.decode(encodedToken, { complete: true });
       setIsUserLogged(decodedToken);
     }
@@ -117,6 +118,8 @@ export const AppContextProvider = (props) => {
     userAddressList,
     orderHistory,
     fetchOrderHistory,
+    fetchReservationData,
+    reservationList,
   } = useProfile();
   const {
     fetchOrderList,
@@ -161,6 +164,7 @@ export const AppContextProvider = (props) => {
     diningMenuList();
     fetchMenuList();
     fetchCurrentShopStatus();
+
     // if (userToken) {
     //   fetchAddressList(userToken);
     //   fetchOrderList(userToken);
@@ -353,6 +357,8 @@ export const AppContextProvider = (props) => {
         deleteSavedAddress,
         orderHistory,
         fetchOrderHistory,
+        fetchReservationData,
+        reservationList,
       }}
     >
       {props.children}

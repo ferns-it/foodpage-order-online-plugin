@@ -318,7 +318,7 @@ function ViewReservation() {
           >
             <Go.GoArrowLeft /> Back
           </button> */}
-          <div className="row">
+          <div className="row pt-100">
             <div className="col-lg-8 col-md-12 col-sm-12 position-relative">
               <div className="card manage_reserv_card" id="alter_card">
                 <h3 className="table-reservation-form-head">
@@ -519,7 +519,14 @@ function ViewReservation() {
                             <Tb.TbCalendarCancel />
                           </i>
                           Cancel Reservation
-                        </button>
+                        </button>{" "}
+                        <button
+                          type="button"
+                          className="back-reserv-btn"
+                          onClick={() => router.push("/profile")}
+                        >
+                          Back
+                        </button>{" "}
                       </div>
                     ) : (
                       <button
