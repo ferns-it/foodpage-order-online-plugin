@@ -105,7 +105,7 @@ function FoodCards(category) {
                             products?.map((data, index) => {
                               return (
                                 <div
-                                  className=" col-lg-4 col-md-2 col-sm-6 position-relative mb-50"
+                                  className=" col-lg-4 col-md-2 col-sm-6 position-relative mb-4"
                                   key={index}
                                 >
                                   <div
