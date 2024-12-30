@@ -2503,7 +2503,7 @@ body {
 
 #fda_product_tile {
   position: relative;
-  min-height: 220px;
+  min-height: 300px;
   background: rgb(238, 238, 238);
   color: #af2329;
   /* border: 1px dashed #7777; */
@@ -2559,6 +2559,7 @@ div.food_tile__.active img {
   color: rgba(38, 29, 86, 1);
   margin-bottom: 12px;
   text-align: center !important;
+  text-transform: capitalize !important;
 }
 
 .food_detail {
@@ -2580,6 +2581,7 @@ div.food_tile__.active img {
 } */
 .foodmenuList {
   padding-right: 10px;
+  padding-top: 20px;
 }
 
 .prod_price {
@@ -2735,4 +2737,7 @@ div.food_tile__.active img {
   .lg_summary {
     display: none;
   }
+}
+.mb-50 {
+  margin-bottom: 50px;
 }
