@@ -18,7 +18,7 @@ export const AppContext = createContext();
 
 export const AppContextProvider = (props) => {
   const [productsList, setProductsList] = useState([]);
-  const [delivery, setDelivery] = useState(false);
+  const [delivery, setDelivery] = useState(true);
   const [productsListLoading, setProductsLoading] = useState(false);
   // const [isCheckoutActive, setisCheckoutActive] = useState(false);
   const [locationResponseData, setLocationResponseData] = useState(null);
