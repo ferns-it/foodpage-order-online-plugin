@@ -59,6 +59,8 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     upcomingHolidays,
     completeReservation,
   } = useContext(TableReservationContext);
+  
+
   const [count, setCount] = useState(1);
   const [hashcode, setHashcode] = useState("");
   const [isReservErr, setIsReservErr] = useState(false);
@@ -82,6 +84,8 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   useEffect(() => {
     setInitialValues((prev) => ({ ...prev, noOfChairs: count }));
   }, [count]);
+
+
 
   useEffect(() => {
     const today = new Date();
@@ -219,8 +223,6 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
       }
       return dates;
     }, []);
-
-  console.log(upcomingHolidays, "disabledDates");
 
   const isHoliday = (date) => {
     return (
@@ -503,7 +505,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
 
     await completeReservation(payload, {
       onSuccess: (res) => {
-        toast.success("OTP has been verified!");
+        toast.success("Your request has been submitted successfully!");
         setSecretKey("");
         removeSessionStorageItem("reserv_details");
         setTimeout(() => {

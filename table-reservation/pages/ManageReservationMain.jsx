@@ -52,7 +52,7 @@ function ManageReservationMain() {
           <div className="row">
             <div className="col-lg-10 col-md-12 col-sm-12">
               <h2>Reservation List</h2>
-              <div class="container table-responsive py-5">
+              <div class="container table-responsive">
                 <table class="table table-bordered table-hover">
                   <thead class="thead-dark">
                     <tr>
