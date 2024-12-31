@@ -8,7 +8,7 @@ export const TableReservationContext = createContext();
 
 export const TableReservationContextProvider = (props) => {
   const [oneTimePass, setOneTimePass] = useState("");
-  
+
   const [secretKey, setSecretKey] = useState("");
   const [loading, setLoading] = useState(false);
   const [tableReservationSettings, setTableReservationSettings] =
@@ -58,6 +58,8 @@ export const TableReservationContextProvider = (props) => {
     messageLoading,
     getHolidays,
     upcomingHolidays,
+    getReservationDetailsEmail,
+    setReservationDetails,
   } = useReservation();
 
   useEffect(() => {
@@ -74,7 +76,7 @@ export const TableReservationContextProvider = (props) => {
       value={{
         getShopTiming,
         shopTiming,
-      
+
         isTimingLoading,
         reservationLoading,
         sendReservationOTP,
@@ -95,6 +97,8 @@ export const TableReservationContextProvider = (props) => {
         tableReservationSettings,
         loading,
         upcomingHolidays,
+        getReservationDetailsEmail,
+        setReservationDetails,
         // otp,
         // setOtp,
         // clearOtp

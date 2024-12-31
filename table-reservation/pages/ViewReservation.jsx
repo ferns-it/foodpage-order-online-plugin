@@ -523,7 +523,7 @@ function ViewReservation() {
                         <button
                           type="button"
                           className="back-reserv-btn"
-                          onClick={() => router.push("/profile")}
+                          onClick={() => router.back()}
                         >
                           Back
                         </button>{" "}

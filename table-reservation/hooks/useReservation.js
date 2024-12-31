@@ -199,6 +199,30 @@ const useReservation = () => {
     }
   };
 
+  const getReservationDetailsEmail = async (
+    email,
+    type,
+    { onSuccess, onFailed }
+  ) => {
+    try {
+      setReservationLoading(true);
+
+      const shopId = process.env.SHOP_ID;
+
+      await BaseClient.get(
+        ReservationAPIEndpoints.getReserVationDetailsViaEmail +
+          `/${email}/${shopId}/${type}`,
+        {},
+        {
+          onSuccess: onSuccess,
+          onFailed: onFailed,
+        }
+      );
+    } finally {
+      setReservationLoading(false);
+    }
+  };
+
   return {
     getShopTiming,
     shopTiming,
@@ -215,6 +239,8 @@ const useReservation = () => {
     messageLoading,
     getHolidays,
     upcomingHolidays,
+    getReservationDetailsEmail,
+    setReservationDetails,
   };
 };
 

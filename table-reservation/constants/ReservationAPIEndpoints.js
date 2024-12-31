@@ -12,4 +12,5 @@ export const ReservationAPIEndpoints = {
   updateReservation: "user/diningtable/reservation/update",
   sendMessageToShop: "user/diningtable/reservation/sendmailtoshop",
   getUpcomingHolidays: `user/diningtable/reservation/upcomingholidays/${shopId}`,
+  getReserVationDetailsViaEmail: 'user/diningtable/reservationhistorywithemail',
 };

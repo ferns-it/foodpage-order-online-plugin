@@ -58,10 +58,13 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     loading,
     upcomingHolidays,
     completeReservation,
+    getReservationDetailsEmail,
+    reservationDetails,
+    setReservationDetails,
   } = useContext(TableReservationContext);
-  
 
   const [count, setCount] = useState(1);
+  const [showManageReserv, setShowManageReserv] = useState(false);
   const [hashcode, setHashcode] = useState("");
   const [isReservErr, setIsReservErr] = useState(false);
   const [responseLoading, setResponseLoading] = useState(false);
@@ -71,6 +74,8 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   const [formValidationLoading, setFormValidationLoading] = useState(false);
   const [defaultDate, setDefaultDate] = useState(new Date());
   const [isTodayHoliday, setIsTodayHoliday] = useState(false);
+  const [reservEmail, setReservEmail] = useState("");
+  const [manageReservLoading, setManageReservLoading] = useState(false);
 
   useEffect(() => {
     setInitialValues((prev) => ({ ...prev, bookingDate: defaultDate }));
@@ -84,8 +89,6 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   useEffect(() => {
     setInitialValues((prev) => ({ ...prev, noOfChairs: count }));
   }, [count]);
-
-
 
   useEffect(() => {
     const today = new Date();
@@ -537,6 +540,41 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     },
   };
 
+  const getReservationDetails = async (e) => {
+    e.preventDefault();
+
+    try {
+      setManageReservLoading(true);
+      if (reservEmail && reservEmail.length === 0) {
+        toast.error("Email is required!");
+        return;
+      }
+
+      const type = "upcoming";
+      await getReservationDetailsEmail(reservEmail, type, {
+        onSuccess: (res) => {
+          if (res?.data?.error === false) {
+            const reserVData = res?.data?.data?.enquiryList;
+            if (reserVData && reserVData.length == 0) {
+              toast.error("No reservations found!");
+              return;
+            }
+            setReservationDetails(reserVData);
+            setSessionStorageItem("reservData", JSON.stringify(reserVData));
+            router.push("/reservation-list");
+          } else {
+            toast.error("No reservations found!");
+          }
+        },
+        onFailed: (err) => {
+          console.log("Error on fetching reservation details", err);
+        },
+      });
+    } finally {
+      setManageReservLoading(false);
+    }
+  };
+
   return (
     <div className="table_reserv__ position-relative">
       <Fragment>
@@ -607,35 +645,35 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                           />
                           <div className="row mt-3">
                             {/* <div className="col-lg-4 col-md-4 ol-sm-4">
-                        <div className="form-group">
-                          <label
-                            htmlFor="bookingDate"
-                            className="form-label table_reserv_form_label"
-                          >
-                            Booking Date
-                          </label>
-                          <input
-                            type="date"
-                            name="bookingDate"
-                            id=""
-                            className={
-                              "form-control table_reserv_form_input " +
-                              (isReservErr &&
-                              initialValues.bookingDate.length === 0
-                                ? "err__"
-                                : "")
-                            }
-                            onChange={handleChange}
-                            min={minDate}
-                          ></input>
-                        </div>
-                        {isReservErr &&
-                          initialValues.bookingDate.length === 0 && (
-                            <span className="reserv_from_err">
-                              Booking Date is Required!
-                            </span>
-                          )}
-                      </div> */}
+                                <div className="form-group">
+                                  <label
+                                    htmlFor="bookingDate"
+                                    className="form-label table_reserv_form_label"
+                                  >
+                                    Booking Date
+                                  </label>
+                                  <input
+                                    type="date"
+                                    name="bookingDate"
+                                    id=""
+                                    className={
+                                      "form-control table_reserv_form_input " +
+                                      (isReservErr &&
+                                      initialValues.bookingDate.length === 0
+                                        ? "err__"
+                                        : "")
+                                    }
+                                    onChange={handleChange}
+                                  min={minDate}
+                                ></input>
+                              </div>
+                              {isReservErr &&
+                                initialValues.bookingDate.length === 0 && (
+                                  <span className="reserv_from_err">
+                                    Booking Date is Required!
+                                  </span>
+                                )}
+                            </div> */}
                             <div className="col-lg-4 col-md-4 ol-sm-4">
                               <div className="form-group">
                                 <label
@@ -645,18 +683,18 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                                   Booking Time
                                 </label>
                                 {/* <input
-                          type="time"
-                          name="bookingTime"
-                          id=""
-                          className={
-                            "form-control table_reserv_form_input " +
-                            (isReservErr &&
-                            initialValues.bookingTime.length === 0
-                              ? "err__"
-                              : "")
-                          }
-                          onChange={handleChange}
-                        ></input> */}
+                                  type="time"
+                                  name="bookingTime"
+                                  id=""
+                                  className={
+                                    "form-control table_reserv_form_input " +
+                                    (isReservErr &&
+                                    initialValues.bookingTime.length === 0
+                                      ? "err__"
+                                      : "")
+                                  }
+                                  onChange={handleChange}
+                                ></input> */}
 
                                 <select
                                   name="bookingTime"
@@ -876,6 +914,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                             )}
                           </button>
                         </form>
+
                         {/* <GoogleReCaptchaProvider reCaptchaKey={process.env.REACT_CAPTCHA_SITE_KEY}/> */}
                         <div
                           className="g-recaptcha"
@@ -884,18 +923,9 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                         ></div>
                       </div>
                     </div>
+
                     <div className="col-lg-4 col-md-4 col-sm-12 order-lg-2 order-md-2 order-sm-1 pb-2 position-relative">
                       <div className="card timing_card_table_reserv ">
-                        {/* <p className="open_">
-                  <i className="pe-1">
-                    <GrLocation />
-                  </i>
-                  <span>Location</span>
-                </p>
-                <p className="location___">
-                  Guruviharrr, Kadakkavoor, Thiruvananthapuram
-                </p> */}
-
                         <div className="open_">
                           <i className="pe-1">
                             <Md.MdOutlineRestaurantMenu />
@@ -931,263 +961,311 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                           </table>
                         </div>
                         {/*<p className="open_">
-                  <i className="pe-1">
-                    <Io.IoTimeOutline />
-                  </i>
-                  <span>Open Hours</span>
-                </p>
-                 {loading ? (
-                  <span>
-                    <strong>Loading.. Please wait!</strong>
-                  </span>
-                ) : (
-                  <div className="timing_cart_reserv">
-                    <div className="row">
-                      <div className="col-lg-6 col-md-8 col-sm-12">
-                        <div
-                          className={
-                            dayValue === "sunday"
-                              ? "day_wrapper_reserv_table --active"
-                              : "day_wrapper_reserv_table"
-                          }
-                        >
-                          <p className="day__">Sunday</p>
-                          <ul className="reserv_timing__">
-                            {tableReservationSettings &&
-                              tableReservationSettings.sunday &&
-                              tableReservationSettings.sunday.map(
-                                (sunday, daykey) => {
-                                  return (
-                                    <>
-                                      <li key={daykey}>
-                                        {sunday?.start
-                                          ? Utils.convertTiming(sunday?.start)
-                                          : "N/A"}{" "}
-                                        -{" "}
-                                        {sunday?.end
-                                          ? Utils.convertTiming(sunday?.end)
-                                          : "N/A"}
-                                      </li>
-                                    </>
-                                  );
+                            <i className="pe-1">
+                              <Io.IoTimeOutline />
+                            </i>
+                            <span>Open Hours</span>
+                      </p>
+                      {loading ? (
+                        <span>
+                          <strong>Loading.. Please wait!</strong>
+                        </span>
+                      ) : (
+                        <div className="timing_cart_reserv">
+                          <div className="row">
+                            <div className="col-lg-6 col-md-8 col-sm-12">
+                              <div
+                                className={
+                                  dayValue === "sunday"
+                                    ? "day_wrapper_reserv_table --active"
+                                    : "day_wrapper_reserv_table"
                                 }
-                              )}
-                          </ul>
+                              >
+                                <p className="day__">Sunday</p>
+                                <ul className="reserv_timing__">
+                                  {tableReservationSettings &&
+                                    tableReservationSettings.sunday &&
+                                    tableReservationSettings.sunday.map(
+                                      (sunday, daykey) => {
+                                        return (
+                                          <>
+                                            <li key={daykey}>
+                                              {sunday?.start
+                                                ? Utils.convertTiming(sunday?.start)
+                                                : "N/A"}{" "}
+                                              -{" "}
+                                              {sunday?.end
+                                                ? Utils.convertTiming(sunday?.end)
+                                                : "N/A"}
+                                            </li>
+                                          </>
+                                        );
+                                      }
+                                    )}
+                                </ul>
+                              </div>
+                            </div>
+                            <div className="col-lg-6 col-md-8 col-sm-12">
+                              <div
+                                className={
+                                  dayValue === "monday"
+                                    ? "day_wrapper_reserv_table --active"
+                                    : "day_wrapper_reserv_table"
+                                }
+                              >
+                                <p className="day__">Monday</p>
+                                <ul className="reserv_timing__">
+                                  {tableReservationSettings &&
+                                    tableReservationSettings.monday &&
+                                    tableReservationSettings.monday.map((monday) => {
+                                      return (
+                                        <>
+                                          <li>
+                                            {monday?.start
+                                              ? Utils.convertTiming(monday?.start)
+                                              : "N/A"}{" "}
+                                            -{" "}
+                                            {monday?.end
+                                              ? Utils.convertTiming(monday?.end)
+                                              : "N/A"}
+                                          </li>
+                                        </>
+                                      );
+                                    })}
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="row">
+                            <div className="col-lg-6 col-md-8 col-sm-12">
+                              <div
+                                className={
+                                  dayValue === "tuesday"
+                                    ? "day_wrapper_reserv_table --active"
+                                    : "day_wrapper_reserv_table"
+                                }
+                              >
+                                <p className="day__">Tuesday</p>
+                                <ul className="reserv_timing__">
+                                  {tableReservationSettings &&
+                                    tableReservationSettings.tuesday &&
+                                    tableReservationSettings.tuesday.map(
+                                      (tuesday) => {
+                                        return (
+                                          <>
+                                            <li>
+                                              {tuesday?.start
+                                                ? Utils.convertTiming(tuesday?.start)
+                                                : "N/A"}{" "}
+                                              -{" "}
+                                              {tuesday?.end
+                                                ? Utils.convertTiming(tuesday?.end)
+                                                : "N/A"}
+                                            </li>
+                                          </>
+                                        );
+                                      }
+                                    )}
+                                </ul>
+                              </div>
+                            </div>
+                            <div className="col-lg-6 col-md-8 col-sm-12">
+                              <div
+                                className={
+                                  dayValue === "wednesday"
+                                    ? "day_wrapper_reserv_table --active"
+                                    : "day_wrapper_reserv_table"
+                                }
+                              >
+                                <p className="day__">Wednesday</p>
+                                <ul className="reserv_timing__">
+                                  {tableReservationSettings &&
+                                    tableReservationSettings.wednesday &&
+                                    tableReservationSettings.wednesday.map(
+                                      (wednesday) => {
+                                        return (
+                                          <>
+                                            <li>
+                                              {wednesday?.start
+                                                ? Utils.convertTiming(
+                                                    wednesday?.start
+                                                  )
+                                                : "N/A"}{" "}
+                                              -{" "}
+                                              {wednesday?.end
+                                                ? Utils.convertTiming(wednesday?.end)
+                                                : "N/A"}
+                                            </li>
+                                          </>
+                                        );
+                                      }
+                                    )}
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="row">
+                            <div className="col-lg-6 col-md-8 col-sm-12">
+                              <div
+                                className={
+                                  dayValue === "thursday"
+                                    ? "day_wrapper_reserv_table --active"
+                                    : "day_wrapper_reserv_table"
+                                }
+                              >
+                                <p className="day__">Thursday</p>
+                                <ul className="reserv_timing__">
+                                  {tableReservationSettings &&
+                                    tableReservationSettings.thursday &&
+                                    tableReservationSettings.thursday.map(
+                                      (thursday) => {
+                                        return (
+                                          <>
+                                            <li>
+                                              {thursday?.start
+                                                ? Utils.convertTiming(thursday?.start)
+                                                : "N/A"}{" "}
+                                              -{" "}
+                                              {thursday?.end
+                                                ? Utils.convertTiming(thursday?.end)
+                                                : "N/A"}
+                                            </li>
+                                          </>
+                                        );
+                                      }
+                                    )}
+                                </ul>
+                              </div>
+                            </div>
+                            <div className="col-lg-6 col-md-8 col-sm-12">
+                              <div
+                                className={
+                                  dayValue === "friday"
+                                    ? "day_wrapper_reserv_table --active"
+                                    : "day_wrapper_reserv_table"
+                                }
+                              >
+                                <p className="day__">Friday</p>
+                                <ul className="reserv_timing__">
+                                  {tableReservationSettings &&
+                                    tableReservationSettings.friday &&
+                                    tableReservationSettings.friday.map((friday) => {
+                                      return (
+                                        <>
+                                          <li>
+                                            {friday?.start
+                                              ? Utils.convertTiming(friday?.start)
+                                              : "N/A"}{" "}
+                                            -{" "}
+                                            {friday?.end
+                                              ? Utils.convertTiming(friday?.end)
+                                              : "N/A"}
+                                          </li>
+                                        </>
+                                      );
+                                    })}
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="row">
+                            <div className="col-lg-6 col-md-8 col-sm-12">
+                              <div
+                                className={
+                                  dayValue === "saturday"
+                                    ? "day_wrapper_reserv_table --active"
+                                    : "day_wrapper_reserv_table"
+                                }
+                              >
+                                <p className="day__">Saturday</p>
+                                <ul className="reserv_timing__">
+                                  {tableReservationSettings &&
+                                    tableReservationSettings.saturday &&
+                                    tableReservationSettings.saturday.map(
+                                      (saturday) => {
+                                        return (
+                                          <>
+                                            <li>
+                                              {saturday?.start
+                                                ? Utils.convertTiming(saturday?.start)
+                                                : "N/A"}{" "}
+                                              -{" "}
+                                              {saturday?.end
+                                                ? Utils.convertTiming(saturday?.end)
+                                                : "N/A"}
+                                            </li>
+                                          </>
+                                        );
+                                      }
+                                    )}
+                                </ul>
+                              </div>
+                            </div>
+                            <div className="col-lg-6 col-md-6 col-sm-6"></div>
+                          </div>
                         </div>
-                      </div>
-                      <div className="col-lg-6 col-md-8 col-sm-12">
-                        <div
-                          className={
-                            dayValue === "monday"
-                              ? "day_wrapper_reserv_table --active"
-                              : "day_wrapper_reserv_table"
-                          }
+                      )} */}
+                        <button
+                          type="button"
+                          className="reserv_btn my-3"
+                          onClick={() => setShowManageReserv(!showManageReserv)}
                         >
-                          <p className="day__">Monday</p>
-                          <ul className="reserv_timing__">
-                            {tableReservationSettings &&
-                              tableReservationSettings.monday &&
-                              tableReservationSettings.monday.map((monday) => {
-                                return (
+                          <i className="pe-2">
+                            <Im.ImSpoonKnife />
+                          </i>
+                          Manage Reservation
+                        </button>
+                        {showManageReserv && (
+                          <form onSubmit={(e) => getReservationDetails(e)}>
+                            <div className="form-group">
+                              <p className="sub_title_">
+                                Use the form below to find your reservation
+                              </p>
+                              <label
+                                htmlFor="reservEmail"
+                                className="form-label"
+                              >
+                                Email
+                              </label>
+                              <input
+                                type="email"
+                                name="email"
+                                id="reservEmail"
+                                className="form-control"
+                                onChange={(e) => setReservEmail(e.target.value)}
+                                value={reservEmail}
+                              />
+
+                              <button
+                                type="submit"
+                                className="reserv_btn mt-3 ms-1"
+                                style={{ float: "left" }}
+                                disabled={manageReservLoading}
+                              >
+                                {!manageReservLoading ? (
                                   <>
-                                    <li>
-                                      {monday?.start
-                                        ? Utils.convertTiming(monday?.start)
-                                        : "N/A"}{" "}
-                                      -{" "}
-                                      {monday?.end
-                                        ? Utils.convertTiming(monday?.end)
-                                        : "N/A"}
-                                    </li>
+                                    <i className="pe-2">
+                                      <Md.MdTableBar />
+                                    </i>
+                                    View Reservation
                                   </>
-                                );
-                              })}
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="row">
-                      <div className="col-lg-6 col-md-8 col-sm-12">
-                        <div
-                          className={
-                            dayValue === "tuesday"
-                              ? "day_wrapper_reserv_table --active"
-                              : "day_wrapper_reserv_table"
-                          }
-                        >
-                          <p className="day__">Tuesday</p>
-                          <ul className="reserv_timing__">
-                            {tableReservationSettings &&
-                              tableReservationSettings.tuesday &&
-                              tableReservationSettings.tuesday.map(
-                                (tuesday) => {
-                                  return (
-                                    <>
-                                      <li>
-                                        {tuesday?.start
-                                          ? Utils.convertTiming(tuesday?.start)
-                                          : "N/A"}{" "}
-                                        -{" "}
-                                        {tuesday?.end
-                                          ? Utils.convertTiming(tuesday?.end)
-                                          : "N/A"}
-                                      </li>
-                                    </>
-                                  );
-                                }
-                              )}
-                          </ul>
-                        </div>
-                      </div>
-                      <div className="col-lg-6 col-md-8 col-sm-12">
-                        <div
-                          className={
-                            dayValue === "wednesday"
-                              ? "day_wrapper_reserv_table --active"
-                              : "day_wrapper_reserv_table"
-                          }
-                        >
-                          <p className="day__">Wednesday</p>
-                          <ul className="reserv_timing__">
-                            {tableReservationSettings &&
-                              tableReservationSettings.wednesday &&
-                              tableReservationSettings.wednesday.map(
-                                (wednesday) => {
-                                  return (
-                                    <>
-                                      <li>
-                                        {wednesday?.start
-                                          ? Utils.convertTiming(
-                                              wednesday?.start
-                                            )
-                                          : "N/A"}{" "}
-                                        -{" "}
-                                        {wednesday?.end
-                                          ? Utils.convertTiming(wednesday?.end)
-                                          : "N/A"}
-                                      </li>
-                                    </>
-                                  );
-                                }
-                              )}
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-lg-6 col-md-8 col-sm-12">
-                        <div
-                          className={
-                            dayValue === "thursday"
-                              ? "day_wrapper_reserv_table --active"
-                              : "day_wrapper_reserv_table"
-                          }
-                        >
-                          <p className="day__">Thursday</p>
-                          <ul className="reserv_timing__">
-                            {tableReservationSettings &&
-                              tableReservationSettings.thursday &&
-                              tableReservationSettings.thursday.map(
-                                (thursday) => {
-                                  return (
-                                    <>
-                                      <li>
-                                        {thursday?.start
-                                          ? Utils.convertTiming(thursday?.start)
-                                          : "N/A"}{" "}
-                                        -{" "}
-                                        {thursday?.end
-                                          ? Utils.convertTiming(thursday?.end)
-                                          : "N/A"}
-                                      </li>
-                                    </>
-                                  );
-                                }
-                              )}
-                          </ul>
-                        </div>
-                      </div>
-                      <div className="col-lg-6 col-md-8 col-sm-12">
-                        <div
-                          className={
-                            dayValue === "friday"
-                              ? "day_wrapper_reserv_table --active"
-                              : "day_wrapper_reserv_table"
-                          }
-                        >
-                          <p className="day__">Friday</p>
-                          <ul className="reserv_timing__">
-                            {tableReservationSettings &&
-                              tableReservationSettings.friday &&
-                              tableReservationSettings.friday.map((friday) => {
-                                return (
+                                ) : (
                                   <>
-                                    <li>
-                                      {friday?.start
-                                        ? Utils.convertTiming(friday?.start)
-                                        : "N/A"}{" "}
-                                      -{" "}
-                                      {friday?.end
-                                        ? Utils.convertTiming(friday?.end)
-                                        : "N/A"}
-                                    </li>
+                                    {" "}
+                                    <span
+                                      class="spinner-border spinner-border-sm"
+                                      role="status"
+                                      aria-hidden="true"
+                                    ></span>{" "}
+                                    please wait...
                                   </>
-                                );
-                              })}
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="row">
-                      <div className="col-lg-6 col-md-8 col-sm-12">
-                        <div
-                          className={
-                            dayValue === "saturday"
-                              ? "day_wrapper_reserv_table --active"
-                              : "day_wrapper_reserv_table"
-                          }
-                        >
-                          <p className="day__">Saturday</p>
-                          <ul className="reserv_timing__">
-                            {tableReservationSettings &&
-                              tableReservationSettings.saturday &&
-                              tableReservationSettings.saturday.map(
-                                (saturday) => {
-                                  return (
-                                    <>
-                                      <li>
-                                        {saturday?.start
-                                          ? Utils.convertTiming(saturday?.start)
-                                          : "N/A"}{" "}
-                                        -{" "}
-                                        {saturday?.end
-                                          ? Utils.convertTiming(saturday?.end)
-                                          : "N/A"}
-                                      </li>
-                                    </>
-                                  );
-                                }
-                              )}
-                          </ul>
-                        </div>
-                      </div>
-                      <div className="col-lg-6 col-md-6 col-sm-6"></div>
-                    </div>
-                  </div>
-                )} */}
-
-                        {/* <button
-                  type="button"
-                  className="reserv_btn my-3"
-                  onClick={() => router.push("/manage-reservation")}
-                >
-                  <i className="pe-2">
-                    <Im.ImSpoonKnife />
-                  </i>
-                  Manage Reservation
-                </button> */}
+                                )}
+                              </button>
+                            </div>
+                          </form>
+                        )}
                       </div>
                       <div className="poweredBy_ text-center" id="main___">
                         <span>Powered by Foodpage</span>
