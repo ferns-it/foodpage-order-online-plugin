@@ -23,7 +23,8 @@ export const AppContextProvider = (props) => {
   // const [isCheckoutActive, setisCheckoutActive] = useState(false);
   const [locationResponseData, setLocationResponseData] = useState(null);
   const [isUserLogged, setIsUserLogged] = useState(null);
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(0); 
+  const [mergedState, setMergedState] = useState(null);
   const [deliveryFee, setDeliveryFee] = useState(null);
   const shopId = 1;
   const [activeCard, setActiveCard] = useState("login");
@@ -324,6 +325,8 @@ export const AppContextProvider = (props) => {
         deliveryLoading,
         GuestDiscountoftakeaway,
         GuestDeliveryDetails,
+        mergedState,
+        setMergedState,
       }}
     >
       {props.children}
