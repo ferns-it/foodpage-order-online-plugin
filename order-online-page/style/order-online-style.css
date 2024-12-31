@@ -2507,7 +2507,6 @@ body {
   background: rgb(238, 238, 238);
   color: #af2329;
   /* border: 1px dashed #7777; */
-  margin-bottom: 0 !important;
   transition: all 0.2s ease-in-out;
   font-size: 11px;
   padding: 0 25px;
@@ -2534,10 +2533,10 @@ body {
 
 .fda_food_row div.food_tile__ img {
   position: relative;
-  width: 130px;
-  height: 130px;
+  width: 150px;
+  height: 150px;
   border-radius: 100%;
-  padding: 20px;
+  padding: 0;
   /* background-color: rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 0 25px rgba(255, 255, 255, 0.15),
     inset 0 4px 0 rgba(0, 0, 0, 0.05), inset 0 -4px 0 rgba(0, 0, 0, 0.05),
@@ -2553,7 +2552,7 @@ div.food_tile__.active img {
 }
 
 .dish_name {
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 600;
   letter-spacing: 1px;
   color: rgba(38, 29, 86, 1);
