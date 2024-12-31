@@ -198,11 +198,34 @@ const useReservation = () => {
       setIsTimingLoading(false);
     }
   };
+  const getReservationDetailsEmail = async (
+    email,
+    type,
+    { onSuccess, onFailed }
+  ) => {
+    try {
+      setReservationLoading(true);
 
+      const shopId = process.env.SHOP_ID;
+
+      await BaseClient.get(
+        ReservationAPIEndpoints.getReserVationDetailsViaEmail +
+          `/${email}/${shopId}/${type}`,
+        {},
+        {
+          onSuccess: onSuccess,
+          onFailed: onFailed,
+        }
+      );
+    } finally {
+      setReservationLoading(false);
+    }
+  };
   return {
     getShopTiming,
     shopTiming,
     isTimingLoading,
+    getReservationDetailsEmail,
     reservationLoading,
     sendReservationOTP,
     completeReservation,
@@ -214,6 +237,7 @@ const useReservation = () => {
     sendMessage,
     messageLoading,
     getHolidays,
+    setReservationDetails,
     upcomingHolidays,
   };
 };

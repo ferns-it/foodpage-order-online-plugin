@@ -44,6 +44,9 @@ const findToday = () => {
 function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   const router = useRouter();
   const searchparams = useSearchParams();
+  const [showManageReserv, setShowManageReserv] = useState(false);
+  const [reservEmail, setReservEmail] = useState("");
+  const [manageReservLoading, setManageReservLoading] = useState(false);
   const {
     getShopTiming,
     shopTiming,
@@ -57,6 +60,8 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     tableReservationSettings,
     loading,
     upcomingHolidays,
+    getReservationDetailsEmail,
+    setReservationDetails,
   } = useContext(TableReservationContext);
   const [count, setCount] = useState(1);
   const [hashcode, setHashcode] = useState("");
@@ -458,6 +463,40 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
       });
     } finally {
       setFormValidationLoading(false);
+    }
+  };
+  const getReservationDetails = async (e) => {
+    e.preventDefault();
+
+    try {
+      setManageReservLoading(true);
+      if (reservEmail && reservEmail.length === 0) {
+        toast.error("Email is required!");
+        return;
+      }
+
+      const type = "upcoming";
+      await getReservationDetailsEmail(reservEmail, type, {
+        onSuccess: (res) => {
+          if (res?.data?.error === false) {
+            const reserVData = res?.data?.data?.enquiryList;
+            if (reserVData && reserVData.length == 0) {
+              toast.error("No reservations found!");
+              return;
+            }
+            setReservationDetails(reserVData);
+            setSessionStorageItem("reservData", JSON.stringify(reserVData));
+            router.push("/reservation-list");
+          } else {
+            toast.error("No reservations found!");
+          }
+        },
+        onFailed: (err) => {
+          console.log("Error on fetching reservation details", err);
+        },
+      });
+    } finally {
+      setManageReservLoading(false);
     }
   };
   const handleDateChange = (e) => {
@@ -1120,16 +1159,65 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                   </div>
                 )} */}
 
-                        {/* <button
-                  type="button"
-                  className="reserv_btn my-3"
-                  onClick={() => router.push("/manage-reservation")}
-                >
-                  <i className="pe-2">
-                    <Im.ImSpoonKnife />
-                  </i>
-                  Manage Reservation
-                </button> */}
+                        <button
+                          type="button"
+                          className="reserv_btn my-3"
+                          onClick={() => setShowManageReserv(!showManageReserv)}
+                        >
+                          <i className="pe-2">
+                            <Im.ImSpoonKnife />
+                          </i>
+                          Manage Reservation
+                        </button>
+                        {showManageReserv && (
+                          <form onSubmit={(e) => getReservationDetails(e)}>
+                            <div className="form-group">
+                              <p className="sub_title_">
+                                Use the form below to find your reservation
+                              </p>
+                              <label
+                                htmlFor="reservEmail"
+                                className="form-label"
+                              >
+                                Email
+                              </label>
+                              <input
+                                type="email"
+                                name="email"
+                                id="reservEmail"
+                                className="form-control"
+                                onChange={(e) => setReservEmail(e.target.value)}
+                                value={reservEmail}
+                              />
+
+                              <button
+                                type="submit"
+                                className="reserv_btn mt-3 ms-1"
+                                style={{ float: "left" }}
+                                disabled={manageReservLoading}
+                              >
+                                {!manageReservLoading ? (
+                                  <>
+                                    <i className="pe-2">
+                                      <Md.MdTableBar />
+                                    </i>
+                                    View Reservation
+                                  </>
+                                ) : (
+                                  <>
+                                    {" "}
+                                    <span
+                                      class="spinner-border spinner-border-sm"
+                                      role="status"
+                                      aria-hidden="true"
+                                    ></span>{" "}
+                                    please wait...
+                                  </>
+                                )}
+                              </button>
+                            </div>
+                          </form>
+                        )}
                       </div>
                       <div className="poweredBy_ text-center" id="main___">
                         <span>Powered by Foodpage</span>

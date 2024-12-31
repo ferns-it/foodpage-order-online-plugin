@@ -57,6 +57,8 @@ export const TableReservationContextProvider = (props) => {
     messageLoading,
     getHolidays,
     upcomingHolidays,
+    setReservationDetails,
+    getReservationDetailsEmail,
   } = useReservation();
 
   useEffect(() => {
@@ -93,6 +95,8 @@ export const TableReservationContextProvider = (props) => {
         tableReservationSettings,
         loading,
         upcomingHolidays,
+        setReservationDetails,
+        getReservationDetailsEmail,
         // otp,
         // setOtp,
         // clearOtp
