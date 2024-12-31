@@ -27,7 +27,7 @@ export const TableReservationContextProvider = (props) => {
       setLoading(true);
       try {
         const response = await fetch(
-          `https://shopadmin.vgrex.com/settings/fetch-reservation-settings/ ${process.env.SHOP_ID}`
+          `https://shopadmin.vgrex.com/settings/fetch-reservation-settings/${process.env.SHOP_ID}`
         );
         const json = await response.json();
         setTableReservationSettings(json?.data);
