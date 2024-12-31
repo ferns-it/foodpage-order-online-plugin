@@ -1734,7 +1734,7 @@ body {
   text-align: center !important;
   /* align-items: center; */
   justify-content: center;
-  color: #777777dd;
+  color: #777777dd !important;
   transition: all 0.2s ease-in-out;
 }
 

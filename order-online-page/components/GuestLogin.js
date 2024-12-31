@@ -50,7 +50,7 @@ function GuestLogin({
     sessionStorage.setItem("loginMail", userState.email);
     sessionStorage.setItem("name", userState.guestName);
     const shopName = settings?.name;
-    
+
     if (validateGuestForm()) {
       const data = {
         shopName: shopName,

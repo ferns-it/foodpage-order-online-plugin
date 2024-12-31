@@ -152,7 +152,7 @@ function AddOnsModal(props) {
 
       totalAmount = priceAmt * count;
     }
-// console.log("cartTotal", totalAmount.toFixed(2));
+    // console.log("cartTotal", totalAmount.toFixed(2));
 
     setCardTotal(totalAmount.toFixed(2));
   };
@@ -314,7 +314,7 @@ function AddOnsModal(props) {
     };
     const payload = {
       qty: count,
-      rID: JSON.stringify(shopId),
+      rID: process.env.SHOP_ID,
       pID: itemData?.pID,
       cOption: JSON.stringify(cOptionObj),
     };

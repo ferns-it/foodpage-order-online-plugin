@@ -341,7 +341,7 @@ div.food_tile.active img {
 .login_wrapper {
   position: relative;
   width: 100%;
-  padding: 5rem 2rem;
+  padding: 10rem 2rem;
 }
 
 .login_comp {
@@ -2623,9 +2623,11 @@ a {
     background-color: #000;
   } */
 }
-
+.black {
+  color: black !important;
+}
 .table_reserv__ {
-  padding: 5rem 0;
+  padding: 15rem 0;
 }
 
 .contact-info > h3 {

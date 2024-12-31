@@ -23,10 +23,10 @@ export const AppContextProvider = (props) => {
   // const [isCheckoutActive, setisCheckoutActive] = useState(false);
   const [locationResponseData, setLocationResponseData] = useState(null);
   const [isUserLogged, setIsUserLogged] = useState(null);
-  const [amount, setAmount] = useState(0); 
+  const [amount, setAmount] = useState(0);
   const [mergedState, setMergedState] = useState(null);
   const [deliveryFee, setDeliveryFee] = useState(null);
-  const shopId = 1;
+  const shopId = process.env.SHOP_ID;
   const [activeCard, setActiveCard] = useState("login");
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [filterLoading, setFilterLoading] = useState(false);
@@ -87,6 +87,8 @@ export const AppContextProvider = (props) => {
     settingsLoading,
     setCartItems,
     clearCartItems,
+    fetchCurrentShopStatus,
+    currentStatus,
   } = useMenus();
   const {
     authLoading,
@@ -148,6 +150,7 @@ export const AppContextProvider = (props) => {
     fetchCategoriesList();
     fetchCartList(userId);
     fetchMenuList();
+    fetchCurrentShopStatus();
     // if (userToken) {
     //   fetchAddressList(userToken);
     //   fetchOrderList(userToken);
@@ -327,6 +330,8 @@ export const AppContextProvider = (props) => {
         GuestDeliveryDetails,
         mergedState,
         setMergedState,
+        fetchCurrentShopStatus,
+        currentStatus,
       }}
     >
       {props.children}

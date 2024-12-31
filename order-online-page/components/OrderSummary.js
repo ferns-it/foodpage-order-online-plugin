@@ -1,3 +1,4 @@
+"use client";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import * as Fa from "react-icons/fa";
 import * as Io from "react-icons/io";
@@ -14,6 +15,18 @@ import {
   setLocalStorageItem,
   setSessionStorageItem,
 } from "../../_utils/ClientUtils";
+import { TableReservationContext } from "../../table-reservation/context/TableReservationContext";
+import { reloadCurrentPage } from "../../_utils/ClientUtils";
+
+const days = [
+  "sunday",
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+  "saturday",
+];
 
 function OrderSummary() {
   const router = useRouter();
@@ -36,11 +49,12 @@ function OrderSummary() {
     GuestDiscountoftakeaway,
     shopId,
     GuestDeliveryDetails,
+    clearCartItems,
   } = useContext(AppContext);
+  const { shopTiming } = useContext(TableReservationContext);
 
   const [showAddons, setShowAddons] = useState(null);
   const [deleteIndex, setDeleteIndex] = useState(-1);
-  const [locationData, setLocationData] = useState(null);
   const [takeawayTime, setTakeawayTime] = useState(null);
   const [error, setError] = useState(false);
   const [discount, setDiscount] = useState(0);
@@ -48,11 +62,12 @@ function OrderSummary() {
   const [convertedDistance, setConvertedDistance] = useState(null);
   const [time, setTime] = useState("");
   const [takeaway, setTakeaway] = useState(null);
-  const [response, setResponse] = useState(null);
   const [takeawayTotal, setTakeawayTotal] = useState(null);
-  const [postcodeData, setPostcodeData] = useState(null);
+
   const [postalCode, setPostalCode] = useState("");
   const [locationLoading, setLocationLoading] = useState(false);
+
+  const [timeIntervals, setTimeIntervals] = useState(null);
 
   useEffect(() => {
     const value = cartItems?.cartTotal?.cartTotalPrice;
@@ -79,11 +94,49 @@ function OrderSummary() {
     //   calculateDiscounts();
     // }
   }, [cartItems, deliveryInfo]);
+  console.log(shopTiming);
+
+  useEffect(() => {
+    if (!shopTiming) return;
+
+    if (!shopTiming || shopTiming.length === 0) {
+      setTimeIntervals([]);
+      return;
+    }
+
+    const timing = shopTiming?.shopTiming;
+    const today = new Date().getDay();
+    const dayValue = days[today];
+    const todaysTiming = timing[dayValue];
+    const now = new Date();
+
+    const currentHours = now.getHours();
+    const currentMinutes = now.getMinutes();
+
+    const findIntervals = todaysTiming
+      .filter((time) => time?.status === "active")
+      .flatMap((time) =>
+        Utils.get15MinuteIntervals(time.openingTime, time.closingTime)
+      )
+      .filter((interval) => {
+        const [hour, minute] = interval.split(":").map(Number);
+
+        // Compare each interval time to the current time
+        return (
+          hour > currentHours ||
+          (hour === currentHours && minute > currentMinutes)
+        );
+      });
+
+    setTimeIntervals(findIntervals);
+  }, [shopTiming]);
+
   const handleTakeaway = () => {
     setDelivery(true);
     removeSessionStorageItem("distance");
     removeSessionStorageItem("deliveryFee");
   };
+
   const processLocationData = (locationData) => {
     if (!locationData) return;
     const mileToKMConversionFactor = 0.62137119;
@@ -119,6 +172,7 @@ function OrderSummary() {
     setTakeawayTime(null);
     setDelivery(false);
     removeSessionStorageItem("guest");
+    setSessionStorageItem("deliveryCondition", false);
   };
 
   const calculateTakwawayDiscount = async () => {
@@ -141,11 +195,11 @@ function OrderSummary() {
             toast.success("Continue to checkout", { icon: "👍🏻" });
             const deliveryResp = res.data.data;
             setTakeaway(res?.data?.discountAmount);
-            sessionStorage.setItem("type", delivery);
-            sessionStorage.setItem("discount", takeaway);
-            sessionStorage.setItem("takeawaytime", takeawayTime);
-            sessionStorage.setItem("location", "checkout");
-            const pathname = `/checkout?price=${deliveryResp?.cart_NetAmount}&&deliveryCharge=0&&discount=${deliveryResp?.discountAmount}`;
+            setSessionStorageItem("type", delivery);
+            setSessionStorageItem("discount", takeaway);
+            setSessionStorageItem("takeawaytime", takeawayTime);
+            setSessionStorageItem("location", "checkout");
+            const pathname = `/checkout?delivery=true&&price=${deliveryResp?.cart_NetAmount}&&deliveryCharge=0&&discount=${deliveryResp?.discountAmount}`;
             setLocalStorageItem("path", pathname);
             setTimeout(() => {
               router.push(pathname);
@@ -186,7 +240,6 @@ function OrderSummary() {
       await GuestDeliveryDetails(payload, {
         headers: headers,
         onSuccess: async (res) => {
-          console.log(res, ":respones");
           if (res?.data?.error == false) {
             const deliveryResp = res.data.data;
             if (deliveryResp) {
@@ -195,23 +248,23 @@ function OrderSummary() {
                 JSON.stringify(deliveryResp)
               );
               toast.success("Continue to checkout", { icon: "👍🏻" });
-              sessionStorage.setItem("location", "/checkout");
-              sessionStorage.setItem("postcode", postalCode);
-              sessionStorage.setItem("type", delivery);
-              sessionStorage.setItem(
+              setSessionStorageItem("location", "/checkout");
+              setSessionStorageItem("postcode", postalCode);
+              setSessionStorageItem("type", delivery);
+              setSessionStorageItem(
                 "discount",
                 res?.data?.data?.discountAmount
               );
-              sessionStorage.setItem("isCheckoutActive", true);
-              const pathname = `/checkout?price=${deliveryResp?.cart_NetAmount}&&deliveryCharge=${deliveryResp?.deliveryFeeAmount}&&discount=${deliveryResp?.discountAmount}`;
+              setSessionStorageItem("isCheckoutActive", true);
+              const pathname = `/checkout?delivery=false&&price=${deliveryResp?.cart_NetAmount}&&deliveryCharge=${deliveryResp?.deliveryFeeAmount}&&discount=${deliveryResp?.discountAmount}`;
               setLocalStorageItem("path", pathname);
               setTimeout(() => {
                 router.push(pathname);
               }, 200);
             }
-          } else {
-            toast.error(res?.data?.errorMessage?.message);
+            return;
           }
+          toast.error(res?.data?.errorMessage?.message);
         },
         onFailed: (err) => {
           toast.error(err?.response?.data?.errorMessage?.message);
@@ -313,12 +366,36 @@ function OrderSummary() {
     setTime(formattedTime);
     setTakeawayTime(formattedTime);
   };
-  console.log(settings, "settings");
+
+  const clearcart = async () => {
+    const userID = getLocalStorageItem("UserPersistent");
+
+    await clearCartItems(userID, {
+      onSuccess: async (res) => {
+        toast.success("Cart Cleared!");
+        reloadCurrentPage();
+        await fetchCartList(userID);
+      },
+      onFailed: (err) => {
+        toast.err("Something Went Wrong!");
+      },
+    });
+  };
+
   return (
     <Fragment>
       <Toaster position="top-center" reverseOrder={false} />
       <div style={{ width: "100%" }}>
-        <h3 className="order_title text-center">Order Summary</h3>
+        <>
+          <div className="d-flex align-items-center justify-content-between mt-3">
+            <h6 className="p-2">Order Summary</h6>
+            {cartItems && cartItems.cartItems.length != 0 && (
+              <button className="cart-clear-bt" onClick={clearcart}>
+                Clear Cart
+              </button>
+            )}
+          </div>
+        </>
 
         <div className="summary_item_wrapper_029">
           {cartItems && cartItems.cartItems.length != 0 ? (
@@ -556,7 +633,7 @@ function OrderSummary() {
                     Pickup Time
                   </label>
                   <div className="inp_wrapper_827">
-                    <input
+                    {/* <input
                       type="time"
                       name=""
                       id=""
@@ -566,7 +643,26 @@ function OrderSummary() {
                           : "opt_input_827"
                       }
                       onChange={validateCurrentTime}
-                    />
+                    /> */}
+                    <select
+                      name=""
+                      id=""
+                      onChange={validateCurrentTime}
+                      className="form-control form-select"
+                    >
+                      <option value="0" selected disabled>
+                        Choose Takeaway time
+                      </option>
+                      {timeIntervals &&
+                        timeIntervals.length != 0 &&
+                        timeIntervals.map((interval, idx) => {
+                          return (
+                            <option value={interval}>
+                              {Utils.convertTiming(interval)}
+                            </option>
+                          );
+                        })}
+                    </select>
                   </div>
                   {error && <div className="error-message">{error}</div>}
                   <div className="mt-2 text-center">
