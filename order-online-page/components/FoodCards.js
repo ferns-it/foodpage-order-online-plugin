@@ -91,13 +91,19 @@ function FoodCards(category) {
                             products?.map((data, index) => {
                               return (
                                 <div
-                                  className=" col-lg-4 col-md-2 col-sm-6 position-relative"
+                                  className=" col-lg-4 col-md-2 col-sm-6 position-relative mb-4"
                                   key={index}
                                 >
-                                  <div id="fda_product_tile">
-                                    <div className="row fda_food_row position-relative">
-                                      <div className="mx-auto">
-                                        <a
+                                  <div
+                                    id="fda_product_tile"
+                                    style={{
+                                      background:
+                                        "linear-gradient(180deg, rgba(238, 238, 238, 1) 0%, rgba(0, 0, 0, 0) 100%)",
+                                    }}
+                                  >
+                                    <div className="row fda_food_row">
+                                      <div className="mx-auto p-0">
+                                        <div
                                           className="prod_anchor"
                                           style={{
                                             textDecoration: "none",
@@ -105,19 +111,20 @@ function FoodCards(category) {
                                           }}
                                           // onClick={() => handleModal(data)}
                                         >
-                                          <div className="food_tile__ active mb-4 p-3">
-                                            {/* <img
+                                          <div className="food_tile__ active p-3">
+                                            <img
                                               src={data?.photo}
                                               alt=""
-                                              className={
-                                                data?.online === "No" ||
-                                                data?.isAvailable === false ||
-                                                data?.availability === false
-                                                  ? "fda_product_img fd_card_grayscale"
-                                                  : "fda_product_img "
-                                              }
+                                              // className={
+                                              //   data?.online === "No" ||
+                                              //   data?.isAvailable === false ||
+                                              //   data?.availability === false
+                                              //     ? "fda_product_img fd_card_grayscale"
+                                              //     : "fda_product_img "
+                                              // }
+                                              className="fda_product_img"
                                               referrerPolicy="no-referrer"
-                                            /> */}
+                                            />
                                             <h6 className="dish_name">
                                               {data?.name}
                                             </h6>
@@ -127,9 +134,20 @@ function FoodCards(category) {
                                               )}
                                             </span>
 
-                                            <h4 className="prod_price">
+                                            <h4
+                                              style={{
+                                                fontFamily: "sans-sarif",
+                                              }}
+                                              className="prod_price"
+                                            >
                                               {" "}
-                                              <b>{data?.price ?? "N/A"}</b>
+                                              <b
+                                                style={{
+                                                  fontFamily: "sans-serif",
+                                                }}
+                                              >
+                                                {data?.price ?? "N/A"}
+                                              </b>
                                             </h4>
 
                                             <button
@@ -140,7 +158,7 @@ function FoodCards(category) {
                                               ADD
                                             </button>
                                           </div>
-                                        </a>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
