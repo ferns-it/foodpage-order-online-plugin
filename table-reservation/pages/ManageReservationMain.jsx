@@ -1,3 +1,4 @@
+"use client"
 import React, { Fragment, useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Tooltip } from "react-tooltip";
