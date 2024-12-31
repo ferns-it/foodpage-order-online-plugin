@@ -1070,7 +1070,7 @@ body {
   border-radius: 5px;
   padding: 10px;
   left: 50%;
-  top: 100px;
+  top: 170px;
   transform: translateX(-50%);
   transition: all 0.2s ease-in-out;
   overflow: hidden;

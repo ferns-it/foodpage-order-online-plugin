@@ -21,24 +21,87 @@ export default class Utils {
 
     return normalDate;
   }
+  static formatDateTime = (dateTimeString) => {
+    const date = new Date(dateTimeString);
+
+    const formattedDate = date.toLocaleDateString("en-GB");
+
+    const formattedTime = date.toLocaleTimeString("en-GB", {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    });
+
+    return formattedTime;
+  };
 
   static convertTiming = (time24) => {
     // Split the time into hours, minutes, and seconds
-    const [hours, minutes] = time24.split(':');
+    const [hours, minutes] = time24.split(":");
 
     // Convert hours from string to number
     let hoursNumber = parseInt(hours, 10);
 
     // Determine AM or PM
-    const period = hoursNumber >= 12 ? 'PM' : 'AM';
+    const period = hoursNumber >= 12 ? "PM" : "AM";
 
     // Convert hours from 24-hour to 12-hour format
     hoursNumber = hoursNumber % 12 || 12; // The modulo operation handles 0 and 12 appropriately
 
-    const paddedHours = hoursNumber.toString().padStart(2, '0');
-    const paddedMinutes = minutes.padStart(2, '0');
+    const paddedHours = hoursNumber.toString().padStart(2, "0");
+    const paddedMinutes = minutes.padStart(2, "0");
 
     // Return the formatted time without seconds
     return `${paddedHours}:${paddedMinutes} ${period}`;
+  };
+
+  static getTimeIntervals(openingTime, closingTime, interval) {
+    const intervals = [];
+    let start = new Date(`1970-01-01T${openingTime}Z`);
+    const end = new Date(`1970-01-01T${closingTime}Z`);
+
+    if (end <= start) {
+      end.setDate(end.getDate() + 1);
+    }
+
+    while (start <= end) {
+      intervals.push(start.toISOString().substr(11, 5));
+      start.setMinutes(start.getMinutes() + interval);
+    }
+
+    return intervals;
+  }
+
+  static getDayOfWeek(dateString) {
+    const date = new Date(dateString);
+    const dayOfWeek = date.getDay();
+    const dayNames = [
+      "sunday",
+      "monday",
+      "tuesday",
+      "wednesday",
+      "thursday",
+      "friday",
+      "saturday",
+    ];
+    const dayName = dayNames[dayOfWeek];
+
+    return dayName;
+  }
+
+  static mergeBookingDateTime = (bookingDate, bookingTime) => {
+    const date = new Date(bookingDate);
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    const timeWithSeconds = bookingTime.includes(":")
+      ? bookingTime
+      : `${bookingTime}:00`;
+
+    const formattedDateTime = `${year}-${month}-${day} ${timeWithSeconds}`;
+
+    return formattedDateTime;
   };
 }

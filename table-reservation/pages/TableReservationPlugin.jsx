@@ -17,8 +17,8 @@ function TableReservationPlugin(props) {
   };
   return (
     <div>
-      <Toaster />
-      <section className="table_reservation_form_page">
+      {/* <Toaster /> */}
+      <section className="table_reservation_form_page mt-3">
         {isActiveTablePage === "reservation-form" ? (
           <TableReservationForm
             shopId={shopId}

@@ -53,8 +53,20 @@ const OrderOnlineMain = () => {
 
   useEffect(() => {
     if (!categoryList) return;
-    const catName = categoryList[0]?.name;
-    setSelectedCategory(catName);
+
+    const validCategories = categoryList.filter(
+      (list) => list.productsCount?.online > 0
+    );
+    console.log(validCategories, "valid");
+    // Set the first valid category as selectedCategory
+    if (validCategories.length > 0) {
+      const catName = validCategories[0]?.name;
+
+      // setSelectedCategory(catName);
+      setSelectedCategory(validCategories[0].name);
+      setActiveChipIndex(0);
+    }
+
     setActiveChipIndex(0);
   }, [categoryList]);
 
@@ -122,29 +134,61 @@ const OrderOnlineMain = () => {
                       ) : (
                         <Fragment>
                           {categoryList &&
-                            categoryList.length != 0 &&
+                            categoryList.length > 0 &&
                             categoryList.map((list, index) => {
-                              return (
-                                <a
-                                  // href={`#category-${index}`}
-                                  className={
-                                    index === activeChipIndex
-                                      ? "nav-link active_009"
-                                      : "nav-link"
-                                  }
-                                  key={index}
-                                  onClick={() =>
-                                    handleChipClick(
-                                      index,
-                                      list?.name,
-                                      list?.cID
-                                    )
-                                  }
-                                >
-                                  <li>{list?.name}</li>
-                                  <i>{/* <Lu.LuArrowRightToLine /> */}</i>
-                                </a>
-                              );
+                              const children = list?.childrens;
+
+                              if (children && children.length > 0) {
+                                const hasValidChildren = children.some(
+                                  (child) => child.productsCount?.online > 0
+                                );
+
+                                if (hasValidChildren) {
+                                  return (
+                                    <a
+                                      key={index}
+                                      className={
+                                        index === activeChipIndex
+                                          ? "nav-link active_009"
+                                          : "nav-link"
+                                      }
+                                      onClick={() =>
+                                        handleChipClick(
+                                          index,
+                                          list?.name,
+                                          list?.cID
+                                        )
+                                      }
+                                    >
+                                      <li>{list?.name}</li>
+                                      <i>{/* Optional icon */}</i>
+                                    </a>
+                                  );
+                                }
+                              } else if (list.productsCount?.online > 0) {
+                                return (
+                                  <a
+                                    key={index}
+                                    className={
+                                      index === activeChipIndex
+                                        ? "nav-link active_009"
+                                        : "nav-link"
+                                    }
+                                    onClick={() =>
+                                      handleChipClick(
+                                        index,
+                                        list?.name,
+                                        list?.cID
+                                      )
+                                    }
+                                  >
+                                    <li>{list?.name}</li>
+                                    <i>{/* Optional icon */}</i>
+                                  </a>
+                                );
+                              }
+
+                              return null;
                             })}
                         </Fragment>
                       )}
@@ -175,7 +219,7 @@ const OrderOnlineMain = () => {
           </div>
         </Fragment>
       ) : (
-        <p>Loading...</p>
+        <LoaderComp />
       )}
     </Fragment>
   );

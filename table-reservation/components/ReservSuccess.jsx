@@ -20,7 +20,11 @@ function ReservSuccess() {
             for choosing us, and we look forward to serving you soon!
           </p>
         </div>
-        <button className="reserv_success-btn-29" onClick={router.push("/")}>
+        <br />
+        <button
+          className="reserv_success-btn-29"
+          onClick={() => router.push("/")}
+        >
           Go Home
         </button>
       </div>
