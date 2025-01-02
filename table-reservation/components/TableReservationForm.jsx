@@ -450,7 +450,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
         },
         onFailed: (err) => {
           toast.error("Error on sending OTP");
-          console.log("OTP ERROR", err);
+        
         },
         headers: headers,
       });
@@ -459,7 +459,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     }
   };
   const completeNewReservation = async () => {
-    console.log("reached");
+   
 
     const mergedBooking = Utils.mergeBookingDateTime(
       initialValues?.bookingDate,
@@ -479,9 +479,6 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     if (parts.length >= 2) {
       const header = decodeBase64(parts[0]); // Decode Header
       const payload = decodeBase64(parts[1]); // Decode Payload
-
-      console.log("Header:", header);
-      console.log("Payload:", payload);
     } else {
       console.error("Invalid token format");
     }

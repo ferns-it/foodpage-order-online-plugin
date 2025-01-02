@@ -279,9 +279,7 @@ function ViewReservation() {
         setMessage("");
         await getReservationDetails(reservId);
       },
-      onFailed: (err) => {
-        console.log(err);
-      },
+      onFailed: (err) => {},
       headers: headers,
     });
   };

@@ -94,9 +94,7 @@ function ReservModal(props) {
       const hours = Math.floor(lateCancelMinutes / 60);
       const remainingMinutes = lateCancelMinutes % 60;
       const message = hours <= 0 ? lateCancelMinutes : hours;
-      console.log(
-        `Cannot cancel. The booking is within ${hours} hour(s) of the scheduled time. late booking is ${lateCancelMinutes}`
-      );
+   
       toast.error(
         `Cannot cancel. The booking is within ${message} hour(s) of the scheduled time.`
       );

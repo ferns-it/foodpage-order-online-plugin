@@ -57,7 +57,7 @@ const OrderOnlineMain = () => {
     const validCategories = categoryList.filter(
       (list) => list.productsCount?.online > 0
     );
-    console.log(validCategories, "valid");
+  
     // Set the first valid category as selectedCategory
     if (validCategories.length > 0) {
       const catName = validCategories[0]?.name;

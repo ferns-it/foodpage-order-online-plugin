@@ -199,7 +199,7 @@ function OrderSummaryCheckout() {
 
       deliveryTypeData = "Home Delivery";
       const isValid = handleEmptyValidation();
-      console.log(isValid);
+     
 
       if (isValid && isValid.length != 0) {
         setFieldError(true);
@@ -214,7 +214,7 @@ function OrderSummaryCheckout() {
       setActiveCard("payment");
       deliveryTypeData = "Take Away";
       const isValid = handleEmptyValidation();
-      console.log(isValid);
+     
 
       if (isValid && isValid.length != 0) {
         setFieldError(true);
@@ -406,10 +406,10 @@ function OrderSummaryCheckout() {
             await fetchCartList(userID);
             await clearCartItems(userID, {
               onSuccess: (res) => {
-                console.log("cart cleared", res);
+             
               },
               onFailed: (err) => {
-                console.log("Error on cart clear", err);
+            
               },
             });
             router.refresh();
@@ -418,7 +418,7 @@ function OrderSummaryCheckout() {
             setPaymentData(null);
           },
           onFailed: (err) => {
-            console.log("error message for confirm payment", err);
+      
             toast.error(err.message);
           },
         });
@@ -869,17 +869,14 @@ function OrderSummaryCheckout() {
                                         paymentSuccess={async (
                                           intentResult
                                         ) => {
-                                          console.log(
-                                            "intentResult",
-                                            intentResult
-                                          );
+                                     
                                           sessionStorage.clear(
                                             "isCheckoutActive"
                                           );
                                           await completeOrder();
                                         }}
                                         paymentFailure={(err) => {
-                                          console.log("error =>", err.message);
+                                   
                                           toast.error(err.message);
                                         }}
                                         discount={discountData}

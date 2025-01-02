@@ -44,7 +44,7 @@ function ManageReservationMain() {
 
   const toolTipMsg =
     "You can find the reservation ID in the reservation confirmation email. ";
-  console.log(reservationList, "list");
+
   return (
     <Fragment>
       <div className="tbl_reserv_section">
