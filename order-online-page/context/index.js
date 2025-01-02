@@ -6,6 +6,7 @@ import useAuth from "../hooks/useAuth";
 import {
   getLocalStorageItem,
   getSessionStorageItem,
+  removeLocalStorageItem,
   setLocalStorageItem,
   setSessionStorageItem,
 } from "../../_utils/ClientUtils";
@@ -13,6 +14,7 @@ import {
 import useProfile from "../hooks/useProfile";
 import useOrderHistory from "../hooks/useOrderHistory";
 import Utils from "../../_utils/Utils";
+import { jwtDecode } from "jwt-decode";
 
 export const AppContext = createContext();
 
@@ -172,11 +174,40 @@ export const AppContextProvider = (props) => {
     // }
   }, []);
 
+  function isTokenExpired(token) {
+    try {
+      if (!token) return;
+      const decoded = jwtDecode(token);
+
+      if (!decoded || (decoded && !decoded.exp)) return;
+
+      const currentTime = Math.floor(Date.now() / 1000);
+
+      if (decoded.exp && decoded.exp < currentTime) {
+        removeLocalStorageItem("userToken");
+        return;
+      }
+      // console.log("token is valid");
+    } catch (error) {
+      console.error("Invalid token:", error);
+      return true;
+    }
+  }
+
   useEffect(() => {
     if (categoryList && categoryList.length > 0) {
       setSelectedCategory(categoryList[0].cID);
     }
   }, [categoryList]);
+
+  useEffect(() => {
+    const token = getLocalStorageItem("userToken");
+
+    if (token) {
+      isTokenExpired(token);
+    }
+  }, []);
+
   useEffect(() => {
     if (productsList.length == 0) {
       if (!categoryList || categoryList.length === 0) return;
