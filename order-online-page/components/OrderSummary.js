@@ -387,7 +387,7 @@ function OrderSummary() {
       <Toaster position="top-center" reverseOrder={false} />
       <div style={{ width: "100%" }}>
         <h3 className="order_title text-center">Order Summary</h3>
-        {cartItems && cartItems.length != 0 && (
+        {cartItems && cartItems?.cartItems.length != 0 && (
           <>
             {cartLoading ? (
               <button disabled className="clr_cart_btn col-md-6">
