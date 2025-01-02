@@ -350,6 +350,7 @@ body {
 .nav-link {
   text-decoration: none;
   cursor: pointer;
+  font-weight: 600;
 }
 
 .nav-btn {
