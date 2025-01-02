@@ -70,6 +70,7 @@ function OtpVerification() {
     const encodedPayload = btoa(JSON.stringify(payload));
     const jwt = `${encodedHeaders}.${encodedPayload}`;
     setLocalStorageItem("userToken", jwt);
+    setLocalStorageItem("guest", true);
   };
   const validateOTP = () => {
     const changedOtp = encryptToMD5(reservOTP);

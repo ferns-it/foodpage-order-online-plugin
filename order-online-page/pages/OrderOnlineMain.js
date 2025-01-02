@@ -8,6 +8,7 @@ import { MdTableBar } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import LoaderComp from "../components/LoaderComp";
 import { TableReservationContext } from "../../table-reservation/context/TableReservationContext";
+import { setSessionStorageItem } from "@/plugin/_utils/ClientUtils";
 
 const ThemeTitle = ({ htmlString }) => {
   const cleanHtmlString = htmlString.replace(/\r\n/g, "");
@@ -53,7 +54,7 @@ const OrderOnlineMain = () => {
     const validCategories = categoryList.filter(
       (list) => list.productsCount?.online > 0
     );
-    console.log(validCategories, "valid");
+   
     // Set the first valid category as selectedCategory
     if (validCategories.length > 0) {
       const catName = validCategories[0]?.name;
@@ -65,6 +66,10 @@ const OrderOnlineMain = () => {
 
     setActiveChipIndex(0);
   }, [categoryList]);
+
+  useEffect(() => {
+    setSessionStorageItem("location", "order-online");
+  }, []);
 
   // useEffect(() => {
   //   if (!shopId) return;
