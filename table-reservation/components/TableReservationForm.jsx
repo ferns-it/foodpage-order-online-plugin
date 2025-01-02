@@ -457,7 +457,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
         },
         onFailed: (err) => {
           toast.error("Error on sending OTP");
-          console.log("OTP ERROR", err);
+      
         },
         headers: headers,
       });

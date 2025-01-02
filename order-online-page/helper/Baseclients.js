@@ -8,7 +8,6 @@ const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 let userId = getLocalStorageItem("UserPersistent");
 
-console.log("userId=>", userId);
 
 //Create a axios api instance
 const api = axios.create({

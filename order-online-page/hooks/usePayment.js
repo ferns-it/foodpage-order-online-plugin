@@ -72,7 +72,7 @@ export default function usePayment() {
         await paymentSuccess(paymentIntent);
         setPaymentStatus(true);
       } else if (error) {
-        console.log(error);
+      
         await paymentFailure(error);
         setPaymentStatus(false);
       }

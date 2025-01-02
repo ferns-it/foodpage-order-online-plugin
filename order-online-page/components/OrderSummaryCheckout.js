@@ -231,8 +231,7 @@ function OrderSummaryCheckout() {
       setActiveCard("payment");
       deliveryTypeData = "Take Away";
       const isValid = handleEmptyValidation();
-      console.log(isValid);
-
+  
       if (isValid && isValid.length != 0) {
         setFieldError(true);
         setActiveCard("login");
@@ -338,8 +337,6 @@ function OrderSummaryCheckout() {
         }
       }
     }
-    console.log("emptyKeys", emptyKeys);
-
     return emptyKeys;
   };
 
@@ -378,8 +375,6 @@ function OrderSummaryCheckout() {
       const userID = getLocalStorageItem("UserPersistent");
       const isGuest = getLocalStorageItem("guest");
       const userToken = getLocalStorageItem("userToken");
-
-      console.log(paymentData, paymentMethod, "paymentData");
 
       // debugger;
       if (
@@ -457,7 +452,6 @@ function OrderSummaryCheckout() {
             await fetchCartList(userID);
             await clearCartItems(userID, {
               onSuccess: (res) => {
-                console.log("cart cleared", res);
               },
               onFailed: (err) => {
                 console.log("Error on cart clear", err);

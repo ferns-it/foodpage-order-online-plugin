@@ -15,11 +15,11 @@ const useOrderHistory=()=> {
         }
         await BaseClient.get(APIEndpoints.getOrderList,{},{
             onSuccess:(res)=>{
-                console.log(res?.data?.data?.History,"result");
+       
                 setOrderHistory(res?.data?.data?.History)
             },
             onFailed:(err)=>{
-                console.log("Error is fetched", err);
+             
             },
             headers:headers
         })
@@ -37,7 +37,7 @@ const useOrderHistory=()=> {
         }
         await BaseClient.get(APIEndpoints.getOrderDetails+`/${orderId}`,{},{
             onSuccess:(res)=>{
-                console.log(res?.data?.data,"gvdg");
+            
                 setOrderList(res?.data?.data)
             },
             onFailed:(err)=>{

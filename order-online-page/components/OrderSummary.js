@@ -94,7 +94,7 @@ function OrderSummary() {
     //   calculateDiscounts();
     // }
   }, [cartItems, deliveryInfo]);
-  console.log(shopTiming);
+
 
   useEffect(() => {
     if (!shopTiming) return;

@@ -66,7 +66,7 @@ function ReservModal(props) {
         let message =
           err.response.data.errorMessage.message ?? "Cancellation failed!";
         toast.error(message);
-        console.log("Cancellation error", err);
+     
       },
     });
   };
