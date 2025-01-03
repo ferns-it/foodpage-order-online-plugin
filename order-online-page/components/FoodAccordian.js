@@ -163,6 +163,14 @@ function FoodAccordian() {
                                 >
                                   <div className="card accord_food_card_19">
                                     <div className="row">
+                                      <div className="col-md-12">
+                                        <img
+                                          src={data?.photo}
+                                          alt=""
+                                          className="img-order"
+                                          referrerPolicy="no-referrer"
+                                        />
+                                      </div>
                                       <div className="col-9">
                                         <h2 className="accord_food_name_19">
                                           {data?.name ?? "N/A"}

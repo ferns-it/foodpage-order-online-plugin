@@ -125,7 +125,7 @@ function FoodCards(category) {
                                           // onClick={() => handleModal(data)}
                                         >
                                           <div className="food_tile__ active mb-4 p-3">
-                                            {/* <img
+                                            <img
                                               src={data?.photo}
                                               alt=""
                                               className={
@@ -136,7 +136,7 @@ function FoodCards(category) {
                                                   : "fda_product_img "
                                               }
                                               referrerPolicy="no-referrer"
-                                            /> */}
+                                            />
                                             <h6 className="dish_name">
                                               {data?.name}
                                             </h6>

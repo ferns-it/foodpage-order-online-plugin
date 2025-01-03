@@ -80,7 +80,6 @@ input[type="checkbox"]:focus textarea,
 #fda_product_tile {
   position: relative;
   margin-top: 10px;
-  margin-bottom: 0 !important;
   text-align: center;
 }
 

@@ -2549,18 +2549,17 @@ body {
 
 #fda_product_tile {
   position: relative;
-  min-height: 220px;
+  min-height: 250px;
   background: rgb(238, 238, 238);
   color: #af2329;
-  /* border: 1px dashed #7777; */
-  margin-bottom: 0 !important;
+ 
   transition: all 0.2s ease-in-out;
   font-size: 11px;
   padding: 0 25px;
   border-radius: 25px;
   margin-top: 20px;
   margin: 0px auto;
-  margin: 10px;
+  margin-bottom: 46px;
 }
 
 @media screen and (max-width: 1400px) {
@@ -2583,7 +2582,7 @@ body {
   width: 130px;
   height: 130px;
   border-radius: 100%;
-  padding: 20px;
+  padding: 0px;
   /* background-color: rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 0 25px rgba(255, 255, 255, 0.15),
     inset 0 4px 0 rgba(0, 0, 0, 0.05), inset 0 -4px 0 rgba(0, 0, 0, 0.05),
@@ -2652,6 +2651,7 @@ div.food_tile__.active img {
 } */
 .foodmenuList {
   padding-right: 10px;
+  padding-top: 50px;
 }
 
 .prod_price {
