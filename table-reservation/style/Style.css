@@ -1045,12 +1045,12 @@ a {
     display: none;
   }
   .res-img {
-    width: auto;
+    width: 100px;
     height: auto;
     margin: 0px auto;
   }
   .res-img img {
-    max-width: 100px !important;
+    max-width: 200px !important;
   }
   .arrow_btn {
     margin-top: -21px;
