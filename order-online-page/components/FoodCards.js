@@ -132,7 +132,7 @@ function FoodCards(category) {
                                                 data?.online === "No" ||
                                                 data?.isAvailable === false ||
                                                 data?.availability === false
-                                                  ? "fda_product_img fd_card_grayscale"
+                                                  ? "fda_product_img"
                                                   : "fda_product_img "
                                               }
                                               referrerPolicy="no-referrer"
