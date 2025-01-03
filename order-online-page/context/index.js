@@ -29,6 +29,7 @@ export const AppContextProvider = (props) => {
   const [activeCard, setActiveCard] = useState("login");
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [filterLoading, setFilterLoading] = useState(false);
+  const [mergedState, setMergedState] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [orderHistoryLoading, setOrderHistoryLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -172,14 +173,14 @@ export const AppContextProvider = (props) => {
   useEffect(() => {
     if (productsList.length == 0) {
       if (!categoryList || categoryList.length === 0) return;
-   
+
       const catId =
         categoryList &&
         Array.isArray(categoryList) &&
         categoryList.length != 0 &&
         categoryList &&
         categoryList[0]?.cID;
-      
+
       const isCheck =
         productsList &&
         productsList.length != 0 &&
@@ -336,6 +337,8 @@ export const AppContextProvider = (props) => {
         currentStatus,
         fetchTakeawayMenus,
         takeawayMenu,
+        mergedState,
+        setMergedState,
       }}
     >
       {props.children}
