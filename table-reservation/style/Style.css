@@ -2142,3 +2142,13 @@ abbr[title] {
   width: 50%;
   text-align: center;
 }
+.close_02901 {
+  position: absolute;
+  color: #fff;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  right: 10px;
+  top: 10px;
+  font-size: 25px;
+}

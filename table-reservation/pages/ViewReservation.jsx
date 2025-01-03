@@ -79,8 +79,9 @@ function ViewReservation() {
     };
 
     fetchData();
-    if (reservationDetails) {
-      const [date, time] = (reservationDetails?.bookingTime).split(" ");
+
+    if (reservationDetails != null) {
+      const [date, time] = reservationDetails?.bookingTime.split(" ");
       setUpdatedValue({
         name: reservationDetails?.name,
         email: reservationDetails?.email,
@@ -316,7 +317,7 @@ function ViewReservation() {
           >
             <Go.GoArrowLeft /> Back
           </button> */}
-          <div className="row pt-100">
+          <div className="row">
             <div className="col-lg-8 col-md-12 col-sm-12 position-relative">
               <div className="card manage_reserv_card" id="alter_card">
                 <h3 className="table-reservation-form-head">
@@ -577,11 +578,11 @@ function ViewReservation() {
                   </button>
                   <h3 className="table-reservation-form-head">Messages</h3>
                   <div className="message-area" ref={chatContainerRef}>
-                    <div class="chat-container">
+                    <div className="chat-container">
                       {chatMessages.map((message, index) => {
                         if (message?.auther == "customer") {
                           return (
-                            <div class="message sender" key={index}>
+                            <div className="message sender" key={index}>
                               <span>
                                 {" "}
                                 {!reservationLoading ? (
@@ -603,7 +604,7 @@ function ViewReservation() {
 
                         if (message?.auther == "shop") {
                           return (
-                            <div class="message receiver ">
+                            <div className="message receiver ">
                               <span>
                                 {" "}
                                 {!reservationLoading ? (
@@ -657,7 +658,7 @@ function ViewReservation() {
                           </i>
                         ) : (
                           <div
-                            class="spinner-border spinner-border-sm text-danger"
+                            className="spinner-border spinner-border-sm text-danger"
                             role="status"
                           ></div>
                         )}
