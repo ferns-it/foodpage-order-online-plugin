@@ -1443,6 +1443,7 @@ body {
 .collapse_accordion_001 {
   background-color: #fff;
   border: none;
+  color: #e03f3f;
   outline: none;
   padding: 5px 10px;
   border-radius: 3px;
@@ -2212,7 +2213,10 @@ body {
   color: #c30b2a;
   font-size: 18px;
   text-align: center;
+  padding: 0;
   margin: 0px auto;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   font-weight: 800;
 }
@@ -2731,6 +2735,8 @@ div.food_tile__.active img {
   border: none;
   background-color: transparent;
   outline: none;
+  position: relative;
+  right: 20px;
   color: #e03f3f;
   font-size: 1.7rem !important;
 }
