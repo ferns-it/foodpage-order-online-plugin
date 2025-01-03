@@ -99,7 +99,7 @@ function FoodAccordian() {
 
   return (
     <Fragment>
-      <Toaster />
+    
       <AddOnsModal
         showModal={showRespModal}
         setShowModal={setShowRespModal}

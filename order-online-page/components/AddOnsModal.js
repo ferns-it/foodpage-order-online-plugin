@@ -346,7 +346,7 @@ function AddOnsModal(props) {
 
   return (
     <Fragment>
-      <Toaster />
+     
       <div
         className={
           props.showModal
