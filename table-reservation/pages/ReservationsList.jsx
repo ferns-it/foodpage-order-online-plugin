@@ -30,9 +30,9 @@ function ReservationsList() {
 
   return (
     <div>
-      <div class="container table-responsive">
-        <table class="table table-bordered table-hover">
-          <thead class="thead-dark">
+      <div className="container table-responsive">
+        <table className="table table-bordered table-hover">
+          <thead className="thead-dark">
             <tr>
               <th>#</th>
               <th>Reserved By</th>
