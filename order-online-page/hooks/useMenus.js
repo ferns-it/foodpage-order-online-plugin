@@ -145,9 +145,7 @@ const useMenus = () => {
     try {
       setSettingsLoading(true);
       await BaseClient.get(APIEndpoints.shopSettings, [], {
-        onSuccess: (res) => {
-          console.log("settings", res.data.data);
-
+        onSuccess: (res) => {       
           setSettings(res?.data?.data);
           setDeliveryInfo(res?.data?.data?.deliveryInfo);
         },

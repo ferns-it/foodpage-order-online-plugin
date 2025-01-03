@@ -16,7 +16,6 @@ import {
   setSessionStorageItem,
 } from "../../_utils/ClientUtils";
 import { TableReservationContext } from "../../table-reservation/context/TableReservationContext";
-import { reloadCurrentPage } from "../../_utils/ClientUtils";
 
 const days = [
   "sunday",
@@ -94,7 +93,6 @@ function OrderSummary() {
     //   calculateDiscounts();
     // }
   }, [cartItems, deliveryInfo]);
-
 
   useEffect(() => {
     if (!shopTiming) return;
@@ -295,9 +293,9 @@ function OrderSummary() {
       if (time === null || time.length == 0) {
         toast.error("Please Choose Takeaway Time!");
         return;
+      } else {
+        await calculateTakwawayDiscount();
       }
-
-      await calculateTakwawayDiscount();
     }
   };
 
@@ -373,8 +371,8 @@ function OrderSummary() {
     await clearCartItems(userID, {
       onSuccess: async (res) => {
         toast.success("Cart Cleared!");
-        reloadCurrentPage();
         await fetchCartList(userID);
+        window.location.reload();
       },
       onFailed: (err) => {
         toast.err("Something Went Wrong!");
@@ -384,10 +382,9 @@ function OrderSummary() {
 
   return (
     <Fragment>
-      <Toaster position="top-center" reverseOrder={false} />
       <div style={{ width: "100%" }}>
         <>
-          <div className="d-flex align-items-center justify-content-between mt-3">
+          <div className="mt-3 mb-3 d-flex align-items-center justify-content-between mt-3">
             <h6 className="p-2">Order Summary</h6>
             {cartItems && cartItems.cartItems.length != 0 && (
               <button className="cart-clear-bt" onClick={clearcart}>
