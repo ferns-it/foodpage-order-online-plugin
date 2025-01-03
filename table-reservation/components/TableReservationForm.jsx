@@ -62,6 +62,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     upcomingHolidays,
     getReservationDetailsEmail,
     setReservationDetails,
+    setManageReservList,
   } = useContext(TableReservationContext);
   const [count, setCount] = useState(1);
   const [hashcode, setHashcode] = useState("");
@@ -457,7 +458,6 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
         },
         onFailed: (err) => {
           toast.error("Error on sending OTP");
-      
         },
         headers: headers,
       });
@@ -484,7 +484,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
               toast.error("No reservations found!");
               return;
             }
-            setReservationDetails(reserVData);
+            setManageReservList(reserVData);
             setSessionStorageItem("reservData", JSON.stringify(reserVData));
             router.push("/reservation-list");
           } else {

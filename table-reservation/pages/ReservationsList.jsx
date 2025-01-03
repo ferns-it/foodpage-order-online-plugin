@@ -9,16 +9,15 @@ import { useRouter } from "next/navigation";
 
 function ReservationsList() {
   const router = useRouter();
-  const { reservationDetails, setReservationDetails } = useContext(
-    TableReservationContext
-  );
+  const { reservationDetails, manageReservList, setManageReservList } =
+    useContext(TableReservationContext);
 
   useEffect(() => {
     if (!reservationDetails) {
       const reservData = getSessionStorageItem("reservData");
       if (reservData && reservData.length != 0) {
         const parsedData = JSON.parse(reservData);
-        setReservationDetails(parsedData);
+        setManageReservList(parsedData);
       }
     }
   }, []);
@@ -44,9 +43,9 @@ function ReservationsList() {
             </tr>
           </thead>
           <tbody>
-            {reservationDetails &&
-              reservationDetails.length != 0 &&
-              reservationDetails?.map((list, idx4) => {
+            {manageReservList &&
+              manageReservList.length != 0 &&
+              manageReservList?.map((list, idx4) => {
                 const [date, time] = list.bookingTime.split(" ");
                 return (
                   <tr key={idx4}>
