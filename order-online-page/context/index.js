@@ -159,29 +159,33 @@ export const AppContextProvider = (props) => {
       setSelectedCategory(categoryList[0].cID);
     }
   }, [categoryList]);
-  useEffect(() => {
-    if (productsList.length == 0) {
-      if (!categoryList || categoryList.length === 0) return;
-      console.log(categoryList, "catehoskg");
-      const catId =
-        categoryList &&
-        Array.isArray(categoryList) &&
-        categoryList.length != 0 &&
-        categoryList &&
-        categoryList[0]?.cID;
-      console.log(categoryList && categoryList[0], catId, "categoryList1");
-      const isCheck =
-        productsList &&
-        productsList.length != 0 &&
-        productsList.some((x) => x.cID == cID);
-      if ((!productsList || productsList.length == 0) && !isCheck) {
-        fetchSingleProduct(catId);
-      }
-    }
-    //  else {
-    //   setProductsList(data);
-    // }
-  }, [categoryList, productsList, selectedCategory]);
+   useEffect(() => {
+     if (productsList.length == 0) {
+       if (!categoryList || categoryList.length === 0) return;
+
+       if (!categoryList) return;
+
+       const validCategories = categoryList.filter(
+         (list) => list.productsCount?.online > 0
+       );
+
+       const catId =
+         validCategories &&
+         validCategories.length > 0 &&
+         validCategories[0]?.cID;
+
+       const isCheck =
+         productsList &&
+         productsList.length != 0 &&
+         productsList.some((x) => x.cID == cID);
+       if ((!productsList || productsList.length == 0) && !isCheck) {
+         fetchSingleProduct(catId);
+       }
+     }
+     //  else {
+     //   setProductsList(data);
+     // }
+   }, [categoryList, productsList, selectedCategory]);
 
   useEffect(() => {
     if (!productsList || productsList.length == 0) return;
