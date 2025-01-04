@@ -1397,6 +1397,7 @@ body {
   font-weight: 700;
   letter-spacing: 0.05rem;
   font-family: "Poppins", Helvetica, sans-serif !important;
+  line-height: 1.3rem;
 }
 
 .accord_desc_19 {
@@ -2736,7 +2737,7 @@ div.food_tile__.active img {
   background-color: transparent;
   outline: none;
   position: relative;
-  right: 20px;
+  right: 40px;
   color: #e03f3f;
   font-size: 1.7rem !important;
 }
