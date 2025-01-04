@@ -1,3 +1,4 @@
+"use client";
 import React, {
   Fragment,
   useContext,
@@ -6,7 +7,7 @@ import React, {
   useState,
 } from "react";
 import { TableReservationContext } from "../context/TableReservationContext";
-import "../style/style.css";
+
 import Utils from "../utils/Utils";
 
 import * as Tb from "react-icons/tb";
@@ -16,12 +17,10 @@ import * as Fi from "react-icons/fi";
 import * as Io from "react-icons/io";
 
 import ReservModal from "../components/ReservModal";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import CryptoJS from "crypto-js";
 import toast from "react-hot-toast";
 import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
-import "../style/Style.css";
 
 export const mergeBookingDateTime = (bookingDate, bookingTime) => {
   const date = new Date(bookingDate);
@@ -39,7 +38,10 @@ export const mergeBookingDateTime = (bookingDate, bookingTime) => {
   return formattedDateTime;
 };
 
-function ViewReservation({ reservId }) {
+function ViewReservation() {
+  const searchParams = useSearchParams();
+  const reservId = searchParams.get("reserv");
+
   const router = useRouter();
   const {
     reservationDetails,
@@ -49,6 +51,7 @@ function ViewReservation({ reservId }) {
     chatMessages,
     sendMessage,
     messageLoading,
+    tableReservationSettings,
   } = useContext(TableReservationContext);
   const chatContainerRef = useRef(null);
   const [showModal, setShowModal] = useState(false);
@@ -59,7 +62,7 @@ function ViewReservation({ reservId }) {
     name: "",
     email: "",
     phone: "",
-    chairs: "",
+    chairs: 1,
     message: "",
   });
   const [isExpired, setIsExpired] = useState(false);
@@ -77,7 +80,7 @@ function ViewReservation({ reservId }) {
 
     fetchData();
     if (reservationDetails) {
-      const [date, time] = (reservationDetails?.bookingTime).split(" ");
+      const [date, time] = reservationDetails?.bookingTime?.split(" ");
       setUpdatedValue({
         name: reservationDetails?.name,
         email: reservationDetails?.email,
@@ -105,13 +108,14 @@ function ViewReservation({ reservId }) {
 
   const checkIsExpired = () => {
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    // today.setHours(0, 0, 0, 0);
 
     const bookingDate =
       reservationDetails && new Date(reservationDetails.bookingTime);
-    if (bookingDate) {
-      bookingDate.setHours(0, 0, 0, 0);
-    }
+
+    // if (bookingDate) {
+    //   bookingDate.setHours(0, 0, 0, 0);
+    // }
 
     if (bookingDate && bookingDate < today) {
       setIsExpired(true);
@@ -122,6 +126,11 @@ function ViewReservation({ reservId }) {
     const { name, value } = e.target;
 
     setUpdatedValue((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleChairChange = (value) => {
+    const sanitizedValue = value.replace(/[^a-zA-Z0-9+\-*/]/g, "");
+    setUpdatedValue((prev) => ({ ...prev, chairs: sanitizedValue }));
   };
 
   const validateFields = () => {
@@ -191,17 +200,28 @@ function ViewReservation({ reservId }) {
 
     const isValid = validateFields();
 
-    const isValidBookingTIme = isBookingValid();
-
     //! condition for current UK time
-    if (isValidBookingTIme === true) {
-      toast.error(`Please select a time at least 4 hours from now!`);
-      return;
-    }
+    // const isValidBookingTIme = isBookingValid();
+    // if (isValidBookingTIme === true) {
+    //   toast.error(`Please select a time at least 4 hours from now!`);
+    //   return;
+    // }
 
     if (Object.keys(isValid) && Object.keys(isValid).length != 0) {
       const value = Object.values(isValid)[0];
       toast.error(value);
+      return;
+    }
+
+    const partySize = tableReservationSettings?.max_party_size ?? 0;
+
+    if (updatedValues.chairs <= 0) {
+      toast.error("Invalid chair selection");
+      return;
+    }
+
+    if (updatedValues.chairs > partySize) {
+      toast.error(`Prty size must be less than ${partySize}!`);
       return;
     }
 
@@ -233,7 +253,6 @@ function ViewReservation({ reservId }) {
           err?.response?.data?.errorMessage?.message ??
           "Updation failed, Please try again!";
         toast.error(msg);
-        console.log("updating error", err);
       },
     });
   };
@@ -247,8 +266,8 @@ function ViewReservation({ reservId }) {
     }
 
     const payload = {
-      reservationId: reservationDetails?.id,
-      pin: reservationDetails?.messaging_otp,
+      reservationId: reservId,
+      pin: 1234,
       message: message,
     };
     const headers = {
@@ -257,6 +276,7 @@ function ViewReservation({ reservId }) {
     await sendMessage(payload, {
       onSuccess: async (res) => {
         toast.success("message sent successfully!");
+        setMessage("");
         await getReservationDetails(reservId);
       },
       onFailed: (err) => {
@@ -287,17 +307,19 @@ function ViewReservation({ reservId }) {
         reservId={reservId}
         email={reservationDetails?.email}
         reservStringId={reservId}
+        bookingDate={updatedValues?.bookingDate}
+        bookingTime={updatedValues?.bookingTime}
       />
       <section className="tbl_reserv_section">
         <div className="container">
-          <button
-            className="go_back"
+          {/* <button
+            className="go_back mb-2"
             onClick={() => router.push("/manage-reservation")}
           >
             <Go.GoArrowLeft /> Back
-          </button>
-          <div className="row">
-            <div className="col-lg-8 col-md-10 col-sm-12 position-relative mx-auto">
+          </button> */}
+          <div className="row pt-100">
+            <div className="col-lg-12 col-md-12 col-sm-12 position-relative">
               <div className="card manage_reserv_card" id="alter_card">
                 <h3 className="table-reservation-form-head">
                   Reservation Details
@@ -354,27 +376,11 @@ function ViewReservation({ reservId }) {
                         <td className="reser_table_value">
                           {!reservationLoading ? (
                             <Fragment>
-                              {!isEdit ? (
-                                <>
-                                  {reservationDetails?.bookingTime
-                                    ? Utils.formatDateTime(
-                                        reservationDetails?.bookingTime
-                                      )
-                                    : "N/A"}
-                                </>
-                              ) : (
-                                <>
-                                  {" "}
-                                  <input
-                                    type="time"
-                                    name="bookingTime"
-                                    id=""
-                                    className="form-control table_reserv_form_input"
-                                    value={updatedValues?.bookingTime}
-                                    onChange={handleChange}
-                                  />
-                                </>
-                              )}
+                              {reservationDetails?.bookingTime
+                                ? Utils.formatDateTime(
+                                    reservationDetails?.bookingTime
+                                  )
+                                : "N/A"}
                             </Fragment>
                           ) : (
                             <Skeleton height={20} width={150} />
@@ -430,7 +436,10 @@ function ViewReservation({ reservId }) {
                                     className="form-control table_reserv_form_input"
                                     value={updatedValues?.chairs}
                                     max={25}
-                                    onChange={handleChange}
+                                    onChange={(e) =>
+                                      handleChairChange(e.target.value)
+                                    }
+                                    min={1}
                                   />
                                 </>
                               )}
@@ -498,7 +507,7 @@ function ViewReservation({ reservId }) {
                       <i className="pe-2">
                         <Tb.TbMailStar />
                       </i>
-                      Mail to Restaurent
+                      Mail to Restaurant
                     </button> */}
                         <button
                           type="button"
@@ -510,7 +519,14 @@ function ViewReservation({ reservId }) {
                             <Tb.TbCalendarCancel />
                           </i>
                           Cancel Reservation
-                        </button>
+                        </button>{" "}
+                        <button
+                          type="button"
+                          className="back-reserv-btn"
+                          onClick={() => router.back()}
+                        >
+                          Back
+                        </button>{" "}
                       </div>
                     ) : (
                       <button
@@ -551,9 +567,9 @@ function ViewReservation({ reservId }) {
                 )}
               </div>
             </div>
-          <div className="col-lg-4 col-md-10 col-sm-12 mx-auto">
+            <div className="col-lg-4 col-md-12 col-sm-12 mt-3">
               {chatMessages && chatMessages.length != 0 && (
-                <div className="card manage_reserv_card mb-3 pb-3">
+                <div className="card manage_reserv_card">
                   <button
                     type="button"
                     className="refresh_btn"
@@ -563,11 +579,11 @@ function ViewReservation({ reservId }) {
                   </button>
                   <h3 className="table-reservation-form-head">Messages</h3>
                   <div className="message-area" ref={chatContainerRef}>
-                    <div class="chat-container">
+                    <div className="chat-container">
                       {chatMessages.map((message, index) => {
                         if (message?.auther == "customer") {
                           return (
-                            <div class="message sender" key={index}>
+                            <div className="message sender" key={index}>
                               <span>
                                 {" "}
                                 {!reservationLoading ? (
@@ -589,7 +605,7 @@ function ViewReservation({ reservId }) {
 
                         if (message?.auther == "shop") {
                           return (
-                            <div class="message receiver ">
+                            <div className="message receiver ">
                               <span>
                                 {" "}
                                 {!reservationLoading ? (
@@ -643,7 +659,7 @@ function ViewReservation({ reservId }) {
                           </i>
                         ) : (
                           <div
-                            class="spinner-border spinner-border-sm text-danger"
+                            className="spinner-border spinner-border-sm text-danger"
                             role="status"
                           ></div>
                         )}

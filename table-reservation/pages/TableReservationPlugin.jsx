@@ -17,7 +17,7 @@ function TableReservationPlugin(props) {
   };
   return (
     <div>
-      {/* <Toaster /> */}
+     <Toaster position="top-center" reverseOrder={false} />
       <section className="table_reservation_form_page mt-3">
         {isActiveTablePage === "reservation-form" ? (
           <TableReservationForm
