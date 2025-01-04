@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 
 function ReservationsList() {
   const router = useRouter();
-  const { reservationDetails, manageReservList, setManageReservList } =
+  const { reservationDetails, manageReservList, setManageReservList, setReservationDetails } =
     useContext(TableReservationContext);
 
   useEffect(() => {
@@ -22,15 +22,17 @@ function ReservationsList() {
     }
   }, []);
 
-  const handleReservationData = (id) => {
-    const parsedId = CryptoJS.MD5(id);
+  const handleReservationData = (data) => {
+    const idd = data.id;
+    const parsedId = CryptoJS.MD5(idd);
     router.push(`/view-reservation?reserv=${parsedId}`);
+    setReservationDetails(data)
   };
 
   return (
     <div>
       <div className="container table-responsive">
-        <table className="table table-bordered table-hover">
+        <table className="table table-bordered table-hover text-center">
           <thead className="thead-dark">
             <tr>
               <th>#</th>
@@ -58,7 +60,8 @@ function ReservationsList() {
                     <td>
                       <a
                         className="text-center cursor-pointer"
-                        onClick={() => handleReservationData(list.id)}
+                        onClick={() => handleReservationData(list)}
+                        style={{cursor: "pointer"}}
                       >
                         <Fa.FaRegEye />
                       </a>

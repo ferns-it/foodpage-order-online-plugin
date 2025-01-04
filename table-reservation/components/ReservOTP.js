@@ -123,7 +123,6 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
         },
         onFailed: (err) => {
           toast.error("Error on sending OTP");
-      
         },
         headers: headers,
       });
@@ -159,7 +158,6 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
 
     await completeReservation(payload, {
       onSuccess: (res) => {
-      
         toast.success("OTP has been verified!");
         setSecretKey("");
         removeSessionStorageItem("reserv_details");
@@ -187,13 +185,7 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
   };
 
   const handleNavigation = () => {
-    router.push(
-      {
-        pathname: "/tablereservation",
-      },
-      undefined,
-      { shallow: true }
-    );
+    router.push("/tablereservation");
     setTimeout(() => {
       setIsActiveTablePage("reservation-form");
     }, 200);

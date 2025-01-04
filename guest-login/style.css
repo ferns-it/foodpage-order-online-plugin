@@ -1813,6 +1813,7 @@ deal_content p {
   border: 1px solid #eee;
   border-radius: 4px;
   font-size: 22px !important;
+  padding: 0;
 }
 
 @media screen and (max-width: 991px) {

@@ -21,6 +21,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import CryptoJS from "crypto-js";
 import toast from "react-hot-toast";
 import Skeleton from "react-loading-skeleton";
+import { setSessionStorageItem } from "../../_utils/ClientUtils";
 
 export const mergeBookingDateTime = (bookingDate, bookingTime) => {
   const date = new Date(bookingDate);
@@ -52,6 +53,8 @@ function ViewReservation() {
     sendMessage,
     messageLoading,
     tableReservationSettings,
+    getReservationDetailsEmail,
+    setManageReservList,
   } = useContext(TableReservationContext);
   const chatContainerRef = useRef(null);
   const [showModal, setShowModal] = useState(false);
@@ -244,8 +247,21 @@ function ViewReservation() {
           toast.error(msg);
           return;
         }
+        const type = "upcoming";
         toast.success("Details are successfully updated!");
         await getReservationDetails(reservId);
+        await getReservationDetailsEmail(reservationDetails?.email, type, {
+          onSuccess: (res) => {
+            if (res?.data?.error === false) {
+              const reserVData = res?.data?.data?.enquiryList;
+              setManageReservList(reserVData);
+              setSessionStorageItem("reservData", JSON.stringify(reserVData));
+            }
+          },
+          onFailed: (err) => {
+            console.log("Error on fetching reservation details", err);
+          },
+        });
         setIsEdit(false);
       },
       onFailed: (err) => {

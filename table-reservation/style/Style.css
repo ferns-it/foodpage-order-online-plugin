@@ -33,13 +33,14 @@ input {
 }
 
 /* table reservation */
-.table_reservation_card {
+/* .table_reservation_card {
   padding: 10px;
-  /* width: 75%; */
+  width: 75%;
   margin: 0 auto;
-  border-width: 0 1px 0 0;
+  border: 1px solid #eee;
   border-radius: 0;
-}
+  display: block;
+} */
 
 .table-reservation-form-head {
   text-align: center;
@@ -252,6 +253,7 @@ input {
   border-radius: 4px;
   font-size: 22px !important;
   transition: all 0.2s ease-in-out;
+  padding: 0 !important;
 }
 
 .resend_otp_reservv {
@@ -1740,6 +1742,7 @@ abbr[title] {
   background-color: #e03f3f;
   color: #fff;
   font-weight: 600;
+  margin-bottom: 10px;
 }
 .tbl_head {
   font-weight: 600;
@@ -1888,7 +1891,9 @@ abbr[title] {
   position: absolute;
   background-color: transparent;
   color: #252525;
-  right: 10px;
+  opacity: 0;
+  right: 20px;
+ top: 0px; 
 }
 .update_reserv:hover {
   background-color: #3870c5;
