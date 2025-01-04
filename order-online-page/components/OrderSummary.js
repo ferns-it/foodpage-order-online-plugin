@@ -36,6 +36,7 @@ function OrderSummary() {
     deliveryInfo,
     GuestDiscountoftakeaway,
     shopId,
+    clearCartItems,
     GuestDeliveryDetails,
   } = useContext(AppContext);
   const { shopTiming } = useContext(TableReservationContext);
@@ -65,7 +66,7 @@ function OrderSummary() {
     "friday",
     "saturday",
   ];
-  
+
   useEffect(() => {
     if (!shopTiming) return;
 
@@ -359,12 +360,35 @@ function OrderSummary() {
     setTime(formattedTime);
     setTakeawayTime(formattedTime);
   };
-  console.log(settings, "settings");
+
+  const clearcart = async () => {
+    const userID = getLocalStorageItem("UserPersistent");
+
+    await clearCartItems(userID, {
+      onSuccess: async (res) => {
+        toast.success("Cart Cleared!");
+        await fetchCartList(userID);
+        window.location.reload();
+      },
+      onFailed: (err) => {
+        toast.err("Something Went Wrong!");
+      },
+    });
+  };
   return (
     <Fragment>
       <Toaster position="top-center" reverseOrder={false} />
       <div style={{ width: "100%" }}>
-        <h3 className="order_title text-center">Order Summary</h3>
+        <>
+          <div className="mt-3 mb-3 d-flex align-items-center justify-content-between mt-3">
+            <h6 className="p-2">Order Summary</h6>
+            {cartItems && cartItems.cartItems.length != 0 && (
+              <button className="cart-clear-bt" onClick={clearcart}>
+                Clear Cart
+              </button>
+            )}
+          </div>
+        </>
 
         <div className="summary_item_wrapper_029">
           {cartItems && cartItems.cartItems.length != 0 ? (
