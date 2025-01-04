@@ -2,11 +2,11 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import CryptoJS from "crypto-js";
-import Utils from "@/src/app/_utils/Utils";
 
 import { useRouter } from "next/navigation";
 import { AppContext } from "../order-online-page/context/index";
 import "./style.css";
+import Utils from "../_utils/Utils";
 
 function GuestLogin() {
   const router = useRouter();
@@ -99,7 +99,7 @@ function GuestLogin() {
 
   return (
     <Fragment>
-      <div className="login_wrapper row">
+      <div className="pb-100 row">
         <div className="card login_comp col-md-4 col-lg-3 col-sm-12 mx-auto">
           <h2>Guest Login</h2>
           <p className="sub_title_login">
