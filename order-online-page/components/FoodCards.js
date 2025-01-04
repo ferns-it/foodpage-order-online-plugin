@@ -91,16 +91,10 @@ function FoodCards(category) {
                             products?.map((data, index) => {
                               return (
                                 <div
-                                  className=" col-lg-4 col-md-2 col-sm-6 position-relative mb-3"
+                                  className=" col-lg-4 col-md-12 col-sm-12 position-relative mb-3"
                                   key={index}
                                 >
-                                  <div
-                                    id="fda_product_tile"
-                                    style={{
-                                      background:
-                                        "linear-gradient(180deg, rgba(238, 238, 238, 1) 0%, rgba(0, 0, 0, 0) 100%)",
-                                    }}
-                                  >
+                                  <div id="fda_product_tile">
                                     <div className="row fda_food_row">
                                       <div className="mx-auto">
                                         <a

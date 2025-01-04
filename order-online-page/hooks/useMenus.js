@@ -9,6 +9,7 @@ const useMenus = () => {
   const [deliveryFee, setDeliveryFee] = useState(null);
   const [cartLoading, setCartLoading] = useState(false);
   const [categoryList, setCategoryList] = useState(null);
+  const [currentStatus, setCurrentStatus] = useState(null);
   const [settings, setSettings] = useState(null);
   const [deliveryInfo, setDeliveryInfo] = useState(null);
   const [menuLoading, setMenuLoading] = useState(false);
@@ -16,7 +17,30 @@ const useMenus = () => {
   const [cartItems, setCartItems] = useState(null);
   const [categoryLoading, setCategoryLoading] = useState(false);
   const [settingsLoading, setSettingsLoading] = useState(true);
-
+  const fetchCurrentShopStatus = async () => {
+    try {
+      setSettingsLoading(true);
+      await BaseClient.get(
+        APIEndpoints.getCurrentShopStatus,
+        {},
+        {
+          onSuccess: (res) => {
+            // debugger;
+            if (res && res?.data?.error == false) {
+              setCurrentStatus(res?.data?.data);
+            } else {
+              setCurrentStatus(null);
+            }
+          },
+          onFailed: (err) => {
+            console.log("Shop status error", err);
+          },
+        }
+      );
+    } finally {
+      setSettingsLoading(false);
+    }
+  };
   const fetchMenuList = async () => {
     try {
       setMenuLoading(true);
@@ -202,6 +226,8 @@ const useMenus = () => {
     settingsLoading,
     setCartItems,
     clearCartItems,
+    fetchCurrentShopStatus,
+    currentStatus,
   };
 };
 

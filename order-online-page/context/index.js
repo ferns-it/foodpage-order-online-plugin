@@ -25,7 +25,7 @@ export const AppContextProvider = (props) => {
   const [isUserLogged, setIsUserLogged] = useState(null);
   const [amount, setAmount] = useState(0);
   const [deliveryFee, setDeliveryFee] = useState(null);
-  const shopId = 1;
+  const shopId = process.env.SHOP_ID;
   const [activeCard, setActiveCard] = useState("login");
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [filterLoading, setFilterLoading] = useState(false);
@@ -86,6 +86,8 @@ export const AppContextProvider = (props) => {
     settingsLoading,
     setCartItems,
     clearCartItems,
+    fetchCurrentShopStatus,
+    currentStatus,
   } = useMenus();
   const {
     authLoading,
@@ -147,6 +149,7 @@ export const AppContextProvider = (props) => {
     fetchCategoriesList();
     fetchCartList(userId);
     fetchMenuList();
+    fetchCurrentShopStatus();
     // if (userToken) {
     //   fetchAddressList(userToken);
     //   fetchOrderList(userToken);
@@ -159,33 +162,33 @@ export const AppContextProvider = (props) => {
       setSelectedCategory(categoryList[0].cID);
     }
   }, [categoryList]);
-   useEffect(() => {
-     if (productsList.length == 0) {
-       if (!categoryList || categoryList.length === 0) return;
+  useEffect(() => {
+    if (productsList.length == 0) {
+      if (!categoryList || categoryList.length === 0) return;
 
-       if (!categoryList) return;
+      if (!categoryList) return;
 
-       const validCategories = categoryList.filter(
-         (list) => list.productsCount?.online > 0
-       );
+      const validCategories = categoryList.filter(
+        (list) => list.productsCount?.online > 0
+      );
 
-       const catId =
-         validCategories &&
-         validCategories.length > 0 &&
-         validCategories[0]?.cID;
+      const catId =
+        validCategories &&
+        validCategories.length > 0 &&
+        validCategories[0]?.cID;
 
-       const isCheck =
-         productsList &&
-         productsList.length != 0 &&
-         productsList.some((x) => x.cID == cID);
-       if ((!productsList || productsList.length == 0) && !isCheck) {
-         fetchSingleProduct(catId);
-       }
-     }
-     //  else {
-     //   setProductsList(data);
-     // }
-   }, [categoryList, productsList, selectedCategory]);
+      const isCheck =
+        productsList &&
+        productsList.length != 0 &&
+        productsList.some((x) => x.cID == cID);
+      if ((!productsList || productsList.length == 0) && !isCheck) {
+        fetchSingleProduct(catId);
+      }
+    }
+    //  else {
+    //   setProductsList(data);
+    // }
+  }, [categoryList, productsList, selectedCategory]);
 
   useEffect(() => {
     if (!productsList || productsList.length == 0) return;
@@ -324,6 +327,8 @@ export const AppContextProvider = (props) => {
         deliveryLoading,
         GuestDiscountoftakeaway,
         GuestDeliveryDetails,
+        fetchCurrentShopStatus,
+        currentStatus,
       }}
     >
       {props.children}
