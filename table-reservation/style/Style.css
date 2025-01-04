@@ -1888,10 +1888,10 @@ abbr[title] {
 }
 
 .update_reserv {
-  position: absolute;
+  position: absolute; 
   background-color: transparent;
   color: #252525;
-  opacity: 0;
+  opacity: 1 !important;
   right: 20px;
  top: 0px; 
 }

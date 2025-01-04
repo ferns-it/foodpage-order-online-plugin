@@ -1,7 +1,11 @@
 "use client";
 import React, { useContext, useEffect } from "react";
 import { TableReservationContext } from "../context/TableReservationContext";
-import { getSessionStorageItem } from "../../_utils/ClientUtils";
+import {
+  getSessionStorageItem,
+  redirectToLocation,
+  removeSessionStorageItem,
+} from "../../_utils/ClientUtils";
 import Utils from "../utils/Utils";
 import * as Fa from "react-icons/fa";
 import CryptoJS from "crypto-js";
@@ -9,8 +13,12 @@ import { useRouter } from "next/navigation";
 
 function ReservationsList() {
   const router = useRouter();
-  const { reservationDetails, manageReservList, setManageReservList, setReservationDetails } =
-    useContext(TableReservationContext);
+  const {
+    reservationDetails,
+    manageReservList,
+    setManageReservList,
+    setReservationDetails,
+  } = useContext(TableReservationContext);
 
   useEffect(() => {
     if (!reservationDetails) {
@@ -26,12 +34,23 @@ function ReservationsList() {
     const idd = data.id;
     const parsedId = CryptoJS.MD5(idd);
     router.push(`/view-reservation?reserv=${parsedId}`);
-    setReservationDetails(data)
+    setReservationDetails(data);
+  };
+
+  const handleOnClick = () => {
+    removeSessionStorageItem("reservData");
+    router.push("/tablereservation");
   };
 
   return (
     <div>
       <div className="container table-responsive">
+        <button onClick={handleOnClick} className="reserv_btn text-center mb-2">
+          <i className="pe-2">
+            <Fa.FaArrowLeft />
+          </i>
+          Make Reservation
+        </button>
         <table className="table table-bordered table-hover text-center">
           <thead className="thead-dark">
             <tr>
@@ -59,9 +78,9 @@ function ReservationsList() {
                     <td>{list?.status ?? "N/A"}</td>
                     <td>
                       <a
-                        className="text-center cursor-pointer"
+                        className="text-center cursor-pointer text-dark"
                         onClick={() => handleReservationData(list)}
-                        style={{cursor: "pointer"}}
+                        style={{ cursor: "pointer" }}
                       >
                         <Fa.FaRegEye />
                       </a>
