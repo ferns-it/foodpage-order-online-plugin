@@ -314,7 +314,7 @@ function AddOnsModal(props) {
     };
     const payload = {
       qty: count,
-      rID: JSON.stringify(shopId),
+      rID: process.env.SHOP_ID,
       pID: itemData?.pID,
       cOption: JSON.stringify(cOptionObj),
     };

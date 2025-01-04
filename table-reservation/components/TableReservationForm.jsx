@@ -20,7 +20,7 @@ import axios from "axios";
 import Lottie from "react-lottie";
 import lottieFile from "../../../../public/Animation - 1734505645259.json";
 import Image from "next/image";
-import TableReservDisabled from "../../../../public/img/table-reservation-disabled.png";
+import TableReservDisabled from "../../../../public/table-reservation-disabled.png";
 
 const RECAPTCHA_SITE_KEY = "6LeXD-8pAAAAAOpi7gUuH5-DO0iMu7J6C-CBA2fo";
 
