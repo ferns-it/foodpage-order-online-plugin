@@ -14,6 +14,7 @@ import {
   setLocalStorageItem,
   setSessionStorageItem,
 } from "../../_utils/ClientUtils";
+import { TableReservationContext } from "../../table-reservation/context/TableReservationContext";
 
 function OrderSummary() {
   const router = useRouter();
@@ -37,10 +38,11 @@ function OrderSummary() {
     shopId,
     GuestDeliveryDetails,
   } = useContext(AppContext);
-
+  const { shopTiming } = useContext(TableReservationContext);
   const [showAddons, setShowAddons] = useState(null);
   const [deleteIndex, setDeleteIndex] = useState(-1);
   const [locationData, setLocationData] = useState(null);
+  const [timeIntervals, setTimeIntervals] = useState(null);
   const [takeawayTime, setTakeawayTime] = useState(null);
   const [error, setError] = useState(false);
   const [discount, setDiscount] = useState(0);
@@ -54,6 +56,50 @@ function OrderSummary() {
   const [postalCode, setPostalCode] = useState("");
   const [locationLoading, setLocationLoading] = useState(false);
 
+  const days = [
+    "sunday",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+  ];
+  
+  useEffect(() => {
+    if (!shopTiming) return;
+
+    if (!shopTiming || shopTiming.length === 0) {
+      setTimeIntervals([]);
+      return;
+    }
+
+    const timing = shopTiming?.shopTiming;
+    const today = new Date().getDay();
+    const dayValue = days[today];
+    const todaysTiming = timing[dayValue];
+    const now = new Date();
+
+    const currentHours = now.getHours();
+    const currentMinutes = now.getMinutes();
+
+    const findIntervals = todaysTiming
+      .filter((time) => time?.status === "active")
+      .flatMap((time) =>
+        Utils.get15MinuteIntervals(time.openingTime, time.closingTime)
+      )
+      .filter((interval) => {
+        const [hour, minute] = interval.split(":").map(Number);
+
+        // Compare each interval time to the current time
+        return (
+          hour > currentHours ||
+          (hour === currentHours && minute > currentMinutes)
+        );
+      });
+
+    setTimeIntervals(findIntervals);
+  }, [shopTiming]);
   useEffect(() => {
     const value = cartItems?.cartTotal?.cartTotalPrice;
     const subtotal = value && value / 100;
@@ -227,16 +273,16 @@ function OrderSummary() {
       return;
     }
 
-    if (delivery == false || delivery == "false") {
-      if (postalCode == "" || postalCode == null) {
-        toast.error("Please add Details of Delivery!");
-        sessionStorage.setItem("isCheckoutActive", false);
-        return;
-      }
+    // if (delivery == false || delivery == "false") {
+    //   if (postalCode == "" || postalCode == null) {
+    //     toast.error("Please add Details of Delivery!");
+    //     sessionStorage.setItem("isCheckoutActive", false);
+    //     return;
+    //   }
 
-      await calculateDeliveryDetails();
-      return;
-    }
+    //   await calculateDeliveryDetails();
+    //   return;
+    // }
 
     if (delivery == true || delivery == "true") {
       if (time === null || time.length == 0) {
@@ -500,7 +546,7 @@ function OrderSummary() {
               className="row mt-3 mx-auto mx-auto"
               style={{ display: "flex" }}
             >
-              <div className="col-md-6" style={{ flex: 1, fontSize: "15px" }}>
+              {/* <div className="col-md-6" style={{ flex: 1, fontSize: "15px" }}>
                 <label>
                   <input
                     type="radio"
@@ -510,7 +556,7 @@ function OrderSummary() {
                   />
                   Delivery
                 </label>
-              </div>
+              </div> */}
 
               {deliveryInfo?.takeAway == 1 &&
                 deliveryInfo?.takeAway_temp_off === "No" && (
@@ -556,7 +602,7 @@ function OrderSummary() {
                     Pickup Time
                   </label>
                   <div className="inp_wrapper_827">
-                    <input
+                    {/* <input
                       type="time"
                       name=""
                       id=""
@@ -566,7 +612,26 @@ function OrderSummary() {
                           : "opt_input_827"
                       }
                       onChange={validateCurrentTime}
-                    />
+                    /> */}
+                    <select
+                      name=""
+                      id=""
+                      onChange={validateCurrentTime}
+                      className="form-control form-select"
+                    >
+                      <option value="0" selected disabled>
+                        Choose Takeaway time
+                      </option>
+                      {timeIntervals &&
+                        timeIntervals.length != 0 &&
+                        timeIntervals.map((interval, idx) => {
+                          return (
+                            <option value={interval}>
+                              {Utils.convertTiming(interval)}
+                            </option>
+                          );
+                        })}
+                    </select>
                   </div>
                   {error && <div className="error-message">{error}</div>}
                   <div className="mt-2 text-center">
