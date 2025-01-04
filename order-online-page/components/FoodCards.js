@@ -94,10 +94,10 @@ function FoodCards(category) {
                                 >
                                   <div
                                     id="fda_product_tile"
-                                    style={{
-                                      background:
-                                        "linear-gradient(180deg, rgba(238, 238, 238, 1) 0%, rgba(0, 0, 0, 0) 100%)",
-                                    }}
+                                    // style={{
+                                    //   background:
+                                    //     "linear-gradient(180deg, rgba(238, 238, 238, 1) 0%, rgba(0, 0, 0, 0) 100%)",
+                                    // }}
                                   >
                                     <div className="row fda_food_row">
                                       <div className="mx-auto p-0">
