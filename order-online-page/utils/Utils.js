@@ -19,9 +19,9 @@ export default class Utils {
     let idBase = timestamp.toString();
 
     if (idBase.length < 12) {
-      idBase = idBase.padStart(9, "0");
+      idBase = idBase.padStart(12, "0");
     } else {
-      idBase = idBase.substring(idBase.length - 9);
+      idBase = idBase.substring(idBase.length - 12);
     }
     return idBase;
   }
