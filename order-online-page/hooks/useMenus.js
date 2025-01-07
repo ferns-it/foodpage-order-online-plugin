@@ -26,7 +26,9 @@ const useMenus = () => {
       setMenuLoading(true);
       await BaseClient.get(APIEndpoints.menulist, [], {
         onSuccess: (res) => {
-          setMenuList(res?.data);
+          if (res?.data?.error == false) {
+            setMenuList(res?.data?.data?.items);
+          }
         },
         onFailed: (err) => {
           console.log("Error on fetching menus", err);
@@ -67,7 +69,6 @@ const useMenus = () => {
       setDiningLoading(true);
       await BaseClient.get(APIEndpoints.diningMenu, [], {
         onSuccess: (res) => {
-       
           setDiningList(res?.data?.data?.items);
         },
         onFailed: (err) => {
