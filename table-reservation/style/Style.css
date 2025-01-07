@@ -675,6 +675,100 @@ a {
   .large {
     display: none;
   }
+  .hero_content_area{
+    position: relative;
+    top: 110px;
+  }
+  .quicky_card{
+border-radius: 0;
+margin-top: 10px;
+  }
+  .sub_title_quicky{
+    width: 100%;
+  }
+  .category_card{
+    background-color: white;
+    color: black !important;
+    margin-bottom: 10px;
+  }
+  .cat_title{
+    color: black;
+    text-align: center;
+  }
+  .txt_quicky > p{
+    color: black;
+    text-align: center;
+  }
+  .categories_home{
+    padding-top: 0;
+  }
+  .food_shape_3{
+    display: none;
+  }
+  .view-more-btn123{
+    margin: 0px auto;
+    text-align: center;
+  }
+  .fresh_btm_card{
+   display: none;
+  }
+  .fresh_img_card img{
+margin: 10px;
+padding: 50px;
+  }
+  .img2{
+    display: none;
+  }
+  .fresh_card2 {
+    position: relative;
+    height: auto;
+  
+    transform: translateY(-50%);
+}
+.fresh_shape_1{
+  display: none;
+}
+.menu_btm_title{
+  font-size: 14px;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+.fresh_content_head{
+  font-size: 20px;
+}
+.home_reserv_sub{
+  text-align: justify;
+}
+.reserv_table_btn{
+  border: 1px solid white;
+padding: 10px 5px;
+border-radius: 4px;
+}
+.menu_btm_head{
+  width: 100%;
+}
+.menu_img_btm_card{
+  margin: 0px auto !important;
+  text-align: center !important;
+}
+.fresh_section {
+  position: relative;
+  padding: 1rem 0;
+  background-color: #1f808b;
+}
+.table_reserv_img_new{
+  display: none;
+}
+.fresh_subs{
+  font-size: 16px;
+}
+.menu_btm_price{
+  font-size: 12px;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
 }
 
 .ham {
