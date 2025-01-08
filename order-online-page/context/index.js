@@ -104,23 +104,47 @@ export const AppContextProvider = (props) => {
   } = useMenus();
 
   useEffect(() => {
+    if(!categoryList || !indianCategories) return;
     try {
       setcategorySortLoading(true);
       const matchedCategories =
         indianCategories && indianCategories.length != 0
           ? indianCategories.flatMap((product) =>
-              product.categoriesList.map((cat) => cat.cID)
+              product.categoriesList.map((cat) => ({
+                cID: cat.cID,
+                productName: product?.name,
+              }))
             )
           : [];
 
-      const uniqueCategoriesMain =
-        categoryList &&
-        categoryList.length != 0 &&
-        categoryList.filter(
-          (cat, index, self) =>
-            matchedCategories.includes(cat.cID) &&
+      // const uniqueCategoriesMain =
+      //   categoryList &&
+      //   categoryList.length != 0 &&
+      //   categoryList.filter(
+      //     (cat, index, self) =>
+      //       matchedCategories.includes(cat.cID) &&
+      //       index === self.findIndex((c) => c.cID === cat.cID)
+      //   );
+
+      const uniqueCategoriesMain = categoryList
+        .filter((cat, index, self) => {
+          const matchingProducts = matchedCategories
+            .filter((match) => match.cID === cat.cID)
+            .map((match) => match.productName);
+
+          return (
+            matchingProducts.length > 0 &&
             index === self.findIndex((c) => c.cID === cat.cID)
-        );
+          );
+        })
+        .map((cat) => ({
+          ...cat,
+          productNames: matchedCategories
+            .filter((match) => match.cID === cat.cID)
+            .map((match) => match.productName),
+        }));
+
+      console.log("uniqueCategoriesMain",uniqueCategoriesMain);
 
       setUniqueIndianCategories(uniqueCategoriesMain);
     } finally {
