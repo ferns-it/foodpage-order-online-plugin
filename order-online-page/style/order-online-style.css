@@ -371,6 +371,10 @@ body {
   font-size: 14px;
 }
 
+.order_online_main_sec{
+  padding: 12rem 0 4rem 0;
+}
+
 .food_order_area {
   display: flex;
   justify-content: center;
@@ -2549,7 +2553,7 @@ body {
 
 #fda_product_tile {
   position: relative;
-  min-height: 250px;
+  min-height: 320px;
   background: rgb(238, 238, 238);
   color: #af2329;
  
