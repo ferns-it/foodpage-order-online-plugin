@@ -33,6 +33,8 @@ export const AppContextProvider = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [orderHistoryLoading, setOrderHistoryLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [uniqueIndianCategories, setUniqueIndianCategories] = useState(null);
+  const [categorySortLoading, setcategorySortLoading] = useState(false);
 
   const isCheckoutActive = false;
   const [listLoading, setListLoading] = useState(false);
@@ -100,6 +102,32 @@ export const AppContextProvider = (props) => {
     westernCategories,
     initialcategoriesLoading,
   } = useMenus();
+
+  useEffect(() => {
+    try {
+      setcategorySortLoading(true);
+      const matchedCategories =
+        indianCategories && indianCategories.length != 0
+          ? indianCategories.flatMap((product) =>
+              product.categoriesList.map((cat) => cat.cID)
+            )
+          : [];
+
+      const uniqueCategoriesMain =
+        categoryList &&
+        categoryList.length != 0 &&
+        categoryList.filter(
+          (cat, index, self) =>
+            matchedCategories.includes(cat.cID) &&
+            index === self.findIndex((c) => c.cID === cat.cID)
+        );
+
+      setUniqueIndianCategories(uniqueCategoriesMain);
+    } finally {
+      setcategorySortLoading(false);
+    }
+  }, [indianCategories, categoryList]);
+
   const {
     authLoading,
     sentOTPtoUser,
@@ -351,6 +379,8 @@ export const AppContextProvider = (props) => {
         indianCategories,
         westernCategories,
         initialcategoriesLoading,
+        uniqueIndianCategories,
+        categorySortLoading,
       }}
     >
       {props.children}
