@@ -66,7 +66,6 @@ function ReservModal(props) {
         let message =
           err.response.data.errorMessage.message ?? "Cancellation failed!";
         toast.error(message);
-     
       },
     });
   };
@@ -93,39 +92,41 @@ function ReservModal(props) {
           </button>
           {reservAction == "cancel" ? (
             <Fragment>
-              <h5>Confirm Reservation Cancellation</h5>
-              <p>
-                Are you sure you want to cancel the reservation? This action
-                cannot be undone.
-              </p>
-              <div className="btn_grp mt-4">
-                <button
-                  type="button"
-                  className="reserv_modal_btn confirm_cancel"
-                  onClick={handleConfirmCancellation}
-                  disabled={reservationLoading}
-                >
-                  {reservationLoading === false ? (
-                    "Confirm"
-                  ) : (
-                    <Fragment>
-                      <div
-                        className="spinner-border spinner-border-sm text-light"
-                        role="status"
-                      ></div>
-                      <span className="sr-only ps-2">Loading...</span>
-                    </Fragment>
-                  )}
-                </button>
-                <button
-                  type="button"
-                  className="reserv_modal_btn discard_btn_reserv"
-                  onClick={async () => {
-                    props.setShowModal(false);
-                  }}
-                >
-                  Disacrd
-                </button>
+              <div className="pt-30">
+                <h5>Confirm Reservation Cancellation</h5>
+                <p>
+                  Are you sure you want to cancel the reservation? This action
+                  cannot be undone.
+                </p>
+                <div className="btn_grp mt-4">
+                  <button
+                    type="button"
+                    className="reserv_modal_btn confirm_cancel"
+                    onClick={handleConfirmCancellation}
+                    disabled={reservationLoading}
+                  >
+                    {reservationLoading === false ? (
+                      "Confirm"
+                    ) : (
+                      <Fragment>
+                        <div
+                          className="spinner-border spinner-border-sm text-light"
+                          role="status"
+                        ></div>
+                        <span className="sr-only ps-2">Loading...</span>
+                      </Fragment>
+                    )}
+                  </button>
+                  <button
+                    type="button"
+                    className="reserv_modal_btn discard_btn_reserv"
+                    onClick={async () => {
+                      props.setShowModal(false);
+                    }}
+                  >
+                    Disacrd
+                  </button>
+                </div>
               </div>
             </Fragment>
           ) : reservAction == "mail" ? (
