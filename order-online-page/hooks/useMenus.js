@@ -20,6 +20,10 @@ const useMenus = () => {
   const [settingsLoading, setSettingsLoading] = useState(true);
   const [currentStatus, setCurrentStatus] = useState(null);
   const [takeawayMenu, setTakeawayMenu] = useState(null);
+  const [indianCategories, setIndianCategories] = useState(null);
+  const [westernCategories, setWesternCategories] = useState(null);
+  const [initialcategoriesLoading, setInitialcategoiresLoading] =
+    useState(false);
 
   const fetchMenuList = async () => {
     try {
@@ -242,6 +246,54 @@ const useMenus = () => {
     }
   };
 
+  const fetchIndiancategoies = async () => {
+    try {
+      setInitialcategoiresLoading(true);
+      await BaseClient.get(
+        APIEndpoints.indianMenuCategories,
+        {},
+        {
+          onSuccess: (res) => {
+            // debugger;
+            if (res && res?.data?.error == false) {
+              setIndianCategories(res?.data?.data?.items);
+              return;
+            }
+          },
+          onFailed: (err) => {
+            console.log("Shop status error", err);
+          },
+        }
+      );
+    } finally {
+      setInitialcategoiresLoading(false);
+    }
+  };
+
+  const fetchWesterncategoies = async () => {
+    try {
+      setInitialcategoiresLoading(true);
+      await BaseClient.get(
+        APIEndpoints.westernMenuCategories,
+        {},
+        {
+          onSuccess: (res) => {
+            // debugger;
+            if (res && res?.data?.error == false) {
+              setWesternCategories(res?.data?.data?.items);
+              return;
+            }
+          },
+          onFailed: (err) => {
+            console.log("Shop status error", err);
+          },
+        }
+      );
+    } finally {
+      setInitialcategoiresLoading(false);
+    }
+  };
+
   return {
     fetchMenuList,
     fetchCategoriesList,
@@ -272,6 +324,11 @@ const useMenus = () => {
     currentStatus,
     fetchTakeawayMenus,
     takeawayMenu,
+    fetchIndiancategoies,
+    fetchWesterncategoies,
+    indianCategories,
+    westernCategories,
+    initialcategoriesLoading,
   };
 };
 

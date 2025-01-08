@@ -34,4 +34,6 @@ export const APIEndpoints = {
   getDeliveryDiscountGuest: "guest/checkout/deliverycalculator",
   getCurrentShopStatus: `status/${id}`,
   getUpcomingHolidays: `user/diningtable/reservation/upcomingholidays/${shopId}`,
+  indianMenuCategories: `products/${id}/0/3/online`,
+  westernMenuCategories: `products/${id}/0/4/dining`,
 };

@@ -94,6 +94,11 @@ export const AppContextProvider = (props) => {
     currentStatus,
     fetchTakeawayMenus,
     takeawayMenu,
+    fetchIndiancategoies,
+    fetchWesterncategoies,
+    indianCategories,
+    westernCategories,
+    initialcategoriesLoading,
   } = useMenus();
   const {
     authLoading,
@@ -158,6 +163,8 @@ export const AppContextProvider = (props) => {
     fetchMenuList();
     fetchCurrentShopStatus();
     fetchTakeawayMenus();
+    fetchIndiancategoies();
+    fetchWesterncategoies();
     // if (userToken) {
     //   fetchAddressList(userToken);
     //   fetchOrderList(userToken);
@@ -339,6 +346,11 @@ export const AppContextProvider = (props) => {
         takeawayMenu,
         mergedState,
         setMergedState,
+        fetchIndiancategoies,
+        fetchWesterncategoies,
+        indianCategories,
+        westernCategories,
+        initialcategoriesLoading,
       }}
     >
       {props.children}

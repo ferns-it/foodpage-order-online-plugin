@@ -675,10 +675,7 @@ a {
   .large {
     display: none;
   }
-  .hero_content_area{
-    position: relative;
-    top: 110px;
-  }
+ 
   .quicky_card{
 border-radius: 0;
 margin-top: 10px;
@@ -687,21 +684,11 @@ margin-top: 10px;
     width: 100%;
   }
   .category_card{
-    background-color: white;
-    color: black !important;
+    /* background-color: white; */
+    color: #fff !important;
     margin-bottom: 10px;
   }
-  .cat_title{
-    color: black;
-    text-align: center;
-  }
-  .txt_quicky > p{
-    color: black;
-    text-align: center;
-  }
-  .categories_home{
-    padding-top: 0;
-  }
+
   .food_shape_3{
     display: none;
   }
