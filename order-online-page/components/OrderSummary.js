@@ -383,9 +383,9 @@ function OrderSummary() {
                               addOns.length != 0 &&
                               addOns.map((add, addsOnindex) => {
                                 return (
-                                  <>
+                                  <Fragment key={addsOnindex}>
                                     <tbody>
-                                      <span key={addsOnindex}>
+                                      <span >
                                         <strong>{add?.title}</strong>
                                       </span>
 
@@ -402,7 +402,7 @@ function OrderSummary() {
                                           }
                                         )}
                                     </tbody>
-                                  </>
+                                  </Fragment>
                                 );
                               })}
                           </table>
