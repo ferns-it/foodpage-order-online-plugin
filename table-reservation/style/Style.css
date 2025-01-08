@@ -699,10 +699,7 @@ margin-top: 10px;
   .fresh_btm_card{
    display: none;
   }
-  .fresh_img_card img{
-margin: 10px;
-padding: 50px;
-  }
+
   .img2{
     display: none;
   }
@@ -721,9 +718,6 @@ padding: 50px;
   margin: 0;
   padding: 0;
 }
-.fresh_content_head{
-  font-size: 20px;
-}
 .home_reserv_sub{
   text-align: justify;
 }
@@ -741,15 +735,13 @@ border-radius: 4px;
 }
 .fresh_section {
   position: relative;
-  padding: 1rem 0;
+  padding: 5rem 0 3rem 0;
   background-color: #1f808b;
 }
 .table_reserv_img_new{
   display: none;
 }
-.fresh_subs{
-  font-size: 16px;
-}
+
 .menu_btm_price{
   font-size: 12px;
   padding: 0;
