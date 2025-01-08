@@ -85,10 +85,11 @@ function GuestLogin() {
             toast.error(res.errorMessage.message);
           } else {
             toast.success("OTP Sended Successfully!");
-            window.location.href = "/otpverification";
+            router.push("/otpverification");
           }
         },
         onFailed: (err) => {
+     
           const errMsg = err?.errorMessage?.message ?? "FAILED TO SEND OTP!";
           toast.error(errMsg);
         },

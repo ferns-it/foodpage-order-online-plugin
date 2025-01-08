@@ -48,12 +48,12 @@ function OtpVerification() {
         }
       },
       onFailed: (err) => {
-      
         const errMsg = err?.errorMessage?.message ?? "FAILED TO SEND OTP!";
         toast.error(errMsg);
       },
     });
   };
+
   const generateToken = () => {
     const data = {
       name: getSessionStorageItem("name"),
@@ -90,7 +90,7 @@ function OtpVerification() {
   };
 
   return (
-    <section className="table_reserv__">
+    <section style={{paddingTop:"250px"}}>
       <div className="container">
         <div className="card table_reservation_card col-lg-7 col-md-9 col-sm-10 mb-3">
           <h3 className="table-reservation-form-head">OTP VERIFICATION </h3>
