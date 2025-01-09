@@ -2,40 +2,15 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import * as Go from "react-icons/go";
 import * as Io from "react-icons/io5";
-import * as Md from "react-icons/md";
-import * as Im from "react-icons/im";
 import { GrLocation } from "react-icons/gr";
 import { TableReservationContext } from "../context/TableReservationContext";
 import Utils from "../utils/Utils";
 import { toast } from "react-hot-toast";
 import "../style/Style.css";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
-import { useRouter, useSearchParams } from "next/navigation";
-import { setSessionStorageItem } from "../../_utils/ClientUtils";
 
-const RECAPTCHA_SITE_KEY = "6LeXD-8pAAAAAOpi7gUuH5-DO0iMu7J6C-CBA2fo";
-
-const findToday = () => {
-  const daysOfWeek = [
-    "sunday",
-    "monday",
-    "tuesday",
-    "wednesday",
-    "thursday",
-    "friday",
-    "saturday",
-  ];
-
-  const today = new Date();
-  const dayName = daysOfWeek[today.getDay()];
-
-  return dayName;
-};
+const RECAPTCHA_SITE_KEY = "6LeXD-8pAAAAAOpi7gUuH5-DO0iMu7J6C-CBA2fo"; //! add new captcha
 
 function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
-  const router = useRouter();
-  const searchparams = useSearchParams();
   const {
     getShopTiming,
     shopTiming,
@@ -47,36 +22,20 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     secretKey,
     setSecretKey,
   } = useContext(TableReservationContext);
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(0);
   const [hashcode, setHashcode] = useState("");
   const [isReservErr, setIsReservErr] = useState(false);
   const [responseLoading, setResponseLoading] = useState(false);
   const [minDate, setMinDate] = useState("");
-  const [dayValue, setDayValue] = useState(null);
-  const [timeIntervals, setTimeIntervals] = useState(null);
-
-  useEffect(() => {
-    setInitialValues((prev) => ({ ...prev, bookingDate: new Date() }));
-  }, []);
-
-  useEffect(() => {
-    const hasOtp = searchparams.has("otp");
-
-    if (hasOtp) {
-      setIsActiveTablePage("otp-page");
-      return;
-    }
-  }, [searchparams]);
+  const [dayValue, setDayValue] = useState("");
 
   useEffect(() => {
     if (!shopId) return;
     getShopTiming(shopId);
   }, [shopId]);
-
   useEffect(() => {
     setInitialValues((prev) => ({ ...prev, noOfChairs: count }));
   }, [count]);
-
   useEffect(() => {
     const today = new Date();
     const yyyy = today.getFullYear();
@@ -87,34 +46,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     setMinDate(formattedToday);
   }, []);
 
-  const isToday = findToday();
-
-  useEffect(() => {
-    if (!shopTiming || !dayValue) return;
-    const todaysTiming = shopTiming.shopTiming[dayValue];
-
-    if (!todaysTiming || todaysTiming.length === 0) {
-      setTimeIntervals([]);
-      return;
-    }
-    const findIntervals = todaysTiming
-      .filter((time) => time?.status === "active")
-      .flatMap((time) =>
-        Utils.get15MinuteIntervals(time.openingTime, time.closingTime)
-      );
-
-    setTimeIntervals(findIntervals);
-  }, [shopTiming, dayValue]);
-
-  useEffect(() => {
-    if (initialValues && !initialValues.bookingDate) return;
-    getSelectedDay(initialValues.bookingDate);
-  }, [initialValues]);
-
-  const getSelectedDay = (bookingDate) => {
-    const day = Utils.getDayOfWeek(bookingDate);
-    setDayValue(day);
-  };
+  
 
   let oneTimePass;
   const handleChange = (e) => {
@@ -139,43 +71,6 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     if (value !== cleanedValue) {
       e.target.value = cleanedValue;
     }
-  };
-
-  const isBookingValid = () => {
-    const bookingDate = initialValues?.bookingDate;
-    const bookingTime = initialValues?.bookingTime;
-    const now = new Date();
-
-    const bookingDateNew = new Date(bookingDate);
-
-    const isSameDay =
-      now.getDate() === bookingDateNew.getDate() &&
-      now.getMonth() === bookingDateNew.getMonth() &&
-      now.getFullYear() === bookingDateNew.getFullYear();
-
-    if (isSameDay) {
-      const [hours, minutes] = bookingTime.split(":").map(Number);
-
-      const bookingDateTime = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate(),
-        hours,
-        minutes
-      );
-
-      // Check if booking is within the valid time range (4 hours before)
-      const timeDifference = bookingDateTime - now;
-      const fourHoursInMilliseconds = 4 * 60 * 60 * 1000;
-
-      if (timeDifference > fourHoursInMilliseconds) {
-        return false;
-      } else {
-        return true;
-      }
-    }
-
-    return false;
   };
 
   function removeSpecialChars(e) {
@@ -242,20 +137,12 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     script.addEventListener("load", handleCaptchaLoaded);
     document.body.appendChild(script);
   }, []);
-
   const handleTableReservation = async (e) => {
     e.preventDefault();
 
     const isValid = validateReservForm();
 
     if (isValid) return;
-    const isValidBookingTIme = isBookingValid();
-
-    //! condition for current UK time
-    if (isValidBookingTIme === true) {
-      toast.error(`Please select a time at least 4 hours from now!`);
-      return;
-    }
 
     if (!shopId) {
       toast.error("Shop Id is required");
@@ -271,8 +158,10 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
 
     const md5Num = encryptToMD5(oneTimePass);
 
+    // const url =
+    //   "https://foodpage.co.uk/development/v2/shop/user/diningtable/reservation/sendotp";
     const headers = {
-      "x-secretkey": process.env.FOODPAGE_RESERVATION_SECRET_KEY,
+      "x-secretkey": "ec34da9797361750e401e435c4860720",
     };
 
     const payload = {
@@ -292,18 +181,8 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
         if (errStatus == false) {
           toast.success("OTP send successfully!");
           setTimeout(() => {
-            const saveObj =
-              initialValues && typeof initialValues == "object"
-                ? JSON.stringify(initialValues)
-                : initialValues;
-
-            setSessionStorageItem("reserv_details", saveObj);
-            setSessionStorageItem("secretKey", secretKey);
             setIsActiveTablePage("otp-page");
-            router.push("/tablereservation?otp=true", undefined, {
-              shallow: true,
-            });
-          }, 300);
+          }, 1000);
         } else {
           toast.error("OTP not send!");
         }
@@ -314,7 +193,49 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
       },
       headers: headers,
     });
+
+    // try {
+    //   setResponseLoading(true);
+    //   const response = await axios.post(url, payload, { headers });
+    //   if (response) {
+    //     sessionStorage.setItem("hashcode", md5Num);
+    //     setSecretKey(md5Num);
+
+    //     console.log(response);
+    //     if (response && response.data.error === false) {
+    //       toast.success("OTP sent successfully");
+    //       setTimeout(() => {
+    //         setIsActiveTablePage("otp-page");
+    //       }, 1000);
+    //     } else {
+    //       toast.error("OTP not send!");
+    //     }
+    //   }
+    // } catch (error) {
+    //   console.error("Error posting data:", error);
+    // } finally {
+    //   setResponseLoading(false);
+    // }
   };
+  useEffect(() => {
+    function getDayOfWeek(dateString) {
+      const date = new Date(dateString);
+      const dayOfWeek = date.getDay();
+      const dayNames = [
+        "sunday",
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday",
+        "saturday",
+      ];
+      const dayName = dayNames[dayOfWeek];
+      return dayName;
+    }
+    const day = getDayOfWeek(initialValues.bookingDate);
+    setDayValue(day);
+  }, []);
 
   return (
     <div className="table_reserv__">
@@ -331,50 +252,122 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                   className="p-3"
                   onSubmit={(e) => handleTableReservation(e)}
                 >
-                  <h3 className="sub_title_">Booking Information</h3>
-                  <Calendar
-                    className="booking_calendar"
-                    minDate={new Date()}
-                    defaultView="month"
-                    calendarType="gregory"
-                    name="bookingDate"
-                    onChange={(e) => {
-                      setInitialValues((prev) => ({ ...prev, bookingDate: e }));
-                      getSelectedDay(e);
-                    }}
-                    defaultValue={new Date()}
-                  />
+                  <div className="row">
+                    <div className="col-lg-4 col-md-4 ol-sm-4">
+                      <div className="form-group">
+                        <label
+                          htmlFor="name"
+                          className="form-label table_reserv_form_label"
+                        >
+                          Booking Person Name
+                        </label>
+                        <input
+                          type="text"
+                          name="name"
+                          id=""
+                          className={
+                            "form-control table_reserv_form_input " +
+                            (isReservErr && initialValues.name.length === 0
+                              ? "err__"
+                              : "")
+                          }
+                          onChange={removeSpecialChars}
+                        ></input>
+                      </div>
+                      {isReservErr && initialValues.name.length === 0 && (
+                        <span className="reserv_from_err">
+                          Name is Required!
+                        </span>
+                      )}
+                    </div>
+                    <div className="col-lg-4 col-md-4 ol-sm-4">
+                      <div className="form-group">
+                        <label
+                          htmlFor="email"
+                          className="form-label table_reserv_form_label"
+                        >
+                          Booking Email Address
+                        </label>
+                        <input
+                          type="email"
+                          name="email"
+                          id=""
+                          className={
+                            "form-control table_reserv_form_input " +
+                            (isReservErr && initialValues.email.length === 0
+                              ? "err__"
+                              : "")
+                          }
+                          onChange={handleChange}
+                        ></input>
+                      </div>
+                      {isReservErr && initialValues.email.length === 0 && (
+                        <span className="reserv_from_err">
+                          Email Address is Required!
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="col-lg-4 col-md-4 ol-sm-4">
+                      <div className="form-group">
+                        <label
+                          htmlFor="phone"
+                          className="form-label table_reserv_form_label"
+                        >
+                          Phone number
+                        </label>
+                        <input
+                          type="text"
+                          name="phone"
+                          id=""
+                          className={
+                            "form-control table_reserv_form_input " +
+                            (isReservErr && initialValues.phone.length === 0
+                              ? "err__"
+                              : "")
+                          }
+                          onChange={validatePhoneNumber}
+                          maxLength={15}
+                        ></input>
+                      </div>
+                      {isReservErr && initialValues.phone.length === 0 && (
+                        <span className="reserv_from_err">
+                          Phone Number is Required!
+                        </span>
+                      )}
+                    </div>
+                  </div>
                   <div className="row mt-3">
-                    {/* <div className="col-lg-4 col-md-4 ol-sm-4">
-                        <div className="form-group">
-                          <label
-                            htmlFor="bookingDate"
-                            className="form-label table_reserv_form_label"
-                          >
-                            Booking Date
-                          </label>
-                          <input
-                            type="date"
-                            name="bookingDate"
-                            id=""
-                            className={
-                              "form-control table_reserv_form_input " +
-                              (isReservErr &&
-                              initialValues.bookingDate.length === 0
-                                ? "err__"
-                                : "")
-                            }
-                            onChange={handleChange}
-                            min={minDate}
-                          ></input>
-                        </div>
-                        {isReservErr &&
-                          initialValues.bookingDate.length === 0 && (
-                            <span className="reserv_from_err">
-                              Booking Date is Required!
-                            </span>
-                          )}
-                      </div> */}
+                    <div className="col-lg-4 col-md-4 ol-sm-4">
+                      <div className="form-group">
+                        <label
+                          htmlFor="bookingDate"
+                          className="form-label table_reserv_form_label"
+                        >
+                          Booking Date
+                        </label>
+                        <input
+                          type="date"
+                          name="bookingDate"
+                          id=""
+                          className={
+                            "form-control table_reserv_form_input " +
+                            (isReservErr &&
+                            initialValues.bookingDate.length === 0
+                              ? "err__"
+                              : "")
+                          }
+                          onChange={handleChange}
+                          min={minDate}
+                        ></input>
+                      </div>
+                      {isReservErr &&
+                        initialValues.bookingDate.length === 0 && (
+                          <span className="reserv_from_err">
+                            Booking Date is Required!
+                          </span>
+                        )}
+                    </div>
                     <div className="col-lg-4 col-md-4 ol-sm-4">
                       <div className="form-group">
                         <label
@@ -383,7 +376,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                         >
                           Booking Time
                         </label>
-                        {/* <input
+                        <input
                           type="time"
                           name="bookingTime"
                           id=""
@@ -395,39 +388,14 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                               : "")
                           }
                           onChange={handleChange}
-                        ></input> */}
-
-                        <select
-                          name="bookingTime"
-                          className={
-                            "form-select table_reserv_form_input_select d-block " +
-                            (isReservErr &&
-                            (!initialValues?.bookingTime ||
-                              initialValues.bookingTime.length === 0)
-                              ? "err__"
-                              : "")
-                          }
-                          // style={{ width: "100%", display: "block !important" }}
-                          onChange={handleChange}
-                          value={initialValues?.bookingTime || "0"}
-                        >
-                          <option value="0" disabled>
-                            Please choose time
-                          </option>
-                          {timeIntervals &&
-                            timeIntervals.length !== 0 &&
-                            timeIntervals.map((interval, timeIndex) => (
-                              <option value={interval} key={timeIndex}>
-                                {interval && Utils.convertTiming(interval)}
-                              </option>
-                            ))}
-                        </select>
+                        ></input>
                       </div>
-                      {isReservErr && initialValues.bookingTime == 0 && (
-                        <span className="reserv_from_err">
-                          Booking Time is Required!
-                        </span>
-                      )}
+                      {isReservErr &&
+                        initialValues.bookingTime.length === 0 && (
+                          <span className="reserv_from_err">
+                            Booking Time is Required!
+                          </span>
+                        )}
                     </div>
 
                     <div className="col-lg-4 col-md-4 ol-sm-4">
@@ -435,9 +403,8 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                         htmlFor="phone"
                         className="form-label table_reserv_form_label"
                       >
-                        No of Party Size
+                        No of Chairs
                       </label>
-
                       <div className="inc_dec_wrapper_0291">
                         <div className="incDec_wrapper_0291">
                           <input
@@ -446,7 +413,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                             min={1}
                             className="toggle-checkbox"
                           />
-                          <div className="counter-container text-center mx-auto">
+                          <div className="counter-container">
                             <label
                               htmlFor="toggle"
                               className="decrement-button"
@@ -476,94 +443,6 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                       )}
                     </div>
                   </div>
-                  <br />
-                  <hr />
-                  <h3 className="sub_title_">Personal Information</h3>
-                  <div className="row">
-                    <div className="col-lg-4 col-md-6 ol-sm-12">
-                      <div className="form-group">
-                        <label
-                          htmlFor="name"
-                          className="form-label table_reserv_form_label"
-                        >
-                          Booking Person Name
-                        </label>
-                        <input
-                          type="text"
-                          name="name"
-                          id=""
-                          className={
-                            "form-control table_reserv_form_input " +
-                            (isReservErr && initialValues.name.length === 0
-                              ? "err__"
-                              : "")
-                          }
-                          onChange={removeSpecialChars}
-                        ></input>
-                      </div>
-                      {isReservErr && initialValues.name.length === 0 && (
-                        <span className="reserv_from_err">
-                          Name is Required!
-                        </span>
-                      )}
-                    </div>
-                    <div className="col-lg-4 col-md-6 ol-sm-12">
-                      <div className="form-group">
-                        <label
-                          htmlFor="email"
-                          className="form-label table_reserv_form_label"
-                        >
-                          Booking Email Address
-                        </label>
-                        <input
-                          type="email"
-                          name="email"
-                          id=""
-                          className={
-                            "form-control table_reserv_form_input " +
-                            (isReservErr && initialValues.email.length === 0
-                              ? "err__"
-                              : "")
-                          }
-                          onChange={handleChange}
-                        ></input>
-                      </div>
-                      {isReservErr && initialValues.email.length === 0 && (
-                        <span className="reserv_from_err">
-                          Email Address is Required!
-                        </span>
-                      )}
-                    </div>
-
-                    <div className="col-lg-4 col-md-6 ol-sm-12">
-                      <div className="form-group">
-                        <label
-                          htmlFor="phone"
-                          className="form-label table_reserv_form_label"
-                        >
-                          Phone number
-                        </label>
-                        <input
-                          type="text"
-                          name="phone"
-                          id=""
-                          className={
-                            "form-control table_reserv_form_input " +
-                            (isReservErr && initialValues.phone.length === 0
-                              ? "err__"
-                              : "")
-                          }
-                          onChange={validatePhoneNumber}
-                          maxLength={15}
-                        ></input>
-                      </div>
-                      {isReservErr && initialValues.phone.length === 0 && (
-                        <span className="reserv_from_err">
-                          Phone Number is Required!
-                        </span>
-                      )}
-                    </div>
-                  </div>
                   <div className="row my-4">
                     <div className="col-12">
                       <label
@@ -575,7 +454,8 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                       <textarea
                         name="message"
                         id=""
-                        className="textarea form-control table_reserv_textarea"
+                        className="form-control"
+                        rows={5}
                         onChange={handleChange}
                       ></textarea>
                     </div>
@@ -587,7 +467,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                   >
                     {reservationLoading === false ? (
                       <Fragment>
-                        <span>Proceed to Booking</span>
+                        <span>Continue</span>
                         <i className="ps-2">
                           <Go.GoArrowRight />
                         </i>
@@ -611,9 +491,9 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                 ></div>
               </div>
             </div>
-            <div className="col-lg-4 col-md-4 col-sm-12 order-lg-2 order-md-2 order-sm-1 pb-2 position-relative">
+            <div className="col-lg-4 col-md-4 col-sm-12 order-lg-2 order-md-2 order-sm-1">
               <div className="card timing_card_table_reserv ">
-                {/* <p className="open_">
+                <p className="open_">
                   <i className="pe-1">
                     <GrLocation />
                   </i>
@@ -621,87 +501,20 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                 </p>
                 <p className="location___">
                   Guruviharrr, Kadakkavoor, Thiruvananthapuram
-                </p> */}
-
-                <div className="open_">
-                  <i className="pe-1">
-                    <Md.MdOutlineRestaurantMenu />
-                  </i>
-                  <span>Booking info</span>
-                  <table className="table reserve_table">
-                    <tbody>
-                      <tr>
-                        <td>Date</td>
-                        <td>
-                          {initialValues && initialValues?.bookingDate
-                            ? Utils.formatDate(initialValues?.bookingDate)
-                            : Utils.formatDate(new Date())}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Time</td>
-                        <td>
-                          {initialValues && initialValues.bookingTime
-                            ? Utils.convertTiming(initialValues?.bookingTime)
-                            : "00:00"}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Chairs</td>
-                        <td>{count ?? 0}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                {/* <p className="open_">
-                  <i className="pe-1">
-                    <Md.MdOutlineRestaurantMenu />
-                  </i>
-                  <span>Booking info</span>
-                  <table className="table reserve_table">
-                    <tr>
-                      <td>Date</td>
-                      <td>
-                        {initialValues && initialValues?.bookingDate
-                          ? Utils.formatDate(initialValues?.bookingDate)
-                          : Utils.formatDate(new Date())}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Time</td>
-                      <td>
-                        {initialValues && initialValues.bookingTime
-                          ? Utils.convertTiming(initialValues?.bookingTime)
-                          : "00:00"}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Chairs</td>
-                      <td>{count ?? 0}</td>
-                    </tr>
-                  </table>
                 </p>
-                {/* <p className="open_">
+                <p className="open_">
                   <i className="pe-1">
                     <Io.IoTimeOutline />
                   </i>
                   <span>Open Hours</span>
                 </p>
                 {isTimingLoading ? (
-                  <span>
-                    <strong>Loading.. Please wait!</strong>
-                  </span>
+                  <span className="sr-only ps-2">Loading...</span>
                 ) : (
                   <div className="timing_cart_reserv">
                     <div className="row">
-                      <div className="col-lg-6 col-md-8 col-sm-12">
-                        <div
-                          className={
-                            dayValue === "sunday"
-                              ? "day_wrapper_reserv_table --active"
-                              : "day_wrapper_reserv_table"
-                          }
-                        >
+                      <div className="col-lg-6 col-md-6 col-sm-6">
+                        <div className="day_wrapper_reserv_table">
                           <p className="day__">Sunday</p>
                           <ul className="reserv_timing__">
                             {shopTiming &&
@@ -733,14 +546,8 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                           </ul>
                         </div>
                       </div>
-                      <div className="col-lg-6 col-md-8 col-sm-12">
-                        <div
-                          className={
-                            dayValue === "monday"
-                              ? "day_wrapper_reserv_table --active"
-                              : "day_wrapper_reserv_table"
-                          }
-                        >
+                      <div className="col-lg-6 col-md-6 col-sm-6">
+                        <div className="day_wrapper_reserv_table">
                           <p className="day__">Monday</p>
                           <ul className="reserv_timing__">
                             {shopTiming &&
@@ -773,14 +580,8 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                     </div>
 
                     <div className="row">
-                      <div className="col-lg-6 col-md-8 col-sm-12">
-                        <div
-                          className={
-                            dayValue === "tuesday"
-                              ? "day_wrapper_reserv_table --active"
-                              : "day_wrapper_reserv_table"
-                          }
-                        >
+                      <div className="col-lg-6 col-md-6 col-sm-6">
+                        <div className="day_wrapper_reserv_table">
                           <p className="day__">Tuesday</p>
                           <ul className="reserv_timing__">
                             {shopTiming &&
@@ -810,14 +611,8 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                           </ul>
                         </div>
                       </div>
-                      <div className="col-lg-6 col-md-8 col-sm-12">
-                        <div
-                          className={
-                            dayValue === "wednesday"
-                              ? "day_wrapper_reserv_table --active"
-                              : "day_wrapper_reserv_table"
-                          }
-                        >
+                      <div className="col-lg-6 col-md-6 col-sm-6">
+                        <div className="day_wrapper_reserv_table">
                           <p className="day__">Wednesday</p>
                           <ul className="reserv_timing__">
                             {shopTiming &&
@@ -851,15 +646,9 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col-lg-6 col-md-8 col-sm-12">
-                        <div
-                          className={
-                            dayValue === "thursday"
-                              ? "day_wrapper_reserv_table --active"
-                              : "day_wrapper_reserv_table"
-                          }
-                        >
-                          <p className="day__">Thursday</p>
+                      <div className="col-lg-6 col-md-6 col-sm-6">
+                        <div className="day_wrapper_reserv_table">
+                          <p className="day__">Thursay</p>
                           <ul className="reserv_timing__">
                             {shopTiming &&
                               shopTiming.shopTiming &&
@@ -888,14 +677,8 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                           </ul>
                         </div>
                       </div>
-                      <div className="col-lg-6 col-md-8 col-sm-12">
-                        <div
-                          className={
-                            dayValue === "friday"
-                              ? "day_wrapper_reserv_table --active"
-                              : "day_wrapper_reserv_table"
-                          }
-                        >
+                      <div className="col-lg-6 col-md-6 col-sm-6">
+                        <div className="day_wrapper_reserv_table">
                           <p className="day__">Friday</p>
                           <ul className="reserv_timing__">
                             {shopTiming &&
@@ -928,14 +711,8 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                     </div>
 
                     <div className="row">
-                      <div className="col-lg-6 col-md-8 col-sm-12">
-                        <div
-                          className={
-                            dayValue === "saturday"
-                              ? "day_wrapper_reserv_table --active"
-                              : "day_wrapper_reserv_table"
-                          }
-                        >
+                      <div className="col-lg-6 col-md-6 col-sm-6">
+                        <div className="day_wrapper_reserv_table">
                           <p className="day__">Saturday</p>
                           <ul className="reserv_timing__">
                             {shopTiming &&
@@ -968,21 +745,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                       <div className="col-lg-6 col-md-6 col-sm-6"></div>
                     </div>
                   </div>
-                )} */}
-
-                {/* <button
-                  type="button"
-                  className="reserv_btn my-3"
-                  onClick={() => router.push("/manage-reservation")}
-                >
-                  <i className="pe-2">
-                    <Im.ImSpoonKnife />
-                  </i>
-                  Manage Reservation
-                </button> */}
-              </div>
-              <div className="poweredBy_ text-center" id="main___">
-                <span>Powered by Foodpage</span>
+                )}
               </div>
             </div>
           </div>

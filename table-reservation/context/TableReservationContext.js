@@ -13,7 +13,7 @@ export const TableReservationContextProvider = (props) => {
     name: "",
     email: "",
     phone: "",
-    bookingTime: 0,
+    bookingTime: "",
     bookingDate: "",
     noOfChairs: 0,
     message: "",
@@ -27,13 +27,6 @@ export const TableReservationContextProvider = (props) => {
     reservationLoading,
     sendReservationOTP,
     completeReservation,
-    getReservationDetails,
-    reservationDetails,
-    cancelReservation,
-    updateReservationDetails,
-    chatMessages,
-    sendMessage,
-    messageLoading,
   } = useReservation();
 
   useEffect(() => {
@@ -58,13 +51,6 @@ export const TableReservationContextProvider = (props) => {
         secretKey,
         setSecretKey,
         completeReservation,
-        getReservationDetails,
-        reservationDetails,
-        cancelReservation,
-        updateReservationDetails,
-        chatMessages,
-        sendMessage,
-        messageLoading,
         // otp,
         // setOtp,
         // clearOtp

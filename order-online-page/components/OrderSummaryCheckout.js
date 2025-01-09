@@ -25,7 +25,6 @@ import {
 
 function OrderSummaryCheckout() {
   const router = useRouter();
-  const [paymentLoading, setPaymentLoading] = useState(false);
   const searchParams = useSearchParams();
   const orderType = sessionStorage.getItem("type");
   const details = JSON.parse(getSessionStorageItem("deliveryResponse"));
@@ -34,6 +33,7 @@ function OrderSummaryCheckout() {
     discount: 0,
     deliveryFee: 0,
   });
+  const [confirmOrderLoading, setConfirmOrderLoading] = useState(false);
   const {
     delivery,
     // setisCheckoutActive,
@@ -57,12 +57,14 @@ function OrderSummaryCheckout() {
     isUserLogged,
     cartItems,
     clearCartItems,
+    userAddressList,
+    userInfo,
+    cartLoading,
   } = useContext(AppContext);
 
   // const { fetchCartList } = useContext(AppContext);
 
   const [paymentOption, setPaymentOption] = useState("");
-  const [addressDefault, setAddressDefault] = useState(null);
   // useEffect(() => {
   //   const storeDefaultAddressDetails = JSON.parse(getSessionStorageItem("defaultAddressDetails"))
   //   if (storeDefaultAddressDetails) {
@@ -85,13 +87,13 @@ function OrderSummaryCheckout() {
       (isUserLogged != null && isUserLogged?.payload?.data?.userEmail) || "",
     phone:
       (isUserLogged != null && isUserLogged?.payload?.data?.userMobile) || "",
-    addressLine1: (savedAddress != null && savedAddress?.line1) || "",
-    addressLine2: (savedAddress != null && savedAddress?.line2) || "",
-    townCity: (savedAddress != null && savedAddress?.town) || "",
-    county: (savedAddress != null && savedAddress?.county) || "",
+    addressLine1: userInfo?.line1 || "",
+    addressLine2: userInfo?.line2 || "",
+    townCity: userInfo?.town || "",
+    county: userInfo?.county || "",
     notes: "",
   });
-
+  // console.log(userInfo, "userInfo");
   const [fieldError, setFieldError] = useState(false);
   const [discountData, setDiscountData] = useState(null);
   const [intentLoading, setIntentLoading] = useState(false);
@@ -107,16 +109,6 @@ function OrderSummaryCheckout() {
       deliveryFee: deliveryCharge,
     });
   }, [searchParams]);
-
-  useEffect(() => {
-    const emptyValidation = checkForEmptyKeys(formState);
-
-    if (emptyValidation && emptyValidation.length != 0) {
-      setActiveCard("login");
-      setPaymentOption("");
-      return;
-    }
-  }, [formState]);
 
   // useEffect(() => {
   //   const handleBeforeUnload = (event) => {
@@ -136,15 +128,15 @@ function OrderSummaryCheckout() {
     if (delivery == false) {
       const postalCode = getSessionStorageItem("postcode");
       if (!postalCode) {
-        toast.error("Postal code is undefined");
+        // toast.error("Postal code is undefined");
         return;
       }
       setFormState({ ...formState, postalCode });
-    } else {
+    } else if (delivery == true) {
       // setActiveCard("payment");
       const postalCode =
         isUserLogged != null && isUserLogged?.payload?.data?.userPostCode;
-      setFormState({ ...formState, postalCode });
+      setFormState({ ...formState, postalCode: "" });
     }
   }, [delivery]);
 
@@ -153,6 +145,13 @@ function OrderSummaryCheckout() {
 
   //   setActiveCard(!delivery ? "login" : "payment");
   // }, [delivery]);
+
+  const handlePhonenumber = (e) => {
+    const { name, value } = e.target;
+    const cleanedNumber = value.replace(/\D/g, "");
+
+    setFormState((prev) => ({ ...prev, [name]: cleanedNumber }));
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -164,7 +163,12 @@ function OrderSummaryCheckout() {
 
     for (const key in formState) {
       if (Object.prototype.hasOwnProperty.call(formState, key)) {
-        if (key === "addressLine2" || key === "notes") {
+        if (
+          key === "addressLine2" ||
+          key === "notes" ||
+          key === "postalCode" ||
+          key === "county"
+        ) {
           continue;
         }
 
@@ -186,10 +190,7 @@ function OrderSummaryCheckout() {
       toast.error("Shop is currently closed");
       return;
     }
-    if (!formState.phone || !/^\d+$/.test(formState.phone)) {
-      setFieldError(true);
-      return;
-    }
+
     let deliveryTypeData;
 
     if (delivery == false || delivery == "false") {
@@ -199,7 +200,23 @@ function OrderSummaryCheckout() {
 
       deliveryTypeData = "Home Delivery";
       const isValid = handleEmptyValidation();
-      console.log(isValid);
+      window.scrollTo(0, 400);
+      if (orderType == true || orderType == "true") {
+        if (
+          formState?.postalCode.length == 0 ||
+          formState?.postalCode == null ||
+          formState?.postalCode == undefined ||
+          formState?.postalCode == ""
+        ) {
+          toast.error("Please update Postal code");
+          return;
+        }
+      }
+
+      // const elem = document.getElementById("payment_area");
+      // if (elem) {
+      //   elem.scrollIntoView({ behavior: "smooth", block: "end" });
+      // }
 
       if (isValid && isValid.length != 0) {
         setFieldError(true);
@@ -246,12 +263,22 @@ function OrderSummaryCheckout() {
     setDiscountData(discount);
     setPaymentOption("stripe");
 
+    const emptyValidation = checkForEmptyKeys(formState);
+
+    if (emptyValidation && emptyValidation.length != 0) {
+      toast.error("Please fill All the required Details before checkout!");
+      setActiveCard("login");
+      setPaymentOption("");
+      return;
+    }
+
     if (paymentData == null) {
       try {
         const userID = getLocalStorageItem("UserPersistent");
         let headers = {
           User: userID,
         };
+
         setIntentLoading(true);
         const discountam = Number(details?.discount ?? paramsValues.discount);
         const delivFeeAmt = deliveryFee ?? paramsValues?.deliveryFee;
@@ -286,6 +313,13 @@ function OrderSummaryCheckout() {
   };
 
   const handlecashondelivery = () => {
+    const emptyValidation = checkForEmptyKeys(formState);
+    if (emptyValidation && emptyValidation.length != 0) {
+      toast.error("Please fill All the required Details before checkout!");
+      setActiveCard("login");
+      setPaymentOption("");
+      return;
+    }
     setPaymentOption("cash");
     setPaymentData(null);
   };
@@ -293,22 +327,33 @@ function OrderSummaryCheckout() {
   const checkForEmptyKeys = (formState) => {
     const emptyKeys = [];
 
+    // Iterate through formState keys
     for (const key in formState) {
       const value = formState[key];
 
-      if (key !== "addressLine2" && key !== "notes") {
+      // Exclude 'addressLine2' and 'notes' from the check
+      if (key !== "addressLine2" && key !== "notes" && key !== "county") {
         if (value === undefined || value === null || value === "") {
           emptyKeys.push(key);
         }
       }
     }
+    console.log("emptyKeys", emptyKeys);
 
     return emptyKeys;
   };
 
   const completeOrder = async () => {
     try {
-      setPaymentLoading(true);
+      setConfirmOrderLoading(true);
+      if (
+        cartItems &&
+        cartItems?.cartItems &&
+        cartItems?.cartItems?.length == 0
+      ) {
+        toast.error("Your cart is Empty!");
+        return;
+      }
       const emptyValidation = checkForEmptyKeys(formState);
 
       if (emptyValidation && emptyValidation.length != 0) {
@@ -330,15 +375,18 @@ function OrderSummaryCheckout() {
         deliveryType = "store_pickup";
       }
       const paymentMethod = paymentOption === "stripe" ? "STRIPE" : "COD";
-
       const userID = getLocalStorageItem("UserPersistent");
       const isGuest = getLocalStorageItem("guest");
       const userToken = getLocalStorageItem("userToken");
 
+      console.log(paymentData, paymentMethod, "paymentData");
+
+      // debugger;
       if (
         (paymentMethod === "STRIPE" && paymentData != null) ||
         (paymentMethod === "COD" && paymentData === null)
       ) {
+        // debugger;
         const priceValue = details
           ? details?.cart_NetAmount
           : paramsValues?.price;
@@ -396,6 +444,8 @@ function OrderSummaryCheckout() {
           User: userID,
         };
 
+        // debugger;
+
         await completeCheckout(payload, {
           headers: headers,
           onSuccess: async (res) => {
@@ -403,6 +453,7 @@ function OrderSummaryCheckout() {
             //! user token removed here
             // removeLocalStorageItem("userToken");
             // removeSessionStorageItem("userInfo");
+            setLocalStorageItem("checkout", "completed");
             await fetchCartList(userID);
             await clearCartItems(userID, {
               onSuccess: (res) => {
@@ -412,19 +463,20 @@ function OrderSummaryCheckout() {
                 console.log("Error on cart clear", err);
               },
             });
-            router.refresh();
-            router.push("/order-online");
+
+            redirectToLocation("/order-online");
             setActiveCard("login");
             setPaymentData(null);
           },
           onFailed: (err) => {
+            // debugger;
             console.log("error message for confirm payment", err);
             toast.error(err.message);
           },
         });
       }
     } finally {
-      setPaymentLoading(false);
+      setConfirmOrderLoading(false);
     }
   };
 
@@ -479,7 +531,7 @@ function OrderSummaryCheckout() {
                 <div
                   className={
                     activeCard == "login"
-                      ? "login_order_online_form_0283"
+                      ? "login_order_online_form_0283 "
                       : "login_order_online_form_0283 hide"
                   }
                   // className="login_order_online_form_0283"
@@ -534,15 +586,15 @@ function OrderSummaryCheckout() {
                                 name="postalCode"
                                 id=""
                                 className={
-                                  fieldError == true &&
+                                  fieldError &&
                                   (!formState.postalCode ||
                                     formState?.postalCode.length === 0)
                                     ? "form-control online_order_plugin_input_2939 error___"
-                                    : "form-control online_order_plugin_input_2939 "
+                                    : "form-control online_order_plugin_input_2939"
                                 }
                                 style={{ textTransform: "uppercase" }}
                                 onChange={handleChange}
-                                // value={formState?.postalCode ?? ""}
+                                value={formState?.postalCode ?? ""}
                               />
                             ) : (
                               <input
@@ -556,28 +608,10 @@ function OrderSummaryCheckout() {
                                 disabled
                               />
                             )}
-                            {/* <input
-                                type="text"
-                                name="postalCode"
-                                id=""
-                                className={
-                                  fieldError == true &&
-                                  (!formState.postalCode ||
-                                    formState?.postalCode.length === 0)
-                                    ? "form-control online_order_plugin_input_2939 error___"
-                                    : "form-control online_order_plugin_input_2939 "
-                                }
-                                style={{ textTransform: "uppercase" }}
-                                onChange={handleChange}
-                                value={formState.postalCode}
-                                // disabled={
-                                //   delivery !== false || delivery !== "false"
-                                //     ? true
-                                //     : false
-                                // }
-                              /> */}
                           </div>
-                          {fieldError == true &&
+                          {/* Validation message */}
+                          {fieldError &&
+                            orderType == true && // Check only when manual entry is enabled
                             (!formState.postalCode ||
                               formState?.postalCode?.length === 0) && (
                               <span className="oos_err_29102">
@@ -621,7 +655,7 @@ function OrderSummaryCheckout() {
                       <div className="col-lg-4 col-md-4 col-sm-4">
                         <div className="form-group">
                           <label
-                            htmlFor="phone"
+                            htmlFor="email"
                             className="form-label online_order_plugin_label_2939"
                           >
                             Phone number
@@ -629,27 +663,26 @@ function OrderSummaryCheckout() {
                           <input
                             type="text"
                             name="phone"
-                            id="phone"
+                            id=""
                             className={
                               fieldError &&
                               (!formState.phone ||
-                                !/^\d+$/.test(formState.phone))
+                                formState?.phone.length === 0)
                                 ? "form-control online_order_plugin_input_2939 error___"
-                                : "form-control online_order_plugin_input_2939"
+                                : "form-control online_order_plugin_input_2939 "
                             }
-                            onChange={handleChange}
+                            onChange={handlePhonenumber}
                             value={formState.phone}
                           />
                         </div>
                         {fieldError &&
                           (!formState.phone ||
-                            !/^\d+$/.test(formState.phone)) && (
+                            formState?.phone?.length === 0) && (
                             <span className="oos_err_29102">
-                              Phone is required and must be numeric!
+                              Phone is required!
                             </span>
                           )}
                       </div>
-
                       <div className="col-lg-4 col-md-4 col-sm-4">
                         <div className="form-group">
                           <label
@@ -744,18 +777,18 @@ function OrderSummaryCheckout() {
                             type="text"
                             name="county"
                             id=""
-                            className="form-control online_order_plugin_input_2939"
+                            className="form-control online_order_plugin_input_2939 "
                             onChange={handleChange}
                             value={formState.county}
                           />
                         </div>
-                        {fieldError &&
+                        {/* {fieldError &&
                           (!formState.county ||
                             formState?.county?.length == 0) && (
                             <span className="oos_err_29102">
                               County Required
                             </span>
-                          )}
+                          )} */}
                       </div>
                     </div>
                     <div className="form-group mt-3">
@@ -773,14 +806,16 @@ function OrderSummaryCheckout() {
                         value={formState.notes}
                       ></textarea>
                     </div>
-                    <div className="form-group mz-auto text-center">
-                      <button type="submit" className="btn_check">
+                    {/* <br /> */}
+                    <div className="form-group mt-3">
+                      <button
+                        type="submit"
+                        className="online_order_plugin_login_btn"
+                      >
                         Submit
                       </button>
                     </div>
-                    {/* <br /> */}
                   </form>
-
                   {/* <button type="button" className="view_btn">View</button> */}
                 </div>
               </div>
@@ -791,146 +826,137 @@ function OrderSummaryCheckout() {
                     : "order_online_horiz_line "
                 }
               ></div>
-              <div className="card login_summary_card_0928">
-                <div className="login_summary_card_ico_0928">
-                  <RiMoneyEuroCircleLine />
-                </div>
+              {!confirmOrderLoading && !cartLoading ? (
+                <div className="card login_summary_card_0928">
+                  <div className="login_summary_card_ico_0928">
+                    <RiMoneyEuroCircleLine />
+                  </div>
 
-                {!paymentLoading ? (
-                  <Fragment>
-                    {cartItems?.paymentOptions != null &&
-                    cartItems?.paymentOptions.shopStatus != "closed" ? (
-                      <>
-                        {!intentLoading ? (
-                          <Fragment>
-                            <div
-                              className={
-                                activeCard === "payment"
-                                  ? "checkout_order_online_form_0283"
-                                  : "checkout_order_online_form_0283 hide"
-                              }
-                            >
-                              <div className="row">
-                                {cartItems?.paymentOptions?.stripe ==
-                                  "Enabled" && (
-                                  <>
-                                    <div className="col-6">
-                                      <div
-                                        className={
-                                          paymentOption === "stripe"
-                                            ? "card payment_card_order_online_093 selected"
-                                            : "card payment_card_order_online_093"
-                                        }
-                                        onClick={createPaymentIntentRequest}
-                                      >
-                                        <i>
-                                          {/* <Bs.BsCreditCard /> */}
-                                          <h4>Card Payment</h4>
-                                        </i>
-                                      </div>
-                                    </div>
-                                  </>
-                                )}
-                                {cartItems?.paymentOptions?.cod ==
-                                  "Enabled" && (
-                                  <>
-                                    <div className="col-6">
-                                      <div
-                                        className={
-                                          paymentOption === "cash"
-                                            ? "card payment_card_order_online_093 selected"
-                                            : "card payment_card_order_online_093"
-                                        }
-                                        onClick={() => handlecashondelivery()}
-                                      >
-                                        <i>
-                                          {/* <Bs.BsCashCoin /> */}
-                                          <h4>Cash Payment</h4>
-                                        </i>
-                                      </div>
-                                    </div>
-                                  </>
-                                )}
-                              </div>
-                              {paymentOption === "stripe" &&
-                                stripePaymentClientSecret && (
-                                  <div className="payement_method checkout_form mt-3 pt-3 card p-3 m-1">
-                                    <Elements
-                                      stripe={stripePromise}
-                                      options={options}
+                  {cartItems?.paymentOptions != null &&
+                  cartItems?.paymentOptions.shopStatus != "closed" ? (
+                    <>
+                      {!intentLoading ? (
+                        <Fragment>
+                          <h4>Payment</h4>
+                          <p>Secure Payment Options</p>
+
+                          <div
+                            className={
+                              activeCard === "payment"
+                                ? "checkout_order_online_form_0283"
+                                : "checkout_order_online_form_0283 hide"
+                            }
+                          >
+                            <div className="row" id="payment_area">
+                              {cartItems?.paymentOptions?.stripe ==
+                                "Enabled" && (
+                                <>
+                                  <div className="col-6">
+                                    <div
+                                      className={
+                                        paymentOption === "stripe"
+                                          ? "card payment_card_order_online_093 selected"
+                                          : "card payment_card_order_online_093"
+                                      }
+                                      onClick={createPaymentIntentRequest}
                                     >
-                                      <StripePaymentElementOrderOnline
-                                        paymentSuccess={async (
-                                          intentResult
-                                        ) => {
-                                          console.log(
-                                            "intentResult",
-                                            intentResult
-                                          );
-                                          sessionStorage.clear(
-                                            "isCheckoutActive"
-                                          );
-                                          await completeOrder();
-                                        }}
-                                        paymentFailure={(err) => {
-                                          console.log("error =>", err.message);
-                                          toast.error(err.message);
-                                        }}
-                                        discount={discountData}
-                                        formState={formState}
-                                        paymentMethod={paymentOption}
-                                      />
-                                    </Elements>
+                                      <i>
+                                        {/* <Bs.BsCreditCard /> */}
+                                        <h4>Card Payment</h4>
+                                      </i>
+                                    </div>
                                   </div>
-                                )}
+                                </>
+                              )}
+                              {cartItems?.paymentOptions?.cod == "Enabled" && (
+                                <>
+                                  <div className="col-6">
+                                    <div
+                                      className={
+                                        paymentOption === "cash"
+                                          ? "card payment_card_order_online_093 selected"
+                                          : "card payment_card_order_online_093"
+                                      }
+                                      onClick={() => handlecashondelivery()}
+                                    >
+                                      <i>
+                                        {/* <Bs.BsCashCoin /> */}
+                                        <h4>Cash Payment</h4>
+                                      </i>
+                                    </div>
+                                  </div>
+                                </>
+                              )}
                             </div>
-                            {paymentOption === "cash" && (
-                              <Fragment>
-                                <p className="cash_payment_info_939">
-                                  <IoInformationCircleOutline />{" "}
-                                  <span>
-                                    You are Choosing Cash on Delivery Press
-                                    Submit Button to Continue
-                                  </span>
-                                </p>
-                                <br />
-                                <button
-                                  type="button"
-                                  className="cash_payment_submit_btn_order_online"
-                                  onClick={completeOrder}
-                                  disabled={loading}
-                                >
-                                  {!loading ? (
-                                    "Submit"
-                                  ) : (
-                                    <Fragment>
-                                      <span
-                                        className="spinner-border spinner-border-sm"
-                                        role="status"
-                                        aria-hidden="true"
-                                      ></span>
-                                      <span className="sr-only">
-                                        {" "}
-                                        Loading...
-                                      </span>
-                                    </Fragment>
-                                  )}
-                                </button>
-                              </Fragment>
-                            )}
-                          </Fragment>
-                        ) : (
-                          <PleaseWait />
-                        )}
-                      </>
-                    ) : (
-                      <h6 style={{ color: "red" }}></h6>
-                    )}
-                  </Fragment>
-                ) : (
-                  <PleaseWait />
-                )}
-              </div>
+                            {paymentOption === "stripe" &&
+                              stripePaymentClientSecret && (
+                                <div className="payement_method checkout_form mt-3 pt-3 card p-3 m-1">
+                                  <Elements
+                                    stripe={stripePromise}
+                                    options={options}
+                                  >
+                                    <StripePaymentElementOrderOnline
+                                      paymentSuccess={async (intentResult) => {
+                                        sessionStorage.clear(
+                                          "isCheckoutActive"
+                                        );
+
+                                        await completeOrder();
+                                      }}
+                                      paymentFailure={(err) => {
+                                        toast.error(err.message);
+                                      }}
+                                      discount={discountData}
+                                      formState={formState}
+                                      paymentMethod={paymentOption}
+                                    />
+                                  </Elements>
+                                </div>
+                              )}
+                          </div>
+                          {paymentOption === "cash" && (
+                            <Fragment>
+                              <p className="cash_payment_info_939">
+                                <IoInformationCircleOutline />{" "}
+                                <span>
+                                  You are Choosing Cash on Delivery Press Submit
+                                  Button to Continue
+                                </span>
+                              </p>
+                              <br />
+                              <button
+                                type="button"
+                                className="cash_payment_submit_btn_order_online"
+                                onClick={completeOrder}
+                                disabled={loading}
+                              >
+                                {!loading ? (
+                                  "Submit"
+                                ) : (
+                                  <Fragment>
+                                    <span
+                                      className="spinner-border spinner-border-sm"
+                                      role="status"
+                                      aria-hidden="true"
+                                    ></span>
+                                    <span className="sr-only"> Loading...</span>
+                                  </Fragment>
+                                )}
+                              </button>
+                            </Fragment>
+                          )}
+                        </Fragment>
+                      ) : (
+                        <PleaseWait />
+                      )}
+                    </>
+                  ) : (
+                    <h6 style={{ color: "red" }}></h6>
+                  )}
+                </div>
+              ) : (
+                <PleaseWait />
+              )}
             </div>
             <div className="col-lg-4 col-md-6 col-sm-12">
               <div className="lg_summary">

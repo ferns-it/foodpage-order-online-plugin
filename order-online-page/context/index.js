@@ -8,7 +8,7 @@ import {
   getSessionStorageItem,
   setLocalStorageItem,
   setSessionStorageItem,
-} from "@/plugin/_utils/ClientUtils";
+} from "../../_utils/ClientUtils";
 import Utils from "../../_utils/Utils";
 import useProfile from "../hooks/useProfile";
 import useOrderHistory from "../hooks/useOrderHistory";
@@ -32,6 +32,8 @@ export const AppContextProvider = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [orderHistoryLoading, setOrderHistoryLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
+
+  const [mergedState, setMergedState] = useState(null);
 
   const isCheckoutActive = false;
   const [listLoading, setListLoading] = useState(false);
@@ -86,9 +88,6 @@ export const AppContextProvider = (props) => {
     settingsLoading,
     setCartItems,
     clearCartItems,
-    diningMenuList,
-    diningLoading,
-    diningList,
     fetchCurrentShopStatus,
     currentStatus,
   } = useMenus();
@@ -151,7 +150,6 @@ export const AppContextProvider = (props) => {
     getShopSettings();
     fetchCategoriesList();
     fetchCartList(userId);
-    diningMenuList();
     fetchMenuList();
     fetchCurrentShopStatus();
     // if (userToken) {
@@ -169,14 +167,18 @@ export const AppContextProvider = (props) => {
   useEffect(() => {
     if (productsList.length == 0) {
       if (!categoryList || categoryList.length === 0) return;
-      console.log(categoryList, "catehoskg");
+
+      if (!categoryList) return;
+
+      const validCategories = categoryList.filter(
+        (list) => list.productsCount?.online > 0
+      );
+
       const catId =
-        categoryList &&
-        Array.isArray(categoryList) &&
-        categoryList.length != 0 &&
-        categoryList &&
-        categoryList[0]?.cID;
-      console.log(categoryList && categoryList[0], catId, "categoryList1");
+        validCategories &&
+        validCategories.length > 0 &&
+        validCategories[0]?.cID;
+
       const isCheck =
         productsList &&
         productsList.length != 0 &&
@@ -327,9 +329,9 @@ export const AppContextProvider = (props) => {
         deliveryLoading,
         GuestDiscountoftakeaway,
         GuestDeliveryDetails,
-        diningMenuList,
-        diningLoading,
-        diningList,
+        mergedState,
+        setMergedState,
+        fetchCurrentShopStatus,
         currentStatus,
       }}
     >

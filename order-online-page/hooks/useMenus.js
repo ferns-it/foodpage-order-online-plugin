@@ -9,9 +9,7 @@ const useMenus = () => {
   const [deliveryFee, setDeliveryFee] = useState(null);
   const [cartLoading, setCartLoading] = useState(false);
   const [categoryList, setCategoryList] = useState(null);
-  const [diningList, setDiningList] = useState(null);
   const [settings, setSettings] = useState(null);
-  const [diningLoading, setDiningLoading] = useState(false);
   const [deliveryInfo, setDeliveryInfo] = useState(null);
   const [menuLoading, setMenuLoading] = useState(false);
   const [locationResponse, setLocationResponse] = useState(null);
@@ -35,17 +33,44 @@ const useMenus = () => {
       setMenuLoading(false);
     }
   };
+
   const deleteSingleCartItem = async (id, { onSuccess, onFailed }) => {
     try {
       setCartLoading(true);
+      let userToken = getLocalStorageItem("userToken");
+      if (!userToken) {
+        userToken = getLocalStorageItem("UserPersistent");
+      }
+      if (!userToken) {
+        onFailed(new Error("User is not authenticated"));
+        return;
+      }
+      const headers = {
+        user: userToken,
+      };
       await BaseClient.delete(APIEndpoints.deleteCartItem + `/${id}`, {
+        headers: headers,
         onSuccess: onSuccess,
         onFailed: onFailed,
       });
+    } catch (error) {
+      onFailed(error);
     } finally {
       setCartLoading(false);
     }
   };
+
+  // const deleteSingleCartItem = async (id, { onSuccess, onFailed }) => {
+  //   try {
+  //     setCartLoading(true);
+  //     await BaseClient.delete(APIEndpoints.deleteCartItem + `/${id}`, {
+  //       onSuccess: onSuccess,
+  //       onFailed: onFailed,
+  //     });
+  //   } finally {
+  //     setCartLoading(false);
+  //   }
+  // };
   const fetchCategoriesList = async () => {
     try {
       setCategoryLoading(true);
@@ -59,24 +84,6 @@ const useMenus = () => {
       });
     } finally {
       setCategoryLoading(false);
-    }
-  };
-  const diningMenuList = async () => {
-    try {
-      setDiningLoading(true);
-      await BaseClient.get(APIEndpoints.diningMenu, [], {
-        onSuccess: (res) => {
-          console.log(res.data, "response");
-          setDiningList(res?.data?.data?.items);
-          setDiningLoading(false);
-        },
-        onFailed: (err) => {
-          console.log("Error on fetching menus", err);
-          setDiningLoading(false);
-        },
-      });
-    } finally {
-      setDiningLoading(false);
     }
   };
   const fetchCartList = async (userId) => {
@@ -162,7 +169,7 @@ const useMenus = () => {
         BaseClient.get(
           APIEndpoints.productList +
             `/${data?.shopId}` +
-            `/${data?.categoryId}/online`,
+            `/${data?.categoryId}`,
           null,
           {
             onSuccess: (res) => {
@@ -242,9 +249,6 @@ const useMenus = () => {
     deleteSingleCartItem,
     cartLoading,
     getShopSettings,
-    diningMenuList,
-    diningLoading,
-    diningList,
     settings,
     deliveryInfo,
     categoryLoading,

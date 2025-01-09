@@ -65,6 +65,8 @@ function OtpVerification() {
     const header = {
       alg: "FP2024",
       typ: "JWT",
+      // exp: Math.floor(Date.now() / 1000) + (5 * 60),//! one min
+      exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60), //! one day
     };
     const encodedHeaders = btoa(JSON.stringify(header));
     const encodedPayload = btoa(JSON.stringify(payload));
@@ -89,6 +91,8 @@ function OtpVerification() {
     }
   };
 
+  const loginedMail  = getSessionStorageItem("loginMail") ?? ""
+
   return (
     <section className="table_reserv__">
       <div className="container">
@@ -96,7 +100,7 @@ function OtpVerification() {
           <h3 className="table-reservation-form-head">OTP VERIFICATION </h3>
           <p className="table_reserv_info_sub_head text-center">
             Your OTP has been send to your mail addesss{" "}
-            <span>{getSessionStorageItem("loginMail")}</span>
+            <span>{loginedMail}</span>
           </p>
           <div className="otp_validation_reserv">
             <OTPInput
@@ -104,7 +108,6 @@ function OtpVerification() {
               onChange={(e) => setResertOTP(e)}
               numInputs={6}
               renderSeparator={<span>-</span>}
-              className="inputs"
               renderInput={(props) => <input {...props} />}
             />
             <p className="resend_otp_reservv">
@@ -113,11 +116,7 @@ function OtpVerification() {
                 <span onClick={resendOTP}>Resend OTP</span>
               ) : (
                 <span
-                  style={{
-                    userSelect: "none",
-                    cursor: "not-allowed",
-                    textDecoration: "none",
-                  }}
+                  className="cursor__"
                 >
                   Loading...
                 </span>
