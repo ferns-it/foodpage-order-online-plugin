@@ -39,11 +39,14 @@ export default class Utils {
   }
 
   static stripHtml(html) {
-    const temporalDivElement = document.createElement("div");
-
-    temporalDivElement.innerHTML = html;
-
-    return temporalDivElement.textContent || temporalDivElement.innerText || "";
+    if (typeof document !== "undefined") {
+      const temporalDivElement = document.createElement("div");
+      temporalDivElement.innerHTML = html;
+      return (
+        temporalDivElement.textContent || temporalDivElement.innerText || ""
+      );
+    }
+    return html;
   }
   static convertTiming = (time24) => {
     // Split the time into hours, minutes, and seconds

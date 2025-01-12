@@ -25,9 +25,14 @@ function FoodCards(category) {
   const [productDataValues, setProductDataValues] = useState(null);
 
   function stripHtml(html) {
-    const temporalDivElement = document.createElement("div");
-    temporalDivElement.innerHTML = html;
-    return temporalDivElement.textContent || temporalDivElement.innerText || "";
+    if (typeof document !== "undefined") {
+      const temporalDivElement = document.createElement("div");
+      temporalDivElement.innerHTML = html;
+      return (
+        temporalDivElement.textContent || temporalDivElement.innerText || ""
+      );
+    }
+    return html;
   }
 
   useEffect(() => {
