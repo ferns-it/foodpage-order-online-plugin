@@ -20,10 +20,7 @@ function FoodCardsSkeleton() {
                       <div className="row fda_food_row position-relative">
                         <div className="mx-auto w-100" >
                           <a
-                            className="prod_anchor"
-                            style={{
-                              textDecoration: "none",
-                            }}
+                            className="prod_anchor user-select-none"
                           >
                             <div
                               className="food_tile__ active mb-4 p-3"
@@ -31,9 +28,8 @@ function FoodCardsSkeleton() {
                             >
                               <img
                                 // src={data?.photo}
-                                alt=""
-                                className="fda_product_img"
-                                style={{ opacity: 0 }}
+                                alt="productimg"
+                                className="fda_product_img opacity-0"
                               />
                               {/* <div className="skeliton_round">
                                 <Skeleton circle height={130} width={130} />

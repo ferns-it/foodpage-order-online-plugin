@@ -25,26 +25,7 @@ input[type="checkbox"]:focus textarea,
   outline: 0 none;
   border-color: #747474 !important;
 }
-body {
-  font-family: sans-serif;
-}
-.btn_check {
-  width: 25%;
 
-  background-color: #e03f3f;
-  color: #fff;
-  font-weight: 600;
-  border-radius: 5px;
-  transition: all 0.2s ease-in-out;
-}
-.form-control {
-  border: 1px solid rgb(209, 209, 209);
-  height: 48px;
-  border-radius: 4px;
-}
-.ffm {
-  font-family: "Roboto", sans-serif !important;
-}
 /* Order online page style */
 body {
   background-color: #fff;
@@ -61,9 +42,7 @@ body {
   margin: 0;
   text-align: left !important;
 }
-.links_order {
-  color: #ab2e2e !important;
-}
+
 .order_list ul li {
   text-align: left !important;
   text-transform: uppercase;
@@ -264,12 +243,6 @@ body {
     margin: 0px auto;
     width: 73%;
   }
-  .web-res {
-    display: none;
-  }
-  .mob-res {
-    display: block;
-  }
 }
 
 .order-online {
@@ -373,7 +346,6 @@ body {
 .food_order_area {
   display: flex;
   justify-content: center;
-  font-family: sans-serif !important;
   align-items: start;
   width: 90%;
   padding: 20px 0;
@@ -534,7 +506,6 @@ body {
 .order_title {
   font-size: 18px;
   font-weight: 700;
-  font-family: sans-serif;
   color: #747474;
   margin-top: 20px;
 }
@@ -587,7 +558,6 @@ body {
 .summary_card {
   position: relative;
   padding: 10px;
-  width: 100%;
   background-color: #faf3cc;
   /* border: 1px solid #ffad02; */
   border: none;
@@ -723,7 +693,7 @@ body {
   padding: 7px 0;
   border: none;
   outline: none;
-  background-color: #027881;
+  background-color: #fd4645;
   color: #fff;
   font-size: 16px;
   font-weight: 700;
@@ -732,11 +702,11 @@ body {
 }
 
 .order_now_192:hover {
-  background-color: #3b848a;
+  background-color: #e03f3f;
 }
 
 .order_now_192:disabled {
-  background-color: #6ac6c9;
+  background-color: #da6d6d;
 }
 
 /* .summary_item_wrapper_029 {
@@ -838,7 +808,7 @@ body {
   position: sticky;
   position: -webkit-sticky;
   display: unset;
-  top: 10px;
+  top: 100px;
   width: auto;
   transition: all 0.5s ease-in-out;
   border: none !important;
@@ -1185,29 +1155,26 @@ body {
 .inc_dec_wrapper_0291 {
   display: block;
   position: relative;
-  width: 120px;
+  width: 140px;
   height: 100%;
-  margin: 0px auto;
   padding: 10px;
-  /* margin: 0 auto; */
+  margin: 0 auto;
   margin-bottom: 50px;
 }
 
-.order-modal-container {
-  background-color: #f2f1f2;
+.incDec_wrapper_0291 {
+  /* width: 100%; */
+  background-color: #f2f1f2;  
   border-radius: 20px;
   overflow: hidden;
-  width: 120px;
-  margin: 0px auto !important;
-  text-align: center !important;
   border: 1px solid #e03f3f;
 }
 
-.order-modal-container > .toggle-checkbox {
+.incDec_wrapper_0291 > .toggle-checkbox {
   display: none;
 }
 
-.order-modal-container > .counter-container {
+.incDec_wrapper_0291 > .counter-container {
   display: flex;
   align-items: center;
 }
@@ -1470,9 +1437,7 @@ body {
   height: 100%;
   object-fit: cover;
 }
-.object-fit-contain {
-  object-fit: contain !important;
-}
+
 .collapse_accordion_001 {
   background-color: #fff;
   border: none;
@@ -1657,13 +1622,13 @@ body {
 
 @media screen and (max-width: 600px) {
   .order_summary_checkout {
-    padding: 0 0 6rem 0;
+    padding-top: 6rem;
   }
   .login_summary_card_0928 {
     padding: 10px;
   }
   .login_order_online_form_0283 {
-    height: 100%;
+    height: 100% !important;
   }
   .order_online_horiz_line {
     display: none;
@@ -1709,24 +1674,15 @@ body {
 
 .online_order_plugin_input_2939 {
   border-radius: 2px;
-  font-weight: 500;
-  font-family: sans-serif !important;
 }
 
 .online_order_plugin_input_2939.error___ {
   border-color: #e61a16 !important;
 }
-.table_reservation_card {
-  padding: 10px;
-  /* width: 75%; */
-  border: 1px solid rgb(179, 179, 179) !important;
-  margin: 0 auto;
-  border-radius: 4px;
-}
 
 .login_order_online_form_0283 {
   transition: all 0.3s ease-in-out;
-  height: auto;
+  height: 600px;
   margin-top: 20px;
   overflow: hidden;
   padding: 10px;
@@ -1740,7 +1696,6 @@ body {
 .online_order_plugin_txtarea_2939 {
   font-size: 15px;
   height: 120px;
-  font-family: sans-serif !important;
   /* min-height: 150px; */
 }
 
@@ -2321,6 +2276,7 @@ body {
   color: #747474;
   padding: 0 0 0 40px;
   user-select: none;
+  float: left;
 }
 
 @keyframes skeleton-shine {
@@ -2547,18 +2503,15 @@ body {
 
 #fda_product_tile {
   position: relative;
-  min-height: 220px;
+  min-height: 300px;
   background: rgb(238, 238, 238);
   color: #af2329;
   /* border: 1px dashed #7777; */
-  margin-bottom: 0 !important;
   transition: all 0.2s ease-in-out;
   font-size: 11px;
   padding: 0 25px;
   border-radius: 25px;
-  margin-top: 20px;
-  margin: 0px auto;
-  margin: 10px;
+  margin: 30px 0;
 }
 
 @media screen and (max-width: 1400px) {
@@ -2578,10 +2531,10 @@ body {
 
 .fda_food_row div.food_tile__ img {
   position: relative;
-  width: 130px;
-  height: 130px;
+  width: 150px;
+  height: 150px;
   border-radius: 100%;
-  padding: 20px;
+  padding: 0;
   /* background-color: rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 0 25px rgba(255, 255, 255, 0.15),
     inset 0 4px 0 rgba(0, 0, 0, 0.05), inset 0 -4px 0 rgba(0, 0, 0, 0.05),
@@ -2597,13 +2550,13 @@ div.food_tile__.active img {
 }
 
 .dish_name {
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 600;
   letter-spacing: 1px;
   color: rgba(38, 29, 86, 1);
   margin-bottom: 12px;
-  font-family: sans-serif;
   text-align: center !important;
+  text-transform: capitalize !important;
 }
 
 .food_detail {
@@ -2616,33 +2569,8 @@ div.food_tile__.active img {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   text-align: center;
-  line-height: 1rem;
 }
-.small-card {
-  display: none;
-}
-.orde_noe_brn {
-  font-size: 15px;
-  background-color: #268b94;
-  color: #fff;
-  border-radius: 4px;
-  width: 20%;
-  margin: 0;
-  position: absolute;
-  bottom: 40px;
-}
-.button_order {
-  font-size: 15px;
-  background-color: #268b94;
-  color: #fff;
-  margin-bottom: 10px;
-  border-radius: 4px;
-  width: 100px;
-  margin: 0;
-}
-.mob-res {
-  display: none;
-}
+
 /* .billing_block{
   position: fixed;
   right: 10px;
@@ -2650,6 +2578,7 @@ div.food_tile__.active img {
 } */
 .foodmenuList {
   padding-right: 10px;
+  padding-top: 20px;
 }
 
 .prod_price {
@@ -2658,7 +2587,6 @@ div.food_tile__.active img {
   left: 50%;
   transform: translateX(-50%);
   font-size: 1.2rem;
-  font-family: sans-serif;
   font-weight: 700 !important;
 }
 .add_to_cart {
@@ -2669,7 +2597,7 @@ div.food_tile__.active img {
   border: none;
   outline: none;
   background-color: transparent;
-  background-color: #027881;
+  background-color: #e03f3f;
   font-size: 14px;
   padding: 3px 20px;
   border-radius: 5px;
@@ -2806,37 +2734,7 @@ div.food_tile__.active img {
   .lg_summary {
     display: none;
   }
-  .small-card {
-    display: block;
-  }
-  .web-res {
-    display: none;
-  }
 }
-.orde_noe_brn {
-  font-size: 15px;
-  background-color: #268b94;
-  color: #fff;
-  border-radius: 4px;
-  width: 100px !important;
-  margin: 0;
-  bottom: auto !important;
-  position: relative !important;
-}
-.button_clear {
-  color: red;
-  font-size: 19px;
-}
-.clr_cart_btn {
-  border: 1px solid #e03f3f;
-  color: #e03f3f;
-  border-radius: 4px;
-  font-size: 10px;
-  background-color: transparent;
-  width: 70px;
-  font-weight: 700;
-  font-family: sans-serif;
-  float: right;
-  position: relative;
-  top: -40px;
+.mb-50 {
+  margin-bottom: 50px;
 }

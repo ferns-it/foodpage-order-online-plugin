@@ -1,3 +1,4 @@
+"use client";
 import { Fragment } from "react";
 import { FadeLoader } from "react-spinners";
 import Lottie from "react-lottie";

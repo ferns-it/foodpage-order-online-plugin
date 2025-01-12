@@ -1,7 +1,8 @@
+"use client";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import * as Fa from "react-icons/fa";
 import * as Io from "react-icons/io";
-import * as Tb from "react-icons/tb";
+import Utils from "../utils/Utils";
 import { toast, Toaster } from "react-hot-toast";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -10,10 +11,22 @@ import { useRouter } from "next/navigation";
 import {
   getLocalStorageItem,
   getSessionStorageItem,
+  reloadCurrentPage,
   removeSessionStorageItem,
   setLocalStorageItem,
   setSessionStorageItem,
 } from "../../_utils/ClientUtils";
+import { TableReservationContext } from "../../table-reservation/context/TableReservationContext";
+
+const days = [
+  "sunday",
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+  "saturday",
+];
 
 function OrderSummary() {
   const router = useRouter();
@@ -27,7 +40,6 @@ function OrderSummary() {
     menuList,
     settings,
     getShopSettings,
-    clearCartItems,
     delivery,
     setDelivery,
     locationResponseData,
@@ -37,11 +49,12 @@ function OrderSummary() {
     GuestDiscountoftakeaway,
     shopId,
     GuestDeliveryDetails,
+    clearCartItems,
   } = useContext(AppContext);
+  const { shopTiming } = useContext(TableReservationContext);
 
   const [showAddons, setShowAddons] = useState(null);
   const [deleteIndex, setDeleteIndex] = useState(-1);
-  const [locationData, setLocationData] = useState(null);
   const [takeawayTime, setTakeawayTime] = useState(null);
   const [error, setError] = useState(false);
   const [discount, setDiscount] = useState(0);
@@ -49,11 +62,12 @@ function OrderSummary() {
   const [convertedDistance, setConvertedDistance] = useState(null);
   const [time, setTime] = useState("");
   const [takeaway, setTakeaway] = useState(null);
-  const [response, setResponse] = useState(null);
   const [takeawayTotal, setTakeawayTotal] = useState(null);
-  const [postcodeData, setPostcodeData] = useState(null);
+
   const [postalCode, setPostalCode] = useState("");
   const [locationLoading, setLocationLoading] = useState(false);
+
+  const [timeIntervals, setTimeIntervals] = useState(null);
 
   useEffect(() => {
     const value = cartItems?.cartTotal?.cartTotalPrice;
@@ -80,11 +94,49 @@ function OrderSummary() {
     //   calculateDiscounts();
     // }
   }, [cartItems, deliveryInfo]);
+  console.log(shopTiming);
+
+  useEffect(() => {
+    if (!shopTiming) return;
+
+    if (!shopTiming || shopTiming.length === 0) {
+      setTimeIntervals([]);
+      return;
+    }
+
+    const timing = shopTiming?.shopTiming;
+    const today = new Date().getDay();
+    const dayValue = days[today];
+    const todaysTiming = timing[dayValue];
+    const now = new Date();
+
+    const currentHours = now.getHours();
+    const currentMinutes = now.getMinutes();
+
+    const findIntervals = todaysTiming
+      .filter((time) => time?.status === "active")
+      .flatMap((time) =>
+        Utils.get15MinuteIntervals(time.openingTime, time.closingTime)
+      )
+      .filter((interval) => {
+        const [hour, minute] = interval.split(":").map(Number);
+
+        // Compare each interval time to the current time
+        return (
+          hour > currentHours ||
+          (hour === currentHours && minute > currentMinutes)
+        );
+      });
+
+    setTimeIntervals(findIntervals);
+  }, [shopTiming]);
+
   const handleTakeaway = () => {
     setDelivery(true);
     removeSessionStorageItem("distance");
     removeSessionStorageItem("deliveryFee");
   };
+
   const processLocationData = (locationData) => {
     if (!locationData) return;
     const mileToKMConversionFactor = 0.62137119;
@@ -120,6 +172,7 @@ function OrderSummary() {
     setTakeawayTime(null);
     setDelivery(false);
     removeSessionStorageItem("guest");
+    setSessionStorageItem("deliveryCondition", false);
   };
 
   const calculateTakwawayDiscount = async () => {
@@ -142,14 +195,14 @@ function OrderSummary() {
             toast.success("Continue to checkout", { icon: "👍🏻" });
             const deliveryResp = res.data.data;
             setTakeaway(res?.data?.discountAmount);
-            sessionStorage.setItem("type", delivery);
-            sessionStorage.setItem("discount", takeaway);
-            sessionStorage.setItem("takeawaytime", takeawayTime);
-            sessionStorage.setItem("location", "checkout");
-            const pathname = `/checkout?price=${deliveryResp?.cart_NetAmount}&&deliveryCharge=0&&discount=${deliveryResp?.discountAmount}`;
+            setSessionStorageItem("type", delivery);
+            setSessionStorageItem("discount", takeaway);
+            setSessionStorageItem("takeawaytime", takeawayTime);
+            setSessionStorageItem("location", "checkout");
+            const pathname = `/checkout?delivery=true&&price=${deliveryResp?.cart_NetAmount}&&deliveryCharge=0&&discount=${deliveryResp?.discountAmount}`;
             setLocalStorageItem("path", pathname);
             setTimeout(() => {
-              router.replace(pathname);
+              router.push(pathname);
             }, 200);
             setSessionStorageItem(
               "deliveryResponse",
@@ -187,7 +240,6 @@ function OrderSummary() {
       await GuestDeliveryDetails(payload, {
         headers: headers,
         onSuccess: async (res) => {
-          console.log(res, ":respones");
           if (res?.data?.error == false) {
             const deliveryResp = res.data.data;
             if (deliveryResp) {
@@ -196,18 +248,18 @@ function OrderSummary() {
                 JSON.stringify(deliveryResp)
               );
               toast.success("Continue to checkout", { icon: "👍🏻" });
-              sessionStorage.setItem("location", "/checkout");
-              sessionStorage.setItem("postcode", postalCode);
-              sessionStorage.setItem("type", delivery);
-              sessionStorage.setItem(
+              setSessionStorageItem("location", "/checkout");
+              setSessionStorageItem("postcode", postalCode);
+              setSessionStorageItem("type", delivery);
+              setSessionStorageItem(
                 "discount",
                 res?.data?.data?.discountAmount
               );
-              sessionStorage.setItem("isCheckoutActive", true);
-              const pathname = `/checkout?price=${deliveryResp?.cart_NetAmount}&&deliveryCharge=${deliveryResp?.deliveryFeeAmount}&&discount=${deliveryResp?.discountAmount}`;
+              setSessionStorageItem("isCheckoutActive", true);
+              const pathname = `/checkout?delivery=false&&price=${deliveryResp?.cart_NetAmount}&&deliveryCharge=${deliveryResp?.deliveryFeeAmount}&&discount=${deliveryResp?.discountAmount}`;
               setLocalStorageItem("path", pathname);
               setTimeout(() => {
-                router.replace(pathname);
+                router.push(pathname);
               }, 200);
             }
             return;
@@ -314,54 +366,55 @@ function OrderSummary() {
     setTime(formattedTime);
     setTakeawayTime(formattedTime);
   };
+
   const clearcart = async () => {
     const userID = getLocalStorageItem("UserPersistent");
-    console.log(userID, "useridsdas");
+
     await clearCartItems(userID, {
       onSuccess: async (res) => {
-        console.log("cart cleared", res);
         toast.success("Cart Cleared!");
+        reloadCurrentPage();
         await fetchCartList(userID);
       },
       onFailed: (err) => {
-        console.log("Error on cart clear", err);
         toast.err("Something Went Wrong!");
       },
     });
   };
-  console.log(settings, "settings");
+
   return (
     <Fragment>
       <Toaster position="top-center" reverseOrder={false} />
       <div style={{ width: "100%" }}>
-        <h3 className="order_title col-md-6">Order Summary</h3>
-        {cartLoading ? (
-          <button disabled className="clr_cart_btn col-md-6">
-            Submitting..
-          </button>
-        ) : (
-          <button
-            type="button"
-            className="clr_cart_btn col-md-6"
-            onClick={clearcart}
-          >
-            Clear Cart
-          </button>
+        <h3 className="order_title text-center">Order Summary</h3>
+        {cartItems && cartItems?.cartItems.length != 0 && (
+          <>
+            {cartLoading ? (
+              <button disabled className="clr_cart_btn col-md-6">
+                Submitting..
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="clr_cart_btn col-md-6"
+                onClick={clearcart}
+              >
+                Clear Cart
+              </button>
+            )}
+          </>
         )}
 
         <div className="summary_item_wrapper_029">
           {cartItems && cartItems.cartItems.length != 0 ? (
             <div className="summary_card card">
               {cartItems &&
-                cartItems.cartItems.map((item, mainIndex) => {
+                cartItems.cartItems.map((item, index) => {
                   const addOns = item?.addon_apllied;
                   const masterAddons = item?.master_addon_apllied;
                   return (
                     <>
-                      <div
-                        className="position-relative mb-4"
-                        key={item.id || mainIndex}
-                      >
+                      <div className="position-relative mb-4" key={index}>
                         <div className="d-flex">
                           <p className="food_menu m-0 food_title_299">
                             <strong>{item?.productName ?? "N/A"} - </strong>
@@ -373,7 +426,7 @@ function OrderSummary() {
                         </div>
                         <div
                           className={`add_ons_wrapper_order_summary ${
-                            showAddons && showAddons.includes(mainIndex)
+                            showAddons && showAddons.includes(index)
                               ? "show"
                               : ""
                           }`}
@@ -381,27 +434,22 @@ function OrderSummary() {
                           <table className="addOnsList028">
                             {addOns &&
                               addOns.length != 0 &&
-                              addOns.map((add, addsOnindex) => {
+                              addOns.map((add, index) => {
                                 return (
                                   <>
-                                    <tbody>
-                                      <span key={addsOnindex}>
-                                        <strong>{add?.title}</strong>
-                                      </span>
-
-                                      {add &&
-                                        add.choosedOption.length != 0 &&
-                                        add.choosedOption.map(
-                                          (data, chooseIndex) => {
-                                            return (
-                                              <tr key={chooseIndex}>
-                                                <td>{data?.text}</td>
-                                                <td>{data?.price}</td>
-                                              </tr>
-                                            );
-                                          }
-                                        )}
-                                    </tbody>
+                                    <span key={index}>
+                                      <strong>{add?.title}</strong>
+                                    </span>
+                                    {add &&
+                                      add.choosedOption.length != 0 &&
+                                      add.choosedOption.map((data, index) => {
+                                        return (
+                                          <tr key={index}>
+                                            <td>{data?.text}</td>
+                                            <td>{data?.price}</td>
+                                          </tr>
+                                        );
+                                      })}
                                   </>
                                 );
                               })}
@@ -409,24 +457,22 @@ function OrderSummary() {
                           <table className="addOnsList028">
                             {masterAddons &&
                               masterAddons.length != 0 &&
-                              masterAddons.map((add, masterAddindex) => {
+                              masterAddons.map((add, index) => {
                                 return (
                                   <>
-                                    <tbody>
-                                      <span key={masterAddindex}>
-                                        <strong>{add?.title}</strong>
-                                      </span>
-                                      {add &&
-                                        add.choosedOption.length != 0 &&
-                                        add.choosedOption.map((data, index) => {
-                                          return (
-                                            <tr key={index}>
-                                              <td>{data?.text}</td>
-                                              <td>{data?.price}</td>
-                                            </tr>
-                                          );
-                                        })}
-                                    </tbody>
+                                    <span key={index}>
+                                      <strong>{add?.title}</strong>
+                                    </span>
+                                    {add &&
+                                      add.choosedOption.length != 0 &&
+                                      add.choosedOption.map((data, index) => {
+                                        return (
+                                          <tr key={index}>
+                                            <td>{data?.text}</td>
+                                            <td>{data?.price}</td>
+                                          </tr>
+                                        );
+                                      })}
                                   </>
                                 );
                               })}
@@ -438,9 +484,9 @@ function OrderSummary() {
                           (masterAddons && masterAddons.length != 0) ? (
                             <button
                               className="summary_addons_collapse_btn"
-                              onClick={() => toggleFoodLists(mainIndex)}
+                              onClick={() => toggleFoodLists(index)}
                             >
-                              {showAddons && showAddons.includes(mainIndex) ? (
+                              {showAddons && showAddons.includes(index) ? (
                                 <Fragment>
                                   <Io.IoIosArrowRoundUp />{" "}
                                   <span>Know less</span>
@@ -460,11 +506,11 @@ function OrderSummary() {
                             type="button"
                             className="remove"
                             onClick={() =>
-                              handleDeleteItem(item?.cartID, mainIndex)
+                              handleDeleteItem(item?.cartID, index)
                             }
-                            disabled={cartLoading && deleteIndex === mainIndex}
+                            disabled={cartLoading && deleteIndex === index}
                           >
-                            {cartLoading && deleteIndex === mainIndex ? (
+                            {cartLoading && deleteIndex === index ? (
                               <span
                                 className="spinner-border spinner-border-sm"
                                 role="status"
@@ -484,16 +530,14 @@ function OrderSummary() {
                 {delivery == true || delivery == "true" ? (
                   <>
                     <Fragment>
-                      <tbody>
-                        <tr className="discount_order_summary">
-                          <td>
-                            <b>Cart total</b>
-                          </td>
-                          <td>
-                            <b>{cartItems?.cartTotal?.cartTotalPriceDisplay}</b>
-                          </td>
-                        </tr>
-                      </tbody>
+                      <tr className="discount_order_summary">
+                        <td>
+                          <b>Cart total</b>
+                        </td>
+                        <td>
+                          <b>{cartItems?.cartTotal?.cartTotalPriceDisplay}</b>
+                        </td>
+                      </tr>
                       {/* <tr className="discount_order_summary">
                       <td>Discount</td>
                       <td>-£{takeaway}</td>
@@ -507,21 +551,14 @@ function OrderSummary() {
                 ) : (
                   <>
                     <Fragment>
-                      <tbody>
-                        {" "}
-                        <tr className="discount_order_summary">
-                          <td>
-                            <b>Cart total</b>
-                          </td>
-                          <td id="sub_total_amt_order_summary">
-                            <b>
-                              {" "}
-                              {cartItems?.cartTotal?.cartTotalPriceDisplay}
-                            </b>
-                          </td>
-                        </tr>
-                      </tbody>
-
+                      <tr className="discount_order_summary">
+                        <td>
+                          <b>Cart total</b>
+                        </td>
+                        <td id="sub_total_amt_order_summary">
+                          <b> {cartItems?.cartTotal?.cartTotalPriceDisplay}</b>
+                        </td>
+                      </tr>
                       {/* <tr className="discount_order_summary">
                       <td>Discount</td>
                       <td>-£ {discount}</td>
@@ -604,7 +641,7 @@ function OrderSummary() {
                     Pickup Time
                   </label>
                   <div className="inp_wrapper_827">
-                    <input
+                    {/* <input
                       type="time"
                       name=""
                       id=""
@@ -614,7 +651,26 @@ function OrderSummary() {
                           : "opt_input_827"
                       }
                       onChange={validateCurrentTime}
-                    />
+                    /> */}
+                    <select
+                      name=""
+                      id=""
+                      onChange={validateCurrentTime}
+                      className="form-control form-select"
+                    >
+                      <option value="0" selected disabled>
+                        Choose Takeaway time
+                      </option>
+                      {timeIntervals &&
+                        timeIntervals.length != 0 &&
+                        timeIntervals.map((interval, idx) => {
+                          return (
+                            <option value={interval}>
+                              {Utils.convertTiming(interval)}
+                            </option>
+                          );
+                        })}
+                    </select>
                   </div>
                   {error && <div className="error-message">{error}</div>}
                   <div className="mt-2 text-center">
@@ -660,12 +716,7 @@ function OrderSummary() {
             )}
 
             <h6
-              style={{
-                color: "#da6d6d",
-                fontSize: "10px",
-                fontWeight: "500",
-                fontFamily: "sans-serif",
-              }}
+              style={{ color: "#da6d6d", fontSize: "10px", fontWeight: "500" }}
               className="text-center"
             >
               Minimum Amount for Card payment is £

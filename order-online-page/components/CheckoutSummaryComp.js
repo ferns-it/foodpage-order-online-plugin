@@ -204,7 +204,7 @@ function CheckoutSummaryComp() {
             <div className="order_online_food_list_checkout_83 p-2">
               {cartItems?.cartItems != null &&
                 Array.isArray(cartItems?.cartItems) &&
-                cartItems?.cartItems?.map((item, index) => {
+                cartItems?.cartItems?.map((item, cindex) => {
                   const addon = item.addon_apllied;
                   const masterAddon = item?.master_addon_apllied;
                   const adjustedTotal = item?.total / 100;
@@ -213,12 +213,9 @@ function CheckoutSummaryComp() {
                   );
 
                   return (
-                    <div key={index}>
+                    <Fragment key={cindex}>
                       <hr />
-                      <div
-                        className="d-flex justify-content-between align-items-center"
-                      
-                      >
+                      <div className="d-flex justify-content-between align-items-center">
                         <b>
                           {item?.productName}*{item?.quantity}
                         </b>
@@ -271,7 +268,7 @@ function CheckoutSummaryComp() {
                             </div>
                           );
                         })}
-                    </div>
+                    </Fragment>
                   );
                 })}
             </div>
@@ -285,7 +282,12 @@ function CheckoutSummaryComp() {
               <Fragment>
                 <div className="d-flex justify-content-between align-items-center mt-3">
                   <h6>Discount</h6>
-                  <p className="m-0">- £{details?.discountAmount ?? 0}</p>
+                  <p className="m-0">
+                    - £
+                    {details?.discountAmount != null
+                      ? details.discountAmount.toFixed(2)
+                      : "0.00"}
+                  </p>
                 </div>
 
                 {/* {type === "true" ? (
@@ -311,7 +313,9 @@ function CheckoutSummaryComp() {
                 {type === "false" || type === false ? (
                   <div className="d-flex justify-content-between align-items-center">
                     <h6 className="mt-2">Delivery fee </h6>
-                    <p className="m-0">£{details?.deliveryFeeAmount ?? 0}</p>
+                    <p className="m-0">
+                      £{details?.deliveryFeeAmount.toFixed(2) ?? 0}
+                    </p>
                   </div>
                 ) : (
                   <Fragment></Fragment>
