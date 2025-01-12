@@ -438,7 +438,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                         No of Party Size
                       </label>
 
-                      <div className="inc_dec_wrapper_0291">
+                      <div className="inc_dec_wrapper_0291" id="table_reserv_inpDec">
                         <div className="incDec_wrapper_0291">
                           <input
                             type="checkbox"
