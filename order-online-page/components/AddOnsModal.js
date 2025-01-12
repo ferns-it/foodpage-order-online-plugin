@@ -77,16 +77,16 @@ function AddOnsModal(props) {
   };
 
   useEffect(() => {
-    if (props.showModal) {
+    if (typeof document !== "undefined" && props.showModal) {
       document.addEventListener("mousedown", handleClickOutside);
       document.addEventListener("keydown", handleEscKeyPress);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleEscKeyPress);
     }
+
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleEscKeyPress);
+      if (typeof document !== "undefined") {
+        document.removeEventListener("mousedown", handleClickOutside);
+        document.removeEventListener("keydown", handleEscKeyPress);
+      }
     };
   }, [props.showModal]);
 

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { Fragment, useContext, useEffect, useRef } from "react";
 import "../style/style.css";
 import "../../order-online-page/style/order-online-style.css"; //? style from order online
@@ -18,18 +18,32 @@ function ReservModal(props) {
   const reservAction = props.action;
 
   useEffect(() => {
-    if (props.showModal) {
+    if (typeof document !== "undefined" && props.showModal) {
       document.addEventListener("mousedown", handleClickOutside);
       document.addEventListener("keydown", handleEscKeyPress);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleEscKeyPress);
     }
+
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleEscKeyPress);
+      if (typeof document !== "undefined") {
+        document.removeEventListener("mousedown", handleClickOutside);
+        document.removeEventListener("keydown", handleEscKeyPress);
+      }
     };
   }, [props.showModal]);
+
+  // useEffect(() => {
+  //   if (props.showModal) {
+  //     document.addEventListener("mousedown", handleClickOutside);
+  //     document.addEventListener("keydown", handleEscKeyPress);
+  //   } else {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //     document.removeEventListener("keydown", handleEscKeyPress);
+  //   }
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //     document.removeEventListener("keydown", handleEscKeyPress);
+  //   };
+  // }, [props.showModal]);
 
   const handleClickOutside = async (event) => {
     if (modalRef.current && !modalRef.current.contains(event.target)) {

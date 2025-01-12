@@ -35,11 +35,14 @@ export default class Utils {
   }
 
   static stripHtml(html) {
-    const temporalDivElement = document.createElement("div");
-
-    temporalDivElement.innerHTML = html;
-
-    return temporalDivElement.textContent || temporalDivElement.innerText || "";
+    if (typeof document !== "undefined") {
+      const temporalDivElement = document.createElement("div");
+      temporalDivElement.innerHTML = html;
+      return (
+        temporalDivElement.textContent || temporalDivElement.innerText || ""
+      );
+    }
+    return html;
   }
 
   static get15MinuteIntervals(openingTime, closingTime) {
