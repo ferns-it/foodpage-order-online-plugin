@@ -33,6 +33,7 @@ function OrderSummaryCheckout() {
     discount: 0,
     deliveryFee: 0,
   });
+  const [deliveryResponse, setDeliveryResponse] = useState(null);
   const [confirmOrderLoading, setConfirmOrderLoading] = useState(false);
   const {
     delivery,
@@ -97,7 +98,11 @@ function OrderSummaryCheckout() {
   const [fieldError, setFieldError] = useState(false);
   const [discountData, setDiscountData] = useState(null);
   const [intentLoading, setIntentLoading] = useState(false);
-
+  useEffect(() => {
+    const res = getSessionStorageItem("deliveryResponse");
+    const response = JSON.parse(res);
+    setDeliveryResponse(response);
+  }, [activeCard]);
   useEffect(() => {
     const price = searchParams.get("price");
     const deliveryCharge = searchParams.get("deliveryCharge");
@@ -366,6 +371,12 @@ function OrderSummaryCheckout() {
       const data = paymentData?.data?.data;
       const discount = sessionStorage.getItem("discount");
       const details = JSON.parse(getSessionStorageItem("deliveryResponse"));
+      if (deliveryResponse == null || deliveryResponse == undefined) {
+        const res = getSessionStorageItem("deliveryResponse");
+        const response = JSON.parse(res);
+        setDeliveryResponse(response);
+      }
+
       const deliveryAmount = sessionStorage.getItem("deliveryFee");
       let deliveryType;
 
@@ -387,14 +398,14 @@ function OrderSummaryCheckout() {
         (paymentMethod === "COD" && paymentData === null)
       ) {
         // debugger;
-        const priceValue = details
-          ? details?.cart_NetAmount
+        const priceValue = deliveryResponse
+          ? deliveryResponse?.cart_NetAmount
           : paramsValues?.price;
-        const discountValue = details
-          ? details?.discountAmount
+        const discountValue = deliveryResponse
+          ? deliveryResponse?.discountAmount
           : paramsValues?.discount;
-        const deliveryChargeValue = details
-          ? details?.deliveryFeeAmount
+        const deliveryChargeValue = deliveryResponse
+          ? deliveryResponse?.deliveryFeeAmount
           : paramsValues?.deliveryFee;
 
         //!payload here
@@ -464,7 +475,7 @@ function OrderSummaryCheckout() {
               },
             });
 
-            redirectToLocation("/order-online");
+            redirectToLocation("/orderonline");
             setActiveCard("login");
             setPaymentData(null);
           },
@@ -493,7 +504,7 @@ function OrderSummaryCheckout() {
         <div className="container">
           <button
             className="back_btn_order_online_828"
-            onClick={() => router.push("/order-online")}
+            onClick={() => router.push("/orderonline")}
           >
             <FiArrowLeft />
           </button>
@@ -807,14 +818,26 @@ function OrderSummaryCheckout() {
                       ></textarea>
                     </div>
                     {/* <br /> */}
-                    <div className="form-group mt-3">
-                      <button
-                        type="submit"
-                        className="online_order_plugin_login_btn"
-                      >
-                        Submit
-                      </button>
-                    </div>
+                    {loading ? (
+                      <div className="form-group mt-3">
+                        <button
+                          type="submit"
+                          className="online_order_plugin_login_btn"
+                          disabled
+                        >
+                          ...
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="form-group mt-3">
+                        <button
+                          type="submit"
+                          className="online_order_plugin_login_btn"
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    )}
                   </form>
                   {/* <button type="button" className="view_btn">View</button> */}
                 </div>

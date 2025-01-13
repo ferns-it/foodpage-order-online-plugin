@@ -16,7 +16,6 @@ import {
   setSessionStorageItem,
 } from "../../_utils/ClientUtils";
 import { TableReservationContext } from "../../table-reservation/context/TableReservationContext";
-import { reloadCurrentPage } from "@/app/utils/ClientUtils";
 
 const days = [
   "sunday",
@@ -373,7 +372,7 @@ function OrderSummary() {
     await clearCartItems(userID, {
       onSuccess: async (res) => {
         toast.success("Cart Cleared!");
-        reloadCurrentPage();
+
         await fetchCartList(userID);
       },
       onFailed: (err) => {
@@ -386,7 +385,7 @@ function OrderSummary() {
     <Fragment>
       <Toaster position="top-center" reverseOrder={false} />
       <div style={{ width: "100%" }}>
-        <h3 className="order_title text-center">Order Summary</h3>
+        {/* <h3 className="order_title text-center">Order Summary</h3>
         {cartItems && cartItems.length != 0 && (
           <>
             {cartLoading ? (
@@ -403,8 +402,15 @@ function OrderSummary() {
               </button>
             )}
           </>
-        )}
-
+        )} */}
+        <div className="mt-3 mb-3 d-flex align-items-center justify-content-between mt-3">
+          <h6 className="p-2">Order Summary</h6>
+          {cartItems && cartItems.cartItems.length != 0 && (
+            <button className="cart-clear-bt" onClick={clearcart}>
+              Clear Cart
+            </button>
+          )}
+        </div>
         <div className="summary_item_wrapper_029">
           {cartItems && cartItems.cartItems.length != 0 ? (
             <div className="summary_card card">

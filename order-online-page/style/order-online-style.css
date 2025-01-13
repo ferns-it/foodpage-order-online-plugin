@@ -1164,7 +1164,7 @@ body {
 
 .incDec_wrapper_0291 {
   /* width: 100%; */
-  background-color: #f2f1f2;  
+  background-color: #f2f1f2;
   border-radius: 20px;
   overflow: hidden;
   border: 1px solid #e03f3f;
@@ -1275,6 +1275,7 @@ body {
 .btn_grp_8392 > .btn_8392 {
   border: none;
   outline: none;
+  display: flex;
   padding: 10px 20px;
   margin: 0 10px;
   border-radius: 5px;
@@ -1604,6 +1605,7 @@ body {
   height: 100%;
   left: 0;
   top: 0;
+  padding-top: 150px;
   background-color: #fff;
   overflow-y: scroll;
   z-index: 0;
@@ -1660,6 +1662,8 @@ body {
 .login_summary_card_0928 > p {
   color: #747474;
   font-size: 14px;
+  display: flex;
+  margin-left: 10px;
   user-select: none;
 }
 
@@ -1940,6 +1944,8 @@ body {
   background-color: #e03f3f;
   color: #fff;
   padding: 10px 15px;
+  width: 50px;
+  height: 50px;
   transition: all 0.2s ease-in-out;
 }
 
@@ -2535,6 +2541,7 @@ body {
   position: relative;
   width: 150px;
   height: 150px;
+  margin: 0px auto;
   border-radius: 100%;
   padding: 0;
   /* background-color: rgba(0, 0, 0, 0.05);
