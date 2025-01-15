@@ -3,16 +3,17 @@ import useMenus from "../hooks/useMenus";
 import { createContext, useState, useEffect, useContext } from "react";
 import usePayment from "../hooks/usePayment";
 import useAuth from "../hooks/useAuth";
-import {
-  getLocalStorageItem,
-  getSessionStorageItem,
-  setLocalStorageItem,
-  setSessionStorageItem,
-} from "@/plugin/_utils/ClientUtils";
+// import {
+//   getLocalStorageItem,
+//   getSessionStorageItem,
+//   setLocalStorageItem,
+//   setSessionStorageItem,
+// } from "@/plugin/_utils/ClientUtils";
 import Utils from "../../_utils/Utils";
 import useProfile from "../hooks/useProfile";
 import useOrderHistory from "../hooks/useOrderHistory";
 import { useRouter } from "next/router";
+import { getLocalStorageItem , getSessionStorageItem, setLocalStorageItem,setSessionStorageItem,} from "../../_utils/ClientUtils";
 
 export const AppContext = createContext();
 
