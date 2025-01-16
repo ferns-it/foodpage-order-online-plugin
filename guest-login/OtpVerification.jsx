@@ -1,6 +1,6 @@
 "use client";
 import { AppContext } from "../order-online-page/context/index";
-import React, { Fragment, useContext, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import OTPInput from "react-otp-input";
 import * as Go from "react-icons/go";
 import CryptoJS from "crypto-js";
@@ -20,12 +20,16 @@ function OtpVerification() {
   const { authLoading, settings, sentOTPtoUser } = useContext(AppContext);
   const router = useRouter();
   const [reservOTP, setResertOTP] = useState("");
+  const [loginMail, setLoginMail] = useState(null)
   const encryptedOTP = getSessionStorageItem("encryptedOTP");
 
   const encryptToMD5 = (number) => {
     return CryptoJS.MD5(number).toString();
   };
-
+  useEffect(() => {
+    const storedMail = getSessionStorageItem("loginMail");
+    setLoginMail(storedMail)
+  }, [])
   const resendOTP = async () => {
     const otp = Utils.generateOTP();
     const encryptedOTP = encryptToMD5(otp);
@@ -96,7 +100,7 @@ function OtpVerification() {
           <h3 className="table-reservation-form-head">OTP VERIFICATION </h3>
           <p className="table_reserv_info_sub_head text-center">
             Your OTP has been send to your mail addesss{" "}
-            <span>{getSessionStorageItem("loginMail")}</span>
+            <span>{loginMail}</span>
           </p>
           <div className="otp_validation_reserv">
             <OTPInput

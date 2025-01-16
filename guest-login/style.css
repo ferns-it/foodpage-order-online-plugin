@@ -322,6 +322,7 @@ div.food_tile.active img {
   font-size: 2rem;
   color: #77777752;
   padding-top: 5rem;
+  padding-left: 14px;
 }
 
 .loader-wrapper {
@@ -354,10 +355,12 @@ div.food_tile.active img {
 }
 
 .login_comp > h2 {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: 600;
   color: #252525;
   user-select: none;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
 }
 
 .login_comp > .sub_title_login {
@@ -431,7 +434,7 @@ div.food_tile.active img {
 .orderOnline_label {
   font-size: 14px;
   color: #252525;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .login_btn {
@@ -2660,7 +2663,7 @@ a {
 }
 
 .table_reserv__ {
-  padding: 5rem 0;
+  padding: 10rem 0 0;
 }
 
 .contact-info > h3 {

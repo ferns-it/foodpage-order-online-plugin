@@ -509,14 +509,15 @@ function OrderSummaryCheckout() {
                             onChange={handleChange}
                             value={formState.fullname}
                           />
-                        </div>
-                        {fieldError === true &&
+                           {fieldError === true &&
                           (!formState.fullname ||
                             formState.fullname.length === 0) && (
                             <span className="oos_err_29102">
                               Name is required!
                             </span>
                           )}
+                        </div>
+                       
                       </div>
 
                       <>
@@ -576,14 +577,15 @@ function OrderSummaryCheckout() {
                                 //     : false
                                 // }
                               /> */}
-                          </div>
-                          {fieldError == true &&
+                              {fieldError == true &&
                             (!formState.postalCode ||
                               formState?.postalCode?.length === 0) && (
                               <span className="oos_err_29102">
                                 Postal code is required!
                               </span>
                             )}
+                          </div>
+                          
                         </div>
                       </>
 
@@ -609,14 +611,15 @@ function OrderSummaryCheckout() {
                             onChange={handleChange}
                             value={formState.emailAddress}
                           />
-                        </div>
-                        {fieldError &&
+                          {fieldError &&
                           (!formState.emailAddress ||
                             formState?.emailAddress?.length === 0) && (
                             <span className="oos_err_29102">
                               Email Address is required!
                             </span>
                           )}
+                        </div>
+                        
                       </div>
                       <div className="col-lg-4 col-md-4 col-sm-4">
                         <div className="form-group">
@@ -640,14 +643,15 @@ function OrderSummaryCheckout() {
                             onChange={handleChange}
                             value={formState.phone}
                           />
-                        </div>
-                        {fieldError &&
+                          {fieldError &&
                           (!formState.phone ||
                             !/^\d+$/.test(formState.phone)) && (
                             <span className="oos_err_29102">
                               Phone is required and must be numeric!
                             </span>
                           )}
+                        </div>
+                        
                       </div>
 
                       <div className="col-lg-4 col-md-4 col-sm-4">
@@ -672,14 +676,15 @@ function OrderSummaryCheckout() {
                             onChange={handleChange}
                             value={formState.addressLine1}
                           />
-                        </div>
-                        {fieldError &&
+                          {fieldError &&
                           (!formState.addressLine1 ||
                             formState?.addressLine1?.length == 0) && (
                             <span className="oos_err_29102">
                               Address Line 1 is required!
                             </span>
                           )}
+                        </div>
+                        
                       </div>
                       <div className="col-lg-4 col-md-4 col-sm-4">
                         <div className="form-group">
@@ -723,14 +728,15 @@ function OrderSummaryCheckout() {
                             onChange={handleChange}
                             value={formState.townCity}
                           />
-                        </div>
-                        {fieldError &&
+                          {fieldError &&
                           (!formState.townCity ||
                             formState?.townCity?.length == 0) && (
                             <span className="oos_err_29102">
                               Town/City is required!
                             </span>
                           )}
+                        </div>
+                        
                       </div>
                       <div className="col-lg-4 col-md-4 col-sm-4">
                         <div className="form-group">
@@ -748,14 +754,15 @@ function OrderSummaryCheckout() {
                             onChange={handleChange}
                             value={formState.county}
                           />
-                        </div>
-                        {fieldError &&
+                          {fieldError &&
                           (!formState.county ||
                             formState?.county?.length == 0) && (
                             <span className="oos_err_29102">
                               County Required
                             </span>
                           )}
+                        </div>
+                        
                       </div>
                     </div>
                     <div className="form-group mt-3">

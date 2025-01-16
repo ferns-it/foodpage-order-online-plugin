@@ -36,6 +36,8 @@ body {
   font-weight: 600;
   border-radius: 5px;
   transition: all 0.2s ease-in-out;
+  border: none;
+  padding: 10px;
 }
 .form-control {
   border: 1px solid rgb(209, 209, 209);
@@ -537,6 +539,7 @@ body {
   font-family: sans-serif;
   color: #747474;
   margin-top: 20px;
+  white-space: nowrap;
 }
 
 .inc_dec_wrapper {
@@ -572,7 +575,9 @@ body {
 .decrement:hover {
   color: #252525;
 }
-
+.summary_item_wrapper_029{
+  margin-top: 10px;
+}
 /* .summary_item_wrapper_029 {
   min-height: 250px;
   overflow-y: scroll;
@@ -710,6 +715,7 @@ body {
   border-radius: 4px;
   border: 1px solid #7777;
   outline: none;
+  padding: 10px;
 }
 
 .opt_input_827.err__ {
@@ -723,7 +729,7 @@ body {
   padding: 7px 0;
   border: none;
   outline: none;
-  background-color: #027881;
+  background-color: #B41616;
   color: #fff;
   font-size: 16px;
   font-weight: 700;
@@ -732,11 +738,11 @@ body {
 }
 
 .order_now_192:hover {
-  background-color: #3b848a;
+  background-color: #a31010;
 }
 
 .order_now_192:disabled {
-  background-color: #6ac6c9;
+  background-color: #f96868;
 }
 
 /* .summary_item_wrapper_029 {
@@ -2319,7 +2325,7 @@ body {
   font-size: 13px;
   font-weight: 600;
   color: #747474;
-  padding: 0 0 0 40px;
+  padding: 0 0 10px 40px;
   user-select: none;
 }
 
@@ -2659,7 +2665,7 @@ div.food_tile__.active img {
   transform: translateX(-50%);
   font-size: 1.2rem;
   font-family: sans-serif;
-  font-weight: 700 !important;
+  font-weight: 500 !important;
 }
 .add_to_cart {
   position: absolute;
@@ -2669,7 +2675,7 @@ div.food_tile__.active img {
   border: none;
   outline: none;
   background-color: transparent;
-  background-color: #027881;
+  background-color: #B41616;
   font-size: 14px;
   padding: 3px 20px;
   border-radius: 5px;
@@ -2833,10 +2839,11 @@ div.food_tile__.active img {
   border-radius: 4px;
   font-size: 10px;
   background-color: transparent;
-  width: 70px;
+  width: 97px;
   font-weight: 700;
   font-family: sans-serif;
   float: right;
   position: relative;
-  top: -40px;
+  top: -30px;
+  padding: 7px;
 }
