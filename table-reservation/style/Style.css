@@ -58,6 +58,7 @@ input {
   border: 1px solid gray !important;
   border-radius: 4px;
   font-family: "Roboto", sans-serif !important;
+  padding: 10px;
 }
 .table-reservation-form-head {
   text-transform: uppercase;
