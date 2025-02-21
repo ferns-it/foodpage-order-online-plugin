@@ -22,6 +22,7 @@ export const TableReservationContextProvider = (props) => {
     noOfChairs: 0,
     message: "",
   });
+  const [manageReservList, setManageReservList] = useState(null);
   // const [otp, setOtp, clearOtp] = useLocalStorage('userOTP', '');
   useEffect(() => {
     const fetchData = async () => {
@@ -99,6 +100,8 @@ export const TableReservationContextProvider = (props) => {
         upcomingHolidays,
         getReservationDetailsEmail,
         setReservationDetails,
+        manageReservList,
+        setManageReservList,
         // otp,
         // setOtp,
         // clearOtp
