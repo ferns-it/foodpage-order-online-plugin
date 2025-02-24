@@ -26,7 +26,7 @@ input[type="checkbox"]:focus textarea,
   border-color: #747474 !important;
 }
 body {
-  font-family: sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 .btn_check {
   width: 25%;
@@ -120,7 +120,7 @@ body {
 
 .color_items h5 {
   color: #1b1b1b;
-  font-family: "Oswald", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 600;
   font-size: 17px;
 }
@@ -195,7 +195,7 @@ body {
 }
 
 .radio_label {
-  font-family: "Oswald", sans-serif;
+  font-family: "Roboto", sans-serif;
   color: #1b1b1b;
   font-weight: 600;
   text-transform: uppercase;
@@ -373,7 +373,7 @@ body {
 .food_order_area {
   display: flex;
   justify-content: center;
-  font-family: sans-serif !important;
+  font-family: "Roboto", sans-serif;
   align-items: start;
   width: 90%;
   padding: 20px 0;
@@ -534,7 +534,7 @@ body {
 .order_title {
   font-size: 18px;
   font-weight: 700;
-  font-family: sans-serif;
+  font-family: "Roboto", sans-serif;
   color: #747474;
   margin-top: 20px;
 }
@@ -608,6 +608,7 @@ body {
   /* text-wrap: nowrap; */
   /* text-overflow: ellipsis; */
   max-width: 200px;
+  font-size: 20px;
   overflow: hidden;
 }
 
@@ -701,7 +702,7 @@ body {
 }
 
 .opt_label_827 {
-  font-size: 13px;
+  font-size: 18px;
   font-weight: 700;
   margin-top: 20px;
 }
@@ -822,7 +823,7 @@ body {
   text-transform: capitalize;
   white-space: nowrap;
   color: #dd3333;
-  font-size: 15px;
+  font-size: 20px;
 }
 
 .food_category_009 a > i {
@@ -1269,7 +1270,7 @@ body {
 }
 
 .sub_head_0291 {
-  font-size: 15px;
+  font-size: 24px;
   font-weight: 700;
   color: #3c3c3c;
   margin: 10px;
@@ -1294,7 +1295,7 @@ body {
 }
 
 .varient_name {
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 600;
   padding-left: 10px;
   white-space: nowrap;
@@ -1347,7 +1348,7 @@ body {
 
 .info_label_0291 {
   display: block;
-  font-size: 12px;
+  font-size: 18px;
   color: #e03f3f;
   padding: 5px 0;
   border-radius: 5px;
@@ -1435,7 +1436,7 @@ body {
   font-size: 18px;
   font-weight: 700;
   letter-spacing: 0.05rem;
-  font-family: "Poppins", Helvetica, sans-serif !important;
+  font-family: "Roboto", sans-serif !important;
 }
 
 .accord_desc_19 {
@@ -1718,7 +1719,7 @@ body {
 .online_order_plugin_input_2939 {
   border-radius: 2px;
   font-weight: 500;
-  font-family: sans-serif !important;
+  font-family: "Roboto", sans-serif;
 }
 
 .online_order_plugin_input_2939.error___ {
@@ -1748,7 +1749,7 @@ body {
 .online_order_plugin_txtarea_2939 {
   font-size: 15px;
   height: 120px;
-  font-family: sans-serif !important;
+  font-family: "Roboto", sans-serif;
   /* min-height: 150px; */
 }
 
@@ -1952,7 +1953,7 @@ body {
   background: #fff;
   font-size: 14px;
   font-size: 0.875rem;
-  font-family: "Poppins", Helvetica, sans-serif;
+  font-family: "Roboto", sans-serif;
   color: #444;
   border: 1px solid #e1e1e1;
 }
@@ -2610,7 +2611,7 @@ div.food_tile__.active img {
   letter-spacing: 1px;
   color: rgba(38, 29, 86, 1);
   margin-bottom: 12px;
-  font-family: sans-serif;
+  font-family: "Roboto", sans-serif;
   text-align: center !important;
 }
 
@@ -2666,7 +2667,7 @@ div.food_tile__.active img {
   left: 50%;
   transform: translateX(-50%);
   font-size: 1.2rem;
-  font-family: sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 700 !important;
 }
 .add_to_cart {
@@ -2839,11 +2840,11 @@ div.food_tile__.active img {
   border: 1px solid #e03f3f;
   color: #e03f3f;
   border-radius: 4px;
-  font-size: 10px;
+  font-size: 15px;
   background-color: transparent;
   width: 70px;
   font-weight: 700;
-  font-family: sans-serif;
+  font-family: "Roboto", sans-serif;
   float: right;
   position: relative;
   top: -40px;

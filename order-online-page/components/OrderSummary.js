@@ -550,7 +550,7 @@ function OrderSummary() {
               className="row mt-3 mx-auto mx-auto"
               style={{ display: "flex" }}
             >
-              <div className="col-md-6" style={{ flex: 1, fontSize: "15px" }}>
+              <div className="col-md-6" style={{ flex: 1, fontSize: "18px" }}>
                 <label>
                   <input
                     type="radio"
@@ -566,7 +566,7 @@ function OrderSummary() {
                 deliveryInfo?.takeAway_temp_off === "No" && (
                   <div
                     className="col-md-6"
-                    style={{ flex: 1, fontSize: "15px" }}
+                    style={{ flex: 1, fontSize: "18px" }}
                   >
                     <label>
                       <input
@@ -664,7 +664,7 @@ function OrderSummary() {
             <h6
               style={{
                 color: "#da6d6d",
-                fontSize: "10px",
+                fontSize: "18px",
                 fontWeight: "500",
                 fontFamily: "sans-serif",
               }}
