@@ -152,7 +152,6 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
 
     setHolidayIntervals(memoizedHolidayIntervals);
 
-
     const CheckHolidate =
       holidayIntervals &&
       holidayIntervals.length != 0 &&
@@ -231,53 +230,80 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
 
     upcomingHolidays?.forEach((holiday) => {
       let start = new Date(holiday.startTime);
-      const end = new Date(holiday.endTime);
+      let end = new Date(holiday.endTime);
 
-      while (start <= end) {
-        const dateKey = start.toISOString().split("T")[0];
+      const startDateKey = start.toISOString().split("T")[0];
+      const endDateKey = end.toISOString().split("T")[0];
 
+      if (startDateKey === endDateKey) {
+        // Case: Same-Day Holiday (Only block from startTime to endTime)
         let existingEntry = holidayIntervals.find(
-          (entry) => entry.date === dateKey
+          (entry) => entry.date === startDateKey
         );
         if (!existingEntry) {
-          existingEntry = { date: dateKey, intervals: [] };
+          existingEntry = { date: startDateKey, intervals: [] };
           holidayIntervals.push(existingEntry);
         }
 
-        const startDateKey = new Date(holiday.startTime)
-          .toISOString()
-          .split("T")[0];
-        const endDateKey = new Date(holiday.endTime)
-          .toISOString()
-          .split("T")[0];
+        let timePointer = new Date(holiday.startTime);
+        const minutes = timePointer.getMinutes();
+        const roundedMinutes = Math.ceil(minutes / interval) * interval;
+        timePointer.setMinutes(roundedMinutes, 0, 0);
 
-        let timePointer;
-        let limit;
-
-        if (dateKey === startDateKey) {
-          timePointer = new Date(holiday.startTime);
-          const minutes = timePointer.getMinutes();
-          const roundedMinutes = Math.ceil(minutes / interval) * interval;
-          timePointer.setMinutes(roundedMinutes, 0, 0);
-
-          limit = new Date(holiday.endTime);
-        } else if (dateKey === endDateKey) {
-          timePointer = new Date(`${dateKey}T00:00:00`);
-          limit = new Date(holiday.endTime);
-        } else {
-          existingEntry.intervals = [];
-          start.setDate(start.getDate() + 1);
-          start.setHours(0, 0, 0, 0);
-          continue;
-        }
+        let limit = new Date(holiday.endTime);
 
         while (timePointer <= limit) {
           existingEntry.intervals.push(timePointer.toTimeString().slice(0, 5));
           timePointer = new Date(timePointer.getTime() + interval * 60 * 1000);
         }
+      } else {
+        // Case: Multi-Day Holiday
+        while (start <= end) {
+          const dateKey = start.toISOString().split("T")[0];
+          let existingEntry = holidayIntervals.find(
+            (entry) => entry.date === dateKey
+          );
+          if (!existingEntry) {
+            existingEntry = { date: dateKey, intervals: [] };
+            holidayIntervals.push(existingEntry);
+          }
 
-        start.setDate(start.getDate() + 1);
-        start.setHours(0, 0, 0, 0);
+          let timePointer, limit;
+
+          if (dateKey === startDateKey) {
+            // First Day of Holiday (Start from startTime to end of the day)
+            timePointer = new Date(holiday.startTime);
+            const minutes = timePointer.getMinutes();
+            const roundedMinutes = Math.ceil(minutes / interval) * interval;
+            timePointer.setMinutes(roundedMinutes, 0, 0);
+
+            limit = new Date(`${dateKey}T23:59:00`);
+          } else if (dateKey === endDateKey) {
+            // Last Day of Holiday (Start from midnight to endTime)
+            timePointer = new Date(`${dateKey}T00:00:00`);
+            limit = new Date(holiday.endTime);
+          } else {
+            // Full-Day Holiday (Block entire day)
+            existingEntry.intervals = [];
+            start.setDate(start.getDate() + 1);
+            start.setHours(0, 0, 0, 0);
+            continue;
+          }
+
+          // Generate intervals within the time range
+          while (timePointer <= limit) {
+            existingEntry.intervals.push(
+              timePointer.toTimeString().slice(0, 5)
+            );
+            timePointer = new Date(
+              timePointer.getTime() + interval * 60 * 1000
+            );
+          }
+
+          // Move to the next day at midnight
+          start.setDate(start.getDate() + 1);
+          start.setHours(0, 0, 0, 0);
+        }
       }
     });
 
@@ -482,7 +508,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
           setSecretKey(md5Num);
           const errStatus = res.data.error;
           // console.log("OTP", res.data);
-          
+
           if (errStatus == false) {
             const saveObj =
               initialValues && typeof initialValues == "object"
@@ -660,12 +686,43 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                         <h3 className="table-reservation-form-head">
                           Table Reservation Form
                         </h3>
-                        {isTodayHoliday && (
-                          <p className="text-danger fw-bold text-center user-select-none mt-2">
-                            There is an exception today! Please check the
-                            available slots.
-                          </p>
-                        )}
+                        {holidayIntervals &&
+                          holidayIntervals.length !== 0 &&
+                          holidayIntervals.some((x) => {
+                            let holidayDate = new Date(x.date)
+                              .toISOString()
+                              .split("T")[0]; 
+                            let bookingDate = new Date(
+                              initialValues?.bookingDate
+                            )
+                              .toISOString()
+                              .split("T")[0]; 
+
+                           
+                            if (holidayDate === bookingDate) {
+                              let startTime = new Date(
+                                x.startTime
+                              ).toLocaleTimeString([], {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              });
+                              let endTime = new Date(
+                                x.endTime
+                              ).toLocaleTimeString([], {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              });
+                              console.log("reached");
+                              
+                              return (
+                                <p className="text-danger fw-bold text-center user-select-none mt-2">
+                                  Reservation is not available today from{" "}
+                                  {startTime} to {endTime}.
+                                </p>
+                              );
+                            }
+                            return false;
+                          })}
 
                         <form
                           action=""
