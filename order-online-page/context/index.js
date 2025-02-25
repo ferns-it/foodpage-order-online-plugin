@@ -13,6 +13,7 @@ import Utils from "../../_utils/Utils";
 import useProfile from "../hooks/useProfile";
 import useOrderHistory from "../hooks/useOrderHistory";
 import { useRouter } from "next/router";
+import usePromotions from "../hooks/usePromotions";
 
 export const AppContext = createContext();
 
@@ -61,7 +62,7 @@ export const AppContextProvider = (props) => {
       const encodedToken = getLocalStorageItem("userToken");
 
       const decodedToken = jwt.decode(encodedToken, { complete: true });
-     
+
       setIsUserLogged(decodedToken);
     }
   }, []);
@@ -119,6 +120,9 @@ export const AppContextProvider = (props) => {
     orderList,
     // orderDetails
   } = useOrderHistory();
+  const { promotionList,
+    promotionLoading,
+    fetchAllPromotions, } = usePromotions();
   const {
     createPaymentIntent,
     stripePromise,
@@ -150,6 +154,7 @@ export const AppContextProvider = (props) => {
     const userToken = getLocalStorageItem("userToken");
     const userId = getSessionStorageItem("UserPersistent");
     getShopSettings();
+    fetchAllPromotions();
     fetchCategoriesList();
     fetchCartList(userId);
     diningMenuList();
@@ -170,14 +175,14 @@ export const AppContextProvider = (props) => {
   useEffect(() => {
     if (productsList.length == 0) {
       if (!categoryList || categoryList.length === 0) return;
-     
+
       const catId =
         categoryList &&
         Array.isArray(categoryList) &&
         categoryList.length != 0 &&
         categoryList &&
         categoryList[0]?.cID;
-     
+
       const isCheck =
         productsList &&
         productsList.length != 0 &&
@@ -365,7 +370,10 @@ export const AppContextProvider = (props) => {
         diningList,
         currentStatus,
         products,
-        proLoading
+        proLoading,
+        promotionList,
+        promotionLoading,
+        fetchAllPromotions,
       }}
     >
       {props.children}
