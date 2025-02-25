@@ -2842,7 +2842,8 @@ div.food_tile__.active img {
   border-radius: 4px;
   font-size: 15px;
   background-color: transparent;
-  width: 70px;
+  width: 100px;
+  padding: 5px 10px;
   font-weight: 700;
   font-family: "Roboto", sans-serif;
   float: right;
