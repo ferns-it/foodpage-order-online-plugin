@@ -13,6 +13,7 @@ export const TableReservationContextProvider = (props) => {
   const [loading, setLoading] = useState(false);
   const [tableReservationSettings, setTableReservationSettings] =
     useState(null);
+    
   const [initialValues, setInitialValues] = useState({
     name: "",
     email: "",

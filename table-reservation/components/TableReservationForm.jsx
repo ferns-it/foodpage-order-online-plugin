@@ -1,5 +1,11 @@
 "use client";
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, {
+  Fragment,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import * as Go from "react-icons/go";
 import * as Tb from "react-icons/tb";
 import * as Lu from "react-icons/lu";
@@ -79,6 +85,10 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   const [manageReservLoading, setManageReservLoading] = useState(false);
   const [holidayIntervals, setHolidayIntervals] = useState([]);
 
+  const memoizedHolidayIntervals = useMemo(() => {
+    return generateHolidayIntervals();
+  }, [upcomingHolidays, tableReservationSettings]);
+
   useEffect(() => {
     setInitialValues((prev) => ({ ...prev, bookingDate: defaultDate }));
   }, [upcomingHolidays]);
@@ -116,7 +126,10 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
 
   useEffect(() => {
     if (!tableReservationSettings || !dayValue || !holidayIntervals) return;
+    fetchIntervals();
+  }, [tableReservationSettings, dayValue, initialValues]);
 
+  const fetchIntervals = () => {
     const todaysTiming = tableReservationSettings[dayValue];
 
     if (!todaysTiming || todaysTiming.length === 0) {
@@ -137,11 +150,15 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
       ),
     ];
 
-    const holidayIntervalsData = generateHolidayIntervals();
+    setHolidayIntervals(memoizedHolidayIntervals);
 
-    const CheckHolidate = holidayIntervalsData.filter((x) =>
-      dayjs(x.date).isSame(dayjs(initialValues?.bookingDate), "day")
-    );
+
+    const CheckHolidate =
+      holidayIntervals &&
+      holidayIntervals.length != 0 &&
+      holidayIntervals.filter((x) =>
+        dayjs(x.date).isSame(dayjs(initialValues?.bookingDate), "day")
+      );
 
     if (CheckHolidate && CheckHolidate.length != 0) {
       const currentHoliday = CheckHolidate[0];
@@ -157,7 +174,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     }
 
     setTimeIntervals(findIntervals);
-  }, [tableReservationSettings, dayValue, holidayIntervals, initialValues]);
+  };
 
   useEffect(() => {
     if (initialValues && !initialValues.bookingDate) return;
@@ -217,11 +234,11 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
       const end = new Date(holiday.endTime);
 
       while (start <= end) {
-        const dateKey = start.toISOString().split("T")[0]; // Extract YYYY-MM-DD
+        const dateKey = start.toISOString().split("T")[0];
+
         let existingEntry = holidayIntervals.find(
           (entry) => entry.date === dateKey
         );
-
         if (!existingEntry) {
           existingEntry = { date: dateKey, intervals: [] };
           holidayIntervals.push(existingEntry);
@@ -243,7 +260,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
           const roundedMinutes = Math.ceil(minutes / interval) * interval;
           timePointer.setMinutes(roundedMinutes, 0, 0);
 
-          limit = new Date(`${dateKey}T23:59:00`);
+          limit = new Date(holiday.endTime);
         } else if (dateKey === endDateKey) {
           timePointer = new Date(`${dateKey}T00:00:00`);
           limit = new Date(holiday.endTime);
@@ -254,33 +271,16 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
           continue;
         }
 
-        // Generate intervals
         while (timePointer <= limit) {
           existingEntry.intervals.push(timePointer.toTimeString().slice(0, 5));
           timePointer = new Date(timePointer.getTime() + interval * 60 * 1000);
         }
 
-        // Move to next day at midnight
         start.setDate(start.getDate() + 1);
         start.setHours(0, 0, 0, 0);
       }
-
-      // Ensure last day's intervals (28th) are added if missing
-      const lastDateKey = end.toISOString().split("T")[0];
-      if (!holidayIntervals.some((entry) => entry.date === lastDateKey)) {
-        let lastEntry = { date: lastDateKey, intervals: [] };
-        let timePointer = new Date(`${lastDateKey}T00:00:00`);
-        let closingTime = new Date(holiday.endTime);
-
-        while (timePointer <= closingTime) {
-          lastEntry.intervals.push(timePointer.toTimeString().slice(0, 5));
-          timePointer = new Date(timePointer.getTime() + interval * 60 * 1000);
-        }
-
-        holidayIntervals.push(lastEntry);
-      }
     });
-    setHolidayIntervals(holidayIntervals);
+
     return holidayIntervals;
   }
 
@@ -481,6 +481,8 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
           // localStorage.setItem("pageState");
           setSecretKey(md5Num);
           const errStatus = res.data.error;
+          // console.log("OTP", res.data);
+          
           if (errStatus == false) {
             const saveObj =
               initialValues && typeof initialValues == "object"
@@ -509,9 +511,8 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
       setFormValidationLoading(false);
     }
   };
-  const completeNewReservation = async () => {
-    console.log("reached");
 
+  const completeNewReservation = async () => {
     const mergedBooking = Utils.mergeBookingDateTime(
       initialValues?.bookingDate,
       initialValues?.bookingTime
@@ -1086,63 +1087,67 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                           </form>
                         )}
                       </div>
-                      <div className="reservationHolidays">
-                        <div className="card timing_card_table_reserv ">
-                          <div className="open_">
-                            <i className="pe-1">
-                              <Fa.FaDoorClosed />
-                            </i>
-                            <span>Reservation Holidays</span>
-                          </div>
+                      {!isTimingLoading &&
+                        upcomingHolidays &&
+                        upcomingHolidays.length != 0 && (
+                          <div className="reservationHolidays">
+                            <div className="card timing_card_table_reserv ">
+                              <div className="open_">
+                                <i className="pe-1">
+                                  <Fa.FaDoorClosed />
+                                </i>
+                                <span>Reservation Holidays</span>
+                              </div>
 
-                          {upcomingHolidays?.length > 0 &&
-                            upcomingHolidays.map((item, idx6) => {
-                              const [startDate, startTime] =
-                                item.startTime.split(" ");
-                              const [endDate, endTime] =
-                                item.endTime.split(" ");
+                              {upcomingHolidays.map((item, idx6) => {
+                                const [startDate, startTime] =
+                                  item.startTime.split(" ");
+                                const [endDate, endTime] =
+                                  item.endTime.split(" ");
 
-                              return (
-                                <div className="card holidaycard" key={idx6}>
-                                  <div className="d-flex align-items-center justify-content-between">
-                                    <i>
-                                      <Fa.FaMartiniGlass />
-                                    </i>
-                                    <p className="holi_date m-0 fw-bold">
-                                      {startDate && startDate.length != 0
-                                        ? Utils.formatDate(startDate)
-                                        : ""}{" "}
-                                      -{" "}
-                                      {startTime && startTime.length != 0
-                                        ? Utils.convertTiming(startTime)
-                                        : ""}{" "}
-                                    </p>
-                                    <i>
-                                      <Lu.LuArrowLeftRight />
-                                    </i>
-                                    <p className="holi_time m-0 fw-bold">
-                                      {endDate && endDate.length != 0
-                                        ? Utils.formatDate(endDate)
-                                        : ""}
-                                      -{" "}
-                                      {endTime && endTime.length != 0
-                                        ? Utils.convertTiming(endTime)
-                                        : ""}
-                                    </p>
-                                  </div>
-                                  {item?.reason && item?.reason.length != 0 && (
-                                    <div className="d-flex">
+                                return (
+                                  <div className="card holidaycard" key={idx6}>
+                                    <div className="d-flex align-items-center justify-content-between">
                                       <i>
-                                        <Tb.TbMessage2Exclamation />
-                                      </i>{" "}
-                                      <span>{item?.reason ?? ""}</span>
+                                        <Fa.FaMartiniGlass />
+                                      </i>
+                                      <p className="holi_date m-0 fw-bold">
+                                        {startDate && startDate.length != 0
+                                          ? Utils.formatDate(startDate)
+                                          : ""}{" "}
+                                        -{" "}
+                                        {startTime && startTime.length != 0
+                                          ? Utils.convertTiming(startTime)
+                                          : ""}{" "}
+                                      </p>
+                                      <i>
+                                        <Lu.LuArrowLeftRight />
+                                      </i>
+                                      <p className="holi_time m-0 fw-bold">
+                                        {endDate && endDate.length != 0
+                                          ? Utils.formatDate(endDate)
+                                          : ""}
+                                        -{" "}
+                                        {endTime && endTime.length != 0
+                                          ? Utils.convertTiming(endTime)
+                                          : ""}
+                                      </p>
                                     </div>
-                                  )}
-                                </div>
-                              );
-                            })}
-                        </div>
-                      </div>
+                                    {item?.reason &&
+                                      item?.reason.length != 0 && (
+                                        <div className="d-flex">
+                                          <i>
+                                            <Tb.TbMessage2Exclamation />
+                                          </i>{" "}
+                                          <span>{item?.reason ?? ""}</span>
+                                        </div>
+                                      )}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
                       <div className="poweredBy_ text-center" id="main___">
                         <span>Powered by Foodpage</span>
                       </div>
