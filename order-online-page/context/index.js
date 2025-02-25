@@ -22,6 +22,7 @@ export const AppContextProvider = (props) => {
   const [productsListLoading, setProductsLoading] = useState(false);
   // const [isCheckoutActive, setisCheckoutActive] = useState(false);
   const [locationResponseData, setLocationResponseData] = useState(null);
+  const [proLoading, setProLoading] = useState(false);
   const [isUserLogged, setIsUserLogged] = useState(null);
   const [amount, setAmount] = useState(0);
   const [deliveryFee, setDeliveryFee] = useState(null);
@@ -32,7 +33,7 @@ export const AppContextProvider = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [orderHistoryLoading, setOrderHistoryLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
-
+  const [products, setProducts] = useState(null);
   const isCheckoutActive = false;
   const [listLoading, setListLoading] = useState(false);
 
@@ -234,7 +235,39 @@ export const AppContextProvider = (props) => {
 
     return () => clearInterval(intervalId);
   }, []);
+  useEffect(() => {
+    console.log("categoryList", categoryList);
 
+    if (!categoryList || categoryList.length === 0) return;
+
+    const fetchData = async () => {
+      try {
+        setProLoading(true);
+        const pro = await Promise.all(
+          categoryList.map(async (item) => {
+            const data = {
+              shopId: 1,
+              categoryId: item?.cID,
+            };
+
+            const productRespo = await fetchProductsList(data);
+            return {
+              categoryName: item?.name,
+              categoryId: item?.cID,
+              product: productRespo,
+            };
+          })
+        );
+        setProducts(pro);
+      } finally {
+        setProLoading(false);
+      }
+    };
+
+    if (!products) {
+      fetchData();
+    }
+  }, [categoryList]);
   return (
     <AppContext.Provider
       value={{
@@ -331,6 +364,8 @@ export const AppContextProvider = (props) => {
         diningLoading,
         diningList,
         currentStatus,
+        products,
+        proLoading
       }}
     >
       {props.children}
