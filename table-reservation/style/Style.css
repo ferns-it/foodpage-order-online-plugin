@@ -1765,7 +1765,7 @@ abbr[title] {
 .location___ {
   font-size: 14px;
   font-weight: 600;
-  color: #252525;
+  color: #252525 !important;
   font-family: "Roboto", Sans-serif !important;
 }
 .reserve_table {
