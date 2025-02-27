@@ -2149,6 +2149,7 @@ abbr[title] {
   border-bottom: 1px solid #eee;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   border-radius: 0;
+  font-size: 14px;
 }
 .holidaycard i{
   padding: 0 10px;
@@ -2156,4 +2157,8 @@ abbr[title] {
 }
 .holidaycard span{
   padding: 0 10px;
+}
+#main_new{
+  position: relative;
+  bottom: 0;
 }

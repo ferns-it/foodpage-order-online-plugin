@@ -1048,6 +1048,9 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                           data-sitekey={RECAPTCHA_SITE_KEY}
                           data-size="invisible"
                         ></div>
+                        <div className="poweredBy_ text-center" id="main_new">
+                          <span>Powered by Foodpage</span>
+                        </div>
                       </div>
                     </div>
 
@@ -1209,9 +1212,6 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                             </div>
                           </div>
                         )}
-                      <div className="poweredBy_ text-center" id="main___">
-                        <span>Powered by Foodpage</span>
-                      </div>
                     </div>
                   </div>
                 )}

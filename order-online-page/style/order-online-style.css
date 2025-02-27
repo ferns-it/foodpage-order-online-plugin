@@ -578,12 +578,10 @@ body {
   overflow-y: scroll;
 } */
 .empty_indic_order_summary {
-  text-align: center;
   font-weight: 700;
-  font-size: 24px;
+  font-size: 16px;
   color: #7777;
-  padding: 0;
-  margin: 0;
+  margin-top: 20px;
   user-select: none;
 }
 
@@ -823,7 +821,7 @@ body {
   text-transform: capitalize;
   white-space: nowrap;
   color: #dd3333;
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .food_category_009 a > i {

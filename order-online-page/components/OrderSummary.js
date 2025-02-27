@@ -664,11 +664,11 @@ function OrderSummary() {
             <h6
               style={{
                 color: "#da6d6d",
-                fontSize: "18px",
+                fontSize: "12px",
                 fontWeight: "500",
                 fontFamily: "sans-serif",
               }}
-              className="text-center"
+              className="text-center mt-3"
             >
               Minimum Amount for Card payment is £
               {settings?.deliveryInfo?.onlinePaymentMinAmount}
