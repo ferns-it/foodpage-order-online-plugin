@@ -342,12 +342,11 @@ div.food_tile.active img {
 .login_wrapper {
   position: relative;
   width: 100%;
-  padding: 5rem 2rem;
 }
 
 .login_comp {
   padding: 2rem;
-  margin-top: 5rem;
+  margin-top: 2rem;
 }
 
 .table_reserv_info_sub_head {
@@ -444,18 +443,18 @@ div.food_tile.active img {
   border-radius: 5px;
   border: none;
   outline: none;
-  background-color: #e03f3f;
+  background-color: #00574b;
   color: #fff;
   margin: 0 auto;
   transition: all 0.2s ease-in-out;
 }
 
 .login_btn:hover {
-  background-color: #c0392b;
+  background-color: #002c08;
 }
 
 .login_btn:disabled {
-  background-color: #f6bdbd;
+  background-color: #87b09a;
 }
 
 .pass_wrapper {
@@ -1702,6 +1701,7 @@ deal_content p {
   transition: all 0.2s ease-in-out;
   font-weight: 700;
   user-select: none;
+  margin: 0;
 }
 
 .increment-button:hover,
@@ -2053,6 +2053,7 @@ deal_content p {
 .password_comp h2 {
   font-size: 1.2rem;
   font-weight: 600;
+  letter-spacing: 1px;
 }
 
 .password_comp p {
@@ -2072,14 +2073,14 @@ deal_content p {
   border-radius: 5px;
   border: none;
   outline: none;
-  background-color: #e03f3f;
+  background-color: #00574b !important;
   color: #fff;
   margin: 0 auto;
   transition: all 0.2s ease-in-out;
 }
 
 .continue_btn:disabled {
-  background-color: rgb(167, 87, 87);
+  background-color: #00574b;
   cursor: not-allowed;
 }
 

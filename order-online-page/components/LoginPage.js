@@ -1,3 +1,4 @@
+"use client";
 import React, { Fragment, useContext, useState } from "react";
 import * as Fa6 from "react-icons/fa6";
 import toast, { Toaster } from "react-hot-toast";
@@ -9,9 +10,10 @@ import {
   getSessionStorageItem,
   redirectToLocation,
   setLocalStorageItem,
-} from "@/src/app/_utils/ClientUtils";
+  setSessionStorageItem,
+} from "../../_utils/ClientUtils";
 
-function LoginPage({ handleGuestLogin, errors, setErrors }) {
+function LoginPage() {
   const router = useRouter();
   const {
     authLoading,
@@ -27,6 +29,7 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
     user: "",
     password: "",
   });
+  const [errors, setErrors] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -35,7 +38,7 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
       [name]: value,
     }));
   };
-  console.log(settings, "settings");
+
   const validateLoginForm = () => {
     let valid = true;
     let errors = {};
@@ -91,8 +94,6 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
 
       await userLogin(payload, {
         onSuccess: async (res) => {
-          console.log("login response", res.data);
-
           if (res && res.data && res.data.error == true) {
             let errMsg =
               res?.data?.errorMessage?.message ?? "Authentication failed!";
@@ -102,11 +103,18 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
 
           const userId = res?.data?.data?.user?.userID;
           const token = res?.data?.data?.token;
+          const userFirstName = res?.data?.data?.user?.userFirstName;
           const guestId = getLocalStorageItem("UserPersistent");
-          
+          const user = res?.data?.data?.user;
+
           setLocalStorageItem("UserPersistent", userId);
           setLocalStorageItem("userToken", token);
           setLocalStorageItem("guest", false);
+          setSessionStorageItem("username", userFirstName);
+          setSessionStorageItem(
+            "userDetails",
+            user ? JSON.stringify(user) : ""
+          );
           console.log("userId", userId);
           console.log("guestId", guestId);
 
@@ -119,16 +127,19 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
           toast.success("User Logged in successfully!");
 
           setTimeout(() => {
-            if (location == "login") {
-              redirectToLocation("/");
-            } else {
+            if (location == "checkout") {
               redirectToLocation("/checkout");
+            } else {
+              redirectToLocation("/");
             }
           }, 800);
         },
         onFailed: (err) => {
           console.log("error=>", err);
-          toast.error(err?.response?.data?.errorMessage?.message ||"Authentication Failed");
+          toast.error(
+            err?.response?.data?.errorMessage?.message ||
+              "Authentication Failed"
+          );
         },
       });
     }
@@ -141,11 +152,11 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
           <div className="card login_comp col-md-6 col-lg-4 col-sm-12 mx-auto">
             <h2>Please login and continue</h2>
             <p className="sub_title_login">
-              Welcome to our platform! To access your account and continue
-              exploring all the features we offer, please log in with your
-              credentials. If you don’t have an account yet, you can sign up to
-              get started. If you encounter any issues, feel free to reach out
-              to our support team for assistance.
+              Welcome to <strong>OTARU Sushi & Grill</strong>! To access your
+              account and continue exploring all the features we offer, please
+              log in with your credentials. If you don’t have an account yet,
+              you can sign up to get started. If you encounter any issues, feel
+              free to reach out to our support team for assistance.
             </p>
 
             <div className="">
@@ -160,8 +171,8 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
                     value={userState.userName}
                     onChange={handleInputChange}
                   />
-                  {errors.userName && (
-                    <p className="error">{errors.userName}</p>
+                  {errors?.userName && (
+                    <p className="error">{errors?.userName}</p>
                   )}
                 </div>
                 <div className="form-group my-4">
@@ -183,8 +194,8 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
                       {!showpass ? <Fa6.FaRegEyeSlash /> : <Fa6.FaRegEye />}
                     </button>
                   </div>
-                  {errors.password && (
-                    <p className="error">{errors.password}</p>
+                  {errors?.password && (
+                    <p className="error">{errors?.password}</p>
                   )}
                 </div>
                 <p
@@ -212,14 +223,14 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
                 </button>
               </form>
             </div>
-            <p className="or_">or</p>
+            {/* <p className="or_">or</p>
             <button
               type="button"
               className="guest_btn"
               onClick={handleGuestLogin}
             >
               Login as Guest
-            </button>
+            </button> */}
             <p className="sign_up_">
               Didn't have an account? <a href="/register">Signup here.</a>
             </p>

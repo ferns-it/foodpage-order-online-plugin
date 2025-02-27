@@ -3,17 +3,16 @@ import useMenus from "../hooks/useMenus";
 import { createContext, useState, useEffect, useContext } from "react";
 import usePayment from "../hooks/usePayment";
 import useAuth from "../hooks/useAuth";
-// import {
-//   getLocalStorageItem,
-//   getSessionStorageItem,
-//   setLocalStorageItem,
-//   setSessionStorageItem,
-// } from "@/plugin/_utils/ClientUtils";
 import Utils from "../../_utils/Utils";
 import useProfile from "../hooks/useProfile";
 import useOrderHistory from "../hooks/useOrderHistory";
 import { useRouter } from "next/router";
-import { getLocalStorageItem , getSessionStorageItem, setLocalStorageItem,setSessionStorageItem,} from "../../_utils/ClientUtils";
+import {
+  getLocalStorageItem,
+  getSessionStorageItem,
+  setLocalStorageItem,
+  setSessionStorageItem,
+} from "../../_utils/ClientUtils";
 
 export const AppContext = createContext();
 
@@ -61,8 +60,15 @@ export const AppContextProvider = (props) => {
       const encodedToken = getLocalStorageItem("userToken");
 
       const decodedToken = jwt.decode(encodedToken, { complete: true });
-      console.log(decodedToken, "encodedToken");
+
       setIsUserLogged(decodedToken);
+    }
+
+    if (token) {
+      fetchDefaultAddress(token);
+      getUserInformation(token);
+      fetchOrderHistory(token);
+      fetchReservationData(token);
     }
   }, []);
 
@@ -107,9 +113,21 @@ export const AppContextProvider = (props) => {
     address,
     addressLoading,
     addNewAddress,
+    addressDetails,
     deleteAddress,
     fetchDefaultAddress,
-    addressDetails,
+    getUserInformation,
+    userLoading,
+    userInfo,
+    userNewAddress,
+    userAddressList,
+    setUserInfo,
+    expired,
+    setDefaultAddress,
+    deleteSavedAddress,
+    fetchOrderHistory,
+    fetchReservationData,
+    reservationList,
   } = useProfile();
   const {
     fetchOrderList,
@@ -170,14 +188,14 @@ export const AppContextProvider = (props) => {
   useEffect(() => {
     if (productsList.length == 0) {
       if (!categoryList || categoryList.length === 0) return;
-      console.log(categoryList, "catehoskg");
+
       const catId =
         categoryList &&
         Array.isArray(categoryList) &&
         categoryList.length != 0 &&
         categoryList &&
         categoryList[0]?.cID;
-      console.log(categoryList && categoryList[0], catId, "categoryList1");
+
       const isCheck =
         productsList &&
         productsList.length != 0 &&
@@ -332,6 +350,25 @@ export const AppContextProvider = (props) => {
         diningLoading,
         diningList,
         currentStatus,
+        fetchAddressList,
+        address,
+        addressLoading,
+        addNewAddress,
+        addressDetails,
+        deleteAddress,
+        fetchDefaultAddress,
+        getUserInformation,
+        userLoading,
+        userInfo,
+        userNewAddress,
+        userAddressList,
+        setUserInfo,
+        expired,
+        setDefaultAddress,
+        deleteSavedAddress,
+        fetchOrderHistory,
+        fetchReservationData,
+        reservationList,
       }}
     >
       {props.children}

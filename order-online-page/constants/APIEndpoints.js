@@ -1,8 +1,8 @@
 "use client";
 
-const id = 1;
+const id = process.env.SHOP_ID;
 const shopId = `${id}-shop`;
-const shopURL = "le-arabia";
+const shopURL = process.env.SHOP_URL;
 
 export const APIEndpoints = {
   menulist: `products/${id}/0`,
@@ -15,6 +15,7 @@ export const APIEndpoints = {
   shopSettings: `settings/${shopURL}`,
   diningMenu: `products/${id}/0/dining`,
   createPaymentIntent: "user/web/checkout/createpaymentintent",
+  getOrderHistory: `user/orderhistory/${id}`,
   locationSettings: "service",
   completecheckout: "user/web/checkout/complete",
   sendOTP: "user/verificationotpmail",
@@ -23,13 +24,17 @@ export const APIEndpoints = {
   registerUser: "user/registration",
   passwordResetOTP: "user/passwordresetotp",
   updateCartItem: "user/web/carts/transfer",
+  getReservationDetails: "user/table/reservationhistory/0",
   getAddressList: "user/addresslist",
   addAddress: "user/newaddress",
   deleteAddressList: "user/deleteaddress",
   getOrderList: `user/orderhistory/${id}`,
   getOrderDetails: "order/details",
+  addNewAddress: "user/newaddress",
   getDefaultAddress: "user/setdefaultaddress",
   getDiscountForGuest: "guest/checkout/takeawaycalculator",
   getDeliveryDiscountGuest: "guest/checkout/deliverycalculator",
-  getCurrentShopStatus:`status/${id}`
+  getCurrentShopStatus: `status/${id}`,
+  defaultAddress: "user/setdefaultaddress",
+  deleteAddress: "user/deleteaddress",
 };

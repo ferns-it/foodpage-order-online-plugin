@@ -47,8 +47,9 @@ input {
   width: 70%;
   padding: 10px;
   float: right;
+  transition: all 0.2s ease-in-out;
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 991px) {
   #alter_card {
     width: 100% !important;
     font-size: 8px;
@@ -58,7 +59,6 @@ input {
   border: 1px solid gray !important;
   border-radius: 4px;
   font-family: "Roboto", sans-serif !important;
-  padding: 10px;
 }
 .table-reservation-form-head {
   text-transform: uppercase;
@@ -67,9 +67,11 @@ input {
   color: #747474;
   user-select: none;
   text-align: left;
-  margin: 15px 0;
+  margin: 0;
   font-weight: 500;
   font-family: "Roboto", sans-serif !important;
+  font-weight: 600;
+  letter-spacing: 0.1rem;
 }
 
 .table_reserv_form_label {
@@ -91,6 +93,7 @@ input {
   padding: 0 !important;
   margin-bottom: 34px;
   margin: 0 !important;
+  width: inherit;
 }
 
 .incDec_wrapper_0291 {
@@ -126,6 +129,7 @@ input {
   transition: all 0.2s ease-in-out;
   font-weight: 700;
   user-select: none;
+  margin: 0;
 }
 
 .increment-button:hover,
@@ -264,7 +268,7 @@ input {
 
 .reserv_timing__ > li {
   padding: 2px 0;
-  white-space: nowrap;
+  white-space: break-spaces;
 }
 
 .otp_validation_reserv {
@@ -338,7 +342,7 @@ input {
     width: 70%;
     white-space: nowrap;
   }
-  .card-manage{
+  .card-manage {
     width: 100% !important;
   }
 }
@@ -619,7 +623,7 @@ input {
     border-radius: 12px;
     text-align: center;
   }
-  .card-manage{
+  .card-manage {
     width: 100% !important;
   }
 }
@@ -1811,8 +1815,9 @@ abbr[title] {
   font-size: 14px;
 }
 .tbl_reserv_section {
-  margin-top: 120px !important;
-  height: 100vh;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  height: 100%;
 }
 .message-area::-webkit-scrollbar {
   width: 10px;
@@ -1826,12 +1831,12 @@ abbr[title] {
   background-color: #eee;
 }
 
-
 .message-area {
   position: relative;
   overflow-y: scroll;
   overflow-x: hidden;
   height: 345px;
+  padding: 10px;
 }
 
 .send_message_btn {
@@ -1848,10 +1853,7 @@ abbr[title] {
   }
 }
 
-
-
 @media screen and (max-width: 600px) {
-
 }
 .reservId_find {
   font-size: 13px;
@@ -2001,7 +2003,6 @@ abbr[title] {
   color: #747474;
   font-size: 0.9rem;
   user-select: none;
-  margin-top: 20px;
   padding: 0;
   font-family: "Roboto", sans-serif !important;
 }
@@ -2108,6 +2109,52 @@ abbr[title] {
   min-height: 100px !important;
   text-transform: none;
 }
-.card-manage{
+.card-manage {
   width: 50%;
+}
+.info_txt {
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 600;
+  padding-top: 20px;
+  margin: 0 !important;
+  padding-bottom: 0px !important;
+  user-select: none;
+  padding-left: 10px;
+  color: #ec6262;
+}
+.disabled_wrapper {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+.disabled_wrapper > img {
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.txt_content {
+  margin: 0 auto;
+  font-size: 22px;
+  width: 50%;
+  text-align: center;
+}
+.holidaycard {
+  padding-top: 20px;
+  border: 0;
+  border-bottom: 1px solid #eee;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  border-radius: 0;
+  font-size: 14px;
+}
+.holidaycard i {
+  padding: 0 10px;
+  color: #e03f3f;
+}
+.holidaycard span {
+  padding: 0 10px;
 }
