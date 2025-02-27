@@ -691,14 +691,13 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                           holidayIntervals.some((x) => {
                             let holidayDate = new Date(x.date)
                               .toISOString()
-                              .split("T")[0]; 
+                              .split("T")[0];
                             let bookingDate = new Date(
                               initialValues?.bookingDate
                             )
                               .toISOString()
-                              .split("T")[0]; 
+                              .split("T")[0];
 
-                           
                             if (holidayDate === bookingDate) {
                               let startTime = new Date(
                                 x.startTime
@@ -712,8 +711,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                                 hour: "2-digit",
                                 minute: "2-digit",
                               });
-                              console.log("reached");
-                              
+
                               return (
                                 <p className="text-danger fw-bold text-center user-select-none mt-2">
                                   Reservation is not available today from{" "}
@@ -739,6 +737,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                             onChange={(e) => handleDateChange(e)}
                             defaultValue={defaultDate}
                             tileDisabled={({ date }) => isHoliday(date)}
+
                             // tileContent={({ date }) => {
                             //   // Find the holiday reason for this date
                             //   const holiday =
@@ -852,6 +851,11 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                                     Booking Time is Required!
                                   </span>
                                 )}
+                              {timeIntervals && timeIntervals.length == 0 && (
+                                <span className="text-danger fw-bold user-select-none m-2">
+                                  No Slots Available!
+                                </span>
+                              )}
                             </div>
 
                             <div className="col-lg-4 col-md-4 ol-sm-4">
