@@ -8,14 +8,18 @@ import toast from "react-hot-toast";
 import "react-tooltip/dist/react-tooltip.css";
 import CryptoJS from "crypto-js";
 import { TableReservationContext } from "../context/TableReservationContext";
-import { AppContext } from "@/plugin/order-online-page/context";
+
 import Utils from "../utils/Utils";
+import { AppContext } from "../../order-online-page/context";
 
 function ManageReservationMain() {
   const router = useRouter();
-  const { getReservationDetails, reservationLoading, reservationDetails } =
-    useContext(TableReservationContext);
-  const { reservationList } = useContext(AppContext);
+  const {
+    getReservationDetails,
+    reservationLoading,
+    reservationDetails,
+    reservationList,
+  } = useContext(TableReservationContext);
   const [reservId, setReservId] = useState("");
   const [error, setError] = useState(false);
 
@@ -44,7 +48,7 @@ function ManageReservationMain() {
 
   const toolTipMsg =
     "You can find the reservation ID in the reservation confirmation email. ";
-  console.log(reservationList, "list");
+
   return (
     <Fragment>
       <div className="tbl_reserv_section">

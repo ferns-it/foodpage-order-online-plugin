@@ -3,6 +3,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import useReservation from "../hooks/useReservation";
 import useLocalStorage from "../hooks/useLocalStorage";
+import { getLocalStorageItem } from "@/app/_utils/ClientUtils";
 
 export const TableReservationContext = createContext();
 
@@ -13,7 +14,7 @@ export const TableReservationContextProvider = (props) => {
   const [loading, setLoading] = useState(false);
   const [tableReservationSettings, setTableReservationSettings] =
     useState(null);
-    
+
   const [initialValues, setInitialValues] = useState({
     name: "",
     email: "",
@@ -62,6 +63,8 @@ export const TableReservationContextProvider = (props) => {
     upcomingHolidays,
     getReservationDetailsEmail,
     setReservationDetails,
+    fetchReservationData,
+    reservationList,
   } = useReservation();
 
   useEffect(() => {
@@ -70,6 +73,11 @@ export const TableReservationContextProvider = (props) => {
       getShopTiming(shopId);
     }
 
+    const encodedToken = getLocalStorageItem("userToken");
+
+    if (encodedToken) {
+      fetchReservationData(encodedToken);
+    }
     getHolidays();
   }, []);
 
@@ -103,6 +111,7 @@ export const TableReservationContextProvider = (props) => {
         setReservationDetails,
         manageReservList,
         setManageReservList,
+        reservationList,
         // otp,
         // setOtp,
         // clearOtp

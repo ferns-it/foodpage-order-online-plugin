@@ -33,4 +33,5 @@ export const APIEndpoints = {
   getDeliveryDiscountGuest: "guest/checkout/deliverycalculator",
   getCurrentShopStatus: `status/${id}`,
   fetchPromotions: `promotions/fetch-restaurent-promotions/${id}`,
+  getReservationDetails: `user/table/reservationhistory/${id}`,
 };

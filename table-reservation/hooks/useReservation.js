@@ -11,7 +11,7 @@ const useReservation = () => {
   const [chatMessages, setChatMessages] = useState(null);
   const [messageLoading, setMessageLoading] = useState(false);
   const [upcomingHolidays, setUpcomingHolidays] = useState(null);
-  
+  const [reservationList, setReservationList] = useState(null);
 
   const sendReservationOTP = async (
     payload,
@@ -224,6 +224,37 @@ const useReservation = () => {
     }
   };
 
+  const fetchReservationData = async (token) => {
+    try {
+      setUserLoading(true);
+      let headers = {
+        "x-user": token,
+      };
+      await BaseClient.get(
+        APIEndpoints.getReservationDetails,
+        {},
+        {
+          headers,
+          onSuccess: (res) => {
+            if (res?.data?.error == false) {
+              setReservationList(res.data.data?.ReservationList);
+            } else {
+              console.log("Error");
+            }
+          },
+          onFailed: (err) => {
+            if (err?.status == 401) {
+              setExpired(true);
+            }
+          },
+        }
+      );
+    } catch (e) {
+    } finally {
+      setUserLoading(false);
+    }
+  };
+
   return {
     getShopTiming,
     shopTiming,
@@ -242,6 +273,8 @@ const useReservation = () => {
     upcomingHolidays,
     getReservationDetailsEmail,
     setReservationDetails,
+    fetchReservationData,
+    reservationList,
   };
 };
 
