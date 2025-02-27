@@ -35,11 +35,7 @@ input {
 /* table reservation */
 .table_reservation_card {
   padding: 10px;
-  border-radius: 4px;
   /* width: 75%; */
-  padding: 5px;
-  margin-top: 10px;
-  border: 1px solid rgb(201, 201, 201) !important;
   margin: 0 auto;
   border-color: #eee;
   border-width: 0 1px 0 0;
@@ -51,8 +47,9 @@ input {
   width: 70%;
   padding: 10px;
   float: right;
+  transition: all 0.2s ease-in-out;
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 991px) {
   #alter_card {
     width: 100% !important;
     font-size: 8px;
@@ -70,9 +67,11 @@ input {
   color: #747474;
   user-select: none;
   text-align: left;
-  margin: 15px 0;
+  margin: 0;
   font-weight: 500;
   font-family: "Roboto", sans-serif !important;
+  font-weight: 600;
+  letter-spacing: 0.1rem;
 }
 
 .table_reserv_form_label {
@@ -94,6 +93,7 @@ input {
   padding: 0 !important;
   margin-bottom: 34px;
   margin: 0 !important;
+  width: inherit;
 }
 
 .incDec_wrapper_0291 {
@@ -153,7 +153,6 @@ input {
   width: 40px;
   border: none;
   outline: none;
-  color: black;
   background: transparent;
   padding: 0 10px;
   user-select: none;
@@ -181,6 +180,7 @@ input {
 }
 
 .timing_card_table_reserv {
+  background-color: transparent;
   padding: 0 10px;
   user-select: none;
   border: none;
@@ -208,7 +208,6 @@ input {
 .timing_card_table_reserv .open_ > i {
   font-size: 16px;
 }
-
 @media screen and (max-width: 991px) {
   .timing_cart_reserv {
     overflow-y: scroll;
@@ -225,9 +224,9 @@ input {
   position: relative;
   padding: 0 0 2px 0;
   margin: 0;
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 600;
-  color: #000;
+  color: #747474;
   margin-bottom: 10px;
 }
 
@@ -261,14 +260,14 @@ input {
   text-decoration: none;
   list-style: none;
   padding: 0;
-  font-size: 18px;
+  font-size: 13px;
   font-weight: 600;
   color: #252525;
 }
 
 .reserv_timing__ > li {
   padding: 2px 0;
-  white-space: nowrap;
+  white-space: break-spaces;
 }
 
 .otp_validation_reserv {
@@ -283,7 +282,6 @@ input {
   padding: 0;
   border: 1px solid #eee;
   width: 70px !important;
-  color: #000;
   height: 70px !important;
   border-radius: 4px;
   font-size: 22px !important;
@@ -652,7 +650,7 @@ a {
   list-style: none !important;
   color: #002c08;
   font-weight: 600;
-  font-size: 22px;
+  font-size: 14px;
   padding: 5px;
   font-weight: 600;
 }
@@ -1765,8 +1763,7 @@ abbr[title] {
 .location___ {
   font-size: 14px;
   font-weight: 600;
-  color: #252525 !important;
-  font-family: "Roboto", Sans-serif !important;
+  color: #252525;
 }
 .reserve_table {
   font-size: 14px;
@@ -1817,8 +1814,9 @@ abbr[title] {
   font-size: 14px;
 }
 .tbl_reserv_section {
-  margin-top: 120px !important;
-  height: 100vh;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  height: 100%;
 }
 .message-area::-webkit-scrollbar {
   width: 10px;
@@ -1837,6 +1835,7 @@ abbr[title] {
   overflow-y: scroll;
   overflow-x: hidden;
   height: 345px;
+  padding: 10px;
 }
 
 .send_message_btn {
@@ -2003,7 +2002,6 @@ abbr[title] {
   color: #747474;
   font-size: 0.9rem;
   user-select: none;
-  margin-top: 20px;
   padding: 0;
   font-family: "Roboto", sans-serif !important;
 }
@@ -2046,7 +2044,7 @@ abbr[title] {
   display: flex;
   flex-direction: column;
   /* margin: 20px auto; */
-  font-family: "Roboto", sans-serif;
+  font-family: Arial, sans-serif;
 }
 
 /* Message bubble base style */
@@ -2112,4 +2110,50 @@ abbr[title] {
 }
 .card-manage {
   width: 50%;
+}
+.info_txt{
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 600;
+  padding-top: 20px;
+  margin: 0 !important;
+  padding-bottom: 0px !important;
+  user-select: none;
+  padding-left: 10px;
+  color: #ec6262;
+}
+.disabled_wrapper{
+  position: relative;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+.disabled_wrapper > img{
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.txt_content{
+  margin: 0 auto;
+  font-size: 22px;
+  width: 50%;
+  text-align: center;
+}
+
+.holidaycard {
+  padding-top: 20px;
+  border: 0;
+  border-bottom: 1px solid #eee;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  border-radius: 0;
+}
+.holidaycard i{
+  padding: 0 10px;
+  color: #e03f3f;
+}
+.holidaycard span{
+  padding: 0 10px;
 }

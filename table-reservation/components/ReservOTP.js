@@ -5,29 +5,13 @@ import { MdTableBar } from "react-icons/md";
 import * as Go from "react-icons/go";
 import * as Fa from "react-icons/fa";
 import * as Md from "react-icons/md";
+import Utils from "../utils/Utils";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import {
   getSessionStorageItem,
   removeSessionStorageItem,
 } from "../../_utils/ClientUtils";
-import Utils from "../utils/Utils";
-
-export const mergeBookingDateTime = (bookingDate, bookingTime) => {
-  const date = new Date(bookingDate);
-
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-
-  const timeWithSeconds = bookingTime.includes(":")
-    ? bookingTime
-    : `${bookingTime}:00`;
-
-  const formattedDateTime = `${year}-${month}-${day} ${timeWithSeconds}`;
-
-  return formattedDateTime;
-};
 
 function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
   const router = useRouter();
@@ -123,7 +107,6 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
         },
         onFailed: (err) => {
           toast.error("Error on sending OTP");
-          console.log("OTP ERROR", err);
         },
         headers: headers,
       });
@@ -133,12 +116,13 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
   };
 
   const completeNewReservation = async () => {
-    const mergedBooking = mergeBookingDateTime(
+    const mergedBooking = Utils.mergeBookingDateTime(
       initialValues?.bookingDate,
       initialValues?.bookingTime
     );
     const payload = {
       shopID: shopId,
+      userID: 0,
       name: initialValues?.name,
       phone: initialValues?.phone,
       email: initialValues?.email,
