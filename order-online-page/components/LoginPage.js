@@ -160,7 +160,7 @@ function LoginPage() {
             </p>
 
             <div className="">
-              <form action="" onSubmit={handleLoginSubmit}>
+              <form action="" onSubmit={(e) => handleLoginSubmit(e)}>
                 <div className="form-group">
                   <div className="form-label orderOnline_label">Username</div>
                   <input

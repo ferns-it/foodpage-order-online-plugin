@@ -212,7 +212,6 @@ const useProfile = () => {
             const data = res?.data?.data?.History;
 
             if (data && data.length != 0) {
-              debugger;
               setUserOrderHistory(data);
             }
           },
