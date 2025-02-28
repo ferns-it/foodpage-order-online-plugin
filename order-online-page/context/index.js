@@ -110,6 +110,7 @@ export const AppContextProvider = (props) => {
     registerUser,
     transferCartItem,
     passwordResetMail,
+    resetPassword,
   } = useAuth();
   const {
     fetchAddressList,
@@ -180,13 +181,11 @@ export const AppContextProvider = (props) => {
     diningMenuList();
     fetchMenuList();
     fetchCurrentShopStatus();
-    fetchAddressList(userToken);
-    fetchReservationList(userToken);
-    // if (userToken) {
 
-    //   fetchOrderList(userToken);
-    // fetchOrderDetails(userToken, orderId);
-    // }
+    if (userToken) {
+      fetchAddressList(userToken);
+      fetchReservationList(userToken);
+    }
   }, []);
 
   useEffect(() => {
@@ -339,6 +338,7 @@ export const AppContextProvider = (props) => {
         showModal,
         setShowModal,
         fetchAddressList,
+        resetPassword,
         address,
         addressLoading,
         addNewAddress,

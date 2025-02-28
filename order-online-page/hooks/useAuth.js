@@ -61,6 +61,17 @@ const useAuth = () => {
       setAuthLoading(false);
     }
   };
+  const resetPassword = async (payload, { onSuccess, onFailed }) => {
+    try {
+      setAuthLoading(true);
+      await BaseClient.post(APIEndpoints.resetPassword, payload, {
+        onSuccess: onSuccess,
+        onFailed: onFailed,
+      });
+    } finally {
+      setAuthLoading(false);
+    }
+  };
 
   const transferCartItem = async (payload, { headers, onSuccess, onFailed }) => {
     try {
@@ -83,6 +94,7 @@ const useAuth = () => {
     registerUser,
     transferCartItem,
     passwordResetMail,
+    resetPassword,
   };
 };
 export default useAuth;

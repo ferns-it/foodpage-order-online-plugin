@@ -520,7 +520,8 @@ input {
 .back_btn {
   display: block;
   margin: 0px auto;
-  width: 25%;
+  width: 150px;
+  text-align: center;
   color: #e03f3f;
   font-size: 14px;
   cursor: pointer;
@@ -2603,7 +2604,7 @@ a:focus {
   font-size: 25px;
 }
 
-.back-reserv-btn{
+.back-reserv-btn {
   border: none;
   outline: none !important;
   background-color: transparent;
