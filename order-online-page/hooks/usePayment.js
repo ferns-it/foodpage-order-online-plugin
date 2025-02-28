@@ -3,6 +3,7 @@ import BaseClient from "../helper/Baseclients";
 import { APIEndpoints } from "../constants/APIEndpoints";
 import { loadStripe } from "@stripe/stripe-js";
 import toast from "react-hot-toast";
+import { ReservationAPIEndpoints } from "../../table-reservation/constants/ReservationAPIEndpoints";
 
 export default function usePayment() {
   const [loading, setLoading] = useState(false);
@@ -44,6 +45,22 @@ export default function usePayment() {
       onFailed: onFailed,
       // authentication: true,
     });
+  };
+
+  const createReservPaymentIntent = async (
+    payload,
+    { onSuccess, onFailed, headers }
+  ) => {
+    await BaseClient.post(
+      ReservationAPIEndpoints.reservPaymentIntent,
+      payload,
+      {
+        headers: headers,
+        onSuccess: onSuccess,
+        onFailed: onFailed,
+        // authentication: true,
+      }
+    );
   };
 
   const onPaymentElementReady = () => {
@@ -182,5 +199,6 @@ export default function usePayment() {
     deliveryLoading,
     paymentError,
     setPaymentData,
+    createReservPaymentIntent,
   };
 }
