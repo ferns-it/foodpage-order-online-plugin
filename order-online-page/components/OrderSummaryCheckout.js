@@ -57,6 +57,7 @@ function OrderSummaryCheckout() {
     isUserLogged,
     cartItems,
     clearCartItems,
+    fetchOrderHistory
   } = useContext(AppContext);
 
   // const { fetchCartList } = useContext(AppContext);
@@ -388,12 +389,8 @@ function OrderSummaryCheckout() {
           source: "NextJs",
         };
 
-        // let headers = {
-        //   User: userToken ? userToken : userID,
-        // };
-
         let headers = {
-          User: userID,
+          User: userToken ? userToken : userID,
         };
 
         await completeCheckout(payload, {
@@ -412,6 +409,9 @@ function OrderSummaryCheckout() {
                 console.log("Error on cart clear", err);
               },
             });
+            if (userToken) {
+              await fetchOrderHistory(userToken);
+            }
             router.refresh();
             router.push("/order-online");
             setActiveCard("login");
@@ -509,15 +509,14 @@ function OrderSummaryCheckout() {
                             onChange={handleChange}
                             value={formState.fullname}
                           />
-                           {fieldError === true &&
-                          (!formState.fullname ||
-                            formState.fullname.length === 0) && (
-                            <span className="oos_err_29102">
-                              Name is required!
-                            </span>
-                          )}
+                          {fieldError === true &&
+                            (!formState.fullname ||
+                              formState.fullname.length === 0) && (
+                              <span className="oos_err_29102">
+                                Name is required!
+                              </span>
+                            )}
                         </div>
-                       
                       </div>
 
                       <>
@@ -577,15 +576,14 @@ function OrderSummaryCheckout() {
                                 //     : false
                                 // }
                               /> */}
-                              {fieldError == true &&
-                            (!formState.postalCode ||
-                              formState?.postalCode?.length === 0) && (
-                              <span className="oos_err_29102">
-                                Postal code is required!
-                              </span>
-                            )}
+                            {fieldError == true &&
+                              (!formState.postalCode ||
+                                formState?.postalCode?.length === 0) && (
+                                <span className="oos_err_29102">
+                                  Postal code is required!
+                                </span>
+                              )}
                           </div>
-                          
                         </div>
                       </>
 
@@ -612,14 +610,13 @@ function OrderSummaryCheckout() {
                             value={formState.emailAddress}
                           />
                           {fieldError &&
-                          (!formState.emailAddress ||
-                            formState?.emailAddress?.length === 0) && (
-                            <span className="oos_err_29102">
-                              Email Address is required!
-                            </span>
-                          )}
+                            (!formState.emailAddress ||
+                              formState?.emailAddress?.length === 0) && (
+                              <span className="oos_err_29102">
+                                Email Address is required!
+                              </span>
+                            )}
                         </div>
-                        
                       </div>
                       <div className="col-lg-4 col-md-4 col-sm-4">
                         <div className="form-group">
@@ -644,14 +641,13 @@ function OrderSummaryCheckout() {
                             value={formState.phone}
                           />
                           {fieldError &&
-                          (!formState.phone ||
-                            !/^\d+$/.test(formState.phone)) && (
-                            <span className="oos_err_29102">
-                              Phone is required and must be numeric!
-                            </span>
-                          )}
+                            (!formState.phone ||
+                              !/^\d+$/.test(formState.phone)) && (
+                              <span className="oos_err_29102">
+                                Phone is required and must be numeric!
+                              </span>
+                            )}
                         </div>
-                        
                       </div>
 
                       <div className="col-lg-4 col-md-4 col-sm-4">
@@ -677,14 +673,13 @@ function OrderSummaryCheckout() {
                             value={formState.addressLine1}
                           />
                           {fieldError &&
-                          (!formState.addressLine1 ||
-                            formState?.addressLine1?.length == 0) && (
-                            <span className="oos_err_29102">
-                              Address Line 1 is required!
-                            </span>
-                          )}
+                            (!formState.addressLine1 ||
+                              formState?.addressLine1?.length == 0) && (
+                              <span className="oos_err_29102">
+                                Address Line 1 is required!
+                              </span>
+                            )}
                         </div>
-                        
                       </div>
                       <div className="col-lg-4 col-md-4 col-sm-4">
                         <div className="form-group">
@@ -729,14 +724,13 @@ function OrderSummaryCheckout() {
                             value={formState.townCity}
                           />
                           {fieldError &&
-                          (!formState.townCity ||
-                            formState?.townCity?.length == 0) && (
-                            <span className="oos_err_29102">
-                              Town/City is required!
-                            </span>
-                          )}
+                            (!formState.townCity ||
+                              formState?.townCity?.length == 0) && (
+                              <span className="oos_err_29102">
+                                Town/City is required!
+                              </span>
+                            )}
                         </div>
-                        
                       </div>
                       <div className="col-lg-4 col-md-4 col-sm-4">
                         <div className="form-group">
@@ -755,14 +749,13 @@ function OrderSummaryCheckout() {
                             value={formState.county}
                           />
                           {fieldError &&
-                          (!formState.county ||
-                            formState?.county?.length == 0) && (
-                            <span className="oos_err_29102">
-                              County Required
-                            </span>
-                          )}
+                            (!formState.county ||
+                              formState?.county?.length == 0) && (
+                              <span className="oos_err_29102">
+                                County Required
+                              </span>
+                            )}
                         </div>
-                        
                       </div>
                     </div>
                     <div className="form-group mt-3">

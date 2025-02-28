@@ -13,6 +13,7 @@ const useProfile = () => {
   const [userLoading, setUserLoading] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const [orderHistory, setOrderHistory] = useState(null);
+  const [userOrderHistory, setUserOrderHistory] = useState(null);
   const [expired, setExpired] = useState(false);
   const [reservationList, setReservationList] = useState(null);
   const [userAddressList, setUserAddressList] = useState(null);
@@ -208,9 +209,11 @@ const useProfile = () => {
         {
           headers,
           onSuccess: (res) => {
-            console.log(res, "response");
-            if (res.data.data.History) {
-              setOrderHistory(res.data.data.History);
+            const data = res?.data?.data?.History;
+
+            if (data && data.length != 0) {
+              debugger;
+              setUserOrderHistory(data);
             }
           },
           onFailed: (err) => {
@@ -260,13 +263,12 @@ const useProfile = () => {
     userLoading,
     userInfo,
     userNewAddress,
-    fetchAddressList,
     userAddressList,
     setUserInfo,
     expired,
     setDefaultAddress,
     deleteSavedAddress,
-    orderHistory,
+    userOrderHistory,
     fetchOrderHistory,
     fetchReservationData,
     reservationList,
