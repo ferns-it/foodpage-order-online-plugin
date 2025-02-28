@@ -177,8 +177,9 @@ export const AppContextProvider = (props) => {
     diningMenuList();
     fetchMenuList();
     fetchCurrentShopStatus();
+    fetchAddressList(userToken);
     // if (userToken) {
-    //   fetchAddressList(userToken);
+
     //   fetchOrderList(userToken);
     // fetchOrderDetails(userToken, orderId);
     // }
