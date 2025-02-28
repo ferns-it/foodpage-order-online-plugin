@@ -227,7 +227,7 @@ function OrderSummary() {
       toast("Your cart is empty!");
       return;
     }
-
+    setSessionStorageItem("path", "checkout");
     if (delivery == false || delivery == "false") {
       if (postalCode == "" || postalCode == null) {
         toast.error("Please add Details of Delivery!");

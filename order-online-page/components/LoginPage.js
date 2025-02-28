@@ -84,7 +84,7 @@ function LoginPage() {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    const location = getSessionStorageItem("location");
+    const location = getSessionStorageItem("path");
     const isValid = validateLoginForm();
     if (isValid) {
       const payload = {
@@ -115,8 +115,7 @@ function LoginPage() {
             "userDetails",
             user ? JSON.stringify(user) : ""
           );
-          console.log("userId", userId);
-          console.log("guestId", guestId);
+        
 
           if (guestId) {
             await transferCartItems(guestId, userId);
@@ -127,7 +126,7 @@ function LoginPage() {
           toast.success("User Logged in successfully!");
 
           setTimeout(() => {
-            if (location == "checkout") {
+            if (location == "checkout" || location == "/checkout") {
               redirectToLocation("/checkout");
             } else {
               redirectToLocation("/");
