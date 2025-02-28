@@ -63,9 +63,9 @@ body {
   margin: 0;
   text-align: left !important;
 }
-.links_order {
-  color: #ab2e2e !important;
-}
+/* .links_order {
+  color: #141414 !important;
+} */
 .order_list ul li {
   text-align: left !important;
   text-transform: uppercase;
@@ -352,6 +352,10 @@ body {
 .nav-link {
   text-decoration: none;
   cursor: pointer;
+  background-color: #f8f8f8;
+  margin-bottom: 5px;
+  color: #000 !important;
+  font-size: 15px;
 }
 
 .nav-btn {
@@ -862,12 +866,13 @@ body {
     rgba(224, 63, 63, 0.242) 50%,
     rgba(224, 63, 63, 0.429) 100%
   ) !important; */
-  background: #eee !important;
-  background: linear-gradient(
+  background: #e7b532 !important;
+  /* background: linear-gradient(
     90deg,
     rgba(238, 238, 238, 0) 0%,
     rgb(212, 212, 212) 100%
-  ) !important;
+  ) !important; */
+  color: #fff !important;
 }
 
 .active_009::before {
