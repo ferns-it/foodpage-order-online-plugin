@@ -2591,3 +2591,20 @@ a:focus {
     width: 100%;
   }
 }
+.close_02901 {
+  position: absolute;
+  color: #fff;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  right: 10px;
+  top: 10px;
+  font-size: 25px;
+}
+
+.back-reserv-btn{
+  border: none;
+  outline: none !important;
+  background-color: transparent;
+  border-radius: 4px;
+}

@@ -652,7 +652,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
             }
             setReservationDetails(reserVData);
             setSessionStorageItem("reservData", JSON.stringify(reserVData));
-            router.push("/reservation-list");
+            router.push(`/reservation-list?email=${reservEmail}`);
           } else {
             toast.error("No reservations found!");
           }
