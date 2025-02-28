@@ -2158,3 +2158,436 @@ abbr[title] {
 .holidaycard span {
   padding: 0 10px;
 }
+
+/* Checkout Page Styles */
+.checkout7821_page {
+  min-height: 100vh;
+  background-color: #f9fafb;
+  padding: 3rem 1rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.checkout7821_container {
+  max-width: 1024px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Header Styles */
+.checkout7821_header {
+  background-color: #4f46e5;
+  padding: 1.5rem 2rem;
+  color: white;
+}
+
+.checkout7821_header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.checkout7821_header p {
+  margin-top: 0.25rem;
+  color: #e0e7ff;
+  font-size: 0.95rem;
+}
+
+/* Confirmation Banner */
+.checkout7821_confirmation_banner {
+  background-color: #eff6ff;
+  border-left: 4px solid #3b82f6;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.checkout7821_confirmation_icon {
+  background-color: #dbeafe;
+  border-radius: 50%;
+  padding: 0.5rem;
+  margin-right: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkout7821_confirmation_icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #2563eb;
+}
+
+.checkout7821_confirmation_id {
+  color: #1e40af;
+  font-weight: 500;
+  margin: 0;
+}
+
+.checkout7821_confirmation_text {
+  color: #3b82f6;
+  font-size: 0.875rem;
+  margin: 0.25rem 0 0 0;
+}
+
+/* Details Section */
+.checkout7821_details_section {
+  padding: 2rem;
+}
+
+.checkout7821_section_title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.checkout7821_section_icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #4f46e5;
+  margin-right: 0.5rem;
+}
+
+.checkout7821_section_title h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+/* Details Grid */
+.checkout7821_details_grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .checkout7821_details_grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Info Boxes */
+.checkout7821_restaurant_info,
+.checkout7821_reservation_info,
+.checkout7821_guest_info,
+.checkout7821_special_requests {
+  background-color: #f9fafb;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.checkout7821_info_title_icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #4f46e5;
+  margin-right: 0.5rem;
+}
+
+.checkout7821_restaurant_info h3,
+.checkout7821_reservation_info h3,
+.checkout7821_guest_info h3,
+.checkout7821_special_requests h3 {
+  display: flex;
+  align-items: center;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #1f2937;
+  margin: 0 0 1rem 0;
+}
+
+/* Info Items */
+.checkout7821_info_item {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.checkout7821_info_icon {
+  margin-right: 0.75rem;
+  color: #6b7280;
+}
+
+.checkout7821_info_icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.checkout7821_info_label {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.checkout7821_info_value {
+  font-weight: 500;
+  color: #1f2937;
+  margin: 0.25rem 0 0 0;
+}
+
+/* Info Grid */
+.checkout7821_info_grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .checkout7821_info_grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Payment Section */
+.checkout7821_payment_section {
+  margin-top: 3rem;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 2.5rem;
+}
+
+/* Payment Summary */
+.checkout7821_payment_summary {
+  background-color: #eef2ff;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.checkout7821_summary_grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.checkout7821_summary_label {
+  color: #4b5563;
+}
+
+.checkout7821_summary_value {
+  font-weight: 500;
+  text-align: right;
+}
+
+.checkout7821_total_row {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1rem;
+  border-top: 1px solid #c7d2fe;
+}
+
+.checkout7821_total_label {
+  color: #4338ca;
+  font-weight: 600;
+}
+
+.checkout7821_total_value {
+  font-weight: 700;
+  color: #4338ca;
+}
+
+.checkout7821_deposit_note {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+/* Payment Form */
+.checkout7821_payment_form {
+  margin-top: 2rem;
+}
+
+.checkout7821_form_grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .checkout7821_form_grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.checkout7821_full_width {
+  grid-column: 1 / -1;
+}
+
+.checkout7821_form_group9290,
+.checkout7821_form_group9291,
+.checkout7821_form_group9292,
+.checkout7821_form_group9293 {
+  margin-bottom: 1rem;
+}
+
+.checkout7821_label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.25rem;
+}
+
+.checkout7821_input_icon {
+  position: relative;
+}
+
+.checkout7821_icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.checkout7821_input {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.checkout7821_input_icon .checkout7821_input {
+  padding-left: 2.5rem;
+}
+
+.checkout7821_input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Checkbox */
+.checkout7821_form_group9294 {
+  margin-top: 1.5rem;
+}
+
+.checkout7821_checkbox_container {
+  display: flex;
+  align-items: flex-start;
+}
+
+.checkout7821_checkbox {
+  height: 1rem;
+  width: 1rem;
+  color: #4f46e5;
+  border-color: #d1d5db;
+  border-radius: 0.25rem;
+  margin-top: 0.25rem;
+}
+
+.checkout7821_checkbox_label {
+  margin-left: 0.5rem;
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+/* Security Note */
+.checkout7821_security_note {
+  display: flex;
+  align-items: center;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.checkout7821_security_icon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  color: #6b7280;
+}
+
+/* Buttons */
+.checkout7821_button_container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.checkout7821_back_button {
+  color: #4f46e5;
+  background-color: white;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid #4f46e5;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.checkout7821_back_button:hover {
+  background-color: #f5f3ff;
+}
+
+.checkout7821_submit_button {
+  background-color: #4f46e5;
+  color: white;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.2s;
+}
+
+.checkout7821_submit_button:hover {
+  background-color: #4338ca;
+}
+
+.checkout7821_lock_icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 0.5rem;
+}
+
+/* Footer */
+.checkout7821_footer {
+  background-color: #f9fafb;
+  padding: 1.5rem 2rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #6b7280;
+  border-top: 1px solid #e5e7eb;
+}
+
+.checkout7821_footer p {
+  margin: 0 0 0.5rem 0;
+}
+
+.checkout7821_footer p:last-child {
+  margin-bottom: 0;
+}
+
+/* Focus and Accessibility */
+button:focus,
+input:focus,
+a:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .checkout7821_button_container {
+    flex-direction: column;
+  }
+
+  .checkout7821_back_button,
+  .checkout7821_submit_button {
+    width: 100%;
+  }
+}
