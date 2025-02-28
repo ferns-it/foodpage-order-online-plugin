@@ -6,7 +6,7 @@ import * as Go from "react-icons/go";
 import CryptoJS from "crypto-js";
 import toast, { Toaster } from "react-hot-toast";
 import Utils from "../_utils/Utils";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   getLocalStorageItem,
   getSessionStorageItem,
@@ -17,10 +17,12 @@ import {
 import "./style.css";
 
 function OtpVerification() {
+  const path = usePathname();
+
   const { authLoading, settings, sentOTPtoUser } = useContext(AppContext);
   const router = useRouter();
   const [reservOTP, setResertOTP] = useState("");
-  const [loginMail, setLoginMail] = useState(null)
+  const [loginMail, setLoginMail] = useState(null);
   const encryptedOTP = getSessionStorageItem("encryptedOTP");
 
   const encryptToMD5 = (number) => {
@@ -28,8 +30,8 @@ function OtpVerification() {
   };
   useEffect(() => {
     const storedMail = getSessionStorageItem("loginMail");
-    setLoginMail(storedMail)
-  }, [])
+    setLoginMail(storedMail);
+  }, []);
   const resendOTP = async () => {
     const otp = Utils.generateOTP();
     const encryptedOTP = encryptToMD5(otp);
@@ -84,9 +86,14 @@ function OtpVerification() {
       generateToken();
       sessionStorage.removeItem("encryptedOTP");
       sessionStorage.removeItem("loginInfo");
-      const pathname = getLocalStorageItem("path") ?? "/checkout";
-      removeLocalStorageItem("path");
-      router.push(pathname);
+
+      if (path == "/resetpassword" || path == "resetpassword") {
+        router.push("/changepassword");
+      } else {
+        const pathname = getLocalStorageItem("path") ?? "/checkout";
+        removeLocalStorageItem("path");
+        router.push(pathname);
+      }
     } else {
       toast.error("invalid OTP!");
       setResertOTP("");
@@ -99,8 +106,7 @@ function OtpVerification() {
         <div className="card table_reservation_card col-lg-7 col-md-9 col-sm-10 mb-3">
           <h3 className="table-reservation-form-head">OTP VERIFICATION </h3>
           <p className="table_reserv_info_sub_head text-center">
-            Your OTP has been send to your mail addesss{" "}
-            <span>{loginMail}</span>
+            Your OTP has been send to your mail addesss <span>{loginMail}</span>
           </p>
           <div className="otp_validation_reserv">
             <OTPInput
