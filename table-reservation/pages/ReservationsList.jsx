@@ -1,11 +1,14 @@
 "use client";
 import React, { useContext, useEffect } from "react";
 import { TableReservationContext } from "../context/TableReservationContext";
-import { getSessionStorageItem } from "@/plugin/_utils/ClientUtils";
+
 import Utils from "../utils/Utils";
 import * as Fa from "react-icons/fa";
 import CryptoJS from "crypto-js";
 import { useRouter } from "next/navigation";
+import { getSessionStorageItem } from "../../_utils/ClientUtils";
+
+import "../style/Style.css";
 
 function ReservationsList() {
   const router = useRouter();
@@ -26,6 +29,9 @@ function ReservationsList() {
     const parsedId = CryptoJS.MD5(id);
     router.push(`/view-reservation?reserv=${parsedId}`);
   };
+
+
+  
 
   return (
     <div>
