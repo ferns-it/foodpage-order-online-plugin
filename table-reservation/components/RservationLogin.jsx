@@ -160,10 +160,10 @@ function ReservationLogin() {
             setLocalStorageItem("userToken", token);
             setLocalStorageItem("guest", false);
 
-            // if (havAdvance) {
-            //   router.push(`/reservation-checkout?advance=${reserAdvAmt}`);
-            //   return;
-            // }
+            if (havAdvance) {
+              router.push(`/reservation-checkout?advance=${reserAdvAmt}`);
+              return;
+            }
             completeNewReservation();
             if (guestId) {
               await transferCartItems(guestId, userId);
@@ -179,7 +179,7 @@ function ReservationLogin() {
   const handleGuestLogin = () => {
     router.push("/reservation-guest");
   };
-  console.log(initialValues, "initialValues");
+ 
   const completeNewReservation = async () => {
     const mergedBooking = Utils.mergeBookingDateTime(
       initialValues?.bookingDate,
@@ -317,14 +317,14 @@ function ReservationLogin() {
                 </button>
               </form>
             </div>
-            <p className="or_">or</p>
+            {/* <p className="or_">or</p>
             <button
               type="button"
               className="guest_btn"
               onClick={handleGuestLogin}
             >
               Login as Guest
-            </button>
+            </button> */}
             <p className="sign_up_">
               Didn't have an account? <a href="/register">Signup here.</a>
             </p>

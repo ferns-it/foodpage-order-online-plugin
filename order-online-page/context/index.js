@@ -166,6 +166,7 @@ export const AppContextProvider = (props) => {
     deliveryLoading,
     GuestDeliveryDetails,
     GuestDiscountoftakeaway,
+    createReservPaymentIntent,
   } = usePayment();
 
   useEffect(() => {
@@ -375,6 +376,7 @@ export const AppContextProvider = (props) => {
         reservationList,
         userOrderHistory,
         isUser,
+        createReservPaymentIntent,
       }}
     >
       {props.children}

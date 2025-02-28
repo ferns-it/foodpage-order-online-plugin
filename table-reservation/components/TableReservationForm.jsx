@@ -30,6 +30,7 @@ import lottieFile from "../assets/lottie/Animation - 1734505645259.json";
 import Image from "next/image";
 import TableReservDisabled from "../assets/table-reservation-disabled.png";
 import dayjs from "dayjs";
+import { AppContext } from "../../order-online-page/context";
 
 const RECAPTCHA_SITE_KEY = "6LeXD-8pAAAAAOpi7gUuH5-DO0iMu7J6C-CBA2fo";
 
@@ -52,6 +53,7 @@ const findToday = () => {
 
 function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   const router = useRouter();
+  const { settings } = useContext(AppContext);
   const {
     getShopTiming,
     shopTiming,
@@ -83,6 +85,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   const [reservEmail, setReservEmail] = useState("");
   const [manageReservLoading, setManageReservLoading] = useState(false);
   const [holidayIntervals, setHolidayIntervals] = useState([]);
+  
 
   const memoizedHolidayIntervals = useMemo(() => {
     return generateHolidayIntervals();
@@ -500,38 +503,56 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
 
       if (isReservationValid === false) return;
 
-      await sendReservationOTP(payload, {
-        onSuccess: (res) => {
-          sessionStorage.setItem("hashcode", md5Num);
-          // localStorage.setItem("pageState");
-          setSecretKey(md5Num);
-          const errStatus = res.data.error;
-          // console.log("OTP", res.data);
+      const token = getLocalStorageItem("userToken");
 
-          if (errStatus == false) {
-            const saveObj =
-              initialValues && typeof initialValues == "object"
-                ? JSON.stringify(initialValues)
-                : initialValues;
+      const havAdvance =
+        settings?.tableReservationSettings.haveAdvance === "Yes" ? true : false;
 
-            setSessionStorageItem("reserv_details", saveObj);
-            setSessionStorageItem("secretKey", secretKey);
-            const token = getLocalStorageItem("userToken");
-            if (token == null || token == undefined) {
-              router.push("/reservation-login");
-            } else {
-              completeNewReservation();
-            }
-          } else {
-            toast.error("OTP not send!");
-          }
-        },
-        onFailed: (err) => {
-          toast.error("Error on sending OTP");
-          console.log("OTP ERROR", err);
-        },
-        headers: headers,
-      });
+      let reserAdvAmt = 0;
+
+      if (havAdvance) {
+        reserAdvAmt = settings?.tableReservationSettings.advanceAmount;
+      }
+      setSessionStorageItem("reservationData", JSON.stringify(initialValues));
+      
+      if (token == null || token == undefined) {
+        router.push("/reservation-login");
+
+        // await sendReservationOTP(payload, {
+        //   onSuccess: (res) => {
+        //     sessionStorage.setItem("hashcode", md5Num);
+        //     // localStorage.setItem("pageState");
+        //     setSecretKey(md5Num);
+        //     const errStatus = res.data.error;
+        //     // console.log("OTP", res.data);
+
+        //     if (errStatus == false) {
+        //       const saveObj =
+        //         initialValues && typeof initialValues == "object"
+        //           ? JSON.stringify(initialValues)
+        //           : initialValues;
+
+        //       setSessionStorageItem("reserv_details", saveObj);
+        //       setSessionStorageItem("secretKey", secretKey);
+
+        //       // if (token == null || token == undefined) {
+        //       //   router.push("/reservation-login");
+        //       // } else {
+        //       //   completeNewReservation();
+        //       // }
+        //     } else {
+        //       toast.error("OTP not send!");
+        //     }
+        //   },
+        //   onFailed: (err) => {
+        //     toast.error("Error on sending OTP");
+        //     console.log("OTP ERROR", err);
+        //   },
+        //   headers: headers,
+        // });
+      } else {
+        router.push(`/reservation-checkout?advance=${reserAdvAmt}`);
+      }
     } finally {
       setFormValidationLoading(false);
     }

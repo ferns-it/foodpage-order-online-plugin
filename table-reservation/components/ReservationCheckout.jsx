@@ -1,55 +1,165 @@
-import React from "react";
+"use client";
+import React, { useContext, useEffect, useState } from "react";
+import {
+  getLocalStorageItem,
+  getSessionStorageItem,
+  redirectToLocation,
+  removeSessionStorageItem,
+} from "../../_utils/ClientUtils";
+
+import * as Ci from "react-icons/ci";
+import * as Pi from "react-icons/pi";
+import Utils from "../utils/Utils";
+import { AppContext } from "../../order-online-page/context";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Elements } from "@stripe/react-stripe-js";
+import StripePaymentElementOrderOnline from "../../order-online-page/components/StripePaymentElementOrderOnline";
+import toast from "react-hot-toast";
+import { TableReservationContext } from "../context/TableReservationContext";
 
 function ReservationCheckout() {
-  // Sample reservation data (in a real app, this would come from a database or state)
-  const reservationData = {
-    name: "John Smith",
-    email: "john.smith@example.com",
-    phone: "(555) 123-4567",
-    date: "2025-06-15",
-    time: "19:00",
-    guests: 4,
-    specialRequests: "Window table preferred. Celebrating an anniversary.",
-    restaurantName: "The Grand Bistro",
-    restaurantAddress: "123 Culinary Avenue, Foodville",
-    reservationId: "RES-7821-9384",
-    price: 25.0, // Deposit amount
-    tax: 2.5,
-    total: 27.5,
-  };
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const {
+    paymentData,
+    setStripeClientSecret,
+    stripePaymentClientSecret,
+    stripePromise,
+    options,
+    setPaymentData,
+    paymentError,
+    createReservPaymentIntent,
+  } = useContext(AppContext);
+  const { initialValues, setSecretKey, completeReservation } = useContext(
+    TableReservationContext
+  );
+  const [intentLoading, setIntentLoading] = useState(false);
 
-  // Format date to be more readable
-  const formatDate = (dateString) => {
-    const options = {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    };
-    return new Date(dateString).toLocaleDateString("en-US", options);
-  };
-
-  // State for checkout form
-  const [paymentInfo, setPaymentInfo] = useState({
-    cardNumber: "",
-    cardName: "",
-    expiry: "",
-    cvv: "",
-    agreeToTerms: false,
+  const [reservationData, setReservationData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    bookingDate: "",
+    bookingTime: "",
+    noOfChairs: 0,
+    message: "",
+    price: 0,
   });
 
-  const handlePaymentChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setPaymentInfo({
-      ...paymentInfo,
-      [name]: type === "checkbox" ? checked : value,
+  const createPaymentIntentRequest = async () => {
+    const price = searchParams.get("advance");
+
+    const actualPrice = parseInt(price) * 100;
+
+    if (actualPrice <= 0) {
+      toast.error(`Invalid Price amount!`);
+      return;
+    }
+
+    if (reservationData.noOfChairs <= 0) {
+      toast.error(`Minimum amount for Party size is 1`);
+      return;
+    }
+
+    if (paymentData == null) {
+      try {
+        let headers = {
+          "x-secretkey": process.env.FOODPAGE_RESERVATION_SECRET_KEY,
+        };
+        setIntentLoading(true);
+
+        const payload = {
+          chair: reservationData.noOfChairs,
+          shopID: process.env.SHOP_ID,
+        };
+
+        await createReservPaymentIntent(payload, {
+          headers: headers,
+          onSuccess: (res) => {
+            setPaymentData(res);
+            const result = res?.data?.data?.paymentIntent?.client_secret;
+            debugger;
+            if (result != null) {
+              setStripeClientSecret(result);
+            }
+          },
+
+          onFailed: (error) => {
+            toast.error(error?.message);
+          },
+        });
+      } finally {
+        setIntentLoading(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const reservValue = getSessionStorageItem("reservationData");
+    const price = searchParams.get("advance");
+    if (reservValue && reservValue.length != 0) {
+      const parsedData = JSON.parse(reservValue);
+      setReservationData((prevData) => ({
+        ...parsedData,
+        price: price ?? prevData.price,
+      }));
+    }
+  }, []);
+
+  const completeNewReservation = async () => {
+    const mergedBooking = Utils.mergeBookingDateTime(
+      reservationData?.bookingDate,
+      reservationData?.bookingTime
+    );
+    const token = getLocalStorageItem("userToken");
+
+    const price = searchParams.get("advance");
+    const advAmt = price ? Math.round(Number(price) * 100) : 0;
+
+    if (advAmt && advAmt <= 0) {
+      toast.error("Invalid price rate!");
+      return;
+    }
+
+    const data = paymentData?.data?.data;
+
+    const payload = {
+      shopID: process.env.SHOP_ID,
+      userID: 0,
+      name: reservationData?.name,
+      phone: reservationData?.phone,
+      email: reservationData?.email,
+      totalChair: reservationData?.noOfChairs,
+      reservationDateTime: mergedBooking,
+      advancePayment: "yes",
+      advanceAmount: advAmt,
+      paymentMethod: "stripe",
+      transactionID: data?.paymentIntent?.id,
+      message: reservationData?.message,
+      baseUrl: process.env.TABLE_RESERVATION_URL,
+      source: "NextJs",
+    };
+
+    const headers = {
+      "x-secretkey": process.env.FOODPAGE_RESERVATION_SECRET_KEY,
+    };
+
+    await completeReservation(payload, {
+      onSuccess: (res) => {
+        toast.success("Your request has been submitted successfully!");
+        setSecretKey("");
+        removeSessionStorageItem("reservationData");
+        setTimeout(() => {
+          redirectToLocation("/");
+        }, 1000);
+      },
+      onFailed: (err) => {
+        console.log(err);
+      },
+      headers,
     });
   };
 
-  const handleCheckout = (e) => {
-    e.preventDefault();
-    alert("Payment successful! Your reservation is now confirmed.");
-  };
 
   return (
     <div className="checkout7821_page">
@@ -78,9 +188,6 @@ function ReservationCheckout() {
             </svg>
           </div>
           <div>
-            <p className="checkout7821_confirmation_id">
-              Reservation #{reservationData.reservationId}
-            </p>
             <p className="checkout7821_confirmation_text">
               Please review your details and complete payment to confirm
             </p>
@@ -89,302 +196,128 @@ function ReservationCheckout() {
 
         <div className="checkout7821_details_section">
           <div className="checkout7821_section_title">
-            <Calendar className="checkout7821_section_icon" />
+            {/* <Calendar className="checkout7821_section_icon" /> */}
             <h2>Reservation Details</h2>
           </div>
 
-          <div className="checkout7821_details_grid">
-            <div className="checkout7821_restaurant_info">
-              <h3>
-                <Utensils className="checkout7821_info_title_icon" />
-                Restaurant Information
-              </h3>
-
-              <div className="checkout7821_info_item">
-                <div className="checkout7821_info_icon">
-                  <Utensils />
-                </div>
-                <div>
-                  <p className="checkout7821_info_value">
-                    {reservationData.restaurantName}
-                  </p>
-                </div>
-              </div>
-
-              <div className="checkout7821_info_item">
-                <div className="checkout7821_info_icon">
-                  <MapPin />
-                </div>
-                <div>
-                  <p>{reservationData.restaurantAddress}</p>
-                </div>
-              </div>
-
-              <div className="checkout7821_info_item">
-                <div className="checkout7821_info_icon">
-                  <Phone />
-                </div>
-                <div>
-                  <p>(555) 987-6543</p>
-                </div>
-              </div>
-            </div>
-
+          <div className="checkout7821_special_requests">
             <div className="checkout7821_reservation_info">
-              <h3>
-                <Calendar className="checkout7821_info_title_icon" />
-                Your Reservation
-              </h3>
+              <h3>Your Reservation</h3>
+              <div className="row">
+                <div className="col-lg-6 col-md-12 col-sm-12">
+                  <div className="checkout7821_info_item">
+                    <div className="checkout7821_info_icon">
+                      <Pi.PiUserCircle />
+                    </div>
+                    <div>
+                      <p className="checkout7821_info_label">Name</p>
+                      <p className="checkout7821_info_value">
+                        {reservationData?.name}
+                      </p>
+                    </div>
+                  </div>
 
-              <div className="checkout7821_info_item">
-                <div className="checkout7821_info_icon">
-                  <Calendar />
-                </div>
-                <div>
-                  <p className="checkout7821_info_label">Date</p>
-                  <p className="checkout7821_info_value">
-                    {formatDate(reservationData.date)}
-                  </p>
-                </div>
-              </div>
+                  <div className="checkout7821_info_item">
+                    <div className="checkout7821_info_icon">
+                      <Ci.CiMail />
+                    </div>
+                    <div>
+                      <p className="checkout7821_info_label">Email</p>
+                      <p className="checkout7821_info_value">
+                        {reservationData?.email}
+                      </p>
+                    </div>
+                  </div>
 
-              <div className="checkout7821_info_item">
-                <div className="checkout7821_info_icon">
-                  <Clock />
+                  <div className="checkout7821_info_item">
+                    <div className="checkout7821_info_icon">
+                      <Ci.CiPhone />
+                    </div>
+                    <div>
+                      <p className="checkout7821_info_label">Phone</p>
+                      <p className="checkout7821_info_value">
+                        {reservationData?.phone}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <p className="checkout7821_info_label">Time</p>
-                  <p className="checkout7821_info_value">
-                    {reservationData.time === "19:00"
-                      ? "7:00 PM"
-                      : reservationData.time}
-                  </p>
-                </div>
-              </div>
+                <div className="col-lg-6 col-md-12 col-sm-12">
+                  <div className="checkout7821_info_item">
+                    <div className="checkout7821_info_icon">
+                      <Ci.CiCalendar />
+                    </div>
+                    <div>
+                      <p className="checkout7821_info_label">Date</p>
+                      <p className="checkout7821_info_value">
+                        {reservationData?.bookingDate &&
+                        reservationData?.bookingDate.length != 0
+                          ? Utils.formatDate(reservationData?.bookingDate)
+                          : ""}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="checkout7821_info_item">
+                    <div className="checkout7821_info_icon">
+                      <Ci.CiClock2 />
+                    </div>
+                    <div>
+                      <p className="checkout7821_info_label">Time</p>
+                      <p className="checkout7821_info_value">
+                        {reservationData?.bookingTime &&
+                        reservationData?.bookingTime.length != 0
+                          ? Utils.convertTiming(reservationData?.bookingTime)
+                          : ""}
+                      </p>
+                    </div>
+                  </div>
 
-              <div className="checkout7821_info_item">
-                <div className="checkout7821_info_icon">
-                  <Users />
-                </div>
-                <div>
-                  <p className="checkout7821_info_label">Party Size</p>
-                  <p className="checkout7821_info_value">
-                    {reservationData.guests}{" "}
-                    {reservationData.guests === 1 ? "person" : "people"}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="checkout7821_guest_info">
-            <h3>
-              <Users className="checkout7821_info_title_icon" />
-              Guest Information
-            </h3>
-
-            <div className="checkout7821_info_grid">
-              <div className="checkout7821_info_item">
-                <div className="checkout7821_info_icon">
-                  <Users />
-                </div>
-                <div>
-                  <p className="checkout7821_info_label">Name</p>
-                  <p className="checkout7821_info_value">
-                    {reservationData.name}
-                  </p>
-                </div>
-              </div>
-
-              <div className="checkout7821_info_item">
-                <div className="checkout7821_info_icon">
-                  <Phone />
-                </div>
-                <div>
-                  <p className="checkout7821_info_label">Phone</p>
-                  <p className="checkout7821_info_value">
-                    {reservationData.phone}
-                  </p>
-                </div>
-              </div>
-
-              <div className="checkout7821_info_item">
-                <div className="checkout7821_info_icon">
-                  <Mail />
-                </div>
-                <div>
-                  <p className="checkout7821_info_label">Email</p>
-                  <p className="checkout7821_info_value">
-                    {reservationData.email}
-                  </p>
+                  <div className="checkout7821_info_item">
+                    <div className="checkout7821_info_icon">
+                      <Pi.PiChairLight />
+                    </div>
+                    <div>
+                      <p className="checkout7821_info_label">Party Size</p>
+                      <p className="checkout7821_info_value">
+                        {reservationData?.noOfChairs}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {reservationData.specialRequests && (
-            <div className="checkout7821_special_requests">
-              <h3>
-                <Info className="checkout7821_info_title_icon" />
-                Special Requests
-              </h3>
-              <p>{reservationData.specialRequests}</p>
-            </div>
+          {(!stripePaymentClientSecret ||
+            stripePaymentClientSecret.length == 0) && (
+            <button
+              type="button"
+              className="btn btn-warning mx-auto d-block"
+              onClick={createPaymentIntentRequest}
+              disabled={intentLoading}
+            >
+              Continue Payment
+            </button>
           )}
 
-          {/* Checkout Form Section */}
-          <div className="checkout7821_payment_section">
-            <div className="checkout7821_section_title">
-              <CreditCard className="checkout7821_section_icon" />
-              <h2>Payment Details</h2>
-            </div>
+          <br />
 
-            <div className="checkout7821_payment_summary">
-              <h3>
-                <DollarSign className="checkout7821_info_title_icon" />
-                Reservation Summary
-              </h3>
-
-              <div className="checkout7821_summary_grid">
-                <div className="checkout7821_summary_label">
-                  Reservation Deposit:
-                </div>
-                <div className="checkout7821_summary_value">
-                  ${reservationData.price.toFixed(2)}
-                </div>
-                <div className="checkout7821_summary_label">Tax:</div>
-                <div className="checkout7821_summary_value">
-                  ${reservationData.tax.toFixed(2)}
-                </div>
-              </div>
-
-              <div className="checkout7821_total_row">
-                <div className="checkout7821_total_label">Total:</div>
-                <div className="checkout7821_total_value">
-                  ${reservationData.total.toFixed(2)}
-                </div>
-              </div>
-
-              <div className="checkout7821_deposit_note">
-                <p>
-                  This deposit secures your reservation and will be applied to
-                  your final bill.
-                </p>
-              </div>
-            </div>
-
-            <form
-              onSubmit={handleCheckout}
-              className="checkout7821_payment_form"
-            >
-              <div className="checkout7821_form_grid">
-                <div className="checkout7821_form_group9290 checkout7821_full_width">
-                  <label htmlFor="cardNumber" className="checkout7821_label">
-                    Card Number
-                  </label>
-                  <div className="checkout7821_input_icon">
-                    <CreditCard className="checkout7821_icon" />
-                    <input
-                      type="text"
-                      id="cardNumber"
-                      name="cardNumber"
-                      value={paymentInfo.cardNumber}
-                      onChange={handlePaymentChange}
-                      placeholder="1234 5678 9012 3456"
-                      className="checkout7821_input"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="checkout7821_form_group9291 checkout7821_full_width">
-                  <label htmlFor="cardName" className="checkout7821_label">
-                    Name on Card
-                  </label>
-                  <input
-                    type="text"
-                    id="cardName"
-                    name="cardName"
-                    value={paymentInfo.cardName}
-                    onChange={handlePaymentChange}
-                    className="checkout7821_input"
-                    required
+          {stripePaymentClientSecret &&
+            stripePaymentClientSecret.length != 0 && (
+              <div className="payement_method checkout_form mt-3 pt-3 card p-3 m-1">
+                <Elements stripe={stripePromise} options={options}>
+                  <StripePaymentElementOrderOnline
+                    paymentSuccess={async (intentResult) => {
+                      await completeNewReservation();
+                    }}
+                    paymentFailure={(err) => {
+                      toast.error(err.message);
+                    }}
+                    formState={reservationData}
+                    paymentMethod=""
                   />
-                </div>
-
-                <div className="checkout7821_form_group9292">
-                  <label htmlFor="expiry" className="checkout7821_label">
-                    Expiration Date
-                  </label>
-                  <input
-                    type="text"
-                    id="expiry"
-                    name="expiry"
-                    value={paymentInfo.expiry}
-                    onChange={handlePaymentChange}
-                    placeholder="MM/YY"
-                    className="checkout7821_input"
-                    required
-                  />
-                </div>
-
-                <div className="checkout7821_form_group9293">
-                  <label htmlFor="cvv" className="checkout7821_label">
-                    CVV
-                  </label>
-                  <div className="checkout7821_input_icon">
-                    <Lock className="checkout7821_icon" />
-                    <input
-                      type="text"
-                      id="cvv"
-                      name="cvv"
-                      value={paymentInfo.cvv}
-                      onChange={handlePaymentChange}
-                      placeholder="123"
-                      className="checkout7821_input"
-                      required
-                    />
-                  </div>
-                </div>
+                </Elements>
               </div>
-
-              <div className="checkout7821_form_group9294">
-                <div className="checkout7821_checkbox_container">
-                  <input
-                    type="checkbox"
-                    id="agreeToTerms"
-                    name="agreeToTerms"
-                    checked={paymentInfo.agreeToTerms}
-                    onChange={handlePaymentChange}
-                    className="checkout7821_checkbox"
-                    required
-                  />
-                  <label
-                    htmlFor="agreeToTerms"
-                    className="checkout7821_checkbox_label"
-                  >
-                    I agree to the cancellation policy and understand that this
-                    deposit will be applied to my final bill.
-                  </label>
-                </div>
-              </div>
-
-              <div className="checkout7821_security_note">
-                <Lock className="checkout7821_security_icon" />
-                <p>Your payment information is encrypted and secure.</p>
-              </div>
-
-              <div className="checkout7821_button_container">
-                <button type="button" className="checkout7821_back_button">
-                  Modify Reservation
-                </button>
-                <button type="submit" className="checkout7821_submit_button">
-                  <Lock className="checkout7821_lock_icon" />
-                  Complete Payment
-                </button>
-              </div>
-            </form>
-          </div>
+            )}
         </div>
 
         <div className="checkout7821_footer">
