@@ -58,6 +58,7 @@ function OrderSummaryCheckout() {
     isUserLogged,
     cartItems,
     clearCartItems,
+    fetchOrderHistory
   } = useContext(AppContext);
 
   // const { fetchCartList } = useContext(AppContext);
@@ -402,11 +403,13 @@ function OrderSummaryCheckout() {
             //! user token removed here
             // removeLocalStorageItem("userToken");
             // removeSessionStorageItem("userInfo");
-            await fetchCartList(userID);
-            await clearCartItems(userID, {
+            await fetchCartList(userToken);
+            await clearCartItems(userToken, {
               onSuccess: (res) => {},
               onFailed: (err) => {},
             });
+
+            await fetchOrderHistory()
             router.refresh();
             router.push("/order-online");
             setActiveCard("login");
