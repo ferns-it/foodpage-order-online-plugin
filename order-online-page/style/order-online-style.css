@@ -575,7 +575,7 @@ body {
 .decrement:hover {
   color: #252525;
 }
-.summary_item_wrapper_029{
+.summary_item_wrapper_029 {
   margin-top: 10px;
 }
 /* .summary_item_wrapper_029 {
@@ -729,7 +729,7 @@ body {
   padding: 7px 0;
   border: none;
   outline: none;
-  background-color: #B41616;
+  background-color: #b41616;
   color: #fff;
   font-size: 16px;
   font-weight: 700;
@@ -1434,7 +1434,7 @@ body {
   font-size: 18px;
   font-weight: 700;
   letter-spacing: 0.05rem;
-  font-family: "Poppins", Helvetica, sans-serif !important;
+  font-family: sans-serif;
 }
 
 .accord_desc_19 {
@@ -1951,7 +1951,7 @@ body {
   background: #fff;
   font-size: 14px;
   font-size: 0.875rem;
-  font-family: "Poppins", Helvetica, sans-serif;
+  font-family: sans-serif;
   color: #444;
   border: 1px solid #e1e1e1;
 }
@@ -2676,7 +2676,7 @@ div.food_tile__.active img {
   border: none;
   outline: none;
   background-color: transparent;
-  background-color: #B41616;
+  background-color: #b41616;
   font-size: 14px;
   padding: 3px 20px;
   border-radius: 5px;
