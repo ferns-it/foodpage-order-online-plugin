@@ -41,6 +41,7 @@ function OrderSummaryCheckout() {
     activeCard,
     setActiveCard,
     deliveryFee,
+    isUser,
     createPaymentIntent,
     paymentData,
     setStripeClientSecret,
@@ -158,7 +159,7 @@ function OrderSummaryCheckout() {
     const { name, value } = e.target;
     setFormState({ ...formState, [name]: value });
   };
-
+  console.log(isUser, "isUser");
   const handleEmptyValidation = () => {
     const emptyFields = [];
 
@@ -330,7 +331,7 @@ function OrderSummaryCheckout() {
       const paymentMethod = paymentOption === "stripe" ? "STRIPE" : "COD";
 
       const userID = getLocalStorageItem("UserPersistent");
-      const isGuest = getLocalStorageItem("guest");
+
       const userToken = getLocalStorageItem("userToken");
 
       if (
@@ -386,13 +387,13 @@ function OrderSummaryCheckout() {
           source: "NextJs",
         };
 
-        // let headers = {
-        //   User: userToken ? userToken : userID,
-        // };
-
         let headers = {
-          User: userID,
+          User: userToken,
         };
+
+        // let headers = {
+        //   User: userID,
+        // };
 
         await completeCheckout(payload, {
           headers: headers,

@@ -13,6 +13,7 @@ import {
   setLocalStorageItem,
   setSessionStorageItem,
 } from "../../_utils/ClientUtils";
+import { use } from "react";
 
 export const AppContext = createContext();
 
@@ -30,6 +31,7 @@ export const AppContextProvider = (props) => {
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [filterLoading, setFilterLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [isUser, setIsUser] = useState(null);
   const [orderHistoryLoading, setOrderHistoryLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
 
@@ -42,6 +44,7 @@ export const AppContextProvider = (props) => {
 
     if (token != null) {
       localStorage.setItem("userToken", token);
+      setIsUser(token);
     }
     const isGuest = localStorage.getItem("guest");
 
@@ -371,6 +374,7 @@ export const AppContextProvider = (props) => {
         fetchReservationData,
         reservationList,
         userOrderHistory,
+        isUser,
       }}
     >
       {props.children}
