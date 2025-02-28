@@ -57,7 +57,6 @@ function OrderSummaryCheckout() {
     isUserLogged,
     cartItems,
     clearCartItems,
-    fetchOrderHistory
   } = useContext(AppContext);
 
   // const { fetchCartList } = useContext(AppContext);
@@ -200,7 +199,6 @@ function OrderSummaryCheckout() {
 
       deliveryTypeData = "Home Delivery";
       const isValid = handleEmptyValidation();
-      console.log(isValid);
 
       if (isValid && isValid.length != 0) {
         setFieldError(true);
@@ -215,7 +213,6 @@ function OrderSummaryCheckout() {
       setActiveCard("payment");
       deliveryTypeData = "Take Away";
       const isValid = handleEmptyValidation();
-      console.log(isValid);
 
       if (isValid && isValid.length != 0) {
         setFieldError(true);
@@ -389,8 +386,12 @@ function OrderSummaryCheckout() {
           source: "NextJs",
         };
 
+        // let headers = {
+        //   User: userToken ? userToken : userID,
+        // };
+
         let headers = {
-          User: userToken ? userToken : userID,
+          User: userID,
         };
 
         await completeCheckout(payload, {
@@ -402,23 +403,15 @@ function OrderSummaryCheckout() {
             // removeSessionStorageItem("userInfo");
             await fetchCartList(userID);
             await clearCartItems(userID, {
-              onSuccess: (res) => {
-                console.log("cart cleared", res);
-              },
-              onFailed: (err) => {
-                console.log("Error on cart clear", err);
-              },
+              onSuccess: (res) => {},
+              onFailed: (err) => {},
             });
-            if (userToken) {
-              await fetchOrderHistory(userToken);
-            }
             router.refresh();
             router.push("/order-online");
             setActiveCard("login");
             setPaymentData(null);
           },
           onFailed: (err) => {
-            console.log("error message for confirm payment", err);
             toast.error(err.message);
           },
         });
@@ -451,9 +444,9 @@ function OrderSummaryCheckout() {
           <div className="row">
             <div className="col-lg-8 col-md-12 col-sm-12 position-relative">
               <div className="card login_summary_card_0928">
-                <div className="login_summary_card_ico_0928">
+                {/* <div className="login_summary_card_ico_0928">
                   <PiKey />
-                </div>
+                </div> */}
                 {orderType == false || orderType == "false" ? (
                   <h4>Delivery Address</h4>
                 ) : (
@@ -744,7 +737,13 @@ function OrderSummaryCheckout() {
                             type="text"
                             name="county"
                             id=""
-                            className="form-control online_order_plugin_input_2939"
+                            className={
+                              fieldError &&
+                              (!formState.county ||
+                                formState?.county.length == 0)
+                                ? "form-control online_order_plugin_input_2939 error___"
+                                : "form-control online_order_plugin_input_2939 "
+                            }
                             onChange={handleChange}
                             value={formState.county}
                           />
@@ -784,17 +783,17 @@ function OrderSummaryCheckout() {
                   {/* <button type="button" className="view_btn">View</button> */}
                 </div>
               </div>
-              <div
+              {/* <div
                 className={
                   activeCard == "payment"
                     ? "order_online_horiz_line short"
                     : "order_online_horiz_line "
                 }
-              ></div>
+              ></div> */}
               <div className="card login_summary_card_0928">
-                <div className="login_summary_card_ico_0928">
+                {/* <div className="login_summary_card_ico_0928">
                   <RiMoneyEuroCircleLine />
-                </div>
+                </div> */}
 
                 {!paymentLoading ? (
                   <Fragment>
@@ -863,17 +862,12 @@ function OrderSummaryCheckout() {
                                         paymentSuccess={async (
                                           intentResult
                                         ) => {
-                                          console.log(
-                                            "intentResult",
-                                            intentResult
-                                          );
                                           sessionStorage.clear(
                                             "isCheckoutActive"
                                           );
                                           await completeOrder();
                                         }}
                                         paymentFailure={(err) => {
-                                          console.log("error =>", err.message);
                                           toast.error(err.message);
                                         }}
                                         discount={discountData}
