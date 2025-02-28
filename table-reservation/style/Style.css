@@ -62,7 +62,7 @@ input {
 }
 .table-reservation-form-head {
   text-transform: uppercase;
-  font-size: 1rem;
+  font-size: 20px;
   padding-left: 10px;
   color: #747474;
   user-select: none;
@@ -336,7 +336,7 @@ input {
   }
   .table_reserv_info_sub_head,
   .resend_otp_reservv {
-    font-size: 13px;
+    font-size: 18px;
   }
   .reserv_otp_validation_btn {
     width: 70%;
