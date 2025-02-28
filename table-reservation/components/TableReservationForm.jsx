@@ -519,7 +519,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
             setSessionStorageItem("secretKey", secretKey);
             const token = getLocalStorageItem("userToken");
             if (token == null || token == undefined) {
-              router.push("/loginReservation");
+              router.push("/reservation-login");
             } else {
               completeNewReservation();
             }
