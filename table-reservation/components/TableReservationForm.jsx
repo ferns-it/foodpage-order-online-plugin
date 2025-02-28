@@ -85,7 +85,6 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   const [reservEmail, setReservEmail] = useState("");
   const [manageReservLoading, setManageReservLoading] = useState(false);
   const [holidayIntervals, setHolidayIntervals] = useState([]);
-  
 
   const memoizedHolidayIntervals = useMemo(() => {
     return generateHolidayIntervals();
@@ -514,7 +513,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
         reserAdvAmt = settings?.tableReservationSettings.advanceAmount;
       }
       setSessionStorageItem("reservationData", JSON.stringify(initialValues));
-      
+
       if (token == null || token == undefined) {
         router.push("/reservation-login");
 
@@ -697,7 +696,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
             </div>
           ) : (
             <>
-              {tableReservationSettings &&
+              {tableReservationSettings != null ? (
                 loading === false &&
                 tableReservationSettings?.active === true && (
                   <div className="row">
@@ -1234,7 +1233,14 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                       </div>
                     </div>
                   </div>
-                )}
+                )
+              ) : (
+                <>
+                  <h3 className="text-center" style={{ color: "#7777" }}>
+                    Reservation settings unavailable
+                  </h3>
+                </>
+              )}
               {tableReservationSettings &&
                 tableReservationSettings?.active === false && (
                   <>
