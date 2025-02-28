@@ -52,7 +52,6 @@ const findToday = () => {
 
 function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   const router = useRouter();
-  const searchparams = useSearchParams();
   const {
     getShopTiming,
     shopTiming,

@@ -160,10 +160,10 @@ function ReservationLogin() {
             setLocalStorageItem("userToken", token);
             setLocalStorageItem("guest", false);
 
-            if (havAdvance) {
-              router.push(`/reservation-checkout?advance=${reserAdvAmt}`);
-              return;
-            }
+            // if (havAdvance) {
+            //   router.push(`/reservation-checkout?advance=${reserAdvAmt}`);
+            //   return;
+            // }
             completeNewReservation();
             if (guestId) {
               await transferCartItems(guestId, userId);
@@ -177,7 +177,7 @@ function ReservationLogin() {
     }
   };
   const handleGuestLogin = () => {
-    router.push("/reservationGuest");
+    router.push("/reservation-guest");
   };
   console.log(initialValues, "initialValues");
   const completeNewReservation = async () => {
@@ -317,7 +317,7 @@ function ReservationLogin() {
                 </button>
               </form>
             </div>
-            {/* <p className="or_">or</p>
+            <p className="or_">or</p>
             <button
               type="button"
               className="guest_btn"
@@ -327,7 +327,7 @@ function ReservationLogin() {
             </button>
             <p className="sign_up_">
               Didn't have an account? <a href="/register">Signup here.</a>
-            </p> */}
+            </p>
           </div>
         </div>
       </div>
