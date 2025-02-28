@@ -58,7 +58,7 @@ function OrderSummaryCheckout() {
     isUserLogged,
     cartItems,
     clearCartItems,
-    fetchOrderHistory
+    fetchOrderHistory,
   } = useContext(AppContext);
 
   // const { fetchCartList } = useContext(AppContext);
@@ -166,7 +166,7 @@ function OrderSummaryCheckout() {
 
     for (const key in formState) {
       if (Object.prototype.hasOwnProperty.call(formState, key)) {
-        if (key === "addressLine2" || key === "notes") {
+        if (key === "addressLine2" || key === "notes" || key === "county") {
           continue;
         }
 
@@ -296,13 +296,15 @@ function OrderSummaryCheckout() {
     for (const key in formState) {
       const value = formState[key];
 
-      if (key !== "addressLine2" && key !== "notes") {
+      // Properly exclude "addressLine2", "notes", and "county"
+      if (!["addressLine2", "notes", "county"].includes(key)) {
         if (value === undefined || value === null || value === "") {
           emptyKeys.push(key);
         }
       }
     }
 
+    console.log(emptyKeys);
     return emptyKeys;
   };
 
@@ -409,7 +411,7 @@ function OrderSummaryCheckout() {
               onFailed: (err) => {},
             });
 
-            await fetchOrderHistory()
+            await fetchOrderHistory();
             router.refresh();
             router.push("/order-online");
             setActiveCard("login");
@@ -751,13 +753,6 @@ function OrderSummaryCheckout() {
                             onChange={handleChange}
                             value={formState.county}
                           />
-                          {fieldError &&
-                            (!formState.county ||
-                              formState?.county?.length == 0) && (
-                              <span className="oos_err_29102">
-                                County Required
-                              </span>
-                            )}
                         </div>
                       </div>
                     </div>
