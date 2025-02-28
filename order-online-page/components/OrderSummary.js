@@ -548,7 +548,7 @@ function OrderSummary() {
               className="row mt-3 mx-auto mx-auto"
               style={{ display: "flex" }}
             >
-              <div className="col-md-6" style={{ flex: 1, fontSize: "15px" }}>
+              {/* <div className="col-md-6" style={{ flex: 1, fontSize: "15px" }}>
                 <label>
                   <input
                     type="radio"
@@ -558,7 +558,7 @@ function OrderSummary() {
                   />
                   Delivery
                 </label>
-              </div>
+              </div> */}
 
               {deliveryInfo?.takeAway == 1 &&
                 deliveryInfo?.takeAway_temp_off === "No" && (
