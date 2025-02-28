@@ -132,6 +132,8 @@ export const AppContextProvider = (props) => {
     fetchOrderHistory,
     fetchReservationData,
     reservationList,
+    fetchReservationList,
+    tableReservationList,
   } = useProfile();
   // const {
   //   fetchOrderList,
@@ -178,8 +180,10 @@ export const AppContextProvider = (props) => {
     diningMenuList();
     fetchMenuList();
     fetchCurrentShopStatus();
+    fetchAddressList(userToken);
+    fetchReservationList(userToken);
     // if (userToken) {
-    //   fetchAddressList(userToken);
+
     //   fetchOrderList(userToken);
     // fetchOrderDetails(userToken, orderId);
     // }
@@ -377,6 +381,8 @@ export const AppContextProvider = (props) => {
         userOrderHistory,
         isUser,
         createReservPaymentIntent,
+        fetchReservationList,
+        tableReservationList,
       }}
     >
       {props.children}

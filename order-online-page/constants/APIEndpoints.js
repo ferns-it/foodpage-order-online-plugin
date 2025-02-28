@@ -37,4 +37,5 @@ export const APIEndpoints = {
   getCurrentShopStatus: `status/${id}`,
   defaultAddress: "user/setdefaultaddress",
   deleteAddress: "user/deleteaddress",
+  getReservationList: "user/diningtable/reservation/history",
 };
