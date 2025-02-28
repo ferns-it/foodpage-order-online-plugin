@@ -125,18 +125,19 @@ export const AppContextProvider = (props) => {
     expired,
     setDefaultAddress,
     deleteSavedAddress,
+    userOrderHistory,
     fetchOrderHistory,
     fetchReservationData,
     reservationList,
   } = useProfile();
-  const {
-    fetchOrderList,
-    orderLoading,
-    orderHistory,
-    fetchOrderDetails,
-    orderList,
-    // orderDetails
-  } = useOrderHistory();
+  // const {
+  //   fetchOrderList,
+  //   orderLoading,
+  //   orderHistory,
+  //   fetchOrderDetails,
+  //   orderList,
+  //   // orderDetails
+  // } = useOrderHistory();
   const {
     createPaymentIntent,
     stripePromise,
@@ -335,12 +336,12 @@ export const AppContextProvider = (props) => {
         addNewAddress,
         deleteAddress,
         fetchDefaultAddress,
-        fetchOrderList,
-        orderLoading,
-        orderHistory,
-        fetchOrderDetails,
+        // fetchOrderList,
+        // orderLoading,
+        // orderHistory,
+        // fetchOrderDetails,
         addressDetails,
-        orderList,
+        // orderList,
         setCartItems,
         clearCartItems,
         deliveryLoading,
@@ -369,6 +370,7 @@ export const AppContextProvider = (props) => {
         fetchOrderHistory,
         fetchReservationData,
         reservationList,
+        userOrderHistory,
       }}
     >
       {props.children}
