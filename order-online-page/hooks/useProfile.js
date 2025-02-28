@@ -17,7 +17,7 @@ const useProfile = () => {
   const [expired, setExpired] = useState(false);
   const [reservationList, setReservationList] = useState(null);
   const [userAddressList, setUserAddressList] = useState(null);
-
+  const [tableReservationList, setTableReservationList] = useState(null);
   const fetchAddressList = async (token) => {
     try {
       setUserLoading(true);
@@ -224,6 +224,36 @@ const useProfile = () => {
       setUserLoading(false);
     }
   };
+  const fetchReservationList = async (token) => {
+    try {
+      setUserLoading(true);
+      let headers = {
+        "x-user": token,
+      };
+      await BaseClient.get(
+        APIEndpoints.getReservationList + `/${process.env.SHOP_ID}` + "/all",
+        {},
+        {
+          headers,
+          onSuccess: (res) => {
+            if (res?.data?.data?.enquiryList) {
+              setTableReservationList(res.data.data.enquiryList);
+              return;
+            }
+            if (res?.data?.enquiryList) {
+              setTableReservationList(res.data.enquiryList);
+              return;
+            }
+          },
+          onFailed: (err) => {
+            console.log("Error on address list", err);
+          },
+        }
+      );
+    } finally {
+      setUserLoading(false);
+    }
+  };
   const userNewAddress = async (payload, { onSuccess, onFailed, headers }) => {
     try {
       setUserLoading(true);
@@ -271,6 +301,8 @@ const useProfile = () => {
     fetchOrderHistory,
     fetchReservationData,
     reservationList,
+    fetchReservationList,
+    tableReservationList,
   };
 };
 
