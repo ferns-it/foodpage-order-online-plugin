@@ -127,11 +127,12 @@ function ReservationCheckout() {
 
     const tokenData = jwtDecode(token);
 
-    const userId = tokenData?.data.userID ?? 0;
+    const userId = tokenData?.data.userID;
+    const parsedId = userId && typeof userId == "string" ? Number(userId) : 0;
 
     const payload = {
       shopID: process.env.SHOP_ID,
-      userID: userId,
+      userID: parsedId,
       name: reservationData?.name,
       phone: reservationData?.phone,
       email: reservationData?.email,
