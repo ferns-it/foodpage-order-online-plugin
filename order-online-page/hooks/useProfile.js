@@ -12,7 +12,6 @@ const useProfile = () => {
   const [addressLoading, setAddressLoading] = useState(false);
   const [userLoading, setUserLoading] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
-  const [orderHistory, setOrderHistory] = useState(null);
   const [userOrderHistory, setUserOrderHistory] = useState(null);
   const [expired, setExpired] = useState(false);
   const [reservationList, setReservationList] = useState(null);
