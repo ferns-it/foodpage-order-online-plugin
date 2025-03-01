@@ -82,7 +82,8 @@ function ViewReservation() {
 
     fetchData();
     if (reservationDetails) {
-      const [date, time] = (reservationDetails?.bookingTime).split(" ");
+      const [date, time] =
+        reservationDetails && reservationDetails?.bookingTime?.split(" ");
       setUpdatedValue({
         name: reservationDetails?.name,
         email: reservationDetails?.email,
@@ -101,7 +102,7 @@ function ViewReservation() {
 
     const [date, time] = reservationDetails && reservationDetails?.bookingTime;
     const today = new Date().getDate();
-    const bookingDate = new Date(reservationDetails?.bookingTime).getDate();
+    const bookingDate = new Date(reservationDetails?.bookingTime)?.getDate();
 
     if (bookingDate === today) {
       setIsToday(true);
@@ -561,13 +562,14 @@ function ViewReservation() {
                 ) : (
                   <Fragment>
                     <p className="expiry_reserv text-center text-danger">{`This reservation is ${
+                      reservationDetails &&
                       reservationDetails?.status == "Cancelled"
                         ? "Cancelled"
                         : "Expired"
                     }!`}</p>
                     <button
                       type="button"
-                      className="back-reserv-btn outline-none border-none"
+                      className="new-reser-btn outline-none border-none"
                       onClick={() => router.back()}
                     >
                       Back

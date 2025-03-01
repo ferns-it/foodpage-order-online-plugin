@@ -39,7 +39,7 @@ const useProfile = () => {
             }
           },
           onFailed: (err) => {
-            if (err.response.data.code == 401) {
+            if (err?.response?.data?.code == 401) {
               localStorage.removeItem("userToken");
             }
           },

@@ -1950,8 +1950,10 @@ abbr[title] {
 .update_reserv {
   position: absolute;
   background-color: transparent;
-  color: #252525;
-  right: 10px;
+  /* color: #252525; */
+  right: -70px;
+  width: 50%;
+  float: right;
 }
 .update_reserv:hover {
   background-color: #3870c5;
@@ -2607,6 +2609,14 @@ a:focus {
 .back-reserv-btn {
   border: none;
   outline: none !important;
-  background-color: transparent;
+  background-color: #064340;
   border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 14px;
+  color: #fff;
+}
+.new-reser-btn {
+  border: none;
+  outline: none !important;
+  background-color: transparent;
 }
