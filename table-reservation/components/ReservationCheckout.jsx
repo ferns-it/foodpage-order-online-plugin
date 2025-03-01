@@ -7,6 +7,8 @@ import {
   removeSessionStorageItem,
 } from "../../_utils/ClientUtils";
 
+import { jwtDecode } from "jwt-decode";
+
 import * as Ci from "react-icons/ci";
 import * as Pi from "react-icons/pi";
 import Utils from "../utils/Utils";
@@ -78,7 +80,7 @@ function ReservationCheckout() {
           onSuccess: (res) => {
             setPaymentData(res);
             const result = res?.data?.data?.paymentIntent?.client_secret;
-            debugger;
+            // debugger;
             if (result != null) {
               setStripeClientSecret(result);
             }
@@ -123,43 +125,50 @@ function ReservationCheckout() {
 
     const data = paymentData?.data?.data;
 
-    const payload = {
-      shopID: process.env.SHOP_ID,
-      userID: 0,
-      name: reservationData?.name,
-      phone: reservationData?.phone,
-      email: reservationData?.email,
-      totalChair: reservationData?.noOfChairs,
-      reservationDateTime: mergedBooking,
-      advancePayment: "yes",
-      advanceAmount: advAmt,
-      paymentMethod: "stripe",
-      transactionID: data?.paymentIntent?.id,
-      message: reservationData?.message,
-      baseUrl: process.env.TABLE_RESERVATION_URL,
-      source: "NextJs",
-    };
+    const tokenData = jwtDecode(token);
 
-    const headers = {
-      "x-secretkey": process.env.FOODPAGE_RESERVATION_SECRET_KEY,
-    };
+    if (tokenData) {
+      const userId = tokenData?.data.userID;
 
-    await completeReservation(payload, {
-      onSuccess: (res) => {
-        toast.success("Your request has been submitted successfully!");
-        setSecretKey("");
-        removeSessionStorageItem("reservationData");
-        setTimeout(() => {
-          redirectToLocation("/");
-        }, 1000);
-      },
-      onFailed: (err) => {
-        console.log(err);
-      },
-      headers,
-    });
+      const payload = {
+        shopID: process.env.SHOP_ID,
+        userID: userId,
+        name: reservationData?.name,
+        phone: reservationData?.phone,
+        email: reservationData?.email,
+        totalChair: reservationData?.noOfChairs,
+        reservationDateTime: mergedBooking,
+        advancePayment: "yes",
+        advanceAmount: advAmt,
+        paymentMethod: "STRIPE",
+        transactionID: data?.paymentIntent?.id,
+        message: reservationData?.message,
+        baseUrl: process.env.TABLE_RESERVATION_URL,
+        source: "NextJs",
+      };
+
+      const headers = {
+        "x-secretkey": process.env.FOODPAGE_RESERVATION_SECRET_KEY,
+      };
+
+      await completeReservation(payload, {
+        onSuccess: (res) => {
+          toast.success("Your request has been submitted successfully!");
+          setSecretKey("");
+          removeSessionStorageItem("reservationData");
+          setTimeout(() => {
+            redirectToLocation("/");
+          }, 1000);
+        },
+        onFailed: (err) => {
+          console.log(err);
+        },
+        headers,
+      });
+    } else {
+      toast.error("Not create, Please try again!");
+    }
   };
-
 
   return (
     <div className="checkout7821_page">
