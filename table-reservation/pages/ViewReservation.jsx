@@ -321,7 +321,7 @@ function ViewReservation() {
           >
             <Go.GoArrowLeft /> Back
           </button> */}
-          <div className="row pt-100">
+          <div className="row pt-50">
             <div className="col-lg-8 col-md-12 col-sm-12 position-relative">
               <div className="card manage_reserv_card" id="alter_card">
                 <h3 className="table-reservation-form-head">
@@ -334,6 +334,7 @@ function ViewReservation() {
                       type="button"
                       className="resrv_btnn update_reserv"
                       onClick={() => setIsEdit(!isEdit)}
+                      id="new_update"
                     >
                       {!isEdit ? (
                         <>

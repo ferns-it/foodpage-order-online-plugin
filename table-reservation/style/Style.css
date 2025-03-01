@@ -1955,6 +1955,10 @@ abbr[title] {
   width: 50%;
   float: right;
 }
+
+#new_update{
+  right: 0;
+}
 .update_reserv:hover {
   background-color: transparent;
   color: #000000;
