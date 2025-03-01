@@ -133,8 +133,7 @@ function LoginPage() {
             }
           }, 800);
         },
-        onFailed: (err) => {
-          console.log("error=>", err);
+        onFailed: (err) => { 
           toast.error(
             err?.response?.data?.errorMessage?.message ||
               "Authentication Failed"

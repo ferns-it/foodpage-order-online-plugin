@@ -160,7 +160,7 @@ function OrderSummaryCheckout() {
     const { name, value } = e.target;
     setFormState({ ...formState, [name]: value });
   };
-  console.log(isUser, "isUser");
+
   const handleEmptyValidation = () => {
     const emptyFields = [];
 
@@ -304,7 +304,7 @@ function OrderSummaryCheckout() {
       }
     }
 
-    console.log(emptyKeys);
+ 
     return emptyKeys;
   };
 

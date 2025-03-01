@@ -35,7 +35,7 @@ function ReservationGuestOTP() {
   const router = useRouter();
   const [reservOTP, setResertOTP] = useState("");
   const encryptedOTP = getSessionStorageItem("encryptedOTP");
-  console.log(initialValues, "initialValues");
+
   const encryptToMD5 = (number) => {
     return CryptoJS.MD5(number).toString();
   };
