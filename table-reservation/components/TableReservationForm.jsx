@@ -15,7 +15,7 @@ import * as Im from "react-icons/im";
 import { GrLocation } from "react-icons/gr";
 import { TableReservationContext } from "../context/TableReservationContext";
 import Utils from "../utils/Utils";
-import { toast } from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -686,6 +686,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
 
   return (
     <div className="table_reserv__ position-relative">
+      <Toaster />
       <Fragment>
         <div className="container">
           {loading && isTimingLoading ? (

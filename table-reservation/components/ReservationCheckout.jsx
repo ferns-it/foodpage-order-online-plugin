@@ -7,6 +7,8 @@ import {
   removeSessionStorageItem,
 } from "../../_utils/ClientUtils";
 
+import { Toaster } from "react-hot-toast";
+
 import { jwtDecode } from "jwt-decode";
 
 import * as Ci from "react-icons/ci";
@@ -168,173 +170,176 @@ function ReservationCheckout() {
   };
 
   return (
-    <div className="checkout7821_page">
-      <div className="checkout7821_container">
-        <div className="checkout7821_header">
-          <h1>Complete Your Reservation</h1>
-          <p>Review details and confirm with payment</p>
-        </div>
-
-        <div className="checkout7821_confirmation_banner">
-          <div className="checkout7821_confirmation_icon">
-            <svg
-              width="24"
-              height="24"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              ></path>
-            </svg>
-          </div>
-          <div>
-            <p className="checkout7821_confirmation_text">
-              Please review your details and complete payment to confirm
-            </p>
-          </div>
-        </div>
-
-        <div className="checkout7821_details_section">
-          <div className="checkout7821_section_title">
-            {/* <Calendar className="checkout7821_section_icon" /> */}
-            <h2>Reservation Details</h2>
+    <>
+      <Toaster />
+      <div className="checkout7821_page">
+        <div className="checkout7821_container">
+          <div className="checkout7821_header">
+            <h1>Complete Your Reservation</h1>
+            <p>Review details and confirm with payment</p>
           </div>
 
-          <div className="checkout7821_special_requests">
-            <div className="checkout7821_reservation_info">
-              <h3>Your Reservation</h3>
-              <div className="row">
-                <div className="col-lg-6 col-md-12 col-sm-12">
-                  <div className="checkout7821_info_item">
-                    <div className="checkout7821_info_icon">
-                      <Pi.PiUserCircle />
-                    </div>
-                    <div>
-                      <p className="checkout7821_info_label">Name</p>
-                      <p className="checkout7821_info_value">
-                        {reservationData?.name}
-                      </p>
-                    </div>
-                  </div>
+          <div className="checkout7821_confirmation_banner">
+            <div className="checkout7821_confirmation_icon">
+              <svg
+                width="24"
+                height="24"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
+            </div>
+            <div>
+              <p className="checkout7821_confirmation_text">
+                Please review your details and complete payment to confirm
+              </p>
+            </div>
+          </div>
 
-                  <div className="checkout7821_info_item">
-                    <div className="checkout7821_info_icon">
-                      <Ci.CiMail />
-                    </div>
-                    <div>
-                      <p className="checkout7821_info_label">Email</p>
-                      <p className="checkout7821_info_value">
-                        {reservationData?.email}
-                      </p>
-                    </div>
-                  </div>
+          <div className="checkout7821_details_section">
+            <div className="checkout7821_section_title">
+              {/* <Calendar className="checkout7821_section_icon" /> */}
+              <h2>Reservation Details</h2>
+            </div>
 
-                  <div className="checkout7821_info_item">
-                    <div className="checkout7821_info_icon">
-                      <Ci.CiPhone />
+            <div className="checkout7821_special_requests">
+              <div className="checkout7821_reservation_info">
+                <h3>Your Reservation</h3>
+                <div className="row">
+                  <div className="col-lg-6 col-md-12 col-sm-12">
+                    <div className="checkout7821_info_item">
+                      <div className="checkout7821_info_icon">
+                        <Pi.PiUserCircle />
+                      </div>
+                      <div>
+                        <p className="checkout7821_info_label">Name</p>
+                        <p className="checkout7821_info_value">
+                          {reservationData?.name}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="checkout7821_info_label">Phone</p>
-                      <p className="checkout7821_info_value">
-                        {reservationData?.phone}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-lg-6 col-md-12 col-sm-12">
-                  <div className="checkout7821_info_item">
-                    <div className="checkout7821_info_icon">
-                      <Ci.CiCalendar />
-                    </div>
-                    <div>
-                      <p className="checkout7821_info_label">Date</p>
-                      <p className="checkout7821_info_value">
-                        {reservationData?.bookingDate &&
-                        reservationData?.bookingDate.length != 0
-                          ? Utils.formatDate(reservationData?.bookingDate)
-                          : ""}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="checkout7821_info_item">
-                    <div className="checkout7821_info_icon">
-                      <Ci.CiClock2 />
-                    </div>
-                    <div>
-                      <p className="checkout7821_info_label">Time</p>
-                      <p className="checkout7821_info_value">
-                        {reservationData?.bookingTime &&
-                        reservationData?.bookingTime.length != 0
-                          ? Utils.convertTiming(reservationData?.bookingTime)
-                          : ""}
-                      </p>
-                    </div>
-                  </div>
 
-                  <div className="checkout7821_info_item">
-                    <div className="checkout7821_info_icon">
-                      <Pi.PiChairLight />
+                    <div className="checkout7821_info_item">
+                      <div className="checkout7821_info_icon">
+                        <Ci.CiMail />
+                      </div>
+                      <div>
+                        <p className="checkout7821_info_label">Email</p>
+                        <p className="checkout7821_info_value">
+                          {reservationData?.email}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="checkout7821_info_label">Party Size</p>
-                      <p className="checkout7821_info_value">
-                        {reservationData?.noOfChairs}
-                      </p>
+
+                    <div className="checkout7821_info_item">
+                      <div className="checkout7821_info_icon">
+                        <Ci.CiPhone />
+                      </div>
+                      <div>
+                        <p className="checkout7821_info_label">Phone</p>
+                        <p className="checkout7821_info_value">
+                          {reservationData?.phone}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-lg-6 col-md-12 col-sm-12">
+                    <div className="checkout7821_info_item">
+                      <div className="checkout7821_info_icon">
+                        <Ci.CiCalendar />
+                      </div>
+                      <div>
+                        <p className="checkout7821_info_label">Date</p>
+                        <p className="checkout7821_info_value">
+                          {reservationData?.bookingDate &&
+                          reservationData?.bookingDate.length != 0
+                            ? Utils.formatDate(reservationData?.bookingDate)
+                            : ""}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="checkout7821_info_item">
+                      <div className="checkout7821_info_icon">
+                        <Ci.CiClock2 />
+                      </div>
+                      <div>
+                        <p className="checkout7821_info_label">Time</p>
+                        <p className="checkout7821_info_value">
+                          {reservationData?.bookingTime &&
+                          reservationData?.bookingTime.length != 0
+                            ? Utils.convertTiming(reservationData?.bookingTime)
+                            : ""}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="checkout7821_info_item">
+                      <div className="checkout7821_info_icon">
+                        <Pi.PiChairLight />
+                      </div>
+                      <div>
+                        <p className="checkout7821_info_label">Party Size</p>
+                        <p className="checkout7821_info_value">
+                          {reservationData?.noOfChairs}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+
+            {(!stripePaymentClientSecret ||
+              stripePaymentClientSecret.length == 0) && (
+              <button
+                type="button"
+                className="btn btn-warning mx-auto d-block"
+                onClick={createPaymentIntentRequest}
+                disabled={intentLoading}
+              >
+                Continue Payment
+              </button>
+            )}
+
+            <br />
+
+            {stripePaymentClientSecret &&
+              stripePaymentClientSecret.length != 0 && (
+                <div className="payement_method checkout_form mt-3 pt-3 card p-3 m-1">
+                  <Elements stripe={stripePromise} options={options}>
+                    <StripePaymentElementOrderOnline
+                      paymentSuccess={async (intentResult) => {
+                        await completeNewReservation();
+                      }}
+                      paymentFailure={(err) => {
+                        toast.error(err.message);
+                      }}
+                      formState={reservationData}
+                      paymentMethod=""
+                    />
+                  </Elements>
+                </div>
+              )}
           </div>
 
-          {(!stripePaymentClientSecret ||
-            stripePaymentClientSecret.length == 0) && (
-            <button
-              type="button"
-              className="btn btn-warning mx-auto d-block"
-              onClick={createPaymentIntentRequest}
-              disabled={intentLoading}
-            >
-              Continue Payment
-            </button>
-          )}
-
-          <br />
-
-          {stripePaymentClientSecret &&
-            stripePaymentClientSecret.length != 0 && (
-              <div className="payement_method checkout_form mt-3 pt-3 card p-3 m-1">
-                <Elements stripe={stripePromise} options={options}>
-                  <StripePaymentElementOrderOnline
-                    paymentSuccess={async (intentResult) => {
-                      await completeNewReservation();
-                    }}
-                    paymentFailure={(err) => {
-                      toast.error(err.message);
-                    }}
-                    formState={reservationData}
-                    paymentMethod=""
-                  />
-                </Elements>
-              </div>
-            )}
-        </div>
-
-        <div className="checkout7821_footer">
-          <p>Please arrive 10 minutes before your reservation time.</p>
-          <p>
-            For any changes or cancellations, please contact us at least 24
-            hours in advance.
-          </p>
+          <div className="checkout7821_footer">
+            <p>Please arrive 10 minutes before your reservation time.</p>
+            <p>
+              For any changes or cancellations, please contact us at least 24
+              hours in advance.
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
