@@ -59,10 +59,11 @@ function OrderSummaryCheckout() {
     cartItems,
     clearCartItems,
     fetchOrderHistory,
+    userInfo,
   } = useContext(AppContext);
 
   // const { fetchCartList } = useContext(AppContext);
-
+  console.log(userInfo, "USER");
   const [paymentOption, setPaymentOption] = useState("");
   const [addressDefault, setAddressDefault] = useState(null);
   // useEffect(() => {
@@ -74,23 +75,19 @@ function OrderSummaryCheckout() {
   const savedAddress = JSON.parse(
     getSessionStorageItem("defaultAddressDetails")
   );
-  // console.log(savedAddress, "saved");
+  console.log(userInfo, "saved");
   const [formState, setFormState] = useState({
     fullname:
-      (isUserLogged != null &&
-        isUserLogged?.payload?.data?.userFirstName +
-          " " +
-          isUserLogged?.payload?.data?.userLastName) ||
-      "",
+      (userInfo && userInfo?.firstName + " " + userInfo?.lastName) || "",
     postalCode: "",
     emailAddress:
       (isUserLogged != null && isUserLogged?.payload?.data?.userEmail) || "",
     phone:
       (isUserLogged != null && isUserLogged?.payload?.data?.userMobile) || "",
-    addressLine1: (savedAddress != null && savedAddress?.line1) || "",
-    addressLine2: (savedAddress != null && savedAddress?.line2) || "",
-    townCity: (savedAddress != null && savedAddress?.town) || "",
-    county: (savedAddress != null && savedAddress?.county) || "",
+    addressLine1: (userInfo && userInfo?.line1) || "",
+    addressLine2: (userInfo && userInfo?.line2) || "",
+    townCity: (userInfo && userInfo?.town) || "",
+    county: (userInfo && userInfo?.county) || "",
     notes: "",
   });
 
@@ -160,13 +157,12 @@ function OrderSummaryCheckout() {
     const { name, value } = e.target;
     setFormState({ ...formState, [name]: value });
   };
-
   const handleEmptyValidation = () => {
     const emptyFields = [];
 
     for (const key in formState) {
       if (Object.prototype.hasOwnProperty.call(formState, key)) {
-        if (key === "addressLine2" || key === "notes") {
+        if (key === "addressLine2" || key === "notes" || key === "county") {
           continue;
         }
 
@@ -207,6 +203,7 @@ function OrderSummaryCheckout() {
         return;
       }
       setActiveCard("payment");
+      window.location.hash = "payment";
     } else {
       if (settings?.deliveryInfo?.takeAway_temp_off == "Yes") {
         toast.error("Takeaway Currently Not available!");
@@ -297,17 +294,16 @@ function OrderSummaryCheckout() {
       const value = formState[key];
 
       // Properly exclude "addressLine2", "notes", and "county"
-      if (!["addressLine2", "notes"].includes(key)) {
+      if (!["addressLine2", "notes", "county"].includes(key)) {
         if (value === undefined || value === null || value === "") {
           emptyKeys.push(key);
         }
       }
     }
 
- 
+    console.log(emptyKeys);
     return emptyKeys;
   };
-
   const completeOrder = async () => {
     try {
       setPaymentLoading(true);
@@ -776,20 +772,14 @@ function OrderSummaryCheckout() {
                   {/* <button type="button" className="view_btn">View</button> */}
                 </div>
               </div>
-              {/* <div
-                className={
-                  activeCard == "payment"
-                    ? "order_online_horiz_line short"
-                    : "order_online_horiz_line "
-                }
-              ></div> */}
+
               <div className="card login_summary_card_0928">
                 {/* <div className="login_summary_card_ico_0928">
                   <RiMoneyEuroCircleLine />
                 </div> */}
 
                 {!paymentLoading ? (
-                  <Fragment>
+                  <Fragment id="payment">
                     {cartItems?.paymentOptions != null &&
                     cartItems?.paymentOptions.shopStatus != "closed" ? (
                       <>
@@ -797,7 +787,7 @@ function OrderSummaryCheckout() {
                           <Fragment>
                             <div
                               className={
-                                activeCard === "payment"
+                                activeCard == "payment"
                                   ? "checkout_order_online_form_0283"
                                   : "checkout_order_online_form_0283 hide"
                               }

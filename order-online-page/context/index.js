@@ -31,6 +31,7 @@ export const AppContextProvider = (props) => {
   const [deliveryFee, setDeliveryFee] = useState(null);
   const shopId = process.env.SHOP_ID;
   const [activeCard, setActiveCard] = useState("login");
+  const [userInformation, setUserInformation] = useState(null);
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [filterLoading, setFilterLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -68,13 +69,6 @@ export const AppContextProvider = (props) => {
       const decodedToken = jwt.decode(encodedToken, { complete: true });
 
       setIsUserLogged(decodedToken);
-    }
-
-    if (token) {
-      fetchDefaultAddress(token);
-      getUserInformation(token);
-      fetchOrderHistory(token);
-      fetchReservationData(token);
     }
   }, []);
 
@@ -177,7 +171,6 @@ export const AppContextProvider = (props) => {
 
   function isTokenExpired(decodedToken) {
     if (!decodedToken || !decodedToken.exp) {
-    
       return true; // Assume expired if token is invalid
     }
 
@@ -196,13 +189,20 @@ export const AppContextProvider = (props) => {
 
     if (userToken) {
       const decodedToken = jwtDecode(userToken);
+
       const isExpired = isTokenExpired(decodedToken);
       if (isExpired == true) {
         localStorage.removeItem("userToken");
         redirectToLocation("/");
+        return;
       }
+      setUserInformation(decodedToken);
       fetchAddressList(userToken);
       fetchReservationList(userToken);
+      fetchDefaultAddress(userToken);
+      getUserInformation(userToken);
+      fetchOrderHistory(userToken);
+      fetchReservationData(userToken);
     }
   }, []);
 
@@ -401,6 +401,7 @@ export const AppContextProvider = (props) => {
         createReservPaymentIntent,
         fetchReservationList,
         tableReservationList,
+        userInformation,
       }}
     >
       {props.children}
