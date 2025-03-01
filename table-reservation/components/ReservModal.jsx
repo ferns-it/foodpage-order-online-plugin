@@ -65,7 +65,7 @@ function ReservModal(props) {
   const validateLateCancel = () => {
     const lateCancelMinutes = parseInt(lateCancel);
     if (isNaN(lateCancelMinutes) || lateCancelMinutes < 0) {
-      console.log("Invalid lateCancel value");
+     
       return false;
     }
 
@@ -76,7 +76,7 @@ function ReservModal(props) {
     const bookingDateTime = new Date(`${bookingDate}T${bookingTime}`);
 
     if (isNaN(bookingDateTime)) {
-      console.log("Invalid booking date or time format");
+  
       return false;
     }
 
@@ -94,7 +94,9 @@ function ReservModal(props) {
       const hours = Math.floor(lateCancelMinutes / 60);
       const remainingMinutes = lateCancelMinutes % 60;
       const message = hours <= 0 ? lateCancelMinutes : hours;
-   
+      console.log(
+        `Cannot cancel. The booking is within ${hours} hour(s) of the scheduled time. late booking is ${lateCancelMinutes}`
+      );
       toast.error(
         `Cannot cancel. The booking is within ${message} hour(s) of the scheduled time.`
       );

@@ -160,7 +160,7 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
     const encryptOTP = encryptToMD5(reservOTP);
 
     if (secretKey.length == 0) {
-      console.log("OTP IS NOT DECRYPTED");
+     
     }
     if (secretKey === encryptOTP) {
       await completeNewReservation();

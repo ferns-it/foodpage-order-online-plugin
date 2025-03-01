@@ -31,11 +31,13 @@ body {
 .btn_check {
   width: 25%;
 
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   font-weight: 600;
   border-radius: 5px;
   transition: all 0.2s ease-in-out;
+  border: none;
+  padding: 10px;
 }
 .form-control {
   border: 1px solid rgb(209, 209, 209);
@@ -61,9 +63,9 @@ body {
   margin: 0;
   text-align: left !important;
 }
-.links_order {
-  color: #ab2e2e !important;
-}
+/* .links_order {
+  color: #141414 !important;
+} */
 .order_list ul li {
   text-align: left !important;
   text-transform: uppercase;
@@ -342,7 +344,7 @@ body {
 }
 
 .menu-list > li.active {
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff !important;
   font-weight: 600;
 }
@@ -350,7 +352,10 @@ body {
 .nav-link {
   text-decoration: none;
   cursor: pointer;
-  font-weight: 600;
+  background-color: #f8f8f8;
+  margin-bottom: 5px;
+  color: #000 !important;
+  font-size: 15px;
 }
 
 .nav-btn {
@@ -369,16 +374,6 @@ body {
 
 .nav-btn > i {
   font-size: 14px;
-}
-
-.order_online_main_sec{
-  padding: 12rem 0 4rem 0;
-}
-
-@media screen and (max-width: 786px) {
-  .order_online_main_sec{
-    padding: 2rem 0 4rem 0;
-  }
 }
 
 .food_order_area {
@@ -548,6 +543,7 @@ body {
   font-family: sans-serif;
   color: #747474;
   margin-top: 20px;
+  white-space: nowrap;
 }
 
 .inc_dec_wrapper {
@@ -583,7 +579,9 @@ body {
 .decrement:hover {
   color: #252525;
 }
-
+.summary_item_wrapper_029 {
+  margin-top: 10px;
+}
 /* .summary_item_wrapper_029 {
   min-height: 250px;
   overflow-y: scroll;
@@ -721,6 +719,7 @@ body {
   border-radius: 4px;
   border: 1px solid #7777;
   outline: none;
+  padding: 10px;
 }
 
 .opt_input_827.err__ {
@@ -734,7 +733,7 @@ body {
   padding: 7px 0;
   border: none;
   outline: none;
-  background-color: #027881;
+  background-color: #064340;
   color: #fff;
   font-size: 16px;
   font-weight: 700;
@@ -743,11 +742,11 @@ body {
 }
 
 .order_now_192:hover {
-  background-color: #3b848a;
+  background-color: #e7b532;
 }
 
 .order_now_192:disabled {
-  background-color: #6ac6c9;
+  background-color: #76afac;
 }
 
 /* .summary_item_wrapper_029 {
@@ -800,7 +799,7 @@ body {
   position: absolute;
   height: 100%;
   width: 5px;
-  background-color: #e03f3f;
+  background-color: #064340;
   right: 0;
   top: 0;
   opacity: 0;
@@ -808,13 +807,13 @@ body {
 }
 
 .food_category_009 > a:hover {
-  color: #e03f3f;
+  color: #064340;
   background: rgb(224, 63, 63);
   background: linear-gradient(
     90deg,
-    rgba(224, 63, 63, 0) 0%,
-    rgba(224, 63, 63, 0.242) 50%,
-    rgba(224, 63, 63, 0.429) 100%
+    rgba(224, 186, 63, 0) 0%,
+    rgba(224, 186, 63, 0.242) 50%,
+    rgba(211, 186, 45, 0.429) 100%
   );
 }
 
@@ -867,12 +866,13 @@ body {
     rgba(224, 63, 63, 0.242) 50%,
     rgba(224, 63, 63, 0.429) 100%
   ) !important; */
-  background: #eee !important;
-  background: linear-gradient(
+  background: #e7b532 !important;
+  /* background: linear-gradient(
     90deg,
     rgba(238, 238, 238, 0) 0%,
     rgb(212, 212, 212) 100%
-  ) !important;
+  ) !important; */
+  color: #fff !important;
 }
 
 .active_009::before {
@@ -887,7 +887,7 @@ body {
   position: absolute;
   height: 100%;
   width: 5px;
-  background-color: #e03f3f;
+  background-color: #064340;
   right: 0;
   top: 0;
   /* opacity: 0; */
@@ -923,7 +923,7 @@ body {
   position: absolute;
   width: 40px;
   height: 2px;
-  background-color: #e03f3f;
+  background-color: #064340;
   left: 50%;
   bottom: -10px;
   transform: translateX(-50%);
@@ -1034,7 +1034,7 @@ body {
   display: block;
   border: none;
   outline: none;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   padding: 10px 15px;
   border-radius: 4px;
@@ -1211,7 +1211,7 @@ body {
   width: 120px;
   margin: 0px auto !important;
   text-align: center !important;
-  border: 1px solid #e03f3f;
+  border: 1px solid #064340;
 }
 
 .order-modal-container > .toggle-checkbox {
@@ -1237,6 +1237,7 @@ body {
   transition: all 0.2s ease-in-out;
   font-weight: 700;
   user-select: none;
+  margin: 0;
 }
 
 .increment-button:hover,
@@ -1246,7 +1247,7 @@ body {
 }
 
 .increment-button.red {
-  background-color: #e03f3f;
+  background-color: #064340 !important;
   color: #fff;
 }
 
@@ -1292,7 +1293,8 @@ body {
 }
 
 .menu_table_0291 td:last-child {
-  width: 100%;
+  width: 30%;
+  text-align: right;
 }
 
 .varient_name {
@@ -1331,16 +1333,16 @@ body {
 }
 
 .submit_btn_8392 {
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
 }
 
 .submit_btn_8392:hover {
-  background-color: #ab2e2e;
+  background-color: #064340;
 }
 
 .submit_btn_8392:disabled {
-  background-color: rgb(167, 87, 87);
+  background-color: rgb(255, 138, 138);
 }
 
 .cancel_btn_8392:hover {
@@ -1350,7 +1352,7 @@ body {
 .info_label_0291 {
   display: block;
   font-size: 12px;
-  color: #e03f3f;
+  color: #064340;
   padding: 5px 0;
   border-radius: 5px;
   user-select: none;
@@ -1437,7 +1439,7 @@ body {
   font-size: 18px;
   font-weight: 700;
   letter-spacing: 0.05rem;
-  font-family: "Poppins", Helvetica, sans-serif !important;
+  font-family: sans-serif;
 }
 
 .accord_desc_19 {
@@ -1509,7 +1511,7 @@ body {
   position: fixed;
   width: 100%;
   height: 50px;
-  background-color: #e03f3f;
+  background-color: #064340;
   padding: 10px;
   left: 0;
   transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
@@ -1521,7 +1523,7 @@ body {
 
 .checkout_resp_btn_021 {
   width: 100%;
-  background-color: #fe4645;
+  background-color: #064340;
   border: none;
   outline: none;
   border-radius: 5px;
@@ -1574,7 +1576,7 @@ body {
 }
 
 .summary_qty_btn:hover {
-  color: #e03f3f;
+  color: #064340;
 }
 
 .total_cost_summary {
@@ -1619,7 +1621,7 @@ body {
 }
 
 .summary_addons_collapse_btn:hover {
-  color: #e03f3f;
+  color: #064340;
 }
 
 .err_msg_order_summary {
@@ -1639,7 +1641,7 @@ body {
   padding: 0;
   font-size: 16px;
   border-radius: 50%;
-  color: #e03f3f;
+  color: #064340;
   font-weight: 700;
 }
 
@@ -1686,7 +1688,7 @@ body {
   height: 50px;
   background-color: #fff;
   /* box-shadow: 2px 0 10px #7777; */
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   right: 20px;
   top: -20px;
@@ -1761,7 +1763,7 @@ body {
   font-size: 15px;
   border: none;
   outline: none;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   font-weight: 600;
   border-radius: 5px;
@@ -1803,7 +1805,7 @@ body {
 }
 
 .payment_card_order_online_093.selected {
-  border-color: #e03f3f;
+  border-color: #064340;
 }
 
 .payment_card_order_online_093.selected > i {
@@ -1860,7 +1862,7 @@ body {
 }
 
 .checkout_summary_order_online_heads {
-  background-color: #e03f3f;
+  background-color: #064340;
   border-right: 10px;
   border-left: 15px;
   height: auto;
@@ -1868,7 +1870,7 @@ body {
 }
 
 .checkout_btn_order_online {
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #ffff;
   width: 50%;
   outline: none;
@@ -1885,7 +1887,7 @@ body {
   margin-left: 30px;
   height: 30px;
   padding: 2px;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   transition: all 0.2s ease-in-out; */
   border: none;
@@ -1897,7 +1899,7 @@ body {
 }
 
 .edit_btn_details i {
-  color: #e03f3f;
+  color: #064340;
   font-size: 25px;
   position: relative;
   top: -10px;
@@ -1954,7 +1956,7 @@ body {
   background: #fff;
   font-size: 14px;
   font-size: 0.875rem;
-  font-family: "Poppins", Helvetica, sans-serif;
+  font-family: sans-serif;
   color: #444;
   border: 1px solid #e1e1e1;
 }
@@ -1992,7 +1994,7 @@ body {
   border: none;
   outline: none;
   border-radius: 50%;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   padding: 10px 15px;
   transition: all 0.2s ease-in-out;
@@ -2013,7 +2015,7 @@ body {
   outline: none;
   width: 200px;
   font-weight: 500;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   padding: 7px;
   border-radius: 4px;
@@ -2186,7 +2188,7 @@ body {
 }
 
 .red {
-  color: #e03f3f;
+  color: #064340;
   font-size: 13px;
   font-weight: 600;
 }
@@ -2195,7 +2197,7 @@ body {
   position: fixed;
   width: 100%;
   height: 50px;
-  background-color: #e03f3f;
+  background-color: #064340;
   padding: 10px;
   left: 0;
   bottom: 0;
@@ -2209,7 +2211,7 @@ body {
     position: fixed;
     width: 100%;
     height: 50px;
-    background-color: #e03f3f;
+    background-color: #064340;
     padding: 10px;
     left: 0;
     bottom: 0;
@@ -2326,12 +2328,10 @@ body {
 }
 
 .small_desc {
-  display: flex;
-  align-items: flex-start;
   font-size: 13px;
   font-weight: 600;
   color: #747474;
-  padding: 0 0 0 40px;
+  padding: 0 0 10px 40px;
   user-select: none;
 }
 
@@ -2447,7 +2447,7 @@ body {
   border: none;
   outline: none;
   padding: 0.7em 3em;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   border-radius: 4px;
   margin: 0 auto;
@@ -2496,7 +2496,7 @@ body {
 
 .screen span {
   font-size: 18px;
-  color: #e03f3f;
+  color: #064340;
 }
 
 .add__order__online {
@@ -2517,7 +2517,7 @@ body {
 }
 
 .add__order__online:hover {
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
 }
 
@@ -2526,7 +2526,7 @@ body {
   outline: none;
   border-radius: 3px;
   border: 1px solid #eee;
-  color: #e03f3f;
+  color: #064340;
   background-color: transparent;
   height: 35px;
   transition: all 0.2s ease-in-out;
@@ -2534,7 +2534,7 @@ body {
 
 .order__online__count:hover {
   background-color: #f6bdbd;
-  color: #e03f3f;
+  color: #064340;
 }
 
 .cat_name__ {
@@ -2542,7 +2542,7 @@ body {
   font-size: 20px;
   font-weight: 600;
   padding: 0px;
-  color: #e03f3f;
+  color: #064340;
   user-select: none;
 }
 
@@ -2551,7 +2551,7 @@ body {
   position: absolute;
   height: 3px;
   width: 15px;
-  background-color: #e03f3f;
+  background-color: #064340;
   bottom: -5px;
   left: 50%;
   transform: translateX(-50%);
@@ -2559,17 +2559,18 @@ body {
 
 #fda_product_tile {
   position: relative;
-  min-height: 320px;
+  min-height: 220px;
   background: rgb(238, 238, 238);
   color: #af2329;
- 
+  /* border: 1px dashed #7777; */
+  margin-bottom: 0 !important;
   transition: all 0.2s ease-in-out;
   font-size: 11px;
   padding: 0 25px;
   border-radius: 25px;
   margin-top: 20px;
   margin: 0px auto;
-  margin-bottom: 46px;
+  margin: 10px;
 }
 
 @media screen and (max-width: 1400px) {
@@ -2592,7 +2593,7 @@ body {
   width: 130px;
   height: 130px;
   border-radius: 100%;
-  padding: 0px;
+  padding: 20px;
   /* background-color: rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 0 25px rgba(255, 255, 255, 0.15),
     inset 0 4px 0 rgba(0, 0, 0, 0.05), inset 0 -4px 0 rgba(0, 0, 0, 0.05),
@@ -2661,7 +2662,6 @@ div.food_tile__.active img {
 } */
 .foodmenuList {
   padding-right: 10px;
-  padding-top: 50px;
 }
 
 .prod_price {
@@ -2671,7 +2671,8 @@ div.food_tile__.active img {
   transform: translateX(-50%);
   font-size: 1.2rem;
   font-family: sans-serif;
-  font-weight: 700 !important;
+  color: #064340;
+  font-weight: 500 !important;
 }
 .add_to_cart {
   position: absolute;
@@ -2681,7 +2682,7 @@ div.food_tile__.active img {
   border: none;
   outline: none;
   background-color: transparent;
-  background-color: #027881;
+  background-color: #064340;
   font-size: 14px;
   padding: 3px 20px;
   border-radius: 5px;
@@ -2690,7 +2691,7 @@ div.food_tile__.active img {
   transition: all 0.2s ease-in-out;
 }
 .add_to_cart:hover {
-  background-color: #fe4645;
+  background-color: #e7b532;
 }
 .err_ {
   font-size: 0.8rem;
@@ -2741,7 +2742,7 @@ div.food_tile__.active img {
   /* left: 30px; */
   /* right: 20px; */
   float: right;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   padding: 10px;
   outline: none;
@@ -2803,7 +2804,7 @@ div.food_tile__.active img {
   border: none;
   background-color: transparent;
   outline: none;
-  color: #e03f3f;
+  color: #064340;
   font-size: 1.7rem !important;
 }
 
@@ -2820,7 +2821,6 @@ div.food_tile__.active img {
   }
   .small-card {
     display: block;
-    border-radius: 16px;
   }
   .web-res {
     display: none;
@@ -2841,15 +2841,16 @@ div.food_tile__.active img {
   font-size: 19px;
 }
 .clr_cart_btn {
-  border: 1px solid #e03f3f;
-  color: #e03f3f;
+  border: 1px solid #064340;
+  color: #064340;
   border-radius: 4px;
   font-size: 10px;
   background-color: transparent;
-  width: 70px;
+  width: 97px;
   font-weight: 700;
   font-family: sans-serif;
   float: right;
   position: relative;
-  top: -40px;
+  top: -30px;
+  padding: 7px;
 }

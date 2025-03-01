@@ -1,21 +1,14 @@
 "use client";
-import React, {
-  Fragment,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import * as Go from "react-icons/go";
-import * as Tb from "react-icons/tb";
 import * as Lu from "react-icons/lu";
-import * as Fa from "react-icons/fa6";
 import * as Md from "react-icons/md";
 import * as Im from "react-icons/im";
+import * as Fa from "react-icons/fa6";
 import { GrLocation } from "react-icons/gr";
 import { TableReservationContext } from "../context/TableReservationContext";
 import Utils from "../utils/Utils";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -29,8 +22,6 @@ import Lottie from "react-lottie";
 import lottieFile from "../assets/lottie/Animation - 1734505645259.json";
 import Image from "next/image";
 import TableReservDisabled from "../assets/table-reservation-disabled.png";
-import dayjs from "dayjs";
-import { AppContext } from "../../order-online-page/context";
 
 const RECAPTCHA_SITE_KEY = "6LeXD-8pAAAAAOpi7gUuH5-DO0iMu7J6C-CBA2fo";
 
@@ -51,9 +42,9 @@ const findToday = () => {
   return dayName;
 };
 
-function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
+function TableReservationFormDemo({ setIsActiveTablePage, encryptToMD5, shopId }) {
   const router = useRouter();
-  const { settings } = useContext(AppContext);
+  const searchparams = useSearchParams();
   const {
     getShopTiming,
     shopTiming,
@@ -71,11 +62,14 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     getReservationDetailsEmail,
     reservationDetails,
     setReservationDetails,
+    setManageReservList,
   } = useContext(TableReservationContext);
 
   const [count, setCount] = useState(1);
   const [showManageReserv, setShowManageReserv] = useState(false);
+  const [hashcode, setHashcode] = useState("");
   const [isReservErr, setIsReservErr] = useState(false);
+  const [responseLoading, setResponseLoading] = useState(false);
   const [minDate, setMinDate] = useState("");
   const [dayValue, setDayValue] = useState(null);
   const [timeIntervals, setTimeIntervals] = useState(null);
@@ -84,11 +78,6 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   const [isTodayHoliday, setIsTodayHoliday] = useState(false);
   const [reservEmail, setReservEmail] = useState("");
   const [manageReservLoading, setManageReservLoading] = useState(false);
-  const [holidayIntervals, setHolidayIntervals] = useState([]);
-
-  const memoizedHolidayIntervals = useMemo(() => {
-    return generateHolidayIntervals();
-  }, [upcomingHolidays, tableReservationSettings]);
 
   useEffect(() => {
     setInitialValues((prev) => ({ ...prev, bookingDate: defaultDate }));
@@ -121,16 +110,12 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     const nextAvailableDate =
       holidayToday === true ? findNextAvailableDay(today) : today;
 
-    // setDefaultDate(nextAvailableDate);
-    // setInitialValues((prev) => ({ ...prev, bookingDate: nextAvailableDate }));
+    setDefaultDate(nextAvailableDate);
   }, [upcomingHolidays]);
 
   useEffect(() => {
-    if (!tableReservationSettings || !dayValue || !holidayIntervals) return;
-    fetchIntervals();
-  }, [tableReservationSettings, dayValue, initialValues]);
+    if (!tableReservationSettings || !dayValue) return;
 
-  const fetchIntervals = () => {
     const todaysTiming = tableReservationSettings[dayValue];
 
     if (!todaysTiming || todaysTiming.length === 0) {
@@ -139,42 +124,16 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     }
 
     const timeInterval =
-      typeof tableReservationSettings?.time_interval === "string"
+      typeof tableReservationSettings?.time_interval == "string"
         ? parseInt(tableReservationSettings?.time_interval)
         : tableReservationSettings?.time_interval;
 
-    const findIntervals = [
-      ...new Set(
-        todaysTiming.flatMap((time) =>
-          Utils.getTimeIntervals(time.start, time.end, timeInterval)
-        )
-      ),
-    ];
-
-    setHolidayIntervals(memoizedHolidayIntervals);
-
-    const CheckHolidate =
-      holidayIntervals &&
-      holidayIntervals.length != 0 &&
-      holidayIntervals.filter((x) =>
-        dayjs(x.date).isSame(dayjs(initialValues?.bookingDate), "day")
-      );
-
-    if (CheckHolidate && CheckHolidate.length != 0) {
-      const currentHoliday = CheckHolidate[0];
-
-      const filteredIntervals =
-        currentHoliday.intervals.length === 0
-          ? []
-          : findIntervals.filter(
-              (time) => !currentHoliday.intervals.includes(time)
-            );
-
-      return setTimeIntervals(filteredIntervals);
-    }
+    const findIntervals = todaysTiming.flatMap((time) =>
+      Utils.getTimeIntervals(time.start, time.end, timeInterval)
+    );
 
     setTimeIntervals(findIntervals);
-  };
+  }, [tableReservationSettings, dayValue]);
 
   useEffect(() => {
     if (initialValues && !initialValues.bookingDate) return;
@@ -212,105 +171,6 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     }
   };
 
-  const isHoliday = (date) => {
-    const dateKey = date.toISOString().split("T")[0];
-    return (
-      (holidayIntervals &&
-        holidayIntervals.length != 0 &&
-        holidayIntervals?.some(
-          (holiday) =>
-            holiday.date === dateKey && holiday.intervals.length === 0
-        )) ||
-      false
-    );
-  };
-
-  function generateHolidayIntervals() {
-    const holidayIntervals = [];
-    const interval = tableReservationSettings?.time_interval ?? 15;
-
-    upcomingHolidays?.forEach((holiday) => {
-      let start = new Date(holiday.startTime);
-      let end = new Date(holiday.endTime);
-
-      const startDateKey = start.toISOString().split("T")[0];
-      const endDateKey = end.toISOString().split("T")[0];
-
-      if (startDateKey === endDateKey) {
-        // Case: Same-Day Holiday (Only block from startTime to endTime)
-        let existingEntry = holidayIntervals.find(
-          (entry) => entry.date === startDateKey
-        );
-        if (!existingEntry) {
-          existingEntry = { date: startDateKey, intervals: [] };
-          holidayIntervals.push(existingEntry);
-        }
-
-        let timePointer = new Date(holiday.startTime);
-        const minutes = timePointer.getMinutes();
-        const roundedMinutes = Math.ceil(minutes / interval) * interval;
-        timePointer.setMinutes(roundedMinutes, 0, 0);
-
-        let limit = new Date(holiday.endTime);
-
-        while (timePointer <= limit) {
-          existingEntry.intervals.push(timePointer.toTimeString().slice(0, 5));
-          timePointer = new Date(timePointer.getTime() + interval * 60 * 1000);
-        }
-      } else {
-        // Case: Multi-Day Holiday
-        while (start <= end) {
-          const dateKey = start.toISOString().split("T")[0];
-          let existingEntry = holidayIntervals.find(
-            (entry) => entry.date === dateKey
-          );
-          if (!existingEntry) {
-            existingEntry = { date: dateKey, intervals: [] };
-            holidayIntervals.push(existingEntry);
-          }
-
-          let timePointer, limit;
-
-          if (dateKey === startDateKey) {
-            // First Day of Holiday (Start from startTime to end of the day)
-            timePointer = new Date(holiday.startTime);
-            const minutes = timePointer.getMinutes();
-            const roundedMinutes = Math.ceil(minutes / interval) * interval;
-            timePointer.setMinutes(roundedMinutes, 0, 0);
-
-            limit = new Date(`${dateKey}T23:59:00`);
-          } else if (dateKey === endDateKey) {
-            // Last Day of Holiday (Start from midnight to endTime)
-            timePointer = new Date(`${dateKey}T00:00:00`);
-            limit = new Date(holiday.endTime);
-          } else {
-            // Full-Day Holiday (Block entire day)
-            existingEntry.intervals = [];
-            start.setDate(start.getDate() + 1);
-            start.setHours(0, 0, 0, 0);
-            continue;
-          }
-
-          // Generate intervals within the time range
-          while (timePointer <= limit) {
-            existingEntry.intervals.push(
-              timePointer.toTimeString().slice(0, 5)
-            );
-            timePointer = new Date(
-              timePointer.getTime() + interval * 60 * 1000
-            );
-          }
-
-          // Move to the next day at midnight
-          start.setDate(start.getDate() + 1);
-          start.setHours(0, 0, 0, 0);
-        }
-      }
-    });
-
-    return holidayIntervals;
-  }
-
   const reservationValidation = async (bookingTime, chairs) => {
     const requestBody = {
       bookingTime,
@@ -323,17 +183,83 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
 
     try {
       const response = await axios.post(url, requestBody);
-      if (response) {
-        return true;
-      }
-      return false;
+      return true; // Validation success
     } catch (error) {
       const errMsg =
         error.response?.data?.errormessage || "Something went wrong";
       toast.error(errMsg);
-  
+      console.error("Error:", errMsg);
       return false;
     }
+  };
+
+  const lateBookingValidation = () => {
+    const today = new Date();
+    const bookingDate = initialValues?.bookingDate;
+    const bookingTime = initialValues?.bookingTime;
+
+    const lateBooking =
+      typeof tableReservationSettings?.late_booking === "string"
+        ? parseInt(tableReservationSettings?.late_booking)
+        : tableReservationSettings?.late_booking;
+
+    if (bookingDate == null || lateBooking == null) {
+      toast.error("Invalid requirements!");
+      return;
+    }
+
+    const diffInTime = today.getTime() - bookingDate.getTime();
+
+    const diffInMinutes = Math.ceil(diffInTime / (1000 * 60));
+
+    return diffInMinutes >= lateBooking;
+  };
+
+  const now = new Date();
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Normalize today’s date
+
+  // Function to check if a holiday spans the whole day
+  const isFullDayHoliday = (holiday) => {
+    const startDate = new Date(holiday.startTime.replace(" ", "T")); // Convert to ISO format
+    const endDate = new Date(holiday.endTime.replace(" ", "T")); // Convert to ISO format
+
+    return (
+      startDate.getHours() === 0 &&
+      startDate.getMinutes() === 0 &&
+      startDate.getSeconds() === 0 &&
+      endDate.getHours() === 23 &&
+      endDate.getMinutes() === 59 &&
+      endDate.getSeconds() === 59
+    );
+  };
+
+  // Get disabled dates (only full-day holidays)
+  const disabledDates =
+    upcomingHolidays?.reduce((dates, holiday) => {
+      if (isFullDayHoliday(holiday)) {
+        let startDate = new Date(holiday.startTime.replace(" ", "T"));
+        let endDate = new Date(holiday.endTime.replace(" ", "T"));
+
+        startDate.setHours(0, 0, 0, 0);
+        endDate.setHours(0, 0, 0, 0);
+
+        while (startDate <= endDate) {
+          dates.push(new Date(startDate));
+          startDate.setDate(startDate.getDate() + 1);
+        }
+      }
+      return dates;
+    }, []) || [];
+
+  // Function to check if a date is a holiday
+  const isHoliday = (date) => {
+    const checkDate = new Date(date);
+    checkDate.setHours(0, 0, 0, 0); // Normalize for comparison
+
+    return disabledDates.some(
+      (disabledDate) => disabledDate.getTime() === checkDate.getTime()
+    );
   };
 
   const findNextAvailableDay = (date) => {
@@ -341,6 +267,25 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
       date.setDate(date.getDate() + 1);
     }
     return date;
+  };
+
+  const earlyBookingValidation = () => {
+    const today = new Date();
+    const bookingDate = initialValues?.bookingDate;
+    const earlyBooking =
+      typeof tableReservationSettings?.early_booking == "string"
+        ? parseInt(tableReservationSettings?.early_booking)
+        : tableReservationSettings?.early_booking;
+
+    if (bookingDate == null || earlyBooking == null) {
+      toast.error("invalid requirements!");
+      return;
+    }
+
+    const maxBookingDate = new Date(today);
+    maxBookingDate.setDate(today.getDate() + earlyBooking);
+
+    return bookingDate <= maxBookingDate;
   };
 
   const isBookingValid = () => {
@@ -502,62 +447,43 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
 
       if (isReservationValid === false) return;
 
-      const token = getLocalStorageItem("userToken");
+      await sendReservationOTP(payload, {
+        onSuccess: (res) => {
+          sessionStorage.setItem("hashcode", md5Num);
+          // localStorage.setItem("pageState");
+          setSecretKey(md5Num);
+          const errStatus = res.data.error;
+          if (errStatus == false) {
+            const saveObj =
+              initialValues && typeof initialValues == "object"
+                ? JSON.stringify(initialValues)
+                : initialValues;
 
-      const havAdvance =
-        settings?.tableReservationSettings.haveAdvance === "Yes" ? true : false;
-
-      let reserAdvAmt = 0;
-
-      if (havAdvance) {
-        reserAdvAmt = settings?.tableReservationSettings.advanceAmount;
-      }
-      setSessionStorageItem("reservationData", JSON.stringify(initialValues));
-
-      if (token == null || token == undefined) {
-        router.push("/reservation-login");
-
-        // await sendReservationOTP(payload, {
-        //   onSuccess: (res) => {
-        //     sessionStorage.setItem("hashcode", md5Num);
-        //     // localStorage.setItem("pageState");
-        //     setSecretKey(md5Num);
-        //     const errStatus = res.data.error;
-        //     // console.log("OTP", res.data);
-
-        //     if (errStatus == false) {
-        //       const saveObj =
-        //         initialValues && typeof initialValues == "object"
-        //           ? JSON.stringify(initialValues)
-        //           : initialValues;
-
-        //       setSessionStorageItem("reserv_details", saveObj);
-        //       setSessionStorageItem("secretKey", secretKey);
-
-        //       // if (token == null || token == undefined) {
-        //       //   router.push("/reservation-login");
-        //       // } else {
-        //       //   completeNewReservation();
-        //       // }
-        //     } else {
-        //       toast.error("OTP not send!");
-        //     }
-        //   },
-        //   onFailed: (err) => {
-        //     toast.error("Error on sending OTP");
-        //     console.log("OTP ERROR", err);
-        //   },
-        //   headers: headers,
-        // });
-      } else {
-        router.push(`/reservation-checkout?advance=${reserAdvAmt}`);
-      }
+            setSessionStorageItem("reserv_details", saveObj);
+            setSessionStorageItem("secretKey", secretKey);
+            const token = getLocalStorageItem("userToken");
+            if (token == null || token == undefined) {
+              router.push("/loginReservation");
+            } else {
+              completeNewReservation();
+            }
+          } else {
+            toast.error("OTP not send!");
+          }
+        },
+        onFailed: (err) => {
+          toast.error("Error on sending OTP");
+          console.log("OTP ERROR", err);
+        },
+        headers: headers,
+      });
     } finally {
       setFormValidationLoading(false);
     }
   };
-
   const completeNewReservation = async () => {
+    console.log("reached");
+
     const mergedBooking = Utils.mergeBookingDateTime(
       initialValues?.bookingDate,
       initialValues?.bookingTime
@@ -577,6 +503,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
       const header = decodeBase64(parts[0]); // Decode Header
       const payload = decodeBase64(parts[1]); // Decode Payload
 
+  
     } else {
       console.error("Invalid token format");
     }
@@ -619,25 +546,11 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   const handleDateChange = (e) => {
     setInitialValues((prev) => ({ ...prev, bookingDate: e }));
     getSelectedDay(e);
-
     const allowBookingAfterDays = tableReservationSettings?.late_booking;
+
     const minDate = new Date();
     const dateonly = minDate.getDate();
     const allowdate = dateonly + allowBookingAfterDays;
-
-    // Check if the selected date matches any holiday
-    const selectedDateStr = e.toISOString().split("T")[0]; // Format date as YYYY-MM-DD
-    const holidayMatch = holidayIntervals.find(
-      (holiday) => holiday.date === selectedDateStr
-    );
-
-    // Filter out holiday intervals if there's a match
-    if (holidayMatch) {
-      const filteredIntervals = timeIntervals.filter(
-        (time) => !holidayMatch.intervals.includes(time)
-      );
-      setTimeIntervals(filteredIntervals);
-    }
   };
 
   const defaultOptions = {
@@ -668,9 +581,9 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
               toast.error("No reservations found!");
               return;
             }
-            setReservationDetails(reserVData);
+            setManageReservList(reserVData);
             setSessionStorageItem("reservData", JSON.stringify(reserVData));
-            router.push(`/reservation-list?email=${reservEmail}`);
+            router.push("/reservation-list");
           } else {
             toast.error("No reservations found!");
           }
@@ -686,7 +599,6 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
 
   return (
     <div className="table_reserv__ position-relative">
-      <Toaster />
       <Fragment>
         <div className="container">
           {loading && isTimingLoading ? (
@@ -695,7 +607,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
             </div>
           ) : (
             <>
-              {tableReservationSettings != null ? (
+              {tableReservationSettings &&
                 loading === false &&
                 tableReservationSettings?.active === true && (
                   <div className="row">
@@ -704,41 +616,12 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                         <h3 className="table-reservation-form-head">
                           Table Reservation Form
                         </h3>
-                        {holidayIntervals &&
-                          holidayIntervals.length !== 0 &&
-                          holidayIntervals.some((x) => {
-                            let holidayDate = new Date(x.date)
-                              .toISOString()
-                              .split("T")[0];
-                            let bookingDate = new Date(
-                              initialValues?.bookingDate
-                            )
-                              .toISOString()
-                              .split("T")[0];
-
-                            if (holidayDate === bookingDate) {
-                              let startTime = new Date(
-                                x.startTime
-                              ).toLocaleTimeString([], {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              });
-                              let endTime = new Date(
-                                x.endTime
-                              ).toLocaleTimeString([], {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              });
-
-                              return (
-                                <p className="text-danger fw-bold text-center user-select-none mt-2">
-                                  Reservation is not available today from{" "}
-                                  {startTime} to {endTime}.
-                                </p>
-                              );
-                            }
-                            return false;
-                          })}
+                        {isTodayHoliday && (
+                          <p className="text-danger fw-bold text-center user-select-none mt-2">
+                            There are no reservations today. Please select
+                            another available date!
+                          </p>
+                        )}
 
                         <form
                           action=""
@@ -755,7 +638,6 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                             onChange={(e) => handleDateChange(e)}
                             defaultValue={defaultDate}
                             tileDisabled={({ date }) => isHoliday(date)}
-
                             // tileContent={({ date }) => {
                             //   // Find the holiday reason for this date
                             //   const holiday =
@@ -839,7 +721,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                                 <select
                                   name="bookingTime"
                                   className={
-                                    "form-control table_reserv_form_input_select d-block " +
+                                    "form-select table_reserv_form_input_select d-block " +
                                     (isReservErr &&
                                     (!initialValues?.bookingTime ||
                                       initialValues.bookingTime.length === 0)
@@ -869,11 +751,6 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                                     Booking Time is Required!
                                   </span>
                                 )}
-                              {timeIntervals && timeIntervals.length == 0 && (
-                                <span className="text-danger fw-bold user-select-none m-2">
-                                  No Slots Available!
-                                </span>
-                              )}
                             </div>
 
                             <div className="col-lg-4 col-md-4 ol-sm-4">
@@ -1105,7 +982,253 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                             </tbody>
                           </table>
                         </div>
+                        {/*<p className="open_">
+                            <i className="pe-1">
+                              <Io.IoTimeOutline />
+                            </i>
+                            <span>Open Hours</span>
+                      </p>
+                      {loading ? (
+                        <span>
+                          <strong>Loading.. Please wait!</strong>
+                        </span>
+                      ) : (
+                        <div className="timing_cart_reserv">
+                          <div className="row">
+                            <div className="col-lg-6 col-md-8 col-sm-12">
+                              <div
+                                className={
+                                  dayValue === "sunday"
+                                    ? "day_wrapper_reserv_table --active"
+                                    : "day_wrapper_reserv_table"
+                                }
+                              >
+                                <p className="day__">Sunday</p>
+                                <ul className="reserv_timing__">
+                                  {tableReservationSettings &&
+                                    tableReservationSettings.sunday &&
+                                    tableReservationSettings.sunday.map(
+                                      (sunday, daykey) => {
+                                        return (
+                                          <>
+                                            <li key={daykey}>
+                                              {sunday?.start
+                                                ? Utils.convertTiming(sunday?.start)
+                                                : "N/A"}{" "}
+                                              -{" "}
+                                              {sunday?.end
+                                                ? Utils.convertTiming(sunday?.end)
+                                                : "N/A"}
+                                            </li>
+                                          </>
+                                        );
+                                      }
+                                    )}
+                                </ul>
+                              </div>
+                            </div>
+                            <div className="col-lg-6 col-md-8 col-sm-12">
+                              <div
+                                className={
+                                  dayValue === "monday"
+                                    ? "day_wrapper_reserv_table --active"
+                                    : "day_wrapper_reserv_table"
+                                }
+                              >
+                                <p className="day__">Monday</p>
+                                <ul className="reserv_timing__">
+                                  {tableReservationSettings &&
+                                    tableReservationSettings.monday &&
+                                    tableReservationSettings.monday.map((monday) => {
+                                      return (
+                                        <>
+                                          <li>
+                                            {monday?.start
+                                              ? Utils.convertTiming(monday?.start)
+                                              : "N/A"}{" "}
+                                            -{" "}
+                                            {monday?.end
+                                              ? Utils.convertTiming(monday?.end)
+                                              : "N/A"}
+                                          </li>
+                                        </>
+                                      );
+                                    })}
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
 
+                          <div className="row">
+                            <div className="col-lg-6 col-md-8 col-sm-12">
+                              <div
+                                className={
+                                  dayValue === "tuesday"
+                                    ? "day_wrapper_reserv_table --active"
+                                    : "day_wrapper_reserv_table"
+                                }
+                              >
+                                <p className="day__">Tuesday</p>
+                                <ul className="reserv_timing__">
+                                  {tableReservationSettings &&
+                                    tableReservationSettings.tuesday &&
+                                    tableReservationSettings.tuesday.map(
+                                      (tuesday) => {
+                                        return (
+                                          <>
+                                            <li>
+                                              {tuesday?.start
+                                                ? Utils.convertTiming(tuesday?.start)
+                                                : "N/A"}{" "}
+                                              -{" "}
+                                              {tuesday?.end
+                                                ? Utils.convertTiming(tuesday?.end)
+                                                : "N/A"}
+                                            </li>
+                                          </>
+                                        );
+                                      }
+                                    )}
+                                </ul>
+                              </div>
+                            </div>
+                            <div className="col-lg-6 col-md-8 col-sm-12">
+                              <div
+                                className={
+                                  dayValue === "wednesday"
+                                    ? "day_wrapper_reserv_table --active"
+                                    : "day_wrapper_reserv_table"
+                                }
+                              >
+                                <p className="day__">Wednesday</p>
+                                <ul className="reserv_timing__">
+                                  {tableReservationSettings &&
+                                    tableReservationSettings.wednesday &&
+                                    tableReservationSettings.wednesday.map(
+                                      (wednesday) => {
+                                        return (
+                                          <>
+                                            <li>
+                                              {wednesday?.start
+                                                ? Utils.convertTiming(
+                                                    wednesday?.start
+                                                  )
+                                                : "N/A"}{" "}
+                                              -{" "}
+                                              {wednesday?.end
+                                                ? Utils.convertTiming(wednesday?.end)
+                                                : "N/A"}
+                                            </li>
+                                          </>
+                                        );
+                                      }
+                                    )}
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="row">
+                            <div className="col-lg-6 col-md-8 col-sm-12">
+                              <div
+                                className={
+                                  dayValue === "thursday"
+                                    ? "day_wrapper_reserv_table --active"
+                                    : "day_wrapper_reserv_table"
+                                }
+                              >
+                                <p className="day__">Thursday</p>
+                                <ul className="reserv_timing__">
+                                  {tableReservationSettings &&
+                                    tableReservationSettings.thursday &&
+                                    tableReservationSettings.thursday.map(
+                                      (thursday) => {
+                                        return (
+                                          <>
+                                            <li>
+                                              {thursday?.start
+                                                ? Utils.convertTiming(thursday?.start)
+                                                : "N/A"}{" "}
+                                              -{" "}
+                                              {thursday?.end
+                                                ? Utils.convertTiming(thursday?.end)
+                                                : "N/A"}
+                                            </li>
+                                          </>
+                                        );
+                                      }
+                                    )}
+                                </ul>
+                              </div>
+                            </div>
+                            <div className="col-lg-6 col-md-8 col-sm-12">
+                              <div
+                                className={
+                                  dayValue === "friday"
+                                    ? "day_wrapper_reserv_table --active"
+                                    : "day_wrapper_reserv_table"
+                                }
+                              >
+                                <p className="day__">Friday</p>
+                                <ul className="reserv_timing__">
+                                  {tableReservationSettings &&
+                                    tableReservationSettings.friday &&
+                                    tableReservationSettings.friday.map((friday) => {
+                                      return (
+                                        <>
+                                          <li>
+                                            {friday?.start
+                                              ? Utils.convertTiming(friday?.start)
+                                              : "N/A"}{" "}
+                                            -{" "}
+                                            {friday?.end
+                                              ? Utils.convertTiming(friday?.end)
+                                              : "N/A"}
+                                          </li>
+                                        </>
+                                      );
+                                    })}
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="row">
+                            <div className="col-lg-6 col-md-8 col-sm-12">
+                              <div
+                                className={
+                                  dayValue === "saturday"
+                                    ? "day_wrapper_reserv_table --active"
+                                    : "day_wrapper_reserv_table"
+                                }
+                              >
+                                <p className="day__">Saturday</p>
+                                <ul className="reserv_timing__">
+                                  {tableReservationSettings &&
+                                    tableReservationSettings.saturday &&
+                                    tableReservationSettings.saturday.map(
+                                      (saturday) => {
+                                        return (
+                                          <>
+                                            <li>
+                                              {saturday?.start
+                                                ? Utils.convertTiming(saturday?.start)
+                                                : "N/A"}{" "}
+                                              -{" "}
+                                              {saturday?.end
+                                                ? Utils.convertTiming(saturday?.end)
+                                                : "N/A"}
+                                            </li>
+                                          </>
+                                        );
+                                      }
+                                    )}
+                                </ul>
+                              </div>
+                            </div>
+                            <div className="col-lg-6 col-md-6 col-sm-6"></div>
+                          </div>
+                        </div>
+                      )} */}
                         <button
                           type="button"
                           className="reserv_btn my-3"
@@ -1166,80 +1289,63 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                           </form>
                         )}
                       </div>
-                      {!isTimingLoading &&
-                        upcomingHolidays &&
-                        upcomingHolidays.length != 0 && (
-                          <div className="reservationHolidays">
-                            <div className="card timing_card_table_reserv ">
-                              <div className="open_">
-                                <i className="pe-1">
-                                  <Fa.FaDoorClosed />
-                                </i>
-                                <span>Reservation Holidays</span>
-                              </div>
-
-                              {upcomingHolidays.map((item, idx6) => {
-                                const [startDate, startTime] =
-                                  item.startTime.split(" ");
-                                const [endDate, endTime] =
-                                  item.endTime.split(" ");
-
-                                return (
-                                  <div className="card holidaycard" key={idx6}>
-                                    <div className="d-flex align-items-center justify-content-between">
-                                      <i>
-                                        <Fa.FaMartiniGlass />
-                                      </i>
-                                      <p className="holi_date m-0 fw-bold">
-                                        {startDate && startDate.length != 0
-                                          ? Utils.formatDate(startDate)
-                                          : ""}{" "}
-                                        -{" "}
-                                        {startTime && startTime.length != 0
-                                          ? Utils.convertTiming(startTime)
-                                          : ""}{" "}
-                                      </p>
-                                      <i>
-                                        <Lu.LuArrowLeftRight />
-                                      </i>
-                                      <p className="holi_time m-0 fw-bold">
-                                        {endDate && endDate.length != 0
-                                          ? Utils.formatDate(endDate)
-                                          : ""}
-                                        -{" "}
-                                        {endTime && endTime.length != 0
-                                          ? Utils.convertTiming(endTime)
-                                          : ""}
-                                      </p>
-                                    </div>
-                                    {item?.reason &&
-                                      item?.reason.length != 0 && (
-                                        <div className="d-flex">
-                                          <i>
-                                            <Tb.TbMessage2Exclamation />
-                                          </i>{" "}
-                                          <span>{item?.reason ?? ""}</span>
-                                        </div>
-                                      )}
-                                  </div>
-                                );
-                              })}
-                            </div>
+                      <div className="reservationHolidays">
+                        <div className="card timing_card_table_reserv ">
+                          <div className="open_">
+                            <i className="pe-1">
+                              <Fa.FaDoorClosed />
+                            </i>
+                            <span>Reservation Holidays</span>
                           </div>
-                        )}
+
+                          {upcomingHolidays?.length > 0 &&
+                            upcomingHolidays.map((item, idx6) => {
+                              const [startDate, startTime] =
+                                item.startTime.split(" ");
+                              const [endDate, endTime] =
+                                item.endTime.split(" ");
+
+                              return (
+                                <div className="card holidaycard" key={idx6}>
+                                  <div className="d-flex align-items-center justify-content-between">
+                                    <p className="holi_date m-0">
+                                      <i>
+                                        <Md.MdDateRange />
+                                      </i>
+                                      {startDate && startDate.length != 0
+                                        ? Utils.formatDate(startDate)
+                                        : ""}{" "}
+                                      -{" "}
+                                      {endDate && endDate.length != 0
+                                        ? Utils.formatDate(endDate)
+                                        : ""}
+                                    </p>
+                                    <p className="holi_time m-0">
+                                      <i>
+                                        {" "}
+                                        <Lu.LuClock3 />
+                                      </i>
+                                      {startTime && startTime.length != 0
+                                        ? Utils.convertTiming(startTime)
+                                        : ""}{" "}
+                                      -{" "}
+                                      {endTime && endTime.length != 0
+                                        ? Utils.convertTiming(endTime)
+                                        : ""}
+                                    </p>
+                                  </div>
+                                  <span>{item?.reason ?? ""}</span>
+                                </div>
+                              );
+                            })}
+                        </div>
+                      </div>
                       <div className="poweredBy_ text-center" id="main___">
                         <span>Powered by Foodpage</span>
                       </div>
                     </div>
                   </div>
-                )
-              ) : (
-                <>
-                  <h3 className="text-center" style={{ color: "#7777" }}>
-                    Reservation settings unavailable
-                  </h3>
-                </>
-              )}
+                )}
               {tableReservationSettings &&
                 tableReservationSettings?.active === false && (
                   <>
@@ -1275,4 +1381,4 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   );
 }
 
-export default TableReservationForm;
+export default TableReservationFormDemo;

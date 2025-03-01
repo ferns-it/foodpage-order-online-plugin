@@ -62,7 +62,7 @@ input {
 }
 .table-reservation-form-head {
   text-transform: uppercase;
-  font-size: 1rem;
+  font-size: 20px;
   padding-left: 10px;
   color: #747474;
   user-select: none;
@@ -81,7 +81,7 @@ input {
 }
 
 .table_reserv_form_input.err__ {
-  border-color: #e03f3f !important;
+  border-color: #064340 !important;
 }
 .reserv_itp_pg {
   padding: 10px;
@@ -103,7 +103,7 @@ input {
   border-radius: 20px;
   overflow: hidden;
   margin: 0 !important;
-  border: 1px solid #e03f3f;
+  border: 1px solid #064340;
 }
 
 .incDec_wrapper_0291 > .toggle-checkbox {
@@ -129,6 +129,7 @@ input {
   transition: all 0.2s ease-in-out;
   font-weight: 700;
   user-select: none;
+  margin: 0;
 }
 
 .increment-button:hover,
@@ -138,7 +139,7 @@ input {
 }
 
 .increment-button.red {
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
 }
 
@@ -170,7 +171,7 @@ input {
   width: 200px;
   display: block;
   margin: 0 auto;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   white-space: nowrap;
 }
@@ -243,7 +244,7 @@ input {
   border-radius: 4px;
 }
 .day_wrapper_reserv_table.--active > .day__::after {
-  background-color: #e03f3f;
+  background-color: #064340;
 }
 
 .day_wrapper_reserv_table > .day__::after {
@@ -299,7 +300,7 @@ input {
 
 .resend_otp_reservv > span {
   font-size: 17px;
-  color: #e03f3f;
+  color: #064340;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
@@ -319,7 +320,7 @@ input {
   width: 30%;
   display: block;
   margin: 0 auto;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
 }
 
@@ -335,7 +336,7 @@ input {
   }
   .table_reserv_info_sub_head,
   .resend_otp_reservv {
-    font-size: 13px;
+    font-size: 18px;
   }
   .reserv_otp_validation_btn {
     width: 70%;
@@ -385,7 +386,7 @@ input {
   border: none;
   outline: none;
   padding: 0.7em 3em;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   border-radius: 4px;
   margin: 0 auto;
@@ -400,7 +401,7 @@ input {
   font-size: 13px;
   padding: 10px;
   font-weight: 600;
-  color: #e03f3f;
+  color: #064340;
 }
 
 /* .banner-container {
@@ -431,7 +432,7 @@ input {
   /* left: 30px; */
   /* right: 20px; */
   float: right;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   padding: 10px;
   outline: none;
@@ -505,7 +506,7 @@ input {
   border-radius: 5px;
   border: none;
   outline: none;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   margin: 0 auto;
   transition: all 0.2s ease-in-out;
@@ -519,8 +520,9 @@ input {
 .back_btn {
   display: block;
   margin: 0px auto;
-  width: 25%;
-  color: #e03f3f;
+  width: 150px;
+  text-align: center;
+  color: #064340;
   font-size: 14px;
   cursor: pointer;
 }
@@ -591,7 +593,7 @@ input {
     margin-left: 30px;
     height: 30px;
     padding: 2px;
-    background-color: #e03f3f;
+    background-color: #064340;
     color: #fff;
     transition: all 0.2s ease-in-out; */
   border: none;
@@ -603,7 +605,7 @@ input {
 }
 
 .edit_btn_details i {
-  color: #e03f3f;
+  color: #064340;
   font-size: 25px;
   position: relative;
   top: -10px;
@@ -675,79 +677,6 @@ a {
   .large {
     display: none;
   }
- 
-  .quicky_card{
-border-radius: 0;
-margin-top: 10px;
-  }
-  .sub_title_quicky{
-    width: 100%;
-  }
-  .category_card{
-    /* background-color: white; */
-    color: #fff !important;
-    margin-bottom: 10px;
-  }
-
-  .food_shape_3{
-    display: none;
-  }
-  .view-more-btn123{
-    margin: 0px auto;
-    text-align: center;
-  }
-  .fresh_btm_card{
-   display: none;
-  }
-
-  .img2{
-    display: none;
-  }
-  .fresh_card2 {
-    position: relative;
-    height: auto;
-  
-    transform: translateY(-50%);
-}
-.fresh_shape_1{
-  display: none;
-}
-.menu_btm_title{
-  font-size: 14px;
-  text-align: center;
-  margin: 0;
-  padding: 0;
-}
-.home_reserv_sub{
-  text-align: justify;
-}
-.reserv_table_btn{
-  border: 1px solid white;
-padding: 10px 5px;
-border-radius: 4px;
-}
-.menu_btm_head{
-  width: 100%;
-}
-.menu_img_btm_card{
-  margin: 0px auto !important;
-  text-align: center !important;
-}
-.fresh_section {
-  position: relative;
-  padding: 5rem 0 3rem 0;
-  background-color: #1f808b;
-}
-.table_reserv_img_new{
-  display: none;
-}
-
-.menu_btm_price{
-  font-size: 12px;
-  padding: 0;
-  margin: 0;
-  text-align: center;
-}
 }
 
 .ham {
@@ -1001,7 +930,7 @@ border-radius: 4px;
   float: right;
   border: none;
   padding: 10px;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   border-radius: 5px;
 }
@@ -1118,12 +1047,12 @@ border-radius: 4px;
     display: none;
   }
   .res-img {
-    width: 100px;
+    width: auto;
     height: auto;
     margin: 0px auto;
   }
   .res-img img {
-    max-width: 200px !important;
+    max-width: 100px !important;
   }
   .arrow_btn {
     margin-top: -21px;
@@ -1543,7 +1472,7 @@ border-radius: 4px;
 .add_submit_btn {
   border: none;
   padding: 5px;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   border-radius: 5px;
   width: 100%;
@@ -1641,7 +1570,7 @@ border-radius: 4px;
     outline: none;
     font-size: 15px;
     background-color: transparent;
-    color: #e03f3f;
+    color: #064340;
     /* color: #fff; */
     border-radius: 4px;
     transition: all 0.2s ease-in-out;
@@ -1795,7 +1724,7 @@ border-radius: 4px;
 }
 .react-calendar__month-view__weekdays {
   padding: 10px 0 !important;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
 }
 abbr[title] {
@@ -1847,7 +1776,7 @@ abbr[title] {
   padding: 8px 27px;
   border-radius: 5px;
   background-color: #eee;
-  color: #e03f3f;
+  color: #064340;
   font-weight: 600;
 }
 .tbl_head {
@@ -1874,14 +1803,14 @@ abbr[title] {
   outline: none;
   font-weight: 600;
   font-size: 13px;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   border-radius: 5px;
   transition: all 0.2s ease-in-out;
   white-space: nowrap;
 }
 .reserv_btn:hover {
-  background-color: #ab2e2e;
+  background-color: #e7b532;
 }
 .reserv_btn > i {
   font-size: 14px;
@@ -2015,18 +1944,20 @@ abbr[title] {
   color: #fff;
 }
 .cancel_reserv:hover {
-  background-color: #e03f3f;
+  background-color: #064340;
 }
 
 .update_reserv {
   position: absolute;
   background-color: transparent;
-  color: #252525;
-  right: 10px;
+  /* color: #252525; */
+  right: -70px;
+  width: 50%;
+  float: right;
 }
 .update_reserv:hover {
-  background-color: #3870c5;
-  color: #fff;
+  background-color: transparent;
+  color: #000000;
 }
 .update_reserv:disabled {
   background-color: #ef8f8f;
@@ -2046,7 +1977,7 @@ abbr[title] {
   border-radius: 5px;
 }
 .confirm_cancel {
-  background-color: #e03f3f;
+  background-color: #064340;
 }
 .confirm_cancel:hover {
   background-color: #ab2e2e;
@@ -2184,7 +2115,7 @@ abbr[title] {
 .card-manage {
   width: 50%;
 }
-.info_txt{
+.info_txt {
   white-space: nowrap;
   font-size: 13px;
   font-weight: 600;
@@ -2195,25 +2126,474 @@ abbr[title] {
   padding-left: 10px;
   color: #ec6262;
 }
-.disabled_wrapper{
+.disabled_wrapper {
   position: relative;
   width: 200px;
   height: 200px;
   overflow: hidden;
   margin: 0 auto;
 }
-.disabled_wrapper > img{
+.disabled_wrapper > img {
   max-width: 100%;
   max-height: 100%;
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
-.txt_content{
+.txt_content {
   margin: 0 auto;
   font-size: 22px;
   width: 50%;
   text-align: center;
+}
+.holidaycard {
+  padding-top: 20px;
+  border: 0;
+  border-bottom: 1px solid #eee;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  border-radius: 0;
+  font-size: 14px;
+}
+.holidaycard i {
+  padding: 0 10px;
+  color: #064340;
+}
+.holidaycard span {
+  padding: 0 10px;
+}
+
+/* Checkout Page Styles */
+.checkout7821_page {
+  min-height: 100vh;
+  background-color: #f9fafb;
+  padding: 3rem 1rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.checkout7821_container {
+  max-width: 1024px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Header Styles */
+.checkout7821_header {
+  background-color: #f4b223;
+  padding: 1.5rem 2rem;
+  color: white;
+}
+
+.checkout7821_header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.checkout7821_header p {
+  margin-top: 0.25rem;
+  color: #e0e7ff;
+  font-size: 0.95rem;
+}
+
+/* Confirmation Banner */
+.checkout7821_confirmation_banner {
+  background-color: #eff6ff;
+  border-left: 4px solid #3b82f6;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.checkout7821_confirmation_icon {
+  background-color: #dbeafe;
+  border-radius: 50%;
+  padding: 0.5rem;
+  margin-right: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkout7821_confirmation_icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #2563eb;
+}
+
+.checkout7821_confirmation_id {
+  color: #1e40af;
+  font-weight: 500;
+  margin: 0;
+}
+
+.checkout7821_confirmation_text {
+  color: #3b82f6;
+  font-size: 0.875rem;
+  margin: 0.25rem 0 0 0;
+}
+
+/* Details Section */
+.checkout7821_details_section {
+  padding: 2rem;
+}
+
+.checkout7821_section_title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.checkout7821_section_icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #4f46e5;
+  margin-right: 0.5rem;
+}
+
+.checkout7821_section_title h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+/* Details Grid */
+.checkout7821_details_grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .checkout7821_details_grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Info Boxes */
+.checkout7821_restaurant_info,
+.checkout7821_reservation_info,
+.checkout7821_guest_info,
+.checkout7821_special_requests {
+  background-color: #f9fafb;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.checkout7821_info_title_icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #4f46e5;
+  margin-right: 0.5rem;
+}
+
+.checkout7821_restaurant_info h3,
+.checkout7821_reservation_info h3,
+.checkout7821_guest_info h3,
+.checkout7821_special_requests h3 {
+  display: flex;
+  align-items: center;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #1f2937;
+  margin: 0 0 1rem 0;
+}
+
+/* Info Items */
+.checkout7821_info_item {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.checkout7821_info_icon {
+  margin-right: 0.75rem;
+  color: #6b7280;
+}
+
+.checkout7821_info_icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.checkout7821_info_label {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.checkout7821_info_value {
+  font-weight: 500;
+  color: #1f2937;
+  margin: 0.25rem 0 0 0;
+}
+
+/* Info Grid */
+.checkout7821_info_grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .checkout7821_info_grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Payment Section */
+.checkout7821_payment_section {
+  margin-top: 3rem;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 2.5rem;
+}
+
+/* Payment Summary */
+.checkout7821_payment_summary {
+  background-color: #eef2ff;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.checkout7821_summary_grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.checkout7821_summary_label {
+  color: #4b5563;
+}
+
+.checkout7821_summary_value {
+  font-weight: 500;
+  text-align: right;
+}
+
+.checkout7821_total_row {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1rem;
+  border-top: 1px solid #c7d2fe;
+}
+
+.checkout7821_total_label {
+  color: #4338ca;
+  font-weight: 600;
+}
+
+.checkout7821_total_value {
+  font-weight: 700;
+  color: #4338ca;
+}
+
+.checkout7821_deposit_note {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+/* Payment Form */
+.checkout7821_payment_form {
+  margin-top: 2rem;
+}
+
+.checkout7821_form_grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .checkout7821_form_grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.checkout7821_full_width {
+  grid-column: 1 / -1;
+}
+
+.checkout7821_form_group9290,
+.checkout7821_form_group9291,
+.checkout7821_form_group9292,
+.checkout7821_form_group9293 {
+  margin-bottom: 1rem;
+}
+
+.checkout7821_label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.25rem;
+}
+
+.checkout7821_input_icon {
+  position: relative;
+}
+
+.checkout7821_icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.checkout7821_input {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.checkout7821_input_icon .checkout7821_input {
+  padding-left: 2.5rem;
+}
+
+.checkout7821_input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Checkbox */
+.checkout7821_form_group9294 {
+  margin-top: 1.5rem;
+}
+
+.checkout7821_checkbox_container {
+  display: flex;
+  align-items: flex-start;
+}
+
+.checkout7821_checkbox {
+  height: 1rem;
+  width: 1rem;
+  color: #4f46e5;
+  border-color: #d1d5db;
+  border-radius: 0.25rem;
+  margin-top: 0.25rem;
+}
+
+.checkout7821_checkbox_label {
+  margin-left: 0.5rem;
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+/* Security Note */
+.checkout7821_security_note {
+  display: flex;
+  align-items: center;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.checkout7821_security_icon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  color: #6b7280;
+}
+
+/* Buttons */
+.checkout7821_button_container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.checkout7821_back_button {
+  color: #f4b223;
+  background-color: white;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid #f4b223;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.checkout7821_back_button:hover {
+  background-color: #f5f3ff;
+}
+
+.checkout7821_submit_button {
+  background-color: #f4b223;
+  color: white;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.2s;
+}
+
+.checkout7821_submit_button:hover {
+  background-color: #f4b223;
+}
+
+.checkout7821_lock_icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 0.5rem;
+}
+
+/* Footer */
+.checkout7821_footer {
+  background-color: #f9fafb;
+  padding: 1.5rem 2rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #6b7280;
+  border-top: 1px solid #e5e7eb;
+}
+
+.checkout7821_footer p {
+  margin: 0 0 0.5rem 0;
+}
+
+.checkout7821_footer p:last-child {
+  margin-bottom: 0;
+}
+
+/* Focus and Accessibility */
+button:focus,
+input:focus,
+a:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .checkout7821_button_container {
+    flex-direction: column;
+  }
+
+  .checkout7821_back_button,
+  .checkout7821_submit_button {
+    width: 100%;
+  }
 }
 .close_02901 {
   position: absolute;
@@ -2224,4 +2604,19 @@ abbr[title] {
   right: 10px;
   top: 10px;
   font-size: 25px;
+}
+
+.back-reserv-btn {
+  border: none;
+  outline: none !important;
+  background-color: #064340;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 14px;
+  color: #fff;
+}
+.new-reser-btn {
+  border: none;
+  outline: none !important;
+  background-color: transparent;
 }

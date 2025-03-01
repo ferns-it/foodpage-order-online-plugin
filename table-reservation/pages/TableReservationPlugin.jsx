@@ -15,6 +15,7 @@ function TableReservationPlugin(props) {
   const encryptToMD5 = (number) => {
     return CryptoJS.MD5(number).toString();
   };
+  
   return (
     <div>
       {/* <Toaster /> */}

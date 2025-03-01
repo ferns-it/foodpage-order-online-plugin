@@ -18,7 +18,6 @@ function StripePaymentElementOrderOnline({
   const [paymentLoading, setPaymentLoading] = useState(false);
 
 
-
   const { onPaymentElementReady, stripePaymentClientSecret, confirmPayment } =
     useContext(AppContext);
 

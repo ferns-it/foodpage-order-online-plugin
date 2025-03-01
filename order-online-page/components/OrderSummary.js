@@ -187,7 +187,7 @@ function OrderSummary() {
       await GuestDeliveryDetails(payload, {
         headers: headers,
         onSuccess: async (res) => {
-       
+         
           if (res?.data?.error == false) {
             const deliveryResp = res.data.data;
             if (deliveryResp) {
@@ -227,7 +227,7 @@ function OrderSummary() {
       toast("Your cart is empty!");
       return;
     }
-
+    setSessionStorageItem("path", "checkout");
     if (delivery == false || delivery == "false") {
       if (postalCode == "" || postalCode == null) {
         toast.error("Please add Details of Delivery!");
@@ -316,7 +316,7 @@ function OrderSummary() {
   };
   const clearcart = async () => {
     const userID = getLocalStorageItem("UserPersistent");
-  
+    
     await clearCartItems(userID, {
       onSuccess: async (res) => {
        
@@ -324,12 +324,12 @@ function OrderSummary() {
         await fetchCartList(userID);
       },
       onFailed: (err) => {
-     
+       
         toast.err("Something Went Wrong!");
       },
     });
   };
-
+  
   return (
     <Fragment>
       <Toaster position="top-center" reverseOrder={false} />
@@ -383,9 +383,9 @@ function OrderSummary() {
                               addOns.length != 0 &&
                               addOns.map((add, addsOnindex) => {
                                 return (
-                                  <Fragment key={addsOnindex}>
+                                  <>
                                     <tbody>
-                                      <span >
+                                      <span key={addsOnindex}>
                                         <strong>{add?.title}</strong>
                                       </span>
 
@@ -402,7 +402,7 @@ function OrderSummary() {
                                           }
                                         )}
                                     </tbody>
-                                  </Fragment>
+                                  </>
                                 );
                               })}
                           </table>
@@ -548,7 +548,7 @@ function OrderSummary() {
               className="row mt-3 mx-auto mx-auto"
               style={{ display: "flex" }}
             >
-              <div className="col-md-6" style={{ flex: 1, fontSize: "15px" }}>
+              {/* <div className="col-md-6" style={{ flex: 1, fontSize: "15px" }}>
                 <label>
                   <input
                     type="radio"
@@ -558,7 +558,7 @@ function OrderSummary() {
                   />
                   Delivery
                 </label>
-              </div>
+              </div> */}
 
               {deliveryInfo?.takeAway == 1 &&
                 deliveryInfo?.takeAway_temp_off === "No" && (

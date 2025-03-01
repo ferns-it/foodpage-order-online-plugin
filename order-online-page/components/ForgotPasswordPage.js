@@ -44,16 +44,16 @@ function ForgotPasswordPage() {
   const handleForgotPassword = async () => {
     if (handleValidationPassword()) {
       const payload = {
-        shopID: JSON.stringify(shopId),
+        shopID: process.env.SHOP_ID,
         useremailid: user.email,
         FPsecretkey: process.env.FOODPAGE_SECRET_KEY,
       };
       // return
       await passwordResetMail(payload, {
         onSuccess: async (res) => {
-          setSessionStorageItem("loginMail",user.email)
+          setSessionStorageItem("loginMail", user.email);
           toast.success("OTP Sended Successfully!");
-          router.push("/resetpassword");
+          router.push("/changepassword");
         },
         onFailed: (err) => {
         
@@ -67,11 +67,12 @@ function ForgotPasswordPage() {
   return (
     <Fragment>
       <div className="container">
-        <div style={{height:"80px"}}></div>
-        <div className="password_wrapper">
-          <div className="card password_comp">
-            <h2>Forgot password?</h2>
-            <p>No worries,we'll send you reset instructions.</p>
+        <div className="col-md-6 col-sm-12 mx-auto">
+          <div className="card p-4">
+            <h2 className="text-center pt-30 pb-30">Forgot password?</h2>
+            <p className="text-center">
+              No worries,we'll send you reset instructions.
+            </p>
 
             <div className="container">
               <form action="" onSubmit={handleForgotPassword}>
@@ -102,10 +103,7 @@ function ForgotPasswordPage() {
                 className="back_btn mt-2"
                 onClick={() => router.push("/login")}
               >
-                <i>
-                  <IoIosArrowRoundBack />
-                </i>
-                Back to Login
+                Back to Login?
               </span>
             </div>
           </div>

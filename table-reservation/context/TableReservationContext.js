@@ -13,6 +13,7 @@ export const TableReservationContextProvider = (props) => {
   const [loading, setLoading] = useState(false);
   const [tableReservationSettings, setTableReservationSettings] =
     useState(null);
+
   const [initialValues, setInitialValues] = useState({
     name: "",
     email: "",
@@ -22,21 +23,22 @@ export const TableReservationContextProvider = (props) => {
     noOfChairs: 0,
     message: "",
   });
-  
   const [manageReservList, setManageReservList] = useState(null);
-
   // const [otp, setOtp, clearOtp] = useLocalStorage('userOTP', '');
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
+        const shopid = process.env.SHOP_ID;
+
         const response = await fetch(
-          `https://shopadmin.vgrex.com/settings/fetch-reservation-settings/ ${process.env.SHOP_ID}`
+          `https://shopadmin.vgrex.com/settings/fetch-reservation-settings/${shopid}`
         );
+
         const json = await response.json();
         setTableReservationSettings(json?.data);
       } catch (err) {
-        console.log(err, "error");
+      
       } finally {
         setLoading(false);
       }

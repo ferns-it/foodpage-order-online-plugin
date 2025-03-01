@@ -41,6 +41,7 @@ function OrderSummaryCheckout() {
     activeCard,
     setActiveCard,
     deliveryFee,
+    isUser,
     createPaymentIntent,
     paymentData,
     setStripeClientSecret,
@@ -57,10 +58,12 @@ function OrderSummaryCheckout() {
     isUserLogged,
     cartItems,
     clearCartItems,
+    fetchOrderHistory,
+    userInfo,
   } = useContext(AppContext);
 
   // const { fetchCartList } = useContext(AppContext);
-
+  console.log(userInfo, "USER");
   const [paymentOption, setPaymentOption] = useState("");
   const [addressDefault, setAddressDefault] = useState(null);
   // useEffect(() => {
@@ -72,23 +75,19 @@ function OrderSummaryCheckout() {
   const savedAddress = JSON.parse(
     getSessionStorageItem("defaultAddressDetails")
   );
-  // console.log(savedAddress, "saved");
+  console.log(userInfo, "saved");
   const [formState, setFormState] = useState({
     fullname:
-      (isUserLogged != null &&
-        isUserLogged?.payload?.data?.userFirstName +
-          " " +
-          isUserLogged?.payload?.data?.userLastName) ||
-      "",
+      (userInfo && userInfo?.firstName + " " + userInfo?.lastName) || "",
     postalCode: "",
     emailAddress:
       (isUserLogged != null && isUserLogged?.payload?.data?.userEmail) || "",
     phone:
       (isUserLogged != null && isUserLogged?.payload?.data?.userMobile) || "",
-    addressLine1: (savedAddress != null && savedAddress?.line1) || "",
-    addressLine2: (savedAddress != null && savedAddress?.line2) || "",
-    townCity: (savedAddress != null && savedAddress?.town) || "",
-    county: (savedAddress != null && savedAddress?.county) || "",
+    addressLine1: (userInfo && userInfo?.line1) || "",
+    addressLine2: (userInfo && userInfo?.line2) || "",
+    townCity: (userInfo && userInfo?.town) || "",
+    county: (userInfo && userInfo?.county) || "",
     notes: "",
   });
 
@@ -158,13 +157,12 @@ function OrderSummaryCheckout() {
     const { name, value } = e.target;
     setFormState({ ...formState, [name]: value });
   };
-
   const handleEmptyValidation = () => {
     const emptyFields = [];
 
     for (const key in formState) {
       if (Object.prototype.hasOwnProperty.call(formState, key)) {
-        if (key === "addressLine2" || key === "notes") {
+        if (key === "addressLine2" || key === "notes" || key === "county") {
           continue;
         }
 
@@ -199,13 +197,13 @@ function OrderSummaryCheckout() {
 
       deliveryTypeData = "Home Delivery";
       const isValid = handleEmptyValidation();
-     
 
       if (isValid && isValid.length != 0) {
         setFieldError(true);
         return;
       }
       setActiveCard("payment");
+      window.location.hash = "payment";
     } else {
       if (settings?.deliveryInfo?.takeAway_temp_off == "Yes") {
         toast.error("Takeaway Currently Not available!");
@@ -214,7 +212,6 @@ function OrderSummaryCheckout() {
       setActiveCard("payment");
       deliveryTypeData = "Take Away";
       const isValid = handleEmptyValidation();
-     
 
       if (isValid && isValid.length != 0) {
         setFieldError(true);
@@ -296,16 +293,17 @@ function OrderSummaryCheckout() {
     for (const key in formState) {
       const value = formState[key];
 
-      if (key !== "addressLine2" && key !== "notes") {
+      // Properly exclude "addressLine2", "notes", and "county"
+      if (!["addressLine2", "notes", "county"].includes(key)) {
         if (value === undefined || value === null || value === "") {
           emptyKeys.push(key);
         }
       }
     }
 
+    console.log(emptyKeys);
     return emptyKeys;
   };
-
   const completeOrder = async () => {
     try {
       setPaymentLoading(true);
@@ -332,7 +330,7 @@ function OrderSummaryCheckout() {
       const paymentMethod = paymentOption === "stripe" ? "STRIPE" : "COD";
 
       const userID = getLocalStorageItem("UserPersistent");
-      const isGuest = getLocalStorageItem("guest");
+
       const userToken = getLocalStorageItem("userToken");
 
       if (
@@ -388,13 +386,13 @@ function OrderSummaryCheckout() {
           source: "NextJs",
         };
 
-        // let headers = {
-        //   User: userToken ? userToken : userID,
-        // };
-
         let headers = {
-          User: userID,
+          User: userToken,
         };
+
+        // let headers = {
+        //   User: userID,
+        // };
 
         await completeCheckout(payload, {
           headers: headers,
@@ -403,22 +401,19 @@ function OrderSummaryCheckout() {
             //! user token removed here
             // removeLocalStorageItem("userToken");
             // removeSessionStorageItem("userInfo");
-            await fetchCartList(userID);
-            await clearCartItems(userID, {
-              onSuccess: (res) => {
-             
-              },
-              onFailed: (err) => {
-            
-              },
+            await fetchCartList(userToken);
+            await clearCartItems(userToken, {
+              onSuccess: (res) => {},
+              onFailed: (err) => {},
             });
+
+            await fetchOrderHistory();
             router.refresh();
             router.push("/order-online");
             setActiveCard("login");
             setPaymentData(null);
           },
           onFailed: (err) => {
-      
             toast.error(err.message);
           },
         });
@@ -509,13 +504,13 @@ function OrderSummaryCheckout() {
                             onChange={handleChange}
                             value={formState.fullname}
                           />
-                        {fieldError === true &&
-                          (!formState.fullname ||
-                            formState.fullname.length === 0) && (
-                            <span className="oos_err_29102">
-                              Name is required!
-                            </span>
-                          )}
+                          {fieldError === true &&
+                            (!formState.fullname ||
+                              formState.fullname.length === 0) && (
+                              <span className="oos_err_29102">
+                                Name is required!
+                              </span>
+                            )}
                         </div>
                       </div>
 
@@ -576,13 +571,13 @@ function OrderSummaryCheckout() {
                                 //     : false
                                 // }
                               /> */}
-                          {fieldError == true &&
-                            (!formState.postalCode ||
-                              formState?.postalCode?.length === 0) && (
-                              <span className="oos_err_29102">
-                                Postal code is required!
-                              </span>
-                            )}
+                            {fieldError == true &&
+                              (!formState.postalCode ||
+                                formState?.postalCode?.length === 0) && (
+                                <span className="oos_err_29102">
+                                  Postal code is required!
+                                </span>
+                              )}
                           </div>
                         </div>
                       </>
@@ -609,13 +604,13 @@ function OrderSummaryCheckout() {
                             onChange={handleChange}
                             value={formState.emailAddress}
                           />
-                        {fieldError &&
-                          (!formState.emailAddress ||
-                            formState?.emailAddress?.length === 0) && (
-                            <span className="oos_err_29102">
-                              Email Address is required!
-                            </span>
-                          )}
+                          {fieldError &&
+                            (!formState.emailAddress ||
+                              formState?.emailAddress?.length === 0) && (
+                              <span className="oos_err_29102">
+                                Email Address is required!
+                              </span>
+                            )}
                         </div>
                       </div>
                       <div className="col-lg-4 col-md-4 col-sm-4">
@@ -744,23 +739,10 @@ function OrderSummaryCheckout() {
                             type="text"
                             name="county"
                             id=""
-                            className={
-                              fieldError &&
-                              (!formState.county ||
-                                formState?.county.length == 0)
-                                ? "form-control online_order_plugin_input_2939 error___"
-                                : "form-control online_order_plugin_input_2939 "
-                            }
+                            className="form-control online_order_plugin_input_2939 "
                             onChange={handleChange}
                             value={formState.county}
                           />
-                          {fieldError &&
-                            (!formState.county ||
-                              formState?.county?.length == 0) && (
-                              <span className="oos_err_29102">
-                                County Required
-                              </span>
-                            )}
                         </div>
                       </div>
                     </div>
@@ -790,20 +772,14 @@ function OrderSummaryCheckout() {
                   {/* <button type="button" className="view_btn">View</button> */}
                 </div>
               </div>
-              {/* <div
-                className={
-                  activeCard == "payment"
-                    ? "order_online_horiz_line short"
-                    : "order_online_horiz_line "
-                }
-              ></div> */}
+
               <div className="card login_summary_card_0928">
                 {/* <div className="login_summary_card_ico_0928">
                   <RiMoneyEuroCircleLine />
                 </div> */}
 
                 {!paymentLoading ? (
-                  <Fragment>
+                  <Fragment id="payment">
                     {cartItems?.paymentOptions != null &&
                     cartItems?.paymentOptions.shopStatus != "closed" ? (
                       <>
@@ -811,7 +787,7 @@ function OrderSummaryCheckout() {
                           <Fragment>
                             <div
                               className={
-                                activeCard === "payment"
+                                activeCard == "payment"
                                   ? "checkout_order_online_form_0283"
                                   : "checkout_order_online_form_0283 hide"
                               }
@@ -869,14 +845,12 @@ function OrderSummaryCheckout() {
                                         paymentSuccess={async (
                                           intentResult
                                         ) => {
-                                     
                                           sessionStorage.clear(
                                             "isCheckoutActive"
                                           );
                                           await completeOrder();
                                         }}
                                         paymentFailure={(err) => {
-                                   
                                           toast.error(err.message);
                                         }}
                                         discount={discountData}

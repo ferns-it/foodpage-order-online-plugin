@@ -3,14 +3,16 @@ import useMenus from "../hooks/useMenus";
 import { createContext, useState, useEffect, useContext } from "react";
 import usePayment from "../hooks/usePayment";
 import useAuth from "../hooks/useAuth";
-
 import Utils from "../../_utils/Utils";
 import useProfile from "../hooks/useProfile";
-import useOrderHistory from "../hooks/useOrderHistory";
+
 import { useRouter } from "next/router";
+import { jwtDecode } from "jwt-decode";
+import { redirect } from "next/dist/server/api-utils";
 import {
   getLocalStorageItem,
   getSessionStorageItem,
+  redirectToLocation,
   setLocalStorageItem,
   setSessionStorageItem,
 } from "../../_utils/ClientUtils";
@@ -19,7 +21,7 @@ export const AppContext = createContext();
 
 export const AppContextProvider = (props) => {
   const [productsList, setProductsList] = useState([]);
-  const [delivery, setDelivery] = useState(false);
+  const [delivery, setDelivery] = useState(true);
   const [productsListLoading, setProductsLoading] = useState(false);
   // const [isCheckoutActive, setisCheckoutActive] = useState(false);
   const [locationResponseData, setLocationResponseData] = useState(null);
@@ -28,14 +30,13 @@ export const AppContextProvider = (props) => {
   const [deliveryFee, setDeliveryFee] = useState(null);
   const shopId = process.env.SHOP_ID;
   const [activeCard, setActiveCard] = useState("login");
+  const [userInformation, setUserInformation] = useState(null);
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [filterLoading, setFilterLoading] = useState(false);
-  const [mergedState, setMergedState] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [isUser, setIsUser] = useState(null);
   const [orderHistoryLoading, setOrderHistoryLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [uniqueIndianCategories, setUniqueIndianCategories] = useState(null);
-  const [categorySortLoading, setcategorySortLoading] = useState(false);
 
   const isCheckoutActive = false;
   const [listLoading, setListLoading] = useState(false);
@@ -46,6 +47,7 @@ export const AppContextProvider = (props) => {
 
     if (token != null) {
       localStorage.setItem("userToken", token);
+      setIsUser(token);
     }
     const isGuest = localStorage.getItem("guest");
 
@@ -64,7 +66,7 @@ export const AppContextProvider = (props) => {
       const encodedToken = getLocalStorageItem("userToken");
 
       const decodedToken = jwt.decode(encodedToken, { complete: true });
-      console.log(decodedToken, "encodedToken");
+
       setIsUserLogged(decodedToken);
     }
   }, []);
@@ -95,64 +97,7 @@ export const AppContextProvider = (props) => {
     diningList,
     fetchCurrentShopStatus,
     currentStatus,
-    fetchTakeawayMenus,
-    takeawayMenu,
-    fetchIndiancategoies,
-    fetchWesterncategoies,
-    indianCategories,
-    westernCategories,
-    initialcategoriesLoading,
   } = useMenus();
-
-  useEffect(() => {
-    if (!categoryList || !indianCategories) return;
-    try {
-      setcategorySortLoading(true);
-      const matchedCategories =
-        indianCategories && indianCategories.length != 0
-          ? indianCategories.flatMap((product) =>
-              product.categoriesList.map((cat) => ({
-                cID: cat.cID,
-                productName: product?.name,
-              }))
-            )
-          : [];
-
-      // const uniqueCategoriesMain =
-      //   categoryList &&
-      //   categoryList.length != 0 &&
-      //   categoryList.filter(
-      //     (cat, index, self) =>
-      //       matchedCategories.includes(cat.cID) &&
-      //       index === self.findIndex((c) => c.cID === cat.cID)
-      //   );
-
-      const uniqueCategoriesMain = categoryList
-        .filter((cat, index, self) => {
-          const matchingProducts = matchedCategories
-            .filter((match) => match.cID === cat.cID)
-            .map((match) => match.productName);
-
-          return (
-            matchingProducts.length > 0 &&
-            index === self.findIndex((c) => c.cID === cat.cID)
-          );
-        })
-        .map((cat) => ({
-          ...cat,
-          productNames: matchedCategories
-            .filter((match) => match.cID === cat.cID)
-            .map((match) => match.productName),
-        }));
-
-      console.log("uniqueCategoriesMain", uniqueCategoriesMain);
-
-      setUniqueIndianCategories(uniqueCategoriesMain);
-    } finally {
-      setcategorySortLoading(false);
-    }
-  }, [indianCategories, categoryList]);
-
   const {
     authLoading,
     sentOTPtoUser,
@@ -161,24 +106,40 @@ export const AppContextProvider = (props) => {
     registerUser,
     transferCartItem,
     passwordResetMail,
+    resetPassword,
   } = useAuth();
   const {
     fetchAddressList,
     address,
     addressLoading,
     addNewAddress,
+    addressDetails,
     deleteAddress,
     fetchDefaultAddress,
-    addressDetails,
+    getUserInformation,
+    userLoading,
+    userInfo,
+    userNewAddress,
+    userAddressList,
+    setUserInfo,
+    expired,
+    setDefaultAddress,
+    deleteSavedAddress,
+    userOrderHistory,
+    fetchOrderHistory,
+    fetchReservationData,
+    reservationList,
+    fetchReservationList,
+    tableReservationList,
   } = useProfile();
-  const {
-    fetchOrderList,
-    orderLoading,
-    orderHistory,
-    fetchOrderDetails,
-    orderList,
-    // orderDetails
-  } = useOrderHistory();
+  // const {
+  //   fetchOrderList,
+  //   orderLoading,
+  //   orderHistory,
+  //   fetchOrderDetails,
+  //   orderList,
+  //   // orderDetails
+  // } = useOrderHistory();
   const {
     createPaymentIntent,
     stripePromise,
@@ -204,8 +165,17 @@ export const AppContextProvider = (props) => {
     deliveryLoading,
     GuestDeliveryDetails,
     GuestDiscountoftakeaway,
+    createReservPaymentIntent,
   } = usePayment();
 
+  function isTokenExpired(decodedToken) {
+    if (!decodedToken || !decodedToken.exp) {
+      return true; // Assume expired if token is invalid
+    }
+
+    const expiryTime = decodedToken.exp * 1000; // Convert to milliseconds
+    return Date.now() >= expiryTime;
+  }
   useEffect(() => {
     const userToken = getLocalStorageItem("userToken");
     const userId = getSessionStorageItem("UserPersistent");
@@ -215,14 +185,24 @@ export const AppContextProvider = (props) => {
     diningMenuList();
     fetchMenuList();
     fetchCurrentShopStatus();
-    fetchTakeawayMenus();
-    fetchIndiancategoies();
-    fetchWesterncategoies();
-    // if (userToken) {
-    //   fetchAddressList(userToken);
-    //   fetchOrderList(userToken);
-    // fetchOrderDetails(userToken, orderId);
-    // }
+
+    if (userToken) {
+      const decodedToken = jwtDecode(userToken);
+
+      const isExpired = isTokenExpired(decodedToken);
+      if (isExpired == true) {
+        localStorage.removeItem("userToken");
+        redirectToLocation("/");
+        return;
+      }
+      setUserInformation(decodedToken);
+      fetchAddressList(userToken);
+      fetchReservationList(userToken);
+      fetchDefaultAddress(userToken);
+      getUserInformation(userToken);
+      fetchOrderHistory(userToken);
+      fetchReservationData(userToken);
+    }
   }, []);
 
   useEffect(() => {
@@ -230,16 +210,21 @@ export const AppContextProvider = (props) => {
       setSelectedCategory(categoryList[0].cID);
     }
   }, [categoryList]);
+
   useEffect(() => {
     if (productsList.length == 0) {
       if (!categoryList || categoryList.length === 0) return;
 
+      if (!categoryList) return;
+
+      const validCategories = categoryList.filter(
+        (list) => list.productsCount?.online > 0
+      );
+
       const catId =
-        categoryList &&
-        Array.isArray(categoryList) &&
-        categoryList.length != 0 &&
-        categoryList &&
-        categoryList[0]?.cID;
+        validCategories &&
+        validCategories.length > 0 &&
+        validCategories[0]?.cID;
 
       const isCheck =
         productsList &&
@@ -375,17 +360,18 @@ export const AppContextProvider = (props) => {
         showModal,
         setShowModal,
         fetchAddressList,
+        resetPassword,
         address,
         addressLoading,
         addNewAddress,
         deleteAddress,
         fetchDefaultAddress,
-        fetchOrderList,
-        orderLoading,
-        orderHistory,
-        fetchOrderDetails,
+        // fetchOrderList,
+        // orderLoading,
+        // orderHistory,
+        // fetchOrderDetails,
         addressDetails,
-        orderList,
+        // orderList,
         setCartItems,
         clearCartItems,
         deliveryLoading,
@@ -395,17 +381,31 @@ export const AppContextProvider = (props) => {
         diningLoading,
         diningList,
         currentStatus,
-        fetchTakeawayMenus,
-        takeawayMenu,
-        mergedState,
-        setMergedState,
-        fetchIndiancategoies,
-        fetchWesterncategoies,
-        indianCategories,
-        westernCategories,
-        initialcategoriesLoading,
-        uniqueIndianCategories,
-        categorySortLoading,
+        fetchAddressList,
+        address,
+        addressLoading,
+        addNewAddress,
+        addressDetails,
+        deleteAddress,
+        fetchDefaultAddress,
+        getUserInformation,
+        userLoading,
+        userInfo,
+        userNewAddress,
+        userAddressList,
+        setUserInfo,
+        expired,
+        setDefaultAddress,
+        deleteSavedAddress,
+        fetchOrderHistory,
+        fetchReservationData,
+        reservationList,
+        userOrderHistory,
+        isUser,
+        createReservPaymentIntent,
+        fetchReservationList,
+        tableReservationList,
+        userInformation,
       }}
     >
       {props.children}

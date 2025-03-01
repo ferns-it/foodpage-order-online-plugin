@@ -19,7 +19,7 @@ const ProtectedRoute = ({ children }) => {
       setValidationLoading(false);
     } else {
       setValidationLoading(false);
-      router.push("/guest");
+      router.push("/login");
     }
   }, [isUserLogged, router]);
 

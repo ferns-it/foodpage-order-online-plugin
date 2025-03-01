@@ -2,7 +2,6 @@ import React, { Fragment, useContext, useEffect, useState } from "react";
 import { AppContext } from "../context";
 import toast from "react-hot-toast";
 import { getSessionStorageItem } from "../../_utils/ClientUtils";
-
 function CheckoutSummaryComp() {
   const {
     cartItems,
@@ -125,7 +124,7 @@ function CheckoutSummaryComp() {
       }
     } else if (typeofDelivery === "byDistance") {
       const charge = sessionStorage.getItem("newfee");
-     
+
       deliveryCharge = charge && charge != undefined && charge / 100;
     } else if (typeofDelivery === "byPostCode") {
       const postcodelist = deliveryInfo?.FixedDeliveryLocationList;
@@ -215,10 +214,7 @@ function CheckoutSummaryComp() {
                   return (
                     <div key={index}>
                       <hr />
-                      <div
-                        className="d-flex justify-content-between align-items-center"
-                      
-                      >
+                      <div className="d-flex justify-content-between align-items-center">
                         <b>
                           {item?.productName}*{item?.quantity}
                         </b>

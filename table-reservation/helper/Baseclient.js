@@ -1,5 +1,4 @@
 "use client";
-
 import axios from "axios";
 import Utils from "../utils/Utils";
 import { getLocalStorageItem } from "../../_utils/ClientUtils";
@@ -7,13 +6,12 @@ import { getLocalStorageItem } from "../../_utils/ClientUtils";
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const getUserId = () => {
-  const token = getLocalStorageItem("token");
+  const token = getLocalStorageItem("userToken");
   let userId;
 
   if (token === undefined || token === null) {
     userId = getLocalStorageItem("UserPersistent");
   } else {
-    
     userId = token;
   }
 

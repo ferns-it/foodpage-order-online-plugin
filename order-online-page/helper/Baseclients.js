@@ -9,7 +9,6 @@ const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 let userId = getLocalStorageItem("UserPersistent");
 
 
-
 //Create a axios api instance
 const api = axios.create({
   baseURL: BASE_URL,
@@ -25,7 +24,7 @@ class BaseClient {
   static async get(
     endpoint,
     payload,
-    { onSuccess, onFailed, onProgress, headers }
+    { onSuccess, onFailed, onProgress, headers } = {}
   ) {
     try {
       const config = {
@@ -88,9 +87,23 @@ class BaseClient {
     payload,
     { onSuccess, onFailed, onProgress, headers }
   ) {
+    if (headers != null && Object.keys(headers).length != 0) {
+      await api
+        .put(endpoint, payload, {
+          headers: headers,
+          onUploadProgress: (progressEvent) => {
+            if (onProgress) {
+              onProgress(progressEvent);
+            }
+          },
+        })
+        .then((data) => onSuccess && onSuccess(data))
+        .catch((error) => onFailed && onFailed(error));
+      return;
+    }
+
     await api
       .put(endpoint, payload, {
-        headers: headers,
         onUploadProgress: (progressEvent) => {
           if (onProgress) {
             onProgress(progressEvent);

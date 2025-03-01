@@ -42,8 +42,7 @@ function ManageReservationMain() {
       });
   };
 
-  const toolTipMsg =
-    "You can find the reservation ID in the reservation confirmation email. ";
+
 
   return (
     <Fragment>
@@ -52,9 +51,9 @@ function ManageReservationMain() {
           <div className="row">
             <div className="col-lg-10 col-md-12 col-sm-12">
               <h2>Reservation List</h2>
-              <div className="container table-responsive">
-                <table className="table table-bordered table-hover">
-                  <thead className="thead-dark">
+              <div class="container table-responsive">
+                <table class="table table-bordered table-hover">
+                  <thead class="thead-dark">
                     <tr>
                       <th scope="col">#</th>
                       <th scope="col">Reservation ID</th>

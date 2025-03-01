@@ -80,6 +80,7 @@ input[type="checkbox"]:focus textarea,
 #fda_product_tile {
   position: relative;
   margin-top: 10px;
+  margin-bottom: 0 !important;
   text-align: center;
 }
 
@@ -173,7 +174,7 @@ div.food_tile.active img {
 }
 
 .nav_profile p:hover {
-  color: #e03f3f;
+  color: #064340;
 }
 
 .nav_profile i {
@@ -242,7 +243,7 @@ div.food_tile.active img {
   border: none;
   outline: none;
   padding: 0.7em 3em;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   border-radius: 4px;
   margin: 0 auto;
@@ -269,7 +270,7 @@ div.food_tile.active img {
 
 .food_count_399 {
   font-size: 15px;
-  color: #e03f3f;
+  color: #064340;
 }
 
 .add__order__online {
@@ -290,7 +291,7 @@ div.food_tile.active img {
 }
 
 .add__order__online:hover {
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
 }
 
@@ -299,7 +300,7 @@ div.food_tile.active img {
   outline: none;
   border-radius: 3px;
   border: 1px solid #eee;
-  color: #e03f3f;
+  color: #064340;
   background-color: transparent;
   height: 35px;
   transition: all 0.2s ease-in-out;
@@ -307,7 +308,7 @@ div.food_tile.active img {
 
 .order__online__count:hover {
   background-color: #f6bdbd;
-  color: #e03f3f;
+  color: #064340;
 }
 
 .small-screen-toast {
@@ -321,6 +322,7 @@ div.food_tile.active img {
   font-size: 2rem;
   color: #77777752;
   padding-top: 5rem;
+  padding-left: 14px;
 }
 
 .loader-wrapper {
@@ -340,12 +342,11 @@ div.food_tile.active img {
 .login_wrapper {
   position: relative;
   width: 100%;
-  padding: 5rem 2rem;
 }
 
 .login_comp {
   padding: 2rem;
-  margin-top: 5rem;
+  margin-top: 2rem;
 }
 
 .table_reserv_info_sub_head {
@@ -353,10 +354,12 @@ div.food_tile.active img {
 }
 
 .login_comp > h2 {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: 600;
   color: #252525;
   user-select: none;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
 }
 
 .login_comp > .sub_title_login {
@@ -430,7 +433,7 @@ div.food_tile.active img {
 .orderOnline_label {
   font-size: 14px;
   color: #252525;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .login_btn {
@@ -440,18 +443,18 @@ div.food_tile.active img {
   border-radius: 5px;
   border: none;
   outline: none;
-  background-color: #e03f3f;
+  background-color: #00574b;
   color: #fff;
   margin: 0 auto;
   transition: all 0.2s ease-in-out;
 }
 
 .login_btn:hover {
-  background-color: #c0392b;
+  background-color: #002c08;
 }
 
 .login_btn:disabled {
-  background-color: #f6bdbd;
+  background-color: #87b09a;
 }
 
 .pass_wrapper {
@@ -547,7 +550,7 @@ div.food_tile.active img {
   font-size: 14px;
   transition: all 0.2s ease-in-out;
   width: 100px;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   white-space: nowrap;
 }
@@ -1653,7 +1656,7 @@ deal_content p {
 }
 
 .table_reserv_form_input.err__ {
-  border-color: #e03f3f !important;
+  border-color: #064340 !important;
   font-family: sans-serif !important;
 }
 
@@ -1672,7 +1675,7 @@ deal_content p {
   border-radius: 20px;
   margin: 0;
   overflow: hidden;
-  border: 1px solid #e03f3f;
+  border: 1px solid #064340;
 }
 
 .incDec_wrapper_0291 > .toggle-checkbox {
@@ -1698,6 +1701,7 @@ deal_content p {
   transition: all 0.2s ease-in-out;
   font-weight: 700;
   user-select: none;
+  margin: 0;
 }
 
 .increment-button:hover,
@@ -1707,7 +1711,7 @@ deal_content p {
 }
 
 .increment-button.red {
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
 }
 
@@ -1739,7 +1743,7 @@ deal_content p {
   width: 200px;
   display: block;
   margin: 0 auto;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   white-space: nowrap;
 }
@@ -1802,7 +1806,7 @@ deal_content p {
   position: absolute;
   width: 25px;
   height: 2px;
-  background-color: #e03f3f;
+  background-color: #064340;
   left: 0;
   bottom: 0;
 }
@@ -1874,7 +1878,7 @@ deal_content p {
 
 .resend_otp_reservv > span {
   font-size: 17px;
-  color: #e03f3f;
+  color: #064340;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
@@ -1894,7 +1898,7 @@ deal_content p {
   width: 20%;
   display: block;
   margin: 0 auto;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
 }
 
@@ -1948,7 +1952,7 @@ deal_content p {
   border: none;
   outline: none;
   padding: 0.7em 3em;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   border-radius: 4px;
   margin: 0 auto;
@@ -1963,7 +1967,7 @@ deal_content p {
   font-size: 13px;
   padding: 10px;
   font-weight: 600;
-  color: #e03f3f;
+  color: #064340;
 }
 
 /* .banner-container {
@@ -1994,7 +1998,7 @@ deal_content p {
   /* left: 30px; */
   /* right: 20px; */
   float: right;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   padding: 10px;
   outline: none;
@@ -2049,6 +2053,7 @@ deal_content p {
 .password_comp h2 {
   font-size: 1.2rem;
   font-weight: 600;
+  letter-spacing: 1px;
 }
 
 .password_comp p {
@@ -2068,14 +2073,14 @@ deal_content p {
   border-radius: 5px;
   border: none;
   outline: none;
-  background-color: #e03f3f;
+  background-color: #00574b !important;
   color: #fff;
   margin: 0 auto;
   transition: all 0.2s ease-in-out;
 }
 
 .continue_btn:disabled {
-  background-color: rgb(167, 87, 87);
+  background-color: #00574b;
   cursor: not-allowed;
 }
 
@@ -2083,7 +2088,7 @@ deal_content p {
   display: block;
   margin: 0px auto;
   width: 25%;
-  color: #e03f3f;
+  color: #064340;
   font-size: 14px;
   cursor: pointer;
 }
@@ -2154,7 +2159,7 @@ deal_content p {
   margin-left: 30px;
   height: 30px;
   padding: 2px;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   transition: all 0.2s ease-in-out; */
   border: none;
@@ -2166,7 +2171,7 @@ deal_content p {
 }
 
 .edit_btn_details i {
-  color: #e03f3f;
+  color: #064340;
   font-size: 25px;
   position: relative;
   top: -10px;
@@ -2454,7 +2459,7 @@ a {
 
 .menu-lists-main,
 .order-main {
-  padding: 3rem 0;
+  padding: 5rem 0;
 }
 
 .menu__price {
@@ -2501,7 +2506,7 @@ a {
   float: right;
   border: none;
   padding: 10px;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   border-radius: 5px;
 }
@@ -2659,7 +2664,7 @@ a {
 }
 
 .table_reserv__ {
-  padding: 5rem 0;
+  padding: 10rem 0 0;
 }
 
 .contact-info > h3 {
@@ -3040,7 +3045,7 @@ a {
 .add_submit_btn {
   border: none;
   padding: 5px;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   border-radius: 5px;
   width: 100%;
@@ -3138,7 +3143,7 @@ a {
     outline: none;
     font-size: 15px;
     background-color: transparent;
-    color: #e03f3f;
+    color: #064340;
     /* color: #fff; */
     border-radius: 4px;
     transition: all 0.2s ease-in-out;
@@ -3282,19 +3287,19 @@ a {
   font-size: 17px;
   color: #018f43;
 }
-#new_inpp{
+#new_inpp {
   font-family: sans-serif;
   padding: 2px 10px;
 }
 
-@media screen and (max-width:1200px) {
-  .login_comp{
+@media screen and (max-width: 1200px) {
+  .login_comp {
     width: 60%;
   }
 }
 
-@media screen and (max-width:600px) {
-  .login_comp{
+@media screen and (max-width: 600px) {
+  .login_comp {
     width: 100%;
   }
 }

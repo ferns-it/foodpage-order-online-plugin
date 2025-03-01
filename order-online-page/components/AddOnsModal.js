@@ -338,7 +338,7 @@ function AddOnsModal(props) {
         }, 1000);
       },
       onFailed: (err) => {
-        console.error(err);
+     
         toast.error("Add to cart Failed!");
       },
     });
@@ -414,7 +414,7 @@ function AddOnsModal(props) {
                 foodValues?.variations[0].name != null && (
                   <div className="col">
                     <p className="sub_head_0291">Choose One</p>
-                    <table className="menu_table_0291 ">
+                    <table className="menu_table_0291">
                       <tbody>
                         {foodValues?.variations.length !== 0 &&
                           foodValues.variations.map((varient, vindex) => {
@@ -464,14 +464,14 @@ function AddOnsModal(props) {
                                     {varient?.displayPrice ?? "N/A"}
                                   </td>
                                 </tr>
-                                <tr key={`tr-desc-${vindex}`}>
-                                  <td>
+                                {/* <tr key={`tr-desc-${vindex}`}>
+                                  <td> */}
                                     <span className="small_desc">
                                       {Utils.stripHtml(varient?.ingredients) ??
                                         ""}
                                     </span>
-                                  </td>
-                                </tr>
+                                  {/* </td>
+                                </tr> */}
                               </Fragment>
                             ) : null;
                           })}

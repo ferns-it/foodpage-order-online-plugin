@@ -53,20 +53,8 @@ const OrderOnlineMain = () => {
 
   useEffect(() => {
     if (!categoryList) return;
-
-    const validCategories = categoryList.filter(
-      (list) => list.productsCount?.online > 0
-    );
-  
-    // Set the first valid category as selectedCategory
-    if (validCategories.length > 0) {
-      const catName = validCategories[0]?.name;
-
-      // setSelectedCategory(catName);
-      setSelectedCategory(validCategories[0].name);
-      setActiveChipIndex(0);
-    }
-
+    const catName = categoryList[0]?.name;
+    setSelectedCategory(catName);
     setActiveChipIndex(0);
   }, [categoryList]);
 
@@ -145,14 +133,13 @@ const OrderOnlineMain = () => {
 
                                 if (hasValidChildren) {
                                   return (
-                                    <div
-                                      // href={`#category-${index}`}
+                                    <a
+                                      key={index}
                                       className={
                                         index === activeChipIndex
                                           ? "nav-link active_009"
                                           : "nav-link"
                                       }
-                                      key={index}
                                       onClick={() =>
                                         handleChipClick(
                                           index,
@@ -161,23 +148,20 @@ const OrderOnlineMain = () => {
                                         )
                                       }
                                     >
-                                      <li className="links_order">
-                                        {list?.name}
-                                      </li>
-                                      <i>{/* <Lu.LuArrowRightToLine /> */}</i>
-                                    </div>
+                                      <li>{list?.name}</li>
+                                      <i>{/* Optional icon */}</i>
+                                    </a>
                                   );
                                 }
                               } else if (list.productsCount?.online > 0) {
                                 return (
-                                  <div
-                                    // href={`#category-${index}`}
+                                  <a
+                                    key={index}
                                     className={
                                       index === activeChipIndex
                                         ? "nav-link active_009"
                                         : "nav-link"
                                     }
-                                    key={index}
                                     onClick={() =>
                                       handleChipClick(
                                         index,
@@ -186,11 +170,9 @@ const OrderOnlineMain = () => {
                                       )
                                     }
                                   >
-                                    <li className="links_order">
-                                      {list?.name}
-                                    </li>
-                                    <i>{/* <Lu.LuArrowRightToLine /> */}</i>
-                                  </div>
+                                    <li>{list?.name}</li>
+                                    <i>{/* Optional icon */}</i>
+                                  </a>
                                 );
                               }
 

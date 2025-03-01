@@ -22,6 +22,8 @@ import CryptoJS from "crypto-js";
 import toast from "react-hot-toast";
 import Skeleton from "react-loading-skeleton";
 
+import "../style/Style.css";
+
 export const mergeBookingDateTime = (bookingDate, bookingTime) => {
   const date = new Date(bookingDate);
 
@@ -79,9 +81,9 @@ function ViewReservation() {
     };
 
     fetchData();
-
-    if (reservationDetails != null) {
-      const [date, time] = reservationDetails?.bookingTime.split(" ");
+    if (reservationDetails) {
+      const [date, time] =
+        reservationDetails && reservationDetails?.bookingTime?.split(" ");
       setUpdatedValue({
         name: reservationDetails?.name,
         email: reservationDetails?.email,
@@ -100,7 +102,7 @@ function ViewReservation() {
 
     const [date, time] = reservationDetails && reservationDetails?.bookingTime;
     const today = new Date().getDate();
-    const bookingDate = new Date(reservationDetails?.bookingTime).getDate();
+    const bookingDate = new Date(reservationDetails?.bookingTime)?.getDate();
 
     if (bookingDate === today) {
       setIsToday(true);
@@ -280,7 +282,9 @@ function ViewReservation() {
         setMessage("");
         await getReservationDetails(reservId);
       },
-      onFailed: (err) => {},
+      onFailed: (err) => {
+        console.log(err);
+      },
       headers: headers,
     });
   };
@@ -317,7 +321,7 @@ function ViewReservation() {
           >
             <Go.GoArrowLeft /> Back
           </button> */}
-          <div className="row">
+          <div className="row pt-100">
             <div className="col-lg-8 col-md-12 col-sm-12 position-relative">
               <div className="card manage_reserv_card" id="alter_card">
                 <h3 className="table-reservation-form-head">
@@ -557,11 +561,19 @@ function ViewReservation() {
                   </Fragment>
                 ) : (
                   <Fragment>
-                    <p className="expiry_reserv">{`This reservation is ${
+                    <p className="expiry_reserv text-center text-danger">{`This reservation is ${
+                      reservationDetails &&
                       reservationDetails?.status == "Cancelled"
                         ? "Cancelled"
                         : "Expired"
                     }!`}</p>
+                    <button
+                      type="button"
+                      className="new-reser-btn outline-none border-none"
+                      onClick={() => router.back()}
+                    >
+                      Back
+                    </button>
                   </Fragment>
                 )}
               </div>
@@ -578,11 +590,11 @@ function ViewReservation() {
                   </button>
                   <h3 className="table-reservation-form-head">Messages</h3>
                   <div className="message-area" ref={chatContainerRef}>
-                    <div className="chat-container">
+                    <div class="chat-container">
                       {chatMessages.map((message, index) => {
                         if (message?.auther == "customer") {
                           return (
-                            <div className="message sender" key={index}>
+                            <div class="message sender" key={index}>
                               <span>
                                 {" "}
                                 {!reservationLoading ? (
@@ -604,7 +616,7 @@ function ViewReservation() {
 
                         if (message?.auther == "shop") {
                           return (
-                            <div className="message receiver ">
+                            <div class="message receiver ">
                               <span>
                                 {" "}
                                 {!reservationLoading ? (
@@ -658,7 +670,7 @@ function ViewReservation() {
                           </i>
                         ) : (
                           <div
-                            className="spinner-border spinner-border-sm text-danger"
+                            class="spinner-border spinner-border-sm text-danger"
                             role="status"
                           ></div>
                         )}

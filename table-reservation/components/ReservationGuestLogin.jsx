@@ -1,21 +1,40 @@
-"use client"
-import React, { Fragment, useContext } from "react";
+"use client";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import CryptoJS from "crypto-js";
-import Utils from "../utils/Utils";
 
 import { useRouter } from "next/navigation";
-import { AppContext } from "../context";
+import { setSessionStorageItem } from "../../_utils/ClientUtils";
+import { AppContext } from "../../order-online-page/context";
+import Utils from "../utils/Utils";
 
-function GuestLogin({
-  userState,
-  setUserState,
-  handleInputChange,
-  errors,
-  setErrors,
-  setLoginInfo,
-}) {
+function ReservationGuestLogin() {
   const router = useRouter();
+  const [loginInfo, setLoginInfo] = useState("guest");
+  const [userState, setUserState] = useState({
+    userName: "",
+    password: "",
+    guestName: "",
+    email: "",
+  });
+  const [errors, setErrors] = useState({
+    userName: "",
+    password: "",
+    guestName: "",
+    email: "",
+  });
+
+  useEffect(() => {
+    sessionStorage.setItem("userInfo", loginInfo);
+  }, [loginInfo]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUserState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
   const { userLoading, sentOTPtoUser, settings, authLoading } =
     useContext(AppContext);
 
@@ -47,11 +66,11 @@ function GuestLogin({
     const otp = Utils.generateOTP();
 
     const encryptedOTP = encryptToMD5(otp);
-    sessionStorage.setItem("encryptedOTP", encryptedOTP);
-    sessionStorage.setItem("loginMail", userState.email);
-    sessionStorage.setItem("name", userState.guestName);
+    setSessionStorageItem("encryptedOTP", encryptedOTP);
+    setSessionStorageItem("loginMail", userState.email);
+    setSessionStorageItem("name", userState.guestName);
     const shopName = settings?.name;
-    
+
     if (validateGuestForm()) {
       const data = {
         shopName: shopName,
@@ -66,23 +85,25 @@ function GuestLogin({
             toast.error(res.errorMessage.message);
           } else {
             toast.success("OTP Sended Successfully!");
-            router.push("/otpverification");
+            router.push("/reservguestotp");
           }
         },
         onFailed: (err) => {
-      
           const errMsg = err?.errorMessage?.message ?? "FAILED TO SEND OTP!";
           toast.error(errMsg);
         },
       });
     }
   };
-
+  const handleLogin = () => {
+    setLoginInfo("login");
+    router.push("/login");
+  };
   return (
     <Fragment>
       <div className="login_wrapper row">
         <div className="card login_comp col-md-4 col-lg-3 col-sm-12 mx-auto">
-          <h2>Guest Login</h2>
+          <h2 className="ffm">Guest Login</h2>
           <p className="sub_title_login">
             Please fill below fields to continue as a Guest
           </p>
@@ -93,7 +114,7 @@ function GuestLogin({
                 <input
                   type="text"
                   name="guestName"
-                  id=""
+                  id="new_inpp"
                   className="form-control"
                   value={userState.guestName}
                   onChange={handleInputChange}
@@ -107,7 +128,7 @@ function GuestLogin({
                 <input
                   type="email"
                   name="email"
-                  id="email"
+                  id="new_inpp"
                   className="form-control password_inp"
                   value={userState.email}
                   onChange={handleInputChange}
@@ -128,7 +149,7 @@ function GuestLogin({
           <button
             type="button"
             className="guest_btn"
-            onClick={() => setLoginInfo("login")}
+            onClick={() => handleLogin()}
           >
             SignIn
           </button>
@@ -138,4 +159,4 @@ function GuestLogin({
   );
 }
 
-export default GuestLogin;
+export default ReservationGuestLogin;
