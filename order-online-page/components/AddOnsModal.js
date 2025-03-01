@@ -338,7 +338,7 @@ function AddOnsModal(props) {
         }, 1000);
       },
       onFailed: (err) => {
-        console.error(err);
+     
         toast.error("Add to cart Failed!");
       },
     });

@@ -40,8 +40,6 @@ const useProfile = () => {
             }
           },
           onFailed: (err) => {
-            console.log(err, "errormessage");
-            console.log(err.response.data.code, "code");
             if (err.response.data.code == 401) {
               localStorage.removeItem("userToken");
             }

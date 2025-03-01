@@ -331,7 +331,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
       const errMsg =
         error.response?.data?.errormessage || "Something went wrong";
       toast.error(errMsg);
-      console.error("Error:", errMsg);
+  
       return false;
     }
   };
@@ -577,8 +577,6 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
       const header = decodeBase64(parts[0]); // Decode Header
       const payload = decodeBase64(parts[1]); // Decode Payload
 
-      console.log("Header:", header);
-      console.log("Payload:", payload);
     } else {
       console.error("Invalid token format");
     }

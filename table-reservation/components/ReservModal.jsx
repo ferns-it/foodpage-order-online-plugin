@@ -65,7 +65,7 @@ function ReservModal(props) {
   const validateLateCancel = () => {
     const lateCancelMinutes = parseInt(lateCancel);
     if (isNaN(lateCancelMinutes) || lateCancelMinutes < 0) {
-      console.log("Invalid lateCancel value");
+     
       return false;
     }
 
@@ -76,7 +76,7 @@ function ReservModal(props) {
     const bookingDateTime = new Date(`${bookingDate}T${bookingTime}`);
 
     if (isNaN(bookingDateTime)) {
-      console.log("Invalid booking date or time format");
+  
       return false;
     }
 

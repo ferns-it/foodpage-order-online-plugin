@@ -503,8 +503,7 @@ function TableReservationFormDemo({ setIsActiveTablePage, encryptToMD5, shopId }
       const header = decodeBase64(parts[0]); // Decode Header
       const payload = decodeBase64(parts[1]); // Decode Payload
 
-      console.log("Header:", header);
-      console.log("Payload:", payload);
+  
     } else {
       console.error("Invalid token format");
     }

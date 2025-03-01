@@ -204,8 +204,7 @@ function ReservationLogin() {
     } else {
       console.error("Invalid token format");
     }
-    console.log(userId, "userId");
-
+  
     const payload = {
       shopID: shopId,
       userID: userId?.userID,

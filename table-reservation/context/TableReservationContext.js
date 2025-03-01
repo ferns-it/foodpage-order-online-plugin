@@ -38,7 +38,7 @@ export const TableReservationContextProvider = (props) => {
         const json = await response.json();
         setTableReservationSettings(json?.data);
       } catch (err) {
-        console.log(err, "error");
+      
       } finally {
         setLoading(false);
       }

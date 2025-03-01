@@ -10,10 +10,13 @@ import { useRouter } from "next/router";
 import {
   getLocalStorageItem,
   getSessionStorageItem,
+  redirectToLocation,
   setLocalStorageItem,
   setSessionStorageItem,
 } from "../../_utils/ClientUtils";
 import { use } from "react";
+import { jwtDecode } from "jwt-decode";
+import { redirect } from "next/dist/server/api-utils";
 
 export const AppContext = createContext();
 
@@ -172,6 +175,15 @@ export const AppContextProvider = (props) => {
     createReservPaymentIntent,
   } = usePayment();
 
+  function isTokenExpired(decodedToken) {
+    if (!decodedToken || !decodedToken.exp) {
+    
+      return true; // Assume expired if token is invalid
+    }
+
+    const expiryTime = decodedToken.exp * 1000; // Convert to milliseconds
+    return Date.now() >= expiryTime;
+  }
   useEffect(() => {
     const userToken = getLocalStorageItem("userToken");
     const userId = getSessionStorageItem("UserPersistent");
@@ -183,6 +195,12 @@ export const AppContextProvider = (props) => {
     fetchCurrentShopStatus();
 
     if (userToken) {
+      const decodedToken = jwtDecode(userToken);
+      const isExpired = isTokenExpired(decodedToken);
+      if (isExpired == true) {
+        localStorage.removeItem("userToken");
+        redirectToLocation("/");
+      }
       fetchAddressList(userToken);
       fetchReservationList(userToken);
     }
