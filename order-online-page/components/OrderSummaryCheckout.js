@@ -166,7 +166,7 @@ function OrderSummaryCheckout() {
 
     for (const key in formState) {
       if (Object.prototype.hasOwnProperty.call(formState, key)) {
-        if (key === "addressLine2" || key === "notes" || key === "county") {
+        if (key === "addressLine2" || key === "notes") {
           continue;
         }
 
@@ -297,7 +297,7 @@ function OrderSummaryCheckout() {
       const value = formState[key];
 
       // Properly exclude "addressLine2", "notes", and "county"
-      if (!["addressLine2", "notes", "county"].includes(key)) {
+      if (!["addressLine2", "notes"].includes(key)) {
         if (value === undefined || value === null || value === "") {
           emptyKeys.push(key);
         }
@@ -743,13 +743,7 @@ function OrderSummaryCheckout() {
                             type="text"
                             name="county"
                             id=""
-                            className={
-                              fieldError &&
-                              (!formState.county ||
-                                formState?.county.length == 0)
-                                ? "form-control online_order_plugin_input_2939 error___"
-                                : "form-control online_order_plugin_input_2939 "
-                            }
+                            className="form-control online_order_plugin_input_2939 "
                             onChange={handleChange}
                             value={formState.county}
                           />

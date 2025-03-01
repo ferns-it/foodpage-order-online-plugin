@@ -44,7 +44,7 @@ function ForgotPasswordPage() {
   const handleForgotPassword = async () => {
     if (handleValidationPassword()) {
       const payload = {
-        shopID: JSON.stringify(shopId),
+        shopID: process.env.SHOP_ID,
         useremailid: user.email,
         FPsecretkey: process.env.FOODPAGE_SECRET_KEY,
       };
