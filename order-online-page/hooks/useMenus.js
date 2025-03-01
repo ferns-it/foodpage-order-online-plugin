@@ -19,13 +19,20 @@ const useMenus = () => {
   const [categoryLoading, setCategoryLoading] = useState(false);
   const [settingsLoading, setSettingsLoading] = useState(true);
   const [currentStatus, setCurrentStatus] = useState(null);
+  const [takeawayMenu, setTakeawayMenu] = useState(null);
+  const [indianCategories, setIndianCategories] = useState(null);
+  const [westernCategories, setWesternCategories] = useState(null);
+  const [initialcategoriesLoading, setInitialcategoiresLoading] =
+    useState(false);
 
   const fetchMenuList = async () => {
     try {
       setMenuLoading(true);
       await BaseClient.get(APIEndpoints.menulist, [], {
         onSuccess: (res) => {
-          setMenuList(res?.data);
+          if (res?.data?.error == false) {
+            setMenuList(res?.data?.data?.items);
+          }
         },
         onFailed: (err) => {
           console.log("Error on fetching menus", err);
@@ -66,13 +73,27 @@ const useMenus = () => {
       setDiningLoading(true);
       await BaseClient.get(APIEndpoints.diningMenu, [], {
         onSuccess: (res) => {
-          console.log(res.data, "response");
           setDiningList(res?.data?.data?.items);
-          setDiningLoading(false);
         },
         onFailed: (err) => {
           console.log("Error on fetching menus", err);
-          setDiningLoading(false);
+        },
+      });
+    } finally {
+      setDiningLoading(false);
+    }
+  };
+
+  const fetchTakeawayMenus = async () => {
+    try {
+      setDiningLoading(true);
+      await BaseClient.get(APIEndpoints.getTakeawayMenus, [], {
+        onSuccess: (res) => {
+          console.log(res.data, "response");
+          setTakeawayMenu(res?.data?.data?.items);
+        },
+        onFailed: (err) => {
+          console.log("Error on fetching menus", err);
         },
       });
     } finally {
@@ -225,6 +246,54 @@ const useMenus = () => {
     }
   };
 
+  const fetchIndiancategoies = async () => {
+    try {
+      setInitialcategoiresLoading(true);
+      await BaseClient.get(
+        APIEndpoints.indianMenuCategories,
+        {},
+        {
+          onSuccess: (res) => {
+            // debugger;
+            if (res && res?.data?.error == false) {
+              setIndianCategories(res?.data?.data?.items);
+              return;
+            }
+          },
+          onFailed: (err) => {
+            console.log("Shop status error", err);
+          },
+        }
+      );
+    } finally {
+      setInitialcategoiresLoading(false);
+    }
+  };
+
+  const fetchWesterncategoies = async () => {
+    try {
+      setInitialcategoiresLoading(true);
+      await BaseClient.get(
+        APIEndpoints.westernMenuCategories,
+        {},
+        {
+          onSuccess: (res) => {
+            // debugger;
+            if (res && res?.data?.error == false) {
+              setWesternCategories(res?.data?.data?.items);
+              return;
+            }
+          },
+          onFailed: (err) => {
+            console.log("Shop status error", err);
+          },
+        }
+      );
+    } finally {
+      setInitialcategoiresLoading(false);
+    }
+  };
+
   return {
     fetchMenuList,
     fetchCategoriesList,
@@ -253,6 +322,13 @@ const useMenus = () => {
     clearCartItems,
     fetchCurrentShopStatus,
     currentStatus,
+    fetchTakeawayMenus,
+    takeawayMenu,
+    fetchIndiancategoies,
+    fetchWesterncategoies,
+    indianCategories,
+    westernCategories,
+    initialcategoriesLoading,
   };
 };
 

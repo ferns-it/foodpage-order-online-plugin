@@ -37,7 +37,7 @@ const useOrderHistory=()=> {
         }
         await BaseClient.get(APIEndpoints.getOrderDetails+`/${orderId}`,{},{
             onSuccess:(res)=>{
-                console.log(res?.data?.data,"gvdg");
+            
                 setOrderList(res?.data?.data)
             },
             onFailed:(err)=>{

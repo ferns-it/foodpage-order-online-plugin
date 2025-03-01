@@ -34,7 +34,7 @@ function FoodCards(category) {
 
     if (showModal) {
       const data = getSessionStorageItem("selectedProduct");
-      console.log(data, "data");
+    
       if (data && data.length != 0) {
         const product = JSON.parse(data);
         setShowModal(true);
@@ -125,18 +125,18 @@ function FoodCards(category) {
                                           // onClick={() => handleModal(data)}
                                         >
                                           <div className="food_tile__ active mb-4 p-3">
-                                            {/* <img
+                                            <img
                                               src={data?.photo}
                                               alt=""
                                               className={
                                                 data?.online === "No" ||
                                                 data?.isAvailable === false ||
                                                 data?.availability === false
-                                                  ? "fda_product_img fd_card_grayscale"
+                                                  ? "fda_product_img"
                                                   : "fda_product_img "
                                               }
                                               referrerPolicy="no-referrer"
-                                            /> */}
+                                            />
                                             <h6 className="dish_name">
                                               {data?.name}
                                             </h6>

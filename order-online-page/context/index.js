@@ -3,16 +3,17 @@ import useMenus from "../hooks/useMenus";
 import { createContext, useState, useEffect, useContext } from "react";
 import usePayment from "../hooks/usePayment";
 import useAuth from "../hooks/useAuth";
+
+import Utils from "../../_utils/Utils";
+import useProfile from "../hooks/useProfile";
+import useOrderHistory from "../hooks/useOrderHistory";
+import { useRouter } from "next/router";
 import {
   getLocalStorageItem,
   getSessionStorageItem,
   setLocalStorageItem,
   setSessionStorageItem,
-} from "@/plugin/_utils/ClientUtils";
-import Utils from "../../_utils/Utils";
-import useProfile from "../hooks/useProfile";
-import useOrderHistory from "../hooks/useOrderHistory";
-import { useRouter } from "next/router";
+} from "../../_utils/ClientUtils";
 
 export const AppContext = createContext();
 
@@ -29,9 +30,12 @@ export const AppContextProvider = (props) => {
   const [activeCard, setActiveCard] = useState("login");
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [filterLoading, setFilterLoading] = useState(false);
+  const [mergedState, setMergedState] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [orderHistoryLoading, setOrderHistoryLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [uniqueIndianCategories, setUniqueIndianCategories] = useState(null);
+  const [categorySortLoading, setcategorySortLoading] = useState(false);
 
   const isCheckoutActive = false;
   const [listLoading, setListLoading] = useState(false);
@@ -91,7 +95,64 @@ export const AppContextProvider = (props) => {
     diningList,
     fetchCurrentShopStatus,
     currentStatus,
+    fetchTakeawayMenus,
+    takeawayMenu,
+    fetchIndiancategoies,
+    fetchWesterncategoies,
+    indianCategories,
+    westernCategories,
+    initialcategoriesLoading,
   } = useMenus();
+
+  useEffect(() => {
+    if (!categoryList || !indianCategories) return;
+    try {
+      setcategorySortLoading(true);
+      const matchedCategories =
+        indianCategories && indianCategories.length != 0
+          ? indianCategories.flatMap((product) =>
+              product.categoriesList.map((cat) => ({
+                cID: cat.cID,
+                productName: product?.name,
+              }))
+            )
+          : [];
+
+      // const uniqueCategoriesMain =
+      //   categoryList &&
+      //   categoryList.length != 0 &&
+      //   categoryList.filter(
+      //     (cat, index, self) =>
+      //       matchedCategories.includes(cat.cID) &&
+      //       index === self.findIndex((c) => c.cID === cat.cID)
+      //   );
+
+      const uniqueCategoriesMain = categoryList
+        .filter((cat, index, self) => {
+          const matchingProducts = matchedCategories
+            .filter((match) => match.cID === cat.cID)
+            .map((match) => match.productName);
+
+          return (
+            matchingProducts.length > 0 &&
+            index === self.findIndex((c) => c.cID === cat.cID)
+          );
+        })
+        .map((cat) => ({
+          ...cat,
+          productNames: matchedCategories
+            .filter((match) => match.cID === cat.cID)
+            .map((match) => match.productName),
+        }));
+
+      console.log("uniqueCategoriesMain", uniqueCategoriesMain);
+
+      setUniqueIndianCategories(uniqueCategoriesMain);
+    } finally {
+      setcategorySortLoading(false);
+    }
+  }, [indianCategories, categoryList]);
+
   const {
     authLoading,
     sentOTPtoUser,
@@ -154,6 +215,9 @@ export const AppContextProvider = (props) => {
     diningMenuList();
     fetchMenuList();
     fetchCurrentShopStatus();
+    fetchTakeawayMenus();
+    fetchIndiancategoies();
+    fetchWesterncategoies();
     // if (userToken) {
     //   fetchAddressList(userToken);
     //   fetchOrderList(userToken);
@@ -169,14 +233,14 @@ export const AppContextProvider = (props) => {
   useEffect(() => {
     if (productsList.length == 0) {
       if (!categoryList || categoryList.length === 0) return;
-      console.log(categoryList, "catehoskg");
+
       const catId =
         categoryList &&
         Array.isArray(categoryList) &&
         categoryList.length != 0 &&
         categoryList &&
         categoryList[0]?.cID;
-      console.log(categoryList && categoryList[0], catId, "categoryList1");
+
       const isCheck =
         productsList &&
         productsList.length != 0 &&
@@ -331,6 +395,17 @@ export const AppContextProvider = (props) => {
         diningLoading,
         diningList,
         currentStatus,
+        fetchTakeawayMenus,
+        takeawayMenu,
+        mergedState,
+        setMergedState,
+        fetchIndiancategoies,
+        fetchWesterncategoies,
+        indianCategories,
+        westernCategories,
+        initialcategoriesLoading,
+        uniqueIndianCategories,
+        categorySortLoading,
       }}
     >
       {props.children}

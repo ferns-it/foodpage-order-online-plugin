@@ -12,7 +12,7 @@ import "../style/Style.css";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useRouter, useSearchParams } from "next/navigation";
-import { setSessionStorageItem } from "../../_utils/ClientUtils";
+import { removeSessionStorageItem, setSessionStorageItem } from "../../_utils/ClientUtils";
 
 const RECAPTCHA_SITE_KEY = "6LeXD-8pAAAAAOpi7gUuH5-DO0iMu7J6C-CBA2fo";
 
@@ -46,6 +46,9 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     initialValues,
     secretKey,
     setSecretKey,
+    getReservationDetailsEmail,
+    setReservationDetails,
+    setManageReservList
   } = useContext(TableReservationContext);
   const [count, setCount] = useState(1);
   const [hashcode, setHashcode] = useState("");
@@ -54,9 +57,13 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   const [minDate, setMinDate] = useState("");
   const [dayValue, setDayValue] = useState(null);
   const [timeIntervals, setTimeIntervals] = useState(null);
+  const [showManageReserv, setShowManageReserv] = useState(false);
+  const [reservEmail, setReservEmail] = useState("");
+  const [manageReservLoading, setManageReservLoading] = useState(false);
 
   useEffect(() => {
     setInitialValues((prev) => ({ ...prev, bookingDate: new Date() }));
+    removeSessionStorageItem("reservData");
   }, []);
 
   useEffect(() => {
@@ -100,7 +107,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     const findIntervals = todaysTiming
       .filter((time) => time?.status === "active")
       .flatMap((time) =>
-        Utils.get15MinuteIntervals(time.openingTime, time.closingTime)
+        Utils.getTimeIntervals(time.openingTime, time.closingTime, 10)
       );
 
     setTimeIntervals(findIntervals);
@@ -314,6 +321,42 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
       },
       headers: headers,
     });
+  };
+
+  const getReservationDetails = async (e) => {
+    e.preventDefault();
+
+    try {
+      setManageReservLoading(true);
+      if (reservEmail && reservEmail.length === 0) {
+        toast.error("Email is required!");
+        return;
+      }
+
+      const type = "upcoming";
+
+      await getReservationDetailsEmail(reservEmail, type, {
+        onSuccess: (res) => {
+          if (res?.data?.error === false) {
+            const reserVData = res?.data?.data?.enquiryList;
+            if (reserVData && reserVData.length == 0) {
+              toast.error("No reservations found!");
+              return;
+            }
+            setManageReservList(reserVData);
+            setSessionStorageItem("reservData", JSON.stringify(reserVData));
+            router.push("/reservation-list");
+          } else {
+            toast.error("No reservations found!");
+          }
+        },
+        onFailed: (err) => {
+          console.log("Error on fetching reservation details", err);
+        },
+      });
+    } finally {
+      setManageReservLoading(false);
+    }
   };
 
   return (
@@ -655,34 +698,6 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                 </div>
                 {/* <p className="open_">
                   <i className="pe-1">
-                    <Md.MdOutlineRestaurantMenu />
-                  </i>
-                  <span>Booking info</span>
-                  <table className="table reserve_table">
-                    <tr>
-                      <td>Date</td>
-                      <td>
-                        {initialValues && initialValues?.bookingDate
-                          ? Utils.formatDate(initialValues?.bookingDate)
-                          : Utils.formatDate(new Date())}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Time</td>
-                      <td>
-                        {initialValues && initialValues.bookingTime
-                          ? Utils.convertTiming(initialValues?.bookingTime)
-                          : "00:00"}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Chairs</td>
-                      <td>{count ?? 0}</td>
-                    </tr>
-                  </table>
-                </p>
-                {/* <p className="open_">
-                  <i className="pe-1">
                     <Io.IoTimeOutline />
                   </i>
                   <span>Open Hours</span>
@@ -970,16 +985,62 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                   </div>
                 )} */}
 
-                {/* <button
+                <button
                   type="button"
                   className="reserv_btn my-3"
-                  onClick={() => router.push("/manage-reservation")}
+                  onClick={() => setShowManageReserv(!showManageReserv)}
                 >
                   <i className="pe-2">
                     <Im.ImSpoonKnife />
                   </i>
                   Manage Reservation
-                </button> */}
+                </button>
+                {showManageReserv && (
+                  <form onSubmit={(e) => getReservationDetails(e)}>
+                    <div className="form-group">
+                      <p className="sub_title_">
+                        Use the form below to find your reservation
+                      </p>
+                      <label htmlFor="reservEmail" className="form-label">
+                        Email
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        id="reservEmail"
+                        className="form-control border"
+                        onChange={(e) => setReservEmail(e.target.value)}
+                        value={reservEmail}
+                      />
+
+                      <button
+                        type="submit"
+                        className="reserv_btn mt-3 ms-1"
+                        style={{ float: "left" }}
+                        disabled={manageReservLoading}
+                      >
+                        {!manageReservLoading ? (
+                          <>
+                            <i className="pe-2">
+                              <Md.MdTableBar />
+                            </i>
+                            View Reservation
+                          </>
+                        ) : (
+                          <>
+                            {" "}
+                            <span
+                              className="spinner-border spinner-border-sm"
+                              role="status"
+                              aria-hidden="true"
+                            ></span>{" "}
+                            please wait...
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </form>
+                )}
               </div>
               <div className="poweredBy_ text-center" id="main___">
                 <span>Powered by Foodpage</span>

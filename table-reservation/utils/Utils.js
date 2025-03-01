@@ -4,11 +4,15 @@ export default class Utils {
   };
   static generateRandomId() {
     const timestamp = new Date().getTime();
-    const smallTimestamp = timestamp % 10000;
-    const randomCharCode = Math.floor(Math.random() * 26) + 65;
-    const randomChar = String.fromCharCode(randomCharCode);
-    const randomId = `${smallTimestamp}${randomChar}`;
-    return randomId;
+    let idBase = timestamp.toString();
+
+    if (idBase.length < 12) {
+      idBase = idBase.padStart(9, "0");
+    } else {
+      idBase = idBase.substring(idBase.length - 9);
+    }
+
+    return idBase;
   }
   static formatDate(value) {
     const date = new Date(value);
@@ -55,7 +59,7 @@ export default class Utils {
     return `${paddedHours}:${paddedMinutes} ${period}`;
   };
 
-  static get15MinuteIntervals(openingTime, closingTime) {
+  static getTimeIntervals(openingTime, closingTime, interval) {
     const intervals = [];
     let start = new Date(`1970-01-01T${openingTime}Z`);
     const end = new Date(`1970-01-01T${closingTime}Z`);
@@ -66,7 +70,7 @@ export default class Utils {
 
     while (start <= end) {
       intervals.push(start.toISOString().substr(11, 5));
-      start.setMinutes(start.getMinutes() + 15);
+      start.setMinutes(start.getMinutes() + interval);
     }
 
     return intervals;
@@ -88,4 +92,20 @@ export default class Utils {
 
     return dayName;
   }
+
+  static mergeBookingDateTime = (bookingDate, bookingTime) => {
+    const date = new Date(bookingDate);
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    const timeWithSeconds = bookingTime.includes(":")
+      ? bookingTime
+      : `${bookingTime}:00`;
+
+    const formattedDateTime = `${year}-${month}-${day} ${timeWithSeconds}`;
+
+    return formattedDateTime;
+  };
 }
