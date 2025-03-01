@@ -7,6 +7,8 @@ import {
   removeSessionStorageItem,
 } from "../../_utils/ClientUtils";
 
+import { jwtDecode } from "jwt-decode";
+
 import * as Ci from "react-icons/ci";
 import * as Pi from "react-icons/pi";
 import Utils from "../utils/Utils";
@@ -78,7 +80,7 @@ function ReservationCheckout() {
           onSuccess: (res) => {
             setPaymentData(res);
             const result = res?.data?.data?.paymentIntent?.client_secret;
-            debugger;
+            // debugger;
             if (result != null) {
               setStripeClientSecret(result);
             }
@@ -123,9 +125,13 @@ function ReservationCheckout() {
 
     const data = paymentData?.data?.data;
 
+    const tokenData = jwtDecode(token);
+
+    const userId = tokenData?.data.userID ?? 0;
+
     const payload = {
       shopID: process.env.SHOP_ID,
-      userID: 0,
+      userID: userId,
       name: reservationData?.name,
       phone: reservationData?.phone,
       email: reservationData?.email,
@@ -133,7 +139,7 @@ function ReservationCheckout() {
       reservationDateTime: mergedBooking,
       advancePayment: "yes",
       advanceAmount: advAmt,
-      paymentMethod: "stripe",
+      paymentMethod: "STRIPE",
       transactionID: data?.paymentIntent?.id,
       message: reservationData?.message,
       baseUrl: process.env.TABLE_RESERVATION_URL,
@@ -159,7 +165,6 @@ function ReservationCheckout() {
       headers,
     });
   };
-
 
   return (
     <div className="checkout7821_page">
