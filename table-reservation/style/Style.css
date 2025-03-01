@@ -1956,8 +1956,8 @@ abbr[title] {
   float: right;
 }
 .update_reserv:hover {
-  background-color: #3870c5;
-  color: #fff;
+  background-color: transparent;
+  color: #000000;
 }
 .update_reserv:disabled {
   background-color: #ef8f8f;
