@@ -127,47 +127,43 @@ function ReservationCheckout() {
 
     const tokenData = jwtDecode(token);
 
-    if (tokenData) {
-      const userId = tokenData?.data.userID;
+    const userId = tokenData?.data.userID ?? 0;
 
-      const payload = {
-        shopID: process.env.SHOP_ID,
-        userID: userId,
-        name: reservationData?.name,
-        phone: reservationData?.phone,
-        email: reservationData?.email,
-        totalChair: reservationData?.noOfChairs,
-        reservationDateTime: mergedBooking,
-        advancePayment: "yes",
-        advanceAmount: advAmt,
-        paymentMethod: "STRIPE",
-        transactionID: data?.paymentIntent?.id,
-        message: reservationData?.message,
-        baseUrl: process.env.TABLE_RESERVATION_URL,
-        source: "NextJs",
-      };
+    const payload = {
+      shopID: process.env.SHOP_ID,
+      userID: userId,
+      name: reservationData?.name,
+      phone: reservationData?.phone,
+      email: reservationData?.email,
+      totalChair: reservationData?.noOfChairs,
+      reservationDateTime: mergedBooking,
+      advancePayment: "yes",
+      advanceAmount: advAmt,
+      paymentMethod: "STRIPE",
+      transactionID: data?.paymentIntent?.id,
+      message: reservationData?.message,
+      baseUrl: process.env.TABLE_RESERVATION_URL,
+      source: "NextJs",
+    };
 
-      const headers = {
-        "x-secretkey": process.env.FOODPAGE_RESERVATION_SECRET_KEY,
-      };
+    const headers = {
+      "x-secretkey": process.env.FOODPAGE_RESERVATION_SECRET_KEY,
+    };
 
-      await completeReservation(payload, {
-        onSuccess: (res) => {
-          toast.success("Your request has been submitted successfully!");
-          setSecretKey("");
-          removeSessionStorageItem("reservationData");
-          setTimeout(() => {
-            redirectToLocation("/");
-          }, 1000);
-        },
-        onFailed: (err) => {
-          console.log(err);
-        },
-        headers,
-      });
-    } else {
-      toast.error("Not create, Please try again!");
-    }
+    await completeReservation(payload, {
+      onSuccess: (res) => {
+        toast.success("Your request has been submitted successfully!");
+        setSecretKey("");
+        removeSessionStorageItem("reservationData");
+        setTimeout(() => {
+          redirectToLocation("/");
+        }, 1000);
+      },
+      onFailed: (err) => {
+        console.log(err);
+      },
+      headers,
+    });
   };
 
   return (
