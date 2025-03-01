@@ -560,11 +560,18 @@ function ViewReservation() {
                   </Fragment>
                 ) : (
                   <Fragment>
-                    <p className="expiry_reserv">{`This reservation is ${
+                    <p className="expiry_reserv text-center text-danger">{`This reservation is ${
                       reservationDetails?.status == "Cancelled"
                         ? "Cancelled"
                         : "Expired"
                     }!`}</p>
+                    <button
+                      type="button"
+                      className="back-reserv-btn outline-none border-none"
+                      onClick={() => router.back()}
+                    >
+                      Back
+                    </button>
                   </Fragment>
                 )}
               </div>

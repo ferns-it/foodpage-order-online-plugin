@@ -30,9 +30,6 @@ function ReservationsList() {
     router.push(`/view-reservation?reserv=${parsedId}`);
   };
 
-
-  
-
   return (
     <div>
       <table className="table table-bordered Montserrat-font-family text-center">
