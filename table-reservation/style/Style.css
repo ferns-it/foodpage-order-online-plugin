@@ -81,7 +81,7 @@ input {
 }
 
 .table_reserv_form_input.err__ {
-  border-color: #e03f3f !important;
+  border-color: #064340 !important;
 }
 .reserv_itp_pg {
   padding: 10px;
@@ -103,7 +103,7 @@ input {
   border-radius: 20px;
   overflow: hidden;
   margin: 0 !important;
-  border: 1px solid #e03f3f;
+  border: 1px solid #064340;
 }
 
 .incDec_wrapper_0291 > .toggle-checkbox {
@@ -139,7 +139,7 @@ input {
 }
 
 .increment-button.red {
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
 }
 
@@ -171,7 +171,7 @@ input {
   width: 200px;
   display: block;
   margin: 0 auto;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   white-space: nowrap;
 }
@@ -244,7 +244,7 @@ input {
   border-radius: 4px;
 }
 .day_wrapper_reserv_table.--active > .day__::after {
-  background-color: #e03f3f;
+  background-color: #064340;
 }
 
 .day_wrapper_reserv_table > .day__::after {
@@ -300,7 +300,7 @@ input {
 
 .resend_otp_reservv > span {
   font-size: 17px;
-  color: #e03f3f;
+  color: #064340;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
@@ -320,7 +320,7 @@ input {
   width: 30%;
   display: block;
   margin: 0 auto;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
 }
 
@@ -386,7 +386,7 @@ input {
   border: none;
   outline: none;
   padding: 0.7em 3em;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   border-radius: 4px;
   margin: 0 auto;
@@ -401,7 +401,7 @@ input {
   font-size: 13px;
   padding: 10px;
   font-weight: 600;
-  color: #e03f3f;
+  color: #064340;
 }
 
 /* .banner-container {
@@ -432,7 +432,7 @@ input {
   /* left: 30px; */
   /* right: 20px; */
   float: right;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   padding: 10px;
   outline: none;
@@ -506,7 +506,7 @@ input {
   border-radius: 5px;
   border: none;
   outline: none;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   margin: 0 auto;
   transition: all 0.2s ease-in-out;
@@ -522,7 +522,7 @@ input {
   margin: 0px auto;
   width: 150px;
   text-align: center;
-  color: #e03f3f;
+  color: #064340;
   font-size: 14px;
   cursor: pointer;
 }
@@ -593,7 +593,7 @@ input {
     margin-left: 30px;
     height: 30px;
     padding: 2px;
-    background-color: #e03f3f;
+    background-color: #064340;
     color: #fff;
     transition: all 0.2s ease-in-out; */
   border: none;
@@ -605,7 +605,7 @@ input {
 }
 
 .edit_btn_details i {
-  color: #e03f3f;
+  color: #064340;
   font-size: 25px;
   position: relative;
   top: -10px;
@@ -930,7 +930,7 @@ a {
   float: right;
   border: none;
   padding: 10px;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   border-radius: 5px;
 }
@@ -1472,7 +1472,7 @@ a {
 .add_submit_btn {
   border: none;
   padding: 5px;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   border-radius: 5px;
   width: 100%;
@@ -1570,7 +1570,7 @@ a {
     outline: none;
     font-size: 15px;
     background-color: transparent;
-    color: #e03f3f;
+    color: #064340;
     /* color: #fff; */
     border-radius: 4px;
     transition: all 0.2s ease-in-out;
@@ -1724,7 +1724,7 @@ a {
 }
 .react-calendar__month-view__weekdays {
   padding: 10px 0 !important;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
 }
 abbr[title] {
@@ -1776,7 +1776,7 @@ abbr[title] {
   padding: 8px 27px;
   border-radius: 5px;
   background-color: #eee;
-  color: #e03f3f;
+  color: #064340;
   font-weight: 600;
 }
 .tbl_head {
@@ -1803,7 +1803,7 @@ abbr[title] {
   outline: none;
   font-weight: 600;
   font-size: 13px;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   border-radius: 5px;
   transition: all 0.2s ease-in-out;
@@ -1944,7 +1944,7 @@ abbr[title] {
   color: #fff;
 }
 .cancel_reserv:hover {
-  background-color: #e03f3f;
+  background-color: #064340;
 }
 
 .update_reserv {
@@ -1975,7 +1975,7 @@ abbr[title] {
   border-radius: 5px;
 }
 .confirm_cancel {
-  background-color: #e03f3f;
+  background-color: #064340;
 }
 .confirm_cancel:hover {
   background-color: #ab2e2e;
@@ -2154,7 +2154,7 @@ abbr[title] {
 }
 .holidaycard i {
   padding: 0 10px;
-  color: #e03f3f;
+  color: #064340;
 }
 .holidaycard span {
   padding: 0 10px;

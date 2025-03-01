@@ -174,7 +174,7 @@ div.food_tile.active img {
 }
 
 .nav_profile p:hover {
-  color: #e03f3f;
+  color: #064340;
 }
 
 .nav_profile i {
@@ -243,7 +243,7 @@ div.food_tile.active img {
   border: none;
   outline: none;
   padding: 0.7em 3em;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   border-radius: 4px;
   margin: 0 auto;
@@ -270,7 +270,7 @@ div.food_tile.active img {
 
 .food_count_399 {
   font-size: 15px;
-  color: #e03f3f;
+  color: #064340;
 }
 
 .add__order__online {
@@ -291,7 +291,7 @@ div.food_tile.active img {
 }
 
 .add__order__online:hover {
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
 }
 
@@ -300,7 +300,7 @@ div.food_tile.active img {
   outline: none;
   border-radius: 3px;
   border: 1px solid #eee;
-  color: #e03f3f;
+  color: #064340;
   background-color: transparent;
   height: 35px;
   transition: all 0.2s ease-in-out;
@@ -308,7 +308,7 @@ div.food_tile.active img {
 
 .order__online__count:hover {
   background-color: #f6bdbd;
-  color: #e03f3f;
+  color: #064340;
 }
 
 .small-screen-toast {
@@ -550,7 +550,7 @@ div.food_tile.active img {
   font-size: 14px;
   transition: all 0.2s ease-in-out;
   width: 100px;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   white-space: nowrap;
 }
@@ -1656,7 +1656,7 @@ deal_content p {
 }
 
 .table_reserv_form_input.err__ {
-  border-color: #e03f3f !important;
+  border-color: #064340 !important;
   font-family: sans-serif !important;
 }
 
@@ -1675,7 +1675,7 @@ deal_content p {
   border-radius: 20px;
   margin: 0;
   overflow: hidden;
-  border: 1px solid #e03f3f;
+  border: 1px solid #064340;
 }
 
 .incDec_wrapper_0291 > .toggle-checkbox {
@@ -1711,7 +1711,7 @@ deal_content p {
 }
 
 .increment-button.red {
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
 }
 
@@ -1743,7 +1743,7 @@ deal_content p {
   width: 200px;
   display: block;
   margin: 0 auto;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   white-space: nowrap;
 }
@@ -1806,7 +1806,7 @@ deal_content p {
   position: absolute;
   width: 25px;
   height: 2px;
-  background-color: #e03f3f;
+  background-color: #064340;
   left: 0;
   bottom: 0;
 }
@@ -1878,7 +1878,7 @@ deal_content p {
 
 .resend_otp_reservv > span {
   font-size: 17px;
-  color: #e03f3f;
+  color: #064340;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
@@ -1898,7 +1898,7 @@ deal_content p {
   width: 20%;
   display: block;
   margin: 0 auto;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
 }
 
@@ -1952,7 +1952,7 @@ deal_content p {
   border: none;
   outline: none;
   padding: 0.7em 3em;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   border-radius: 4px;
   margin: 0 auto;
@@ -1967,7 +1967,7 @@ deal_content p {
   font-size: 13px;
   padding: 10px;
   font-weight: 600;
-  color: #e03f3f;
+  color: #064340;
 }
 
 /* .banner-container {
@@ -1998,7 +1998,7 @@ deal_content p {
   /* left: 30px; */
   /* right: 20px; */
   float: right;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   padding: 10px;
   outline: none;
@@ -2088,7 +2088,7 @@ deal_content p {
   display: block;
   margin: 0px auto;
   width: 25%;
-  color: #e03f3f;
+  color: #064340;
   font-size: 14px;
   cursor: pointer;
 }
@@ -2159,7 +2159,7 @@ deal_content p {
   margin-left: 30px;
   height: 30px;
   padding: 2px;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   transition: all 0.2s ease-in-out; */
   border: none;
@@ -2171,7 +2171,7 @@ deal_content p {
 }
 
 .edit_btn_details i {
-  color: #e03f3f;
+  color: #064340;
   font-size: 25px;
   position: relative;
   top: -10px;
@@ -2506,7 +2506,7 @@ a {
   float: right;
   border: none;
   padding: 10px;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   border-radius: 5px;
 }
@@ -3045,7 +3045,7 @@ a {
 .add_submit_btn {
   border: none;
   padding: 5px;
-  background-color: #e03f3f;
+  background-color: #064340;
   color: #fff;
   border-radius: 5px;
   width: 100%;
@@ -3143,7 +3143,7 @@ a {
     outline: none;
     font-size: 15px;
     background-color: transparent;
-    color: #e03f3f;
+    color: #064340;
     /* color: #fff; */
     border-radius: 4px;
     transition: all 0.2s ease-in-out;
@@ -3287,19 +3287,19 @@ a {
   font-size: 17px;
   color: #018f43;
 }
-#new_inpp{
+#new_inpp {
   font-family: sans-serif;
   padding: 2px 10px;
 }
 
-@media screen and (max-width:1200px) {
-  .login_comp{
+@media screen and (max-width: 1200px) {
+  .login_comp {
     width: 60%;
   }
 }
 
-@media screen and (max-width:600px) {
-  .login_comp{
+@media screen and (max-width: 600px) {
+  .login_comp {
     width: 100%;
   }
 }
