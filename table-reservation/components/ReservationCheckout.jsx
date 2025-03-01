@@ -13,6 +13,7 @@ import { jwtDecode } from "jwt-decode";
 
 import * as Ci from "react-icons/ci";
 import * as Pi from "react-icons/pi";
+import * as Tb from "react-icons/tb";
 import Utils from "../utils/Utils";
 import { AppContext } from "../../order-online-page/context";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -110,6 +111,8 @@ function ReservationCheckout() {
     }
   }, []);
 
+  const price = searchParams.get("advance");
+
   const completeNewReservation = async () => {
     const mergedBooking = Utils.mergeBookingDateTime(
       reservationData?.bookingDate,
@@ -117,7 +120,6 @@ function ReservationCheckout() {
     );
     const token = getLocalStorageItem("userToken");
 
-    const price = searchParams.get("advance");
     const advAmt = price ? Math.round(Number(price) * 100) : 0;
 
     if (advAmt && advAmt <= 0) {
@@ -250,6 +252,16 @@ function ReservationCheckout() {
                         </p>
                       </div>
                     </div>
+
+                    <div className="checkout7821_info_item">
+                      <div className="checkout7821_info_icon">
+                        <Tb.TbReceiptPound />
+                      </div>
+                      <div>
+                        <p className="checkout7821_info_label">Advance Amount</p>
+                        <p className="checkout7821_info_value">£{price ?? 0}</p>
+                      </div>
+                    </div>
                   </div>
                   <div className="col-lg-6 col-md-12 col-sm-12">
                     <div className="checkout7821_info_item">
@@ -305,7 +317,7 @@ function ReservationCheckout() {
                 onClick={createPaymentIntentRequest}
                 disabled={intentLoading}
               >
-                Continue Payment
+                {`Continue Payment of £${price ?? 0}`}
               </button>
             )}
 
