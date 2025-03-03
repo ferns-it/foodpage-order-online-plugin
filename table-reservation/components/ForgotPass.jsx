@@ -62,7 +62,7 @@ function ForgotPass() {
         if (res.data.error == false) {
           toast.success("Password reset successfully!");
           sessionStorage.removeItem("passwordresetemail");
-          router.push("/login");
+          router.push("/tablereservation");
         } else {
           toast.error(res.data.errorMessage.message || "Something went wrong!");
         }
