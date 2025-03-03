@@ -48,6 +48,7 @@ function OrderSummary() {
   const [locationLoading, setLocationLoading] = useState(false);
   const [quantity, setQuantity] = useState(1); // Default to 1
   const [product, setProduct] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
   useEffect(() => {
     if (product) {
       setQuantity(Number(product?.quantity) || 1);
@@ -85,12 +86,13 @@ function OrderSummary() {
     removeSessionStorageItem("deliveryFee");
   };
 
-  const updateQuantity = (type, item) => {
-    if (!item) {
+  const updateQuantity = (type, product) => {
+    if (!product) {
       toast.error("Something went wrong, Please try again!");
       return;
     }
     setProduct(item);
+    setSelectedIndex(index);
     setQuantity((prev) => {
       const newQuantity =
         type === "increase"
@@ -106,7 +108,7 @@ function OrderSummary() {
 
     const updatedQty = type === "increase" ? qty + 1 : qty > 1 ? qty - 1 : 1;
 
-    handleUpdateCart(item, updatedQty);
+    handleUpdateCart(product, updatedQty);
   };
   const handleUpdateCart = async (item, qtyy) => {
     try {
@@ -462,18 +464,22 @@ function OrderSummary() {
                             ""
                           )}
                           <div className="button-second">
-                            <div className="d-flex">
+                            <div className="d-flex cover-btn">
                               <button
-                                onClick={() => updateQuantity("decrease", item)}
+                                onClick={() =>
+                                  updateQuantity("decrease", item, index)
+                                }
                                 disabled={quantity <= 1 || cartLoading}
                                 className="cart_qty_btns dec-btn"
                               >
                                 -
                               </button>
-                              <span className="mx-2 px-3">{quantity}</span>
+                              <span className="px-3 f-16">{quantity}</span>
                               <button
                                 className="cart_qty_btns inc_btn"
-                                onClick={() => updateQuantity("increase", item)}
+                                onClick={() =>
+                                  updateQuantity("increase", item, index)
+                                }
                                 disabled={cartLoading}
                               >
                                 +

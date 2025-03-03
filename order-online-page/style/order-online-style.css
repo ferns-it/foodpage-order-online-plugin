@@ -2964,9 +2964,15 @@ div.food_tile__.active img {
 }
 .cart-info {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Ensures items are pushed to opposite ends */
   align-items: center;
+  width: 100%;
 }
+
+.button-second {
+  margin-left: auto; /* Pushes the quantity buttons to the right */
+}
+
 .cart_qty_btns {
   outline: none;
   padding: 0 10px;
@@ -2975,7 +2981,23 @@ div.food_tile__.active img {
   background-color: #eee;
 }
 
-.list_tr:hover td .cart_qty_btns {
-  background-color: #31337c;
-  color: #fff;
+.cart_qty_btns {
+  background-color: transparent;
+  color: #c11014;
+  border: none;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 0;
+  margin: 0;
+}
+.cover-btn {
+  border: 1px solid #d1d1d1;
+  padding: 0px 10px;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  border-radius: 12px;
+}
+.f-16 {
+  font-size: 14px;
 }
