@@ -48,13 +48,12 @@ function TopProductsSection() {
   return (
     <div>
       <div className="container">
-        <header className="header">
-          <h1 className="title">
+        <div >
+          <h1 className="title-slide">
             Muziris Popular Dishes <Anchor size={32} />
           </h1>
-        </header>
-
-        <div className="categories-container">
+        </div>
+        <div className="container">
           {categories.map((category, index) => (
             <div className="category-card" key={index}>
               <div className="image-container">
