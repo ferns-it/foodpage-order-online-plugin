@@ -21,6 +21,7 @@ import "react-calendar/dist/Calendar.css";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   getLocalStorageItem,
+  redirectToLocation,
   removeSessionStorageItem,
   setSessionStorageItem,
 } from "../../_utils/ClientUtils";
@@ -516,11 +517,11 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
 
       if (token == null || token == undefined) {
         toast.success("Please Complete the Authentication!");
-        router.push("/reservation-login");
+        redirectToLocation("/reservation-login");
       } else {
         //** Check if the settings has advance amout for reservation */
         if (havAdvance) {
-          router.push(`/reservation-checkout?advance=${reserAdvAmt}`);
+          redirectToLocation(`/reservation-checkout?advance=${reserAdvAmt}`);
           return;
         } else {
           await sendReservationOTP(payload, {

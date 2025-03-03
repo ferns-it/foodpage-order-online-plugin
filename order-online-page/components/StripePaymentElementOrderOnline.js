@@ -35,7 +35,7 @@ function StripePaymentElementOrderOnline({
     <Fragment>
       <PaymentElement id="payment-element" onReady={onPaymentElementReady} />
       <p className="termsconditions mb-3 mt-3">
-        By clicking the "Order now", You agreeing our{" "}
+        By clicking the "Submit", You agreeing our{" "}
         <a href="/" target="_blank">
           terms & Conditions
         </a>
@@ -52,7 +52,7 @@ function StripePaymentElementOrderOnline({
           onClick={handleOrder}
           disabled={!stripePaymentClientSecret}
         >
-          Order Now
+       Submit
         </button>
       )}
     </Fragment>

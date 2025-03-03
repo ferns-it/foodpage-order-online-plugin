@@ -4,11 +4,13 @@ import AddOnsModal from "./AddOnsModal";
 import * as Pi from "react-icons/pi";
 import "react-loading-skeleton/dist/skeleton.css";
 import FoodCardsSkeleton from "./FoodCardsSkeleton";
-import { useSearchParams } from "next/navigation";
-import { getSessionStorageItem } from "../../_utils/ClientUtils";
+import { useRouter, useSearchParams } from "next/navigation";
+import { getLocalStorageItem, getSessionStorageItem, setSessionStorageItem } from "../../_utils/ClientUtils";
 import "../../guest-login/style.css";
+import toast from "react-hot-toast";
 
 function FoodCards(category) {
+  const router = useRouter();
   const {
     productsList,
     productsListLoading,
@@ -44,7 +46,13 @@ function FoodCards(category) {
   }, [params]);
 
   const handleModal = (data) => {
-    // debugger;
+    const token = getLocalStorageItem("userToken");
+    if(token == null || token == undefined){
+      setSessionStorageItem("path","/order-online")
+      toast.error("Please Login Before Adding an Item!");
+      router.push("/login");
+      return
+    }
     setShowModal(true);
     setProductDataValues(data);
   };

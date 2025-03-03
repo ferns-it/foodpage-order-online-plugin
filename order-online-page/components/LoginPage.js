@@ -115,7 +115,6 @@ function LoginPage() {
             "userDetails",
             user ? JSON.stringify(user) : ""
           );
-        
 
           if (guestId) {
             await transferCartItems(guestId, userId);
@@ -128,12 +127,14 @@ function LoginPage() {
           setTimeout(() => {
             if (location == "checkout" || location == "/checkout") {
               redirectToLocation("/checkout");
+            } if (location == "order-online" || location == "/order-online") {
+              redirectToLocation("/order-online");
             } else {
               redirectToLocation("/");
             }
           }, 800);
         },
-        onFailed: (err) => { 
+        onFailed: (err) => {
           toast.error(
             err?.response?.data?.errorMessage?.message ||
               "Authentication Failed"

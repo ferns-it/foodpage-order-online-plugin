@@ -346,7 +346,10 @@ function OrderSummaryCheckout() {
         const deliveryChargeValue = details
           ? details?.deliveryFeeAmount
           : paramsValues?.deliveryFee;
-
+        if (priceValue <= 0) {
+          toast.error("Invalid Price!");
+          return;
+        }
         //!payload here
         const payload = {
           shopID: data?.shopID != null ? data?.shopID : shopId,
@@ -385,7 +388,7 @@ function OrderSummaryCheckout() {
           },
           source: "NextJs",
         };
-
+      
         let headers = {
           User: userToken,
         };
@@ -409,7 +412,7 @@ function OrderSummaryCheckout() {
 
             await fetchOrderHistory();
             router.refresh();
-            router.push("/order-online");
+            redirectToLocation("/order-online");
             setActiveCard("login");
             setPaymentData(null);
           },
