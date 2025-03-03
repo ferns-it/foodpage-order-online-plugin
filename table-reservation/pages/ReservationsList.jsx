@@ -67,75 +67,77 @@ function ReservationsList() {
         Back to Reservation
       </button>
       <br />
-      <table className="table table-bordered Montserrat-font-family text-center">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Reserved By</th>
-            <th>Booking Date</th>
-            <th>Booking Time</th>
-            <th>Party Size</th>
-            <th>Status</th>
-            <th>View</th>
-          </tr>
-        </thead>
-        <tbody>
-          {!listLoading && !reservationLoading ? (
-            <>
-              {manageReservList != null &&
-                Array.isArray(manageReservList) &&
-                manageReservList.length != 0 &&
-                manageReservList.map((list, idx4) => {
-                  const [date, time] = list.bookingTime.split(" ");
-                  return (
-                    <tr key={idx4}>
-                      <td>{idx4 + 1}</td>
-                      <td>{list?.name ?? "N/A"}</td>
-                      <td>{date ? Utils.formatDate(date) : "N/A"}</td>
-                      <td>{time ? Utils.convertTiming(time) : "N/A"}</td>
-                      <td>{list?.chairs}</td>
-                      <td>{list?.status ?? "N/A"}</td>
-                      <td>
-                        <a
-                          className="text-center cursor-pointer"
-                          onClick={() => handleReservationData(list.id)}
-                        >
-                          <Fa.FaRegEye />
-                        </a>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </>
-          ) : (
-            <>
-              <tr>
-                <td>
-                  <Skeleton width={80} height={30} />
-                </td>
-                <td>
-                  <Skeleton width={80} height={30} />
-                </td>
-                <td>
-                  <Skeleton width={80} height={30} />
-                </td>
-                <td>
-                  <Skeleton width={80} height={30} />
-                </td>
-                <td>
-                  <Skeleton width={80} height={30} />
-                </td>
-                <td>
-                  <Skeleton width={80} height={30} />
-                </td>
-                <td>
-                  <Skeleton width={80} height={30} />
-                </td>
-              </tr>
-            </>
-          )}
-        </tbody>
-      </table>
+      <div className="card overflow-auto">
+        <table className="table table-bordered Montserrat-font-family text-center">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Reserved By</th>
+              <th>Booking Date</th>
+              <th>Booking Time</th>
+              <th>Party Size</th>
+              <th>Status</th>
+              <th>View</th>
+            </tr>
+          </thead>
+          <tbody>
+            {!listLoading && !reservationLoading ? (
+              <>
+                {manageReservList != null &&
+                  Array.isArray(manageReservList) &&
+                  manageReservList.length != 0 &&
+                  manageReservList.map((list, idx4) => {
+                    const [date, time] = list.bookingTime.split(" ");
+                    return (
+                      <tr key={idx4}>
+                        <td>{idx4 + 1}</td>
+                        <td>{list?.name ?? "N/A"}</td>
+                        <td>{date ? Utils.formatDate(date) : "N/A"}</td>
+                        <td>{time ? Utils.convertTiming(time) : "N/A"}</td>
+                        <td>{list?.chairs}</td>
+                        <td>{list?.status ?? "N/A"}</td>
+                        <td>
+                          <a
+                            className="text-center cursor-pointer"
+                            onClick={() => handleReservationData(list.id)}
+                          >
+                            <Fa.FaRegEye />
+                          </a>
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </>
+            ) : (
+              <>
+                <tr>
+                  <td>
+                    <Skeleton width={80} height={30} />
+                  </td>
+                  <td>
+                    <Skeleton width={80} height={30} />
+                  </td>
+                  <td>
+                    <Skeleton width={80} height={30} />
+                  </td>
+                  <td>
+                    <Skeleton width={80} height={30} />
+                  </td>
+                  <td>
+                    <Skeleton width={80} height={30} />
+                  </td>
+                  <td>
+                    <Skeleton width={80} height={30} />
+                  </td>
+                  <td>
+                    <Skeleton width={80} height={30} />
+                  </td>
+                </tr>
+              </>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
