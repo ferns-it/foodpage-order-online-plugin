@@ -84,56 +84,12 @@ input[type="checkbox"]:focus textarea,
   text-align: center;
 }
 
-#fda_product_tile span {
-  display: block;
-  color: #000;
-  font-size: 13px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
-
 .fda_product_img.fd_card_grayscale {
   filter: gray;
   /* IE6-9 */
   -webkit-filter: grayscale(1) !important;
   /* Google Chrome, Safari 6+ & Opera 15+ */
   filter: grayscale(1);
-}
-
-.fda_food_row div.food_tile {
-  background-color: rgba(0, 0, 0, 0.05);
-  font-size: 11px;
-  padding: 0 25px;
-  border-radius: 25px;
-}
-
-.fda_food_row div.food_tile.active {
-  min-height: 270px;
-  background-color: #e9fdd6;
-  color: darkgreen;
-}
-
-.fda_food_row div.food_tile img {
-  position: relative;
-  width: 150px;
-  height: 150px;
-  border-radius: 100%;
-  padding: 20px;
-  background-color: rgba(0, 0, 0, 0.05);
-  box-shadow: inset 0 0 25px rgba(255, 255, 255, 0.15),
-    inset 0 4px 0 rgba(0, 0, 0, 0.05), inset 0 -4px 0 rgba(0, 0, 0, 0.05),
-    inset 0 10px 10px rgba(0, 0, 0, 0.09), 0 1px 0px rgba(0, 0, 0, 0.1),
-    0 8px 7px rgba(0, 0, 0, 0.15);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  margin-top: -60px;
-  margin-bottom: 18px;
-}
-
-div.food_tile.active img {
-  background-color: rgba(220, 230, 252, 0.85);
 }
 
 .food_detail {

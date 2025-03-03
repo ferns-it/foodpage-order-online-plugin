@@ -15,10 +15,10 @@ function FoodCardsSkeleton() {
             <div className="row">
               {items.map((_, index) => {
                 return (
-                  <div className="col-md-6 col-lg-4 col-sm-6" key={index}>
+                  <div className="col-md-12 col-lg-12 col-sm-12" key={index}>
                     <div id="fda_product_tile">
                       <div className="row fda_food_row position-relative">
-                        <div className="mx-auto w-100" >
+                        <div className="w-100">
                           <a
                             className="prod_anchor"
                             style={{
@@ -50,7 +50,7 @@ function FoodCardsSkeleton() {
                               </span>
 
                               <div className="mb-3">
-                                <h4 className="prod_price">
+                                <h4 className="dish-value">
                                   <b>
                                     <Skeleton />
                                   </b>

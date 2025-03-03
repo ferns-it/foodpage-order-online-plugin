@@ -7,6 +7,7 @@ import FoodCardsSkeleton from "./FoodCardsSkeleton";
 import { useSearchParams } from "next/navigation";
 import { getSessionStorageItem } from "../../_utils/ClientUtils";
 import "../../guest-login/style.css";
+import Image from "next/image";
 
 function FoodCards(category) {
   const {
@@ -34,7 +35,7 @@ function FoodCards(category) {
 
     if (showModal) {
       const data = getSessionStorageItem("selectedProduct");
-    
+
       if (data && data.length != 0) {
         const product = JSON.parse(data);
         setShowModal(true);
@@ -94,7 +95,7 @@ function FoodCards(category) {
                   const products = list?.products;
                   return (
                     <div className="tab-content" key={catIndex}>
-                      <h6 className="cat_name__ text-center">
+                      <h6 className="cat_name__ ">
                         {list?.categoryName ?? "N/A"}
                       </h6>
                       <br />
@@ -104,60 +105,68 @@ function FoodCards(category) {
                             products?.map((data, index) => {
                               return (
                                 <div
-                                  className=" col-lg-4 col-md-2 col-sm-6 position-relative mb-3"
+                                  className=" col-lg-12 col-md-12 col-sm-12 position-relative mb-3"
                                   key={index}
                                 >
-                                  <div
-                                    id="fda_product_tile"
-                                    style={{
-                                      background:
-                                        "linear-gradient(180deg, rgba(238, 238, 238, 1) 0%, rgba(0, 0, 0, 0) 100%)",
-                                    }}
-                                  >
+                                  <div id="fda_product_tile">
                                     <div className="row fda_food_row">
-                                      <div className="mx-auto">
-                                        <div
-                                          className="prod_anchor"
-                                          style={{
-                                            textDecoration: "none",
-                                            // cursor: "pointer",
-                                          }}
-                                          // onClick={() => handleModal(data)}
-                                        >
-                                          <div className="food_tile__ active mb-4 p-3">
-                                            {/* <img
-                                              src={data?.photo}
-                                              alt=""
-                                              className={
-                                                data?.online === "No" ||
-                                                data?.isAvailable === false ||
-                                                data?.availability === false
-                                                  ? "fda_product_img fd_card_grayscale"
-                                                  : "fda_product_img "
-                                              }
-                                              referrerPolicy="no-referrer"
-                                            /> */}
-                                            <h6 className="dish_name">
-                                              {data?.name}
-                                            </h6>
-                                            <span className="food_detail">
-                                              {stripHtml(
-                                                data?.description ?? "N/A"
-                                              )}
-                                            </span>
+                                      <div
+                                        className="prod_anchor"
+                                        style={{
+                                          textDecoration: "none",
+                                          // cursor: "pointer",
+                                        }}
+                                        // onClick={() => handleModal(data)}
+                                      >
+                                        <div className="row">
+                                          <div className="col-md-8 col-sm-12">
+                                            {" "}
+                                            <div className="food_tile__ active mb-4 p-3">
+                                              <h6 className="dish_name">
+                                                {data?.name}
+                                              </h6>
+                                              <span className="food_detail">
+                                                {stripHtml(
+                                                  data?.description ?? "N/A"
+                                                )}
+                                              </span>
+                                              <div className="online-card">
+                                                <h4 className="dish-value">
+                                                  {" "}
+                                                  <b>{data?.price ?? "N/A"}</b>
+                                                </h4>
 
-                                            <h4 className="prod_price">
-                                              {" "}
-                                              <b>{data?.price ?? "N/A"}</b>
-                                            </h4>
-
-                                            <button
-                                              type="button"
-                                              className="add_to_cart"
-                                              onClick={() => handleModal(data)}
-                                            >
-                                              ADD
-                                            </button>
+                                                <button
+                                                  type="button"
+                                                  className="dish-btn"
+                                                  onClick={() =>
+                                                    handleModal(data)
+                                                  }
+                                                >
+                                                  Add to cart
+                                                </button>
+                                              </div>
+                                            </div>{" "}
+                                          </div>
+                                          <div className="col-md-4 col-sm-12">
+                                            {" "}
+                                            <div className="container-img">
+                                              <Image
+                                                layout="responsive"
+                                                src={data?.photo}
+                                                width={150}
+                                                height={0}
+                                                alt=""
+                                                className={
+                                                  data?.online === "No" ||
+                                                  data?.isAvailable === false ||
+                                                  data?.availability === false
+                                                    ? "fd_card_grayscale"
+                                                    : "image-online "
+                                                }
+                                                referrerPolicy="no-referrer"
+                                              />
+                                            </div>
                                           </div>
                                         </div>
                                       </div>

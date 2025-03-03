@@ -12,6 +12,8 @@ import { TableReservationContext } from "../../table-reservation/context/TableRe
 import Utils from "../../table-reservation/utils/Utils";
 import "../../table-reservation/style/style.css";
 import "../style/order-online-style.css";
+import { ImSpoonKnife } from "react-icons/im";
+import { BiFoodMenu } from "react-icons/bi";
 
 const ThemeTitle = ({ htmlString }) => {
   const cleanHtmlString = htmlString.replace(/\r\n/g, "");
@@ -121,6 +123,10 @@ const OrderOnlineMain = () => {
                         </Fragment>
                       ) : (
                         <Fragment>
+                          <div className="nav-link-static">
+                            <ImSpoonKnife size={30} /> <BiFoodMenu size={30} />{" "}
+                            <b>Menu</b>
+                          </div>
                           {categoryList &&
                             categoryList.length > 0 &&
                             categoryList.map((list, index) => {

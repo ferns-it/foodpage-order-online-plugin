@@ -14,6 +14,7 @@ import {
   setLocalStorageItem,
   setSessionStorageItem,
 } from "../../_utils/ClientUtils";
+import { BsFillBasket2Fill } from "react-icons/bs";
 
 function OrderSummary() {
   const router = useRouter();
@@ -187,7 +188,6 @@ function OrderSummary() {
       await GuestDeliveryDetails(payload, {
         headers: headers,
         onSuccess: async (res) => {
-         
           if (res?.data?.error == false) {
             const deliveryResp = res.data.data;
             if (deliveryResp) {
@@ -316,25 +316,42 @@ function OrderSummary() {
   };
   const clearcart = async () => {
     const userID = getLocalStorageItem("UserPersistent");
-    
+
     await clearCartItems(userID, {
       onSuccess: async (res) => {
-       
         toast.success("Cart Cleared!");
         await fetchCartList(userID);
       },
       onFailed: (err) => {
-       
         toast.err("Something Went Wrong!");
       },
     });
   };
-  
+
   return (
     <Fragment>
       <Toaster position="top-center" reverseOrder={false} />
-      <div style={{ width: "100%" }}>
-        <h3 className="order_title col-md-6">Order Summary</h3>
+      <div className="summary-sec" style={{ width: "100%" }}>
+        <div className="head-summary">
+          <div className="bsket">
+            <BsFillBasket2Fill size={24} />
+            <small> My Basket</small>
+          </div>
+          {cartLoading ? (
+            <button disabled className="clr_cart_btn col-md-6">
+              Submitting..
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="clr_cart_btn col-md-6"
+              onClick={clearcart}
+            >
+              Clear Cart
+            </button>
+          )}
+        </div>
+
         {cartLoading ? (
           <button disabled className="clr_cart_btn col-md-6">
             Submitting..
