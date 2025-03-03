@@ -14,6 +14,7 @@ import {
   redirectToLocation,
   removeSessionStorageItem,
   setLocalStorageItem,
+  setSessionStorageItem,
 } from "../../_utils/ClientUtils";
 import { AppContext } from "../../order-online-page/context";
 import { TableReservationContext } from "../context/TableReservationContext";
@@ -162,7 +163,8 @@ function ReservationLogin() {
 
             if (havAdvance) {
               router.push(`/reservation-checkout?advance=${reserAdvAmt}`);
-              return;
+            } else {
+              router.push("/tablereservation?otp=true");
             }
             completeNewReservation();
             if (guestId) {
@@ -179,7 +181,7 @@ function ReservationLogin() {
   const handleGuestLogin = () => {
     router.push("/reservation-guest");
   };
- 
+
   const completeNewReservation = async () => {
     const mergedBooking = Utils.mergeBookingDateTime(
       initialValues?.bookingDate,
@@ -204,7 +206,7 @@ function ReservationLogin() {
     } else {
       console.error("Invalid token format");
     }
-  
+
     const payload = {
       shopID: shopId,
       userID: userId?.userID,

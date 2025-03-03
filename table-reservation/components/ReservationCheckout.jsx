@@ -34,12 +34,12 @@ function ReservationCheckout() {
     setPaymentData,
     paymentError,
     createReservPaymentIntent,
+    settings,
   } = useContext(AppContext);
   const { initialValues, setSecretKey, completeReservation } = useContext(
     TableReservationContext
   );
   const [intentLoading, setIntentLoading] = useState(false);
-
   const [reservationData, setReservationData] = useState({
     name: "",
     email: "",
@@ -51,12 +51,28 @@ function ReservationCheckout() {
     price: 0,
   });
 
+  useEffect(() => {
+    const reservValue = getSessionStorageItem("reservationData");
+    if (reservValue && reservValue.length !== 0) {
+      const parsedData = JSON.parse(reservValue);
+      setReservationData(parsedData);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!settings) return;
+
+    const price = settings?.tableReservationSettings?.advanceAmount;
+    const actualPrice =
+      price && price.length !== 0 && typeof price === "string"
+        ? Number(price)
+        : 0;
+
+    setReservationData((prev) => ({ ...prev, price: actualPrice }));
+  }, [settings]);
+
   const createPaymentIntentRequest = async () => {
-    const price = searchParams.get("advance");
-
-    const actualPrice = parseInt(price) * 100;
-
-    if (actualPrice <= 0) {
+    if (reservationData.price <= 0) {
       toast.error(`Invalid Price amount!`);
       return;
     }
@@ -99,19 +115,7 @@ function ReservationCheckout() {
     }
   };
 
-  useEffect(() => {
-    const reservValue = getSessionStorageItem("reservationData");
-    const price = searchParams.get("advance");
-    if (reservValue && reservValue.length != 0) {
-      const parsedData = JSON.parse(reservValue);
-      setReservationData((prevData) => ({
-        ...parsedData,
-        price: price ?? prevData.price,
-      }));
-    }
-  }, []);
-
-  const price = searchParams.get("advance");
+  // const price = searchParams.get("advance");
 
   const completeNewReservation = async () => {
     const mergedBooking = Utils.mergeBookingDateTime(
@@ -120,12 +124,13 @@ function ReservationCheckout() {
     );
     const token = getLocalStorageItem("userToken");
 
-    const advAmt = price ? Math.round(Number(price) * 100) : 0;
-
-    if (advAmt && advAmt <= 0) {
+    if (reservationData.price && reservationData.price <= 0) {
       toast.error("Invalid price rate!");
       return;
     }
+    const advAmt = reservationData.price
+      ? Math.round(Number(reservationData.price) * 100)
+      : 0;
 
     const data = paymentData?.data?.data;
 
@@ -258,8 +263,12 @@ function ReservationCheckout() {
                         <Tb.TbReceiptPound />
                       </div>
                       <div>
-                        <p className="checkout7821_info_label">Advance Amount</p>
-                        <p className="checkout7821_info_value">£{price ?? 0}</p>
+                        <p className="checkout7821_info_label">
+                          Advance Amount
+                        </p>
+                        <p className="checkout7821_info_value">
+                          £{reservationData?.price ?? 0}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -317,7 +326,7 @@ function ReservationCheckout() {
                 onClick={createPaymentIntentRequest}
                 disabled={intentLoading}
               >
-                {`Continue Payment of £${price ?? 0}`}
+                {`Continue Payment of £${reservationData?.price ?? 0}`}
               </button>
             )}
 

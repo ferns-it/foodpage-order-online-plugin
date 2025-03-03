@@ -331,7 +331,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
       const errMsg =
         error.response?.data?.errormessage || "Something went wrong";
       toast.error(errMsg);
-  
+
       return false;
     }
   };
@@ -515,42 +515,43 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
       setSessionStorageItem("reservationData", JSON.stringify(initialValues));
 
       if (token == null || token == undefined) {
+        toast.success("Please Complete the Authentication!");
         router.push("/reservation-login");
-
-        // await sendReservationOTP(payload, {
-        //   onSuccess: (res) => {
-        //     sessionStorage.setItem("hashcode", md5Num);
-        //     // localStorage.setItem("pageState");
-        //     setSecretKey(md5Num);
-        //     const errStatus = res.data.error;
-        //     // console.log("OTP", res.data);
-
-        //     if (errStatus == false) {
-        //       const saveObj =
-        //         initialValues && typeof initialValues == "object"
-        //           ? JSON.stringify(initialValues)
-        //           : initialValues;
-
-        //       setSessionStorageItem("reserv_details", saveObj);
-        //       setSessionStorageItem("secretKey", secretKey);
-
-        //       // if (token == null || token == undefined) {
-        //       //   router.push("/reservation-login");
-        //       // } else {
-        //       //   completeNewReservation();
-        //       // }
-        //     } else {
-        //       toast.error("OTP not send!");
-        //     }
-        //   },
-        //   onFailed: (err) => {
-        //     toast.error("Error on sending OTP");
-        //     console.log("OTP ERROR", err);
-        //   },
-        //   headers: headers,
-        // });
       } else {
-        router.push(`/reservation-checkout?advance=${reserAdvAmt}`);
+        //** Check if the settings has advance amout for reservation */
+        if (havAdvance) {
+          router.push(`/reservation-checkout?advance=${reserAdvAmt}`);
+          return;
+        } else {
+          await sendReservationOTP(payload, {
+            onSuccess: (res) => {
+              sessionStorage.setItem("hashcode", md5Num);
+              // localStorage.setItem("pageState");
+              setSecretKey(md5Num);
+              const errStatus = res.data.error;
+
+              if (errStatus == false) {
+                const saveObj =
+                  initialValues && typeof initialValues == "object"
+                    ? JSON.stringify(initialValues)
+                    : initialValues;
+
+                toast.success("OTP send successfully!");
+
+                setSessionStorageItem("reserv_details", saveObj);
+                setSessionStorageItem("secretKey", secretKey);
+                setIsActiveTablePage("otp-page");
+              } else {
+                toast.error("OTP not send!");
+              }
+            },
+            onFailed: (err) => {
+              toast.error("Error on sending OTP");
+              console.log("OTP ERROR", err);
+            },
+            headers: headers,
+          });
+        }
       }
     } finally {
       setFormValidationLoading(false);
@@ -576,7 +577,6 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     if (parts.length >= 2) {
       const header = decodeBase64(parts[0]); // Decode Header
       const payload = decodeBase64(parts[1]); // Decode Payload
-
     } else {
       console.error("Invalid token format");
     }

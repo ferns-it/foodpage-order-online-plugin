@@ -1,12 +1,14 @@
-import { getSessionStorageItem } from "@/plugin/_utils/ClientUtils";
-import { useRouter } from "next/router";
+"use client";
 import React, { useContext, useState } from "react";
-import logoImage from "../../public/assets/img/logo/logo.png";
-import { AppContext } from "@/plugin/order-online-page/context";
+
+// import Logo from "../../../public/img/logo.png";
 import OTPInput from "react-otp-input";
 import * as Fi from "react-icons/fi";
 import Image from "next/image";
 import toast from "react-hot-toast";
+import { AppContext } from "../../order-online-page/context";
+import { useRouter } from "next/navigation";
+import { getSessionStorageItem } from "../../_utils/ClientUtils";
 
 function ForgotPass() {
   const { authLoading, resetPassword, passwordResetMail } =
@@ -75,7 +77,7 @@ function ForgotPass() {
       <section>
         <div className="container pt-100">
           <div className="col-md-8 mx-auto text-center mb-3">
-            <Image src={logoImage} alt="Logo" width={300} height={100} />
+            {/* <Image src={Logo} alt="Logo" width={300} height={100} /> */}
           </div>
 
           <div className="card table_reservation_card col-md-8 mx-auto mb-3">
@@ -87,12 +89,20 @@ function ForgotPass() {
               <label>
                 OTP <span className="red">*</span>
               </label>
-              <OTPInput
+              {/* <OTPInput
                 value={reservOTP}
                 onChange={(otp) => setReservOTP(otp)}
                 numInputs={5}
                 renderSeparator={<span>-</span>}
                 renderInput={(props) => <input {...props} />}
+              /> */}
+              <input
+                type="text"
+                name=""
+                id=""
+                value={reservOTP}
+                onChange={(e) => setReservOTP(e.target.value)}
+                className="form-control text-center"
               />
             </div>
 
@@ -105,7 +115,7 @@ function ForgotPass() {
                   <input
                     type={showPassword ? "text" : "password"}
                     name="userPassword"
-                    className="passwordin"
+                    className="passwordin form-control border-warning"
                     value={userPassword}
                     onChange={(e) => setUserPassword(e.target.value)}
                   />
@@ -137,16 +147,12 @@ function ForgotPass() {
             </p>
             <div className="btn-wrapper mt-3 mx-auto pb-50">
               {authLoading ? (
-                <button
-                  className="theme-btn-1 btn btn-block w-30"
-                  disabled
-                  onClick={handleResetPassword}
-                >
+                <button className="btn btn-warning btn-block w-30" disabled>
                   ...
                 </button>
               ) : (
                 <button
-                  className="theme-btn-1 btn btn-block w-30"
+                  className="btn btn-warning btn-block w-30"
                   type="button"
                   onClick={handleResetPassword}
                 >
