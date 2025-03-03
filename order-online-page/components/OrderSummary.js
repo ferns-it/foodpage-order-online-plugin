@@ -18,43 +18,41 @@ import { BsFillBasket2Fill } from "react-icons/bs";
 
 function OrderSummary() {
   const router = useRouter();
-  const params = useParams();
+
   const {
     cartItems,
     deleteSingleCartItem,
     cartLoading,
     fetchCartList,
-    locationResponse,
-    menuList,
     settings,
-    getShopSettings,
     clearCartItems,
     delivery,
     setDelivery,
-    locationResponseData,
-    setLocationResponseData,
-    // setisCheckoutActive,
     deliveryInfo,
     GuestDiscountoftakeaway,
     shopId,
+    updateCart,
     GuestDeliveryDetails,
   } = useContext(AppContext);
 
   const [showAddons, setShowAddons] = useState(null);
   const [deleteIndex, setDeleteIndex] = useState(-1);
-  const [locationData, setLocationData] = useState(null);
   const [takeawayTime, setTakeawayTime] = useState(null);
   const [error, setError] = useState(false);
   const [discount, setDiscount] = useState(0);
   const [allTotal, setAllTotal] = useState(0);
-  const [convertedDistance, setConvertedDistance] = useState(null);
   const [time, setTime] = useState("");
   const [takeaway, setTakeaway] = useState(null);
-  const [response, setResponse] = useState(null);
   const [takeawayTotal, setTakeawayTotal] = useState(null);
-  const [postcodeData, setPostcodeData] = useState(null);
   const [postalCode, setPostalCode] = useState("");
   const [locationLoading, setLocationLoading] = useState(false);
+  const [quantity, setQuantity] = useState(1); // Default to 1
+  const [product, setProduct] = useState(null);
+  useEffect(() => {
+    if (product) {
+      setQuantity(Number(product?.quantity) || 1);
+    }
+  }, [product]);
 
   useEffect(() => {
     const value = cartItems?.cartTotal?.cartTotalPrice;
@@ -86,41 +84,78 @@ function OrderSummary() {
     removeSessionStorageItem("distance");
     removeSessionStorageItem("deliveryFee");
   };
-  const processLocationData = (locationData) => {
-    if (!locationData) return;
-    const mileToKMConversionFactor = 0.62137119;
-    const distanceText = locationData?.distance?.text;
 
-    if (!distanceText) {
-      return "Data Unavailable";
+  const updateQuantity = (type, item) => {
+    if (!item) {
+      toast.error("Something went wrong, Please try again!");
+      return;
     }
+    setProduct(item);
+    setQuantity((prev) => {
+      const newQuantity =
+        type === "increase"
+          ? Number(prev) + 1
+          : Number(prev) > 1
+          ? Number(prev) - 1
+          : 1;
+      return newQuantity;
+    });
 
-    const numericDistanceKM = parseFloat(distanceText.match(/[\d\.]+/)[0]);
-    if (isNaN(numericDistanceKM)) {
-      return "Invalid Distance Data";
-    }
+    const qty =
+      quantity && typeof quantity === "string" ? Number(quantity) : quantity;
 
-    let actualDistance;
-    if (deliveryInfo?.distanceType === "Mile") {
-      actualDistance = (numericDistanceKM * mileToKMConversionFactor).toFixed(
-        2
-      );
-    } else {
-      actualDistance = numericDistanceKM.toFixed(2);
-    }
-    if (deliveryInfo?.fixedDeliveryCharge == "byDistance") {
-      sessionStorage.setItem("newdis", actualDistance);
-    }
+    const updatedQty = type === "increase" ? qty + 1 : qty > 1 ? qty - 1 : 1;
 
-    setConvertedDistance(actualDistance);
-    return actualDistance;
+    handleUpdateCart(item, updatedQty);
   };
+  const handleUpdateCart = async (item, qtyy) => {
+    try {
+      if (qtyy < 1) {
+        toast.error("Please choose minimum quantity!");
+        return;
+      }
+      const cartId = product?.cartID;
+      let userIdd;
 
-  const handleDelivery = () => {
-    setTime(null);
-    setTakeawayTime(null);
-    setDelivery(false);
-    removeSessionStorageItem("guest");
+      const token = getLocalStorageItem("token");
+      const userId = getLocalStorageItem("UserPersistent");
+
+      userIdd = token && token.length != 0 ? token : userId;
+
+      if (!userIdd || (userIdd && userIdd.length == 0)) {
+        toast.error("User unauthorized!");
+        return;
+      }
+
+      const parsedCOptions = product?.cOption
+        ? JSON.stringify(product?.cOption)
+        : "";
+
+      const payload = {
+        pID: product.pID,
+        rID: process.env.SHOP_ID,
+        qty: qtyy,
+        cOption: parsedCOptions,
+      };
+
+      const headers = {
+        user: userIdd,
+      };
+
+      await updateCart(cartId, payload, {
+        onSuccess: async (data) => {
+          toast.success("Cart updated successfully!");
+          await fetchCartList(token);
+        },
+        onFailed: (err) => {
+          toast.error(err.message || "Something went wrong!");
+          console.error(err);
+        },
+        headers,
+      });
+    } finally {
+      setProduct(null);
+    }
   };
 
   const calculateTakwawayDiscount = async () => {
@@ -171,7 +206,12 @@ function OrderSummary() {
       setLocationLoading(false);
     }
   };
-
+  const handleDelivery = () => {
+    setTime(null);
+    setTakeawayTime(null);
+    setDelivery(false);
+    removeSessionStorageItem("guest");
+  };
   const calculateDeliveryDetails = async () => {
     try {
       setLocationLoading(true);
@@ -352,20 +392,6 @@ function OrderSummary() {
           )}
         </div>
 
-        {cartLoading ? (
-          <button disabled className="clr_cart_btn col-md-6">
-            Submitting..
-          </button>
-        ) : (
-          <button
-            type="button"
-            className="clr_cart_btn col-md-6"
-            onClick={clearcart}
-          >
-            Clear Cart
-          </button>
-        )}
-
         <div className="summary_item_wrapper_029">
           {cartItems && cartItems.cartItems.length != 0 ? (
             <div className="summary_card card">
@@ -381,12 +407,79 @@ function OrderSummary() {
                       >
                         <div className="d-flex">
                           <p className="food_menu m-0 food_title_299">
-                            <strong>{item?.productName ?? "N/A"} - </strong>
+                            <div className="round-qty">{item?.quantity}</div>{" "}
+                            <div className="strong-name">
+                              {item?.productName ?? "N/A"} <br />
+                              {item?.product_total_price}
+                            </div>
                           </p>
-                          <p className="qty_order_summary">{item?.quantity}</p>
+
                           <p className="price_summary_1">
-                            {item?.product_total_price}
+                            {/* {item?.product_total_price} */}
+                            <button
+                              type="button"
+                              className="remove"
+                              onClick={() =>
+                                handleDeleteItem(item?.cartID, mainIndex)
+                              }
+                              disabled={
+                                cartLoading && deleteIndex === mainIndex
+                              }
+                            >
+                              {cartLoading && deleteIndex === mainIndex ? (
+                                <span
+                                  className="spinner-border spinner-border-sm"
+                                  role="status"
+                                  aria-hidden="true"
+                                ></span>
+                              ) : (
+                                <Fa.FaRegTrashAlt />
+                              )}
+                            </button>
                           </p>
+                        </div>
+                        <div className="cart-info">
+                          {" "}
+                          {(addOns && addOns.length != 0) ||
+                          (masterAddons && masterAddons.length != 0) ? (
+                            <button
+                              className="summary_addons_collapse_btn"
+                              onClick={() => toggleFoodLists(mainIndex)}
+                            >
+                              {showAddons && showAddons.includes(mainIndex) ? (
+                                <Fragment>
+                                  <Io.IoIosArrowRoundUp />{" "}
+                                  <span>Know less</span>
+                                </Fragment>
+                              ) : (
+                                <Fragment>
+                                  <Io.IoIosArrowRoundDown />{" "}
+                                  <span>Know more</span>
+                                </Fragment>
+                              )}
+                            </button>
+                          ) : (
+                            ""
+                          )}
+                          <div className="button-second">
+                            <div className="d-flex">
+                              <button
+                                onClick={() => updateQuantity("decrease", item)}
+                                disabled={quantity <= 1 || cartLoading}
+                                className="cart_qty_btns dec-btn"
+                              >
+                                -
+                              </button>
+                              <span className="mx-2 px-3">{quantity}</span>
+                              <button
+                                className="cart_qty_btns inc_btn"
+                                onClick={() => updateQuantity("increase", item)}
+                                disabled={cartLoading}
+                              >
+                                +
+                              </button>
+                            </div>
+                          </div>
                         </div>
                         <div
                           className={`add_ons_wrapper_order_summary ${
@@ -448,49 +541,6 @@ function OrderSummary() {
                                 );
                               })}
                           </table>
-                        </div>
-
-                        <div className="d-flex mt-2">
-                          {(addOns && addOns.length != 0) ||
-                          (masterAddons && masterAddons.length != 0) ? (
-                            <button
-                              className="summary_addons_collapse_btn"
-                              onClick={() => toggleFoodLists(mainIndex)}
-                            >
-                              {showAddons && showAddons.includes(mainIndex) ? (
-                                <Fragment>
-                                  <Io.IoIosArrowRoundUp />{" "}
-                                  <span>Know less</span>
-                                </Fragment>
-                              ) : (
-                                <Fragment>
-                                  <Io.IoIosArrowRoundDown />{" "}
-                                  <span>Know more</span>
-                                </Fragment>
-                              )}
-                            </button>
-                          ) : (
-                            ""
-                          )}
-
-                          <button
-                            type="button"
-                            className="remove"
-                            onClick={() =>
-                              handleDeleteItem(item?.cartID, mainIndex)
-                            }
-                            disabled={cartLoading && deleteIndex === mainIndex}
-                          >
-                            {cartLoading && deleteIndex === mainIndex ? (
-                              <span
-                                className="spinner-border spinner-border-sm"
-                                role="status"
-                                aria-hidden="true"
-                              ></span>
-                            ) : (
-                              <Fa.FaRegTrashAlt />
-                            )}
-                          </button>
                         </div>
                       </div>
                     </>
@@ -565,7 +615,7 @@ function OrderSummary() {
               className="row mt-3 mx-auto mx-auto"
               style={{ display: "flex" }}
             >
-              {/* <div className="col-md-6" style={{ flex: 1, fontSize: "15px" }}>
+              <div className="col-md-6" style={{ flex: 1, fontSize: "15px" }}>
                 <label>
                   <input
                     type="radio"
@@ -575,7 +625,7 @@ function OrderSummary() {
                   />
                   Delivery
                 </label>
-              </div> */}
+              </div>
 
               {deliveryInfo?.takeAway == 1 &&
                 deliveryInfo?.takeAway_temp_off === "No" && (

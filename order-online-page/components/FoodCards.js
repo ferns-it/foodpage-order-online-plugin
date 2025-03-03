@@ -103,6 +103,7 @@ function FoodCards(category) {
                         <div className="row">
                           {products && products.length != 0 ? (
                             products?.map((data, index) => {
+                              console.log(data, "data");
                               return (
                                 <div
                                   className=" col-lg-12 col-md-12 col-sm-12 position-relative mb-3"
@@ -148,26 +149,24 @@ function FoodCards(category) {
                                               </div>
                                             </div>{" "}
                                           </div>
-                                          <div className="col-md-4 col-sm-12">
-                                            {" "}
-                                            <div className="container-img">
-                                              <Image
-                                                layout="responsive"
-                                                src={data?.photo}
-                                                width={150}
-                                                height={0}
-                                                alt=""
-                                                className={
-                                                  data?.online === "No" ||
-                                                  data?.isAvailable === false ||
-                                                  data?.availability === false
-                                                    ? "fd_card_grayscale"
-                                                    : "image-online "
-                                                }
-                                                referrerPolicy="no-referrer"
-                                              />
-                                            </div>
-                                          </div>
+                                          {data?.photo !=
+                                            "https://foodpage.co.uk/theme/dish_placeholder.png" && (
+                                            <>
+                                              <div className="col-md-4 col-sm-12">
+                                                <div className="container-img">
+                                                  <Image
+                                                    layout="responsive"
+                                                    src={data?.photo}
+                                                    width={150}
+                                                    height={0}
+                                                    alt=""
+                                                    className="image-online "
+                                                    referrerPolicy="no-referrer"
+                                                  />
+                                                </div>
+                                              </div>
+                                            </>
+                                          )}
                                         </div>
                                       </div>
                                     </div>

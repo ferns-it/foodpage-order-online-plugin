@@ -21,7 +21,7 @@ export const AppContext = createContext();
 
 export const AppContextProvider = (props) => {
   const [productsList, setProductsList] = useState([]);
-  const [delivery, setDelivery] = useState(true);
+  const [delivery, setDelivery] = useState(false);
   const [productsListLoading, setProductsLoading] = useState(false);
   // const [isCheckoutActive, setisCheckoutActive] = useState(false);
   const [locationResponseData, setLocationResponseData] = useState(null);
@@ -97,6 +97,7 @@ export const AppContextProvider = (props) => {
     diningList,
     fetchCurrentShopStatus,
     currentStatus,
+    updateCart,
   } = useMenus();
   const {
     authLoading,
@@ -395,6 +396,7 @@ export const AppContextProvider = (props) => {
         userAddressList,
         setUserInfo,
         expired,
+        updateCart,
         setDefaultAddress,
         deleteSavedAddress,
         fetchOrderHistory,

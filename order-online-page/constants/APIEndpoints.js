@@ -38,4 +38,5 @@ export const APIEndpoints = {
   defaultAddress: "user/setdefaultaddress",
   deleteAddress: "user/deleteaddress",
   getReservationList: "user/diningtable/reservation/history",
+  updateCart: "user/web/carts",
 };

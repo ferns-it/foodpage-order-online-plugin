@@ -608,6 +608,7 @@ body {
   text-align: center;
   font-weight: 700;
   color: #7777;
+  margin-top: 30px;
   user-select: none;
 }
 
@@ -615,7 +616,7 @@ body {
   position: relative;
   padding: 10px;
   width: 100%;
-  background-color: #faf3cc;
+  background-color: #ffffff;
   /* border: 1px solid #ffad02; */
   border: none;
   margin-bottom: 10px;
@@ -624,6 +625,7 @@ body {
 .summary_card > .food_menu {
   font-size: 14px;
   font-weight: 600;
+  display: flex;
   margin-bottom: 0;
   text-wrap: nowrap;
 }
@@ -632,9 +634,18 @@ body {
   /* text-wrap: nowrap; */
   /* text-overflow: ellipsis; */
   max-width: 200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   overflow: hidden;
 }
+.strong-name {
+  margin-left: 10px;
+  font-size: 16px;
+  font-weight: 600;
 
+  font-family: var(--poppins-font);
+}
 .price_summary_1 {
   font-weight: 700;
   font-size: 15px;
@@ -1623,12 +1634,19 @@ body {
 .summary_addons_collapse_btn {
   border: none;
   outline: none;
-  border-radius: 50%;
+  /* border-radius: 50%; */
   background-color: transparent;
   color: #252525;
+  position: relative;
+  left: 40px;
   transition: all 0.2s ease-in-out;
 }
-
+button:focus,
+input:focus,
+a:focus {
+  outline: none;
+  box-shadow: none;
+}
 .summary_addons_collapse_btn > span {
   font-size: 13px;
   font-weight: 600;
@@ -2933,4 +2951,31 @@ div.food_tile__.active img {
   font-size: 22px;
   font-weight: 600;
   font-family: var(--poppins-font);
+}
+.round-qty {
+  background-color: #028643;
+  width: 35px;
+  height: 35px;
+  padding: 5px;
+  font-weight: 600;
+  color: #fff;
+  border-radius: 50%;
+  text-align: center;
+}
+.cart-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cart_qty_btns {
+  outline: none;
+  padding: 0 10px;
+  border-radius: 5px;
+  transition: all 0.2s ease-in-out;
+  background-color: #eee;
+}
+
+.list_tr:hover td .cart_qty_btns {
+  background-color: #31337c;
+  color: #fff;
 }

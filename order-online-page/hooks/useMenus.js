@@ -101,6 +101,7 @@ const useMenus = () => {
       setCartLoading(false);
     }
   };
+
   const addToCart = async (payload, { onSuccess, onFailed, headers }) => {
     try {
       setCartLoading(true);
@@ -113,6 +114,23 @@ const useMenus = () => {
       setCartLoading(false);
     }
   };
+    const updateCart = async (
+      id,
+      payload,
+      { onSuccess, onFailed, headers }
+    ) => {
+      try {
+        setCartLoading(true);
+        await BaseClient.put(APIEndpoints.updateCart + `/${id}`, payload, {
+          onSuccess: onSuccess,
+          onFailed: onFailed,
+          headers: headers,
+        });
+      } finally {
+        setCartLoading(false);
+      }
+    };
+
   const getLocation = async (origin, destination) => {
     try {
       setMenuLoading(true);
@@ -253,6 +271,7 @@ const useMenus = () => {
     clearCartItems,
     fetchCurrentShopStatus,
     currentStatus,
+    updateCart,
   };
 };
 
