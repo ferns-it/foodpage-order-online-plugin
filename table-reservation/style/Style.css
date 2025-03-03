@@ -1936,6 +1936,11 @@ abbr[title] {
   border-radius: 5px;
   transition: all 0.2s ease-in-out;
 }
+button:focus,
+button:active {
+  outline: none !important;
+  border: none !important;
+}
 .resrv_btnn i {
   font-size: 14px;
 }
@@ -1951,12 +1956,14 @@ abbr[title] {
   position: absolute;
   background-color: transparent;
   /* color: #252525; */
-  right: -70px;
-  width: 50%;
+  right: 0 !important;
+  width: 100px;
   float: right;
+  border: none !important;
+  outline: none !important;
 }
 
-#new_update{
+#new_update {
   right: 0;
 }
 .update_reserv:hover {

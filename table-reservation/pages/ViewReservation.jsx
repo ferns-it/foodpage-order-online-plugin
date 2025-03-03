@@ -81,9 +81,9 @@ function ViewReservation() {
     };
 
     fetchData();
-    if (reservationDetails) {
-      const [date, time] =
-        reservationDetails && reservationDetails?.bookingTime?.split(" ");
+    if (reservationDetails && !reservationLoading) {
+      const [date, time] = (reservationDetails?.bookingTime ?? "").split(" ");
+
       setUpdatedValue({
         name: reservationDetails?.name,
         email: reservationDetails?.email,
@@ -100,7 +100,7 @@ function ViewReservation() {
     if (!reservationDetails) return;
     checkIsExpired();
 
-    const [date, time] = reservationDetails && reservationDetails?.bookingTime;
+    // const [date, time] = reservationDetails && reservationDetails?.bookingTime;
     const today = new Date().getDate();
     const bookingDate = new Date(reservationDetails?.bookingTime)?.getDate();
 
@@ -301,6 +301,8 @@ function ViewReservation() {
     }
   };
 
+  
+
   return (
     <Fragment>
       <ReservModal
@@ -332,7 +334,7 @@ function ViewReservation() {
                   reservationDetails?.status !== "Modified" && (
                     <button
                       type="button"
-                      className="resrv_btnn update_reserv"
+                      className="update_reserv"
                       onClick={() => setIsEdit(!isEdit)}
                       id="new_update"
                     >
@@ -498,12 +500,14 @@ function ViewReservation() {
                   </table>
                 </form>
 
-                {isExpired === false &&
-                reservationDetails?.status != "Cancelled" ? (
-                  <Fragment>
-                    {!isEdit ? (
-                      <div className="btn_grp">
-                        {/* <button
+                {!reservationLoading && (
+                  <>
+                    {isExpired === false &&
+                    reservationDetails?.status != "Cancelled" ? (
+                      <Fragment>
+                        {!isEdit ? (
+                          <div className="btn_grp">
+                            {/* <button
                       type="button"
                       className="resrv_btnn mail_reserv"
                       onClick={handleSendMail}
@@ -513,69 +517,71 @@ function ViewReservation() {
                       </i>
                       Mail to Restaurant
                     </button> */}
+                            <button
+                              type="button"
+                              className="resrv_btnn cancel_reserv"
+                              onClick={handleCancelConfirm}
+                              disabled={reservationLoading}
+                            >
+                              <i className="pe-2">
+                                <Tb.TbCalendarCancel />
+                              </i>
+                              Cancel Reservation
+                            </button>{" "}
+                            <button
+                              type="button"
+                              className="back-reserv-btn"
+                              onClick={() => router.back()}
+                            >
+                              Back
+                            </button>{" "}
+                          </div>
+                        ) : (
+                          <button
+                            type="submit"
+                            className="resrv_btnn cancel_reserv mt-2"
+                            onClick={handleUpdate}
+                            style={{ width: "30%", margin: "0 auto" }}
+                            disabled={reservationLoading}
+                          >
+                            {!reservationLoading ? (
+                              <>
+                                {" "}
+                                <i className="pe-2">
+                                  <Tb.TbPencilDown />
+                                </i>
+                                Update
+                              </>
+                            ) : (
+                              <Fragment>
+                                <div
+                                  className="spinner-border spinner-border-sm text-light"
+                                  role="status"
+                                ></div>
+                                <span className="sr-only ps-2">Loading...</span>
+                              </Fragment>
+                            )}
+                          </button>
+                        )}
+                      </Fragment>
+                    ) : (
+                      <Fragment>
+                        <p className="expiry_reserv text-center text-danger">{`This reservation is ${
+                          reservationDetails &&
+                          reservationDetails?.status == "Cancelled"
+                            ? "Cancelled"
+                            : "Expired"
+                        }!`}</p>
                         <button
                           type="button"
-                          className="resrv_btnn cancel_reserv"
-                          onClick={handleCancelConfirm}
-                          disabled={reservationLoading}
-                        >
-                          <i className="pe-2">
-                            <Tb.TbCalendarCancel />
-                          </i>
-                          Cancel Reservation
-                        </button>{" "}
-                        <button
-                          type="button"
-                          className="back-reserv-btn"
+                          className="new-reser-btn outline-none border-none"
                           onClick={() => router.back()}
                         >
                           Back
-                        </button>{" "}
-                      </div>
-                    ) : (
-                      <button
-                        type="submit"
-                        className="resrv_btnn cancel_reserv mt-2"
-                        onClick={handleUpdate}
-                        style={{ width: "30%", margin: "0 auto" }}
-                        disabled={reservationLoading}
-                      >
-                        {!reservationLoading ? (
-                          <>
-                            {" "}
-                            <i className="pe-2">
-                              <Tb.TbPencilDown />
-                            </i>
-                            Update
-                          </>
-                        ) : (
-                          <Fragment>
-                            <div
-                              className="spinner-border spinner-border-sm text-light"
-                              role="status"
-                            ></div>
-                            <span className="sr-only ps-2">Loading...</span>
-                          </Fragment>
-                        )}
-                      </button>
+                        </button>
+                      </Fragment>
                     )}
-                  </Fragment>
-                ) : (
-                  <Fragment>
-                    <p className="expiry_reserv text-center text-danger">{`This reservation is ${
-                      reservationDetails &&
-                      reservationDetails?.status == "Cancelled"
-                        ? "Cancelled"
-                        : "Expired"
-                    }!`}</p>
-                    <button
-                      type="button"
-                      className="new-reser-btn outline-none border-none"
-                      onClick={() => router.back()}
-                    >
-                      Back
-                    </button>
-                  </Fragment>
+                  </>
                 )}
               </div>
             </div>

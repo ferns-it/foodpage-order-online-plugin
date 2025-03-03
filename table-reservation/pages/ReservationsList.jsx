@@ -6,7 +6,10 @@ import Utils from "../utils/Utils";
 import * as Fa from "react-icons/fa";
 import CryptoJS from "crypto-js";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getSessionStorageItem } from "../../_utils/ClientUtils";
+import {
+  getSessionStorageItem,
+  reloadCurrentLocation,
+} from "../../_utils/ClientUtils";
 
 import "../style/Style.css";
 import Skeleton from "react-loading-skeleton";
@@ -15,13 +18,22 @@ import "react-loading-skeleton/dist/skeleton.css";
 function ReservationsList() {
   const router = useRouter();
 
-  const { reservationDetails, manageReservList, setManageReservList } =
-    useContext(TableReservationContext);
+  const {
+    reservationDetails,
+    manageReservList,
+    setManageReservList,
+    reservationLoading,
+  } = useContext(TableReservationContext);
   const [listLoading, setListLoading] = useState(false);
 
   useEffect(() => {
     try {
       setListLoading(true);
+
+      if (reservationDetails && typeof reservationDetails == "object") {
+        reloadCurrentLocation();
+        return;
+      }
 
       if (!reservationDetails) {
         const reservData = getSessionStorageItem("reservData");
@@ -50,7 +62,7 @@ function ReservationsList() {
       <button
         type="button"
         className="back-btn btn"
-        onClick={() => router.push('/tablereservation')}
+        onClick={() => router.push("/tablereservation")}
       >
         Back to Reservation
       </button>
@@ -68,9 +80,10 @@ function ReservationsList() {
           </tr>
         </thead>
         <tbody>
-          {!listLoading ? (
+          {!listLoading && !reservationLoading ? (
             <>
-              {manageReservList &&
+              {manageReservList != null &&
+                Array.isArray(manageReservList) &&
                 manageReservList.length != 0 &&
                 manageReservList.map((list, idx4) => {
                   const [date, time] = list.bookingTime.split(" ");
