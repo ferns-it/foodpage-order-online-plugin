@@ -46,14 +46,21 @@ function OrderSummary() {
   const [takeawayTotal, setTakeawayTotal] = useState(null);
   const [postalCode, setPostalCode] = useState("");
   const [locationLoading, setLocationLoading] = useState(false);
-  const [quantity, setQuantity] = useState(1); // Default to 1
+  const [quantities, setQuantities] = useState({});
   const [product, setProduct] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(-1);
+
   useEffect(() => {
-    if (product) {
-      setQuantity(Number(product?.quantity) || 1);
+    if (cartItems?.cartItems?.length) {
+      const initialQuantities = {};
+      cartItems.cartItems.forEach((item) => {
+        if (item?.id) {
+          initialQuantities[item.id] = Number(item.quantity) || 1;
+        }
+      });
+      setQuantities(initialQuantities);
     }
-  }, [product]);
+  }, [cartItems]);
 
   useEffect(() => {
     const value = cartItems?.cartTotal?.cartTotalPrice;
@@ -86,30 +93,25 @@ function OrderSummary() {
     removeSessionStorageItem("deliveryFee");
   };
 
-  const updateQuantity = (type, product) => {
-    if (!product) {
+  const updateQuantity = (type, item) => {
+    console.log(item, "item");
+
+    if (!item || !item.cartID) {
       toast.error("Something went wrong, Please try again!");
       return;
     }
-    setProduct(item);
-    setSelectedIndex(index);
-    setQuantity((prev) => {
+
+    setQuantities((prev) => {
+      const currentQty = prev[item.id] ?? Number(item.quantity) ?? 1;
+
       const newQuantity =
-        type === "increase"
-          ? Number(prev) + 1
-          : Number(prev) > 1
-          ? Number(prev) - 1
-          : 1;
-      return newQuantity;
+        type === "increase" ? currentQty + 1 : Math.max(currentQty - 1, 1);
+
+      handleUpdateCart(item, newQuantity); 
+      return { ...prev, [item.id]: newQuantity };
     });
-
-    const qty =
-      quantity && typeof quantity === "string" ? Number(quantity) : quantity;
-
-    const updatedQty = type === "increase" ? qty + 1 : qty > 1 ? qty - 1 : 1;
-
-    handleUpdateCart(product, updatedQty);
   };
+
   const handleUpdateCart = async (item, qtyy) => {
     try {
       if (qtyy < 1) {
@@ -466,20 +468,21 @@ function OrderSummary() {
                           <div className="button-second">
                             <div className="d-flex cover-btn">
                               <button
-                                onClick={() =>
-                                  updateQuantity("decrease", item, index)
+                                onClick={() => updateQuantity("decrease", item)}
+                                disabled={
+                                  quantities[item.id] <= 1 || cartLoading
                                 }
-                                disabled={quantity <= 1 || cartLoading}
                                 className="cart_qty_btns dec-btn"
                               >
                                 -
                               </button>
-                              <span className="px-3 f-16">{quantity}</span>
+                              <span className="px-3 f-16">
+                                {quantities[item.id] ?? item.quantity ?? 1}
+                              </span>
+
                               <button
                                 className="cart_qty_btns inc_btn"
-                                onClick={() =>
-                                  updateQuantity("increase", item, index)
-                                }
+                                onClick={() => updateQuantity("increase", item)}
                                 disabled={cartLoading}
                               >
                                 +
@@ -560,7 +563,10 @@ function OrderSummary() {
                       <tbody>
                         <tr className="discount_order_summary">
                           <td>
-                            <b>Cart total</b>
+                            <h4>
+                              {" "}
+                              <b>Cart total</b>
+                            </h4>
                           </td>
                           <td>
                             <b>{cartItems?.cartTotal?.cartTotalPriceDisplay}</b>
@@ -622,6 +628,9 @@ function OrderSummary() {
               style={{ display: "flex" }}
             >
               <div className="col-md-6" style={{ flex: 1, fontSize: "15px" }}>
+                <div className="card p-3">
+
+                </div>
                 <label>
                   <input
                     type="radio"

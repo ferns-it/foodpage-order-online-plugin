@@ -103,7 +103,6 @@ function FoodCards(category) {
                         <div className="row">
                           {products && products.length != 0 ? (
                             products?.map((data, index) => {
-                              console.log(data, "data");
                               return (
                                 <div
                                   className=" col-lg-12 col-md-12 col-sm-12 position-relative mb-3"
