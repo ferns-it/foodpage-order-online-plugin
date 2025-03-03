@@ -304,6 +304,7 @@ function OrderSummaryCheckout() {
     console.log(emptyKeys);
     return emptyKeys;
   };
+
   const completeOrder = async () => {
     try {
       setPaymentLoading(true);
@@ -350,6 +351,9 @@ function OrderSummaryCheckout() {
           toast.error("Invalid Price!");
           return;
         }
+        const pickupTimeData = details?.generalData?.pickupTime?.pickupTime;
+      
+
         //!payload here
         const payload = {
           shopID: data?.shopID != null ? data?.shopID : shopId,
@@ -373,7 +377,7 @@ function OrderSummaryCheckout() {
           deliveryLocation: formState?.postalCode,
           takeawayTime:
             deliveryType === "store_pickup"
-              ? sessionStorage.getItem("takeawaytime")
+              ? pickupTimeData
               : "",
           customer: {
             customerName: formState?.fullname,
@@ -388,7 +392,8 @@ function OrderSummaryCheckout() {
           },
           source: "NextJs",
         };
-      
+
+
         let headers = {
           User: userToken,
         };
