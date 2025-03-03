@@ -48,6 +48,7 @@ input {
   padding: 10px;
   float: right;
   transition: all 0.2s ease-in-out;
+  overflow: scroll;
 }
 @media screen and (max-width: 991px) {
   #alter_card {
@@ -1908,10 +1909,10 @@ abbr[title] {
 }
 @media screen and (max-width: 600px) {
   .reser_table_value {
-    font-size: 10px;
+    font-size: 12px;
   }
   .reserv_table_sub_head {
-    font-size: 10px !important;
+    font-size: 12px !important;
   }
 }
 .reserv_table_sub_head {

@@ -2177,6 +2177,9 @@ body {
   .varient_name {
     white-space: unset;
   }
+  .reserv_modal_btn {
+    width: 100%;
+  }
 }
 
 @media screen and (max-width: 676px) {
