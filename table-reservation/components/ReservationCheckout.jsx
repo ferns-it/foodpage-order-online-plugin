@@ -147,7 +147,7 @@ function ReservationCheckout() {
       email: reservationData?.email,
       totalChair: reservationData?.noOfChairs,
       reservationDateTime: mergedBooking,
-      advancePayment: "yes",
+      advancePayment: "Yes",
       advanceAmount: advAmt,
       paymentMethod: "STRIPE",
       transactionID: data?.paymentIntent?.id,
