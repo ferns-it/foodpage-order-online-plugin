@@ -3,8 +3,8 @@ import * as Fa from "react-icons/fa";
 import * as Io from "react-icons/io";
 import * as Tb from "react-icons/tb";
 import { toast, Toaster } from "react-hot-toast";
-import axios from "axios";
-import { useParams } from "react-router-dom";
+import DeliveryBike from "../assets/DeliveryScooter.png";
+import Shop from "../assets/NewStore.png";
 import { AppContext } from "../context";
 import { useRouter } from "next/navigation";
 import {
@@ -15,6 +15,7 @@ import {
   setSessionStorageItem,
 } from "../../_utils/ClientUtils";
 import { BsFillBasket2Fill } from "react-icons/bs";
+import Image from "next/image";
 
 function OrderSummary() {
   const router = useRouter();
@@ -107,7 +108,7 @@ function OrderSummary() {
       const newQuantity =
         type === "increase" ? currentQty + 1 : Math.max(currentQty - 1, 1);
 
-      handleUpdateCart(item, newQuantity); 
+      handleUpdateCart(item, newQuantity);
       return { ...prev, [item.id]: newQuantity };
     });
   };
@@ -623,40 +624,64 @@ function OrderSummary() {
         <div className="line__"></div>
         {settings?.shopStatus == "open" && (
           <>
-            <div
-              className="row mt-3 mx-auto mx-auto"
-              style={{ display: "flex" }}
-            >
-              <div className="col-md-6" style={{ flex: 1, fontSize: "15px" }}>
-                <div className="card p-3">
-
+            <div className="row mt-3 mx-auto d-flex">
+              {/* Delivery Option */}
+              <div
+                className={`col-md-6 option-card  ${
+                  !delivery ? "selected" : ""
+                }`}
+                onClick={handleDelivery}
+              >
+                <div className="card mx-auto text-center">
+                  <div className="mx-auto text-center">
+                    <Image
+                      src={DeliveryBike}
+                      width={50}
+                      height={0}
+                      alt="Delivery"
+                      className={`option-icon ${
+                        !delivery ? "active-icon" : ""
+                      }`}
+                    />{" "}
+                    <p
+                      className={delivery ? "selected-text" : "unselected-text"}
+                    >
+                      Delivery
+                    </p>
+                  </div>
                 </div>
-                <label>
-                  <input
-                    type="radio"
-                    className="radio_btn"
-                    checked={!delivery}
-                    onChange={handleDelivery}
-                  />
-                  Delivery
-                </label>
               </div>
 
+              {/* Takeaway Option */}
               {deliveryInfo?.takeAway == 1 &&
                 deliveryInfo?.takeAway_temp_off === "No" && (
                   <div
-                    className="col-md-6"
-                    style={{ flex: 1, fontSize: "15px" }}
+                    className={`col-md-6 option-card ${
+                      delivery ? "selected" : ""
+                    }`}
+                    onClick={handleTakeaway}
                   >
-                    <label>
-                      <input
-                        type="radio"
-                        className="radio_btn"
-                        checked={delivery}
-                        onChange={handleTakeaway}
-                      />{" "}
-                      Takeaway
-                    </label>
+                    <div className="card p-3 mx-auto text-center">
+                      <div className="mx-auto text-center">
+                        {" "}
+                        <Image
+                          src={Shop}
+                          width={50}
+                          height={0}
+                          alt="Takeaway"
+                          className={`option-icon ${
+                            delivery ? "active-icon" : ""
+                          }`}
+                        />{" "}
+                        <p
+                          className={
+                            !delivery ? "selected-text" : "unselected-text"
+                          }
+                        >
+                          Take Away
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 )}
             </div>
@@ -664,7 +689,9 @@ function OrderSummary() {
             <div className="row">
               {delivery == false &&
               deliveryInfo?.homeDelivery_temp_off === "No" ? (
-                <div style={{ width: "100%", padding: "10px" }}>
+                <div
+                  style={{ width: "90%", padding: "10px", margin: "0px auto" }}
+                >
                   <label htmlFor="" className="opt_label_827">
                     Postal Code
                   </label>
@@ -698,9 +725,11 @@ function OrderSummary() {
                       onChange={validateCurrentTime}
                     />
                   </div>
-                  {error && <div className="error-message">{error}</div>}
-                  <div className="mt-2 text-center">
-                    <small className="">
+                  {error && (
+                    <div className="error-message messasge-card">{error}</div>
+                  )}
+                  <div className="messasge-card">
+                    <small className="messasge-card">
                       Your Food will be ready in just
                       {" " + deliveryInfo?.minWaitingTime} minutes!{" "}
                     </small>
@@ -741,37 +770,34 @@ function OrderSummary() {
               ""
             )}
 
-            <h6
-              style={{
-                color: "#da6d6d",
-                fontSize: "10px",
-                fontWeight: "500",
-                fontFamily: "sans-serif",
-              }}
-              className="text-center"
-            >
+            <h6 className="text-center messasge-card mb-4">
               Minimum Amount for Card payment is £
               {settings?.deliveryInfo?.onlinePaymentMinAmount}
             </h6>
-            <button
-              type="button"
-              className="order_now_192"
-              onClick={handleAddress}
-              disabled={
-                !cartItems ||
-                cartItems.cartItems.length == 0 ||
-                locationLoading === true
-              }
-            >
-              {!locationLoading ? (
-                "Order Now"
-              ) : (
-                <div
-                  className="spinner-border spinner-border-sm text-light"
-                  role="status"
-                ></div>
-              )}
-            </button>
+            <div className="mx-auto text-center">
+              <button
+                type="button"
+                className="order_now_192"
+                onClick={handleAddress}
+                disabled={
+                  !cartItems ||
+                  cartItems.cartItems.length == 0 ||
+                  locationLoading === true
+                }
+              >
+                <i className="icon-next">
+                  <Fa.FaArrowAltCircleRight />
+                </i>
+                {!locationLoading ? (
+                  "Order Now"
+                ) : (
+                  <div
+                    className="spinner-border spinner-border-sm text-light"
+                    role="status"
+                  ></div>
+                )}
+              </button>
+            </div>
           </>
         )}
       </div>

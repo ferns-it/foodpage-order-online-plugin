@@ -749,21 +749,29 @@ body {
 }
 
 .order_now_192 {
-  width: 100%;
-  margin-top: 20px;
+  width: 90%;
+  height: 70px;
+  margin: 0px auto !important;
   padding: 7px 0;
   border: none;
   outline: none;
-  background-color: #064340;
+  background-color: #028643;
   color: #fff;
   font-size: 16px;
+  display: flex;
+  justify-content: flex-start;
   font-weight: 700;
   border-radius: 5px;
   transition: all 0.2s ease-in-out;
+  align-items: center;
 }
-
+.icon-next {
+  padding-left: 25px;
+  font-size: 25px;
+  margin-right: 70px;
+}
 .order_now_192:hover {
-  background-color: #e7b532;
+  background-color: #028643;
 }
 
 .order_now_192:disabled {
@@ -2054,7 +2062,7 @@ a:focus {
 }
 .online-card {
   border: 1px solid rgb(194, 194, 194);
-  width:55%;
+  width: 55%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -3019,8 +3027,16 @@ div.food_tile__.active img {
   padding: 15px;
   border: 2px solid transparent;
   background: #f9f9f9;
+  height: 83px;
+  font-weight: 600;
+  letter-spacing: 0px;
+  overflow: hidden;
 }
-
+.messasge-card {
+  color: #c11014;
+  font-family: var(--poppins-font);
+  font-size: 13px;
+}
 .option-card.selected .card {
   border-color: #4caf50;
   background: #eef7ee;
@@ -3040,4 +3056,29 @@ div.food_tile__.active img {
 
 .option-card.selected span {
   color: #000;
+}
+.selected-text {
+  padding: 0;
+  margin: 0;
+  font-family: var(--poppins-font);
+  font-weight: 600;
+}
+.Order-online-Section {
+  background-color: #fbf7ee;
+}
+.head-order {
+  font-size: 40px;
+  font-family: var(--playfair-font);
+  padding-top: 70px;
+  padding-bottom: 70px;
+  font-weight: 800 !important;
+}
+.sec-container {
+  width: 90%;
+  margin: 0px auto;
+  font-size: 30px;
+}
+.order-banner {
+  width: 90%;
+  margin: 0px auto;
 }

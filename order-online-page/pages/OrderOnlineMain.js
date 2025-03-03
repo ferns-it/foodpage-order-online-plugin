@@ -5,26 +5,14 @@ import "../style/order-online-style.css";
 import FoodCards from "../components/FoodCards";
 import OrderSummary from "../components/OrderSummary";
 import FoodAccordian from "../components/FoodAccordian";
-import { MdTableBar } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import LoaderComp from "../components/LoaderComp";
 import { TableReservationContext } from "../../table-reservation/context/TableReservationContext";
-import Utils from "../../table-reservation/utils/Utils";
 import "../../table-reservation/style/style.css";
 import "../style/order-online-style.css";
 import { ImSpoonKnife } from "react-icons/im";
 import { BiFoodMenu } from "react-icons/bi";
 
-const ThemeTitle = ({ htmlString }) => {
-  const cleanHtmlString = htmlString.replace(/\r\n/g, "");
-
-  return (
-    <div
-      className="banner_title"
-      dangerouslySetInnerHTML={{ __html: cleanHtmlString }}
-    />
-  );
-};
 
 const OrderOnlineMain = () => {
   const router = useRouter();
@@ -37,21 +25,9 @@ const OrderOnlineMain = () => {
     settingsLoading,
     menuLoading,
   } = useContext(AppContext);
-  const {
-    getShopTiming,
-    shopTiming,
-    isTimingLoading,
-    // reservationLoading,
-    // sendReservationOTP,
-    // setInitialValues,
-    // initialValues,
-    // secretKey,
-    // setSecretKey,
-  } = useContext(TableReservationContext);
   const [activeChipIndex, setActiveChipIndex] = useState(-1);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [isSticky, setIsSticky] = useState(false);
-  const shopId = process.env.SHOP_ID;
 
   useEffect(() => {
     if (!categoryList) return;
@@ -209,6 +185,18 @@ const OrderOnlineMain = () => {
               >
                 <OrderSummary />
               </div>
+            </div>
+          </div>
+          <div className="Order-online-Section">
+            {" "}
+            <div className="sec-container">
+              <h1 className="head-order">How Does Muziris.uk Work</h1>
+            </div>
+          </div>
+          <div className="order-banner">
+            <div className="row">
+            
+             
             </div>
           </div>
         </Fragment>
