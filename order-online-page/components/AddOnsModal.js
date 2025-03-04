@@ -356,17 +356,23 @@ function AddOnsModal(props) {
       >
         <div className="moadl_02901 animate__animated" ref={modalRef}>
           <div className="row">
-            <div className="col-md-3 col-sm-12">
-              {" "}
-              <div className="product_img_bg_029">
-                <img
-                  src={itemData && itemData?.photo}
-                  alt=""
-                  referrerPolicy="no-referrer"
-                />
-              </div>
-            </div>
+            {itemData &&
+              itemData?.photo !=
+                "https://development.foodpage.co.uk/theme/dish_placeholder.png" && (
+                <div className="col-md-3 col-sm-12">
+                  {" "}
+                  <div className="product_img_bg_029">
+                    <img
+                      src={itemData && itemData?.photo}
+                      alt=""
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
+                </div>
+              )}
+
             <div className="col-md-8 col-sm-12">
+             
               <div className="cont-order">
                 <h6 className="Head-dish">{itemData?.name ?? "N/A"}</h6>
                 <p className="dish-head-para">
@@ -374,6 +380,32 @@ function AddOnsModal(props) {
                     Utils.removeSpecialCharacters(itemData?.description)}
                 </p>
                 <div className="btn_grp_8392">
+                  <div>
+                    <div className="order-modal-container">
+                      <input
+                        type="checkbox"
+                        id="toggle"
+                        className="toggle-checkbox"
+                      />
+                      <div className="counter-container">
+                        <label
+                          htmlFor="toggle"
+                          className="in-btn"
+                          onClick={handleDecrement}
+                        >
+                          -
+                        </label>
+                        <span className="counter-text">{count}</span>
+                        <label
+                          htmlFor="toggle"
+                          className="in-btn"
+                          onClick={() => setCount(count + 1)}
+                        >
+                          +
+                        </label>
+                      </div>
+                    </div>
+                  </div>
                   {foodValues?.online === "Yes" &&
                     foodValues?.isAvailable != false &&
                     foodValues?.availability != false && (
@@ -403,13 +435,13 @@ function AddOnsModal(props) {
                       </button>
                     )}
 
-                  <button
+                  {/* <button
                     type="button"
                     className="cancel_btn_8392 btn_8392"
                     onClick={() => props.setShowModal(false)}
                   >
                     cancel
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>
@@ -424,41 +456,16 @@ function AddOnsModal(props) {
             <Io5.IoCloseCircle />
           </button>
           <div className="container content_container_02901">
-            <h2 className="food_name_02901">{itemData?.name ?? "N/A"}</h2>
+            {/* <h2 className="food_name_02901">{itemData?.name ?? "N/A"}</h2>
             <p className="food_desc_02901">
               {itemData?.description &&
                 Utils.removeSpecialCharacters(itemData?.description)}
-            </p>
+            </p> */}
             <p className="price_02901">
               {/* £{total && total.length != 0 ? total.toFixed(2) : 0} */}£
               {cardTotal}
             </p>
-            <div className="mx-auto text-center" style={{ width: "100%" }}>
-              <div className="order-modal-container">
-                <input
-                  type="checkbox"
-                  id="toggle"
-                  className="toggle-checkbox"
-                />
-                <div className="counter-container">
-                  <label
-                    htmlFor="toggle"
-                    className="decrement-button m-0"
-                    onClick={handleDecrement}
-                  >
-                    -
-                  </label>
-                  <span className="counter-text">{count}</span>
-                  <label
-                    htmlFor="toggle"
-                    className="increment-button red m-0"
-                    onClick={() => setCount(count + 1)}
-                  >
-                    +
-                  </label>
-                </div>
-              </div>
-            </div>
+
             <div className="row">
               {foodValues &&
                 foodValues.variations &&
