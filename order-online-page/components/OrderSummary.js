@@ -142,14 +142,15 @@ function OrderSummary() {
             toast.success("Continue to checkout", { icon: "👍🏻" });
             const deliveryResp = res.data.data;
             setTakeaway(res?.data?.discountAmount);
-            sessionStorage.setItem("type", delivery);
-            sessionStorage.setItem("discount", takeaway);
-            sessionStorage.setItem("takeawaytime", takeawayTime);
-            sessionStorage.setItem("location", "checkout");
-            const pathname = `/checkout?price=${deliveryResp?.cart_NetAmount}&&deliveryCharge=0&&discount=${deliveryResp?.discountAmount}`;
+            setSessionStorageItem("type", delivery);
+            setSessionStorageItem("discount", takeaway);
+            setSessionStorageItem("takeawaytime", takeawayTime);
+            setSessionStorageItem("location", "checkout");
+            const pathname = `/checkout?price=${deliveryResp?.cart_NetAmount}&&deliveryCharge=0&&discount=${deliveryResp?.discountAmount}time=${time}`;
             setLocalStorageItem("path", pathname);
+            
             setTimeout(() => {
-              router.replace(pathname);
+              router.push(pathname);
             }, 200);
             setSessionStorageItem(
               "deliveryResponse",
@@ -187,7 +188,6 @@ function OrderSummary() {
       await GuestDeliveryDetails(payload, {
         headers: headers,
         onSuccess: async (res) => {
-         
           if (res?.data?.error == false) {
             const deliveryResp = res.data.data;
             if (deliveryResp) {
@@ -316,20 +316,18 @@ function OrderSummary() {
   };
   const clearcart = async () => {
     const userID = getLocalStorageItem("UserPersistent");
-    
+
     await clearCartItems(userID, {
       onSuccess: async (res) => {
-       
         toast.success("Cart Cleared!");
         await fetchCartList(userID);
       },
       onFailed: (err) => {
-       
         toast.err("Something Went Wrong!");
       },
     });
   };
-  
+
   return (
     <Fragment>
       <Toaster position="top-center" reverseOrder={false} />

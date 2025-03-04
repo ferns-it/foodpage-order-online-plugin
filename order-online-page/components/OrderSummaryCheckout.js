@@ -28,7 +28,7 @@ function OrderSummaryCheckout() {
   const [paymentLoading, setPaymentLoading] = useState(false);
   const searchParams = useSearchParams();
   const orderType = sessionStorage.getItem("type");
-  const details = JSON.parse(getSessionStorageItem("deliveryResponse"));
+
   const [paramsValues, setParamsValues] = useState({
     price: 0,
     discount: 0,
@@ -63,7 +63,7 @@ function OrderSummaryCheckout() {
   } = useContext(AppContext);
 
   // const { fetchCartList } = useContext(AppContext);
-  console.log(userInfo, "USER");
+
   const [paymentOption, setPaymentOption] = useState("");
   const [addressDefault, setAddressDefault] = useState(null);
   // useEffect(() => {
@@ -75,7 +75,7 @@ function OrderSummaryCheckout() {
   const savedAddress = JSON.parse(
     getSessionStorageItem("defaultAddressDetails")
   );
-  console.log(userInfo, "saved");
+
   const [formState, setFormState] = useState({
     fullname:
       (userInfo && userInfo?.firstName + " " + userInfo?.lastName) || "",
@@ -94,6 +94,7 @@ function OrderSummaryCheckout() {
   const [fieldError, setFieldError] = useState(false);
   const [discountData, setDiscountData] = useState(null);
   const [intentLoading, setIntentLoading] = useState(false);
+  const [details, setDetails] = useState(null);
 
   useEffect(() => {
     const price = searchParams.get("price");
@@ -106,6 +107,15 @@ function OrderSummaryCheckout() {
       deliveryFee: deliveryCharge,
     });
   }, [searchParams]);
+
+  useEffect(() => {
+    const deliveryResp = getSessionStorageItem("deliveryResponse");
+    const data =
+      deliveryResp && deliveryResp.length != 0
+        ? JSON.parse(deliveryResp)
+        : null;
+    setDetails(data);
+  }, []);
 
   useEffect(() => {
     const emptyValidation = checkForEmptyKeys(formState);
@@ -222,6 +232,11 @@ function OrderSummaryCheckout() {
   };
 
   const createPaymentIntentRequest = async () => {
+    if (!details) {
+      toast.error("Cannot complete request. Please try again! ");
+      redirectToLocation("/order-online");
+      return;
+    }
     const minAmountForCardPayment = parseFloat(
       settings?.deliveryInfo?.onlinePaymentMinAmount
     );
@@ -270,9 +285,9 @@ function OrderSummaryCheckout() {
                 setStripeClientSecret(result);
               }
             },
-
             onFailed: (error) => {
-              toast.error(error?.message);
+              const errorMsg = error?.message ?? "Payment Intent error!";
+              toast.error(errorMsg);
             },
           }
         );
@@ -301,7 +316,6 @@ function OrderSummaryCheckout() {
       }
     }
 
-    console.log(emptyKeys);
     return emptyKeys;
   };
 
@@ -319,7 +333,7 @@ function OrderSummaryCheckout() {
 
       const data = paymentData?.data?.data;
       const discount = sessionStorage.getItem("discount");
-      const details = JSON.parse(getSessionStorageItem("deliveryResponse"));
+
       const deliveryAmount = sessionStorage.getItem("deliveryFee");
       let deliveryType;
 
@@ -333,6 +347,10 @@ function OrderSummaryCheckout() {
       const userID = getLocalStorageItem("UserPersistent");
 
       const userToken = getLocalStorageItem("userToken");
+
+      if (!details) {
+        console.log("Delivery response is undefined!");
+      }
 
       if (
         (paymentMethod === "STRIPE" && paymentData != null) ||
@@ -351,12 +369,18 @@ function OrderSummaryCheckout() {
           toast.error("Invalid Price!");
           return;
         }
-        const pickupTimeData = details?.generalData?.pickupTime?.pickupTime;
-      
+        const pickupTimeData =
+          details?.generalData?.pickupTime?.pickupTime ??
+          getSessionStorageItem("takeawaytime");
 
+        const takeawayTimeOnly =
+          pickupTimeData && pickupTimeData.length != 0
+            ? pickupTimeData.split(" ")[1]
+            : null;
+        debugger;
         //!payload here
         const payload = {
-          shopID: data?.shopID != null ? data?.shopID : shopId,
+          shopID: process.env.SHOP_ID,
           discount: discountValue,
           amount: priceValue * 100,
           deliveryType: deliveryType,
@@ -376,9 +400,9 @@ function OrderSummaryCheckout() {
           deliveryNotes: formState?.notes,
           deliveryLocation: formState?.postalCode,
           takeawayTime:
-            deliveryType === "store_pickup"
-              ? pickupTimeData
-              : "",
+            deliveryType === "store_pickup" && takeawayTimeOnly != null
+              ? takeawayTimeOnly
+              : pickupTimeData,
           customer: {
             customerName: formState?.fullname,
             line1: formState?.addressLine1,
@@ -392,7 +416,6 @@ function OrderSummaryCheckout() {
           },
           source: "NextJs",
         };
-
 
         let headers = {
           User: userToken,
@@ -416,10 +439,9 @@ function OrderSummaryCheckout() {
             });
 
             await fetchOrderHistory();
-            router.refresh();
-            redirectToLocation("/order-online");
             setActiveCard("login");
             setPaymentData(null);
+            redirectToLocation("/order-online");
           },
           onFailed: (err) => {
             toast.error(err.message);
