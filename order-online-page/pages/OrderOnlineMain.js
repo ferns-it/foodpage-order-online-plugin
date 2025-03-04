@@ -12,7 +12,31 @@ import "../../table-reservation/style/style.css";
 import "../style/order-online-style.css";
 import { ImSpoonKnife } from "react-icons/im";
 import { BiFoodMenu } from "react-icons/bi";
+import Image from "next/image";
+import "swiper/css";
+import "swiper/css/navigation";
+import Foodorder from "../../../../../public/Assets/order-food.png";
+import TrackOrder from "../../../../../public/Assets/track.png";
+import Delivery from "../../../../../public/Assets/del.png";
+import BannerCont from "../../../../../public/Assets/order-fd.png";
+import AppStore from "../../../../../public/Assets/appstore.png";
+import PlayStore from "../../../../../public/Assets/playstore.png";
+import "swiper/css";
+import "swiper/css/navigation";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
 
+const testimonials = [
+  { name: "Arakkal Abu", img: "/Assets/testimonials/user1.jpg" },
+  { name: "Aadu Thoma", img: "/Assets/testimonials/user2.jpg" },
+  { name: "Sanoj Kottarathil", img: "/Assets/testimonials/user3.jpg" },
+  {
+    name: "Vadakkan Veetil Koch kunj",
+    img: "/Assets/testimonials/user4.jpg",
+  },
+  { name: "Kolapulli Leela", img: "/Assets/testimonials/user5.jpg" },
+];
 
 const OrderOnlineMain = () => {
   const router = useRouter();
@@ -187,22 +211,173 @@ const OrderOnlineMain = () => {
               </div>
             </div>
           </div>
-          <div className="Order-online-Section">
-            {" "}
-            <div className="sec-container">
-              <h1 className="head-order">How Does Muziris.uk Work</h1>
-            </div>
-          </div>
-          <div className="order-banner">
-            <div className="row">
-            
-             
-            </div>
-          </div>
         </Fragment>
       ) : (
         <LoaderComp />
       )}
+      <Fragment>
+        <div className="Order-online-Section">
+          {" "}
+          <div className="sec-container">
+            <h1 className="head-order">How Does Muziris.uk Work</h1>
+          </div>
+        </div>
+        <div className="order-banner">
+          <div className="sec-container">
+            <div className="row align-items-center">
+              {/* Left Side - Order Steps */}
+              <div className="col-md-7">
+                <div className="row">
+                  {/* Order Step 1 */}
+                  <div className="col-md-4 col-sm-6">
+                    <div className="order-online-bg">
+                      <h6 className="head-one">Place an Order!</h6>
+                      <Image
+                        src={Foodorder}
+                        alt="food-order"
+                        width={80}
+                        height={80}
+                      />
+                      <p className="text-center banner-cont-online">
+                        Place order through our website or Mobile app
+                      </p>
+                    </div>
+                  </div>
+                  {/* Order Step 2 */}
+                  <div className="col-md-4 col-sm-6">
+                    <div className="order-online-bg">
+                      <h6 className="head-one">Track Progress</h6>
+                      <Image
+                        src={TrackOrder}
+                        alt="track-order"
+                        width={80}
+                        height={80}
+                      />
+                      <p className="text-center banner-cont-online">
+                        You can track your order status with delivery time
+                      </p>
+                    </div>
+                  </div>
+                  {/* Order Step 3 */}
+                  <div className="col-md-4 col-sm-6">
+                    <div className="order-online-bg">
+                      <h6 className="head-one">Get your Order!</h6>
+                      <Image
+                        src={Delivery}
+                        alt="delivery"
+                        width={80}
+                        height={80}
+                      />
+                      <p className="text-center banner-cont-online">
+                        Receive your order at a lightning-fast speed!
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Side - Text and Image */}
+              <div className="col-md-5 text-center text-md-start">
+                <div className="order-heading">
+                  <h1 className="sec1-head">
+                    Ordering is more <br />
+                  </h1>
+                </div>
+                <div className="span-for-online">
+                  <div className="inside-cont">
+                    {" "}
+                    <span className="highlighted-text">Personalised</span> &
+                    Instant
+                  </div>
+                  <div></div>
+                </div>
+
+                <div className="row">
+                  <div className="col-md-5 col-sm-12">
+                    <Image
+                      src={BannerCont}
+                      alt="Couple looking at phone"
+                      width={350}
+                      height={0}
+                      className="ban-img-order"
+                    />
+                  </div>
+                  <div className="col-md-7 col-sm-12">
+                    <h6 className="order-desc">
+                      Download the Muziris app for faster ordering
+                    </h6>
+                    <div className="app-buttons">
+                      <button className="btn-ad-cont">
+                        {" "}
+                        <Image
+                          src={AppStore}
+                          alt="Google Play"
+                          width={170}
+                          height={0}
+                        />
+                      </button>{" "}
+                      <button className="btn-ad-cont">
+                        <Image
+                          src={PlayStore}
+                          alt="Google Play"
+                          width={170}
+                          height={0}
+                        />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Fragment>
+      <Fragment>
+        <div className="container-fluid p-0 m-0 bg-last-order-online">
+          <div className="col-md-8 col-sm-12 mx-auto text-center">
+            <div className="content-order-online">
+              <h4>Peoples's Talk</h4>
+              <h6>WHAT CUSTOMER SAY ABOUT US</h6>
+              <br />
+              <p>
+                Lorem readable content of a page when looking at its layout. The
+                point of using Lorem Ipsum is that it has a more-or-less normal
+                distribution of letters, as opposed to using 'Content here,
+                content here', making it look like readable English.
+              </p>
+            </div>
+            <div className="flex flex-col">
+              <div className="relative w-full max-w-xl">
+                <Swiper
+                  modules={[Navigation]}
+                  spaceBetween={20}
+                  slidesPerView={3} // Adjust this value
+                  navigation
+                >
+                  {testimonials.map((item, index) => (
+                    <SwiperSlide key={index} className="flex justify-center">
+                      <div
+                        className={`${
+                          index === 2
+                            ? "scale-125 border-yellow-500"
+                            : "opacity-50"
+                        }`}
+                      >
+                        <Image
+                          width={100}
+                          height={100}
+                          src={item.img}
+                          alt={item.name}
+                        />
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Fragment>
     </Fragment>
   );
 };

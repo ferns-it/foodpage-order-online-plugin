@@ -338,7 +338,6 @@ function AddOnsModal(props) {
         }, 1000);
       },
       onFailed: (err) => {
-     
         toast.error("Add to cart Failed!");
       },
     });
@@ -356,12 +355,64 @@ function AddOnsModal(props) {
         id="modal_wrapper_02901"
       >
         <div className="moadl_02901 animate__animated" ref={modalRef}>
-          <div className="product_img_bg_029">
-            <img
-              src={itemData && itemData?.photo}
-              alt=""
-              referrerPolicy="no-referrer"
-            />
+          <div className="row">
+            <div className="col-md-3 col-sm-12">
+              {" "}
+              <div className="product_img_bg_029">
+                <img
+                  src={itemData && itemData?.photo}
+                  alt=""
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+            </div>
+            <div className="col-md-8 col-sm-12">
+              <div className="cont-order">
+                <h6 className="Head-dish">{itemData?.name ?? "N/A"}</h6>
+                <p className="dish-head-para">
+                  {itemData?.description &&
+                    Utils.removeSpecialCharacters(itemData?.description)}
+                </p>
+                <div className="btn_grp_8392">
+                  {foodValues?.online === "Yes" &&
+                    foodValues?.isAvailable != false &&
+                    foodValues?.availability != false && (
+                      <button
+                        type="button"
+                        className="submit_btn_8392 btn_8392"
+                        onClick={() => handleCart()}
+                        disabled={cartLoading}
+                      >
+                        {cartLoading ? (
+                          <Fragment>
+                            <span
+                              className="spinner-border spinner-border-sm"
+                              role="status"
+                              aria-hidden="true"
+                            ></span>
+                            <span className="sr-only"> Loading...</span>
+                          </Fragment>
+                        ) : (
+                          <Fragment>
+                            <i>
+                              <Bs.BsCart3 />
+                            </i>
+                            <span>Add to Cart</span>
+                          </Fragment>
+                        )}
+                      </button>
+                    )}
+
+                  <button
+                    type="button"
+                    className="cancel_btn_8392 btn_8392"
+                    onClick={() => props.setShowModal(false)}
+                  >
+                    cancel
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
 
           <button
@@ -382,7 +433,7 @@ function AddOnsModal(props) {
               {/* £{total && total.length != 0 ? total.toFixed(2) : 0} */}£
               {cardTotal}
             </p>
-            <div className="mx-auto text-center" style={{width:"100%"}}>
+            <div className="mx-auto text-center" style={{ width: "100%" }}>
               <div className="order-modal-container">
                 <input
                   type="checkbox"
@@ -466,11 +517,10 @@ function AddOnsModal(props) {
                                 </tr>
                                 {/* <tr key={`tr-desc-${vindex}`}>
                                   <td> */}
-                                    <span className="small_desc">
-                                      {Utils.stripHtml(varient?.ingredients) ??
-                                        ""}
-                                    </span>
-                                  {/* </td>
+                                <span className="small_desc">
+                                  {Utils.stripHtml(varient?.ingredients) ?? ""}
+                                </span>
+                                {/* </td>
                                 </tr> */}
                               </Fragment>
                             ) : null;
@@ -597,44 +647,6 @@ function AddOnsModal(props) {
                 ? "You have reached the maximum limit of selections."
                 : ""}
             </p>
-            <div className="btn_grp_8392">
-              {foodValues?.online === "Yes" &&
-                foodValues?.isAvailable != false &&
-                foodValues?.availability != false && (
-                  <button
-                    type="button"
-                    className="submit_btn_8392 btn_8392"
-                    onClick={() => handleCart()}
-                    disabled={cartLoading}
-                  >
-                    {cartLoading ? (
-                      <Fragment>
-                        <span
-                          className="spinner-border spinner-border-sm"
-                          role="status"
-                          aria-hidden="true"
-                        ></span>
-                        <span className="sr-only"> Loading...</span>
-                      </Fragment>
-                    ) : (
-                      <Fragment>
-                        <i>
-                          <Bs.BsCart3 />
-                        </i>
-                        <span>Add to Cart</span>
-                      </Fragment>
-                    )}
-                  </button>
-                )}
-
-              <button
-                type="button"
-                className="cancel_btn_8392 btn_8392"
-                onClick={() => props.setShowModal(false)}
-              >
-                cancel
-              </button>
-            </div>
           </div>
         </div>
       </div>

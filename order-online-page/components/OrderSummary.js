@@ -506,7 +506,9 @@ function OrderSummary() {
                                   <>
                                     <tbody>
                                       <span key={addsOnindex}>
-                                        <strong>{add?.title}</strong>
+                                        <strong className="ad-title">
+                                          {add?.title}
+                                        </strong>
                                       </span>
 
                                       {add &&
