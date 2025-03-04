@@ -94,23 +94,26 @@ function VariationMasterAddons({
 
           return (
             <Fragment key={key}>
-              <div className="col">
-                <p className="sub_head_0291 mb-0">
-                  {item?.name ?? "N/A"}{" "}
-                  {(item?.minimumRequired != 0 ||
-                    item?.maximumRequired != 0) && (
-                    <span className="info_label_0291">
-                      min -{" "}
-                      {item?.minimumRequired &&
-                        item?.minimumRequired != 0 &&
-                        item?.minimumRequired}{" "}
-                      {item?.maximumRequired &&
-                        item?.maximumRequired != 0 &&
-                        "| max -" + item?.maximumRequired}
-                    </span>
-                  )}
-                </p>
-                <div className={containerClass}>
+              <div className="row">
+                <div className="toggle-dish">
+                  <h6 className="sub_head_0291"> {item?.name ?? "N/A"} </h6>{" "}
+                  <p className="sub_head_0291 ">
+                    {(item?.minimumRequired != 0 ||
+                      item?.maximumRequired != 0) && (
+                      <span className="info_label_0291">
+                        min -{" "}
+                        {item?.minimumRequired &&
+                          item?.minimumRequired != 0 &&
+                          item?.minimumRequired}{" "}
+                        {item?.maximumRequired &&
+                          item?.maximumRequired != 0 &&
+                          "| max -" + item?.maximumRequired}
+                      </span>
+                    )}
+                  </p>
+                </div>
+                <div className={`card p-3 ${containerClass}`}>
+                 
                   <table className="menu_table_0291">
                     {item?.options &&
                       item?.options.map((data, index) => {

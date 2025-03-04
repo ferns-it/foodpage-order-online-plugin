@@ -152,7 +152,7 @@ function ReservModal(props) {
         }
         id="modal_wrapper_02901"
       >
-        <div className="moadl_02901 animate__animated p-4" ref={modalRef}>
+        <div className="moadl_02901-reserv animate__animated p-4" ref={modalRef}>
           <button
             className="close_02901"
             onClick={async () => {

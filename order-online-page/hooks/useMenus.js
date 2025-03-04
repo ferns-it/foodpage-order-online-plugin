@@ -114,22 +114,18 @@ const useMenus = () => {
       setCartLoading(false);
     }
   };
-    const updateCart = async (
-      id,
-      payload,
-      { onSuccess, onFailed, headers }
-    ) => {
-      try {
-        setCartLoading(true);
-        await BaseClient.put(APIEndpoints.updateCart + `/${id}`, payload, {
-          onSuccess: onSuccess,
-          onFailed: onFailed,
-          headers: headers,
-        });
-      } finally {
-        setCartLoading(false);
-      }
-    };
+  const updateCart = async (id, payload, { onSuccess, onFailed, headers }) => {
+    try {
+      setCartLoading(true);
+      await BaseClient.put(APIEndpoints.updateCart + `/${id}`, payload, {
+        onSuccess: onSuccess,
+        onFailed: onFailed,
+        headers: headers,
+      });
+    } finally {
+      setCartLoading(false);
+    }
+  };
 
   const getLocation = async (origin, destination) => {
     try {
@@ -173,9 +169,37 @@ const useMenus = () => {
       setSettingsLoading(false);
     }
   };
+  // const fetchProductsList = async (data) => {
+  //   try {
+  //     setMenuLoading(true);
+  //     const response = await new Promise((resolve, reject) => {
+  //       BaseClient.get(
+  //         APIEndpoints.productList +
+  //           `/${data?.shopId}` +
+  //           `/${data?.categoryId}/online`,
+  //         null,
+  //         {
+  //           onSuccess: (res) => {
+  //             const items = res?.data?.data?.items;
+  //             resolve(items);
+  //           },
+  //           onFailed: (err) => {
+  //             console.log("Error on fetching menus", err);
+  //             reject(err);
+  //           },
+  //         }
+  //       );
+  //     });
+
+  //     return response;
+  //   } finally {
+  //     setMenuLoading(false);
+  //   }
+  // };
   const fetchProductsList = async (data) => {
     try {
       setMenuLoading(true);
+
       const response = await new Promise((resolve, reject) => {
         BaseClient.get(
           APIEndpoints.productList +
@@ -183,19 +207,16 @@ const useMenus = () => {
             `/${data?.categoryId}/online`,
           null,
           {
-            onSuccess: (res) => {
-              const items = res?.data?.data?.items;
-              resolve(items);
-            },
-            onFailed: (err) => {
-              console.log("Error on fetching menus", err);
-              reject(err);
-            },
+            onSuccess: (res) => resolve(res?.data?.data?.items),
+            onFailed: (err) => reject(err),
           }
         );
       });
 
       return response;
+    } catch (err) {
+      console.log("Error on fetching menus", err);
+      throw err;
     } finally {
       setMenuLoading(false);
     }

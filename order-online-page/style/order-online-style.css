@@ -686,16 +686,18 @@ body {
   padding-left: 25px;
   margin-right: 15px;
   cursor: pointer;
+  font-size: 20px;
 }
 
 .checkmark {
   position: absolute;
   top: 4px;
   left: 0;
-  height: 20px;
-  width: 20px;
+  height: 25px;
+  width: 25px;
   background-color: #eee;
-  border-radius: 50%;
+  border-radius: 0;
+  border: 2px solid #d8d8d8;
   transition: all 0.2 ease-in-out;
 }
 
@@ -1134,18 +1136,35 @@ body {
 .modal_wrapper_02901::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
-
-.moadl_02901 {
+.moadl_02901-reserv {
   position: absolute;
   display: block;
-  width: auto;
-  min-width: 500px;
+  min-width: 700px;
   max-width: 70%;
   /* max-height: 80%; */
   background-color: #fff;
   border: 1px solid #c2c2c2;
   border-radius: 5px;
   padding: 10px;
+  left: 50%;
+  top: 130px;
+  transform: translateX(-50%);
+  transition: all 0.2s ease-in-out;
+  overflow: hidden;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 10px #4444447e;
+}
+.moadl_02901 {
+  position: absolute;
+  display: block;
+  min-width: 40%;
+  width: auto;
+  max-width: 70%;
+  /* max-height: 80%; */
+  background-color: #fff;
+  border: 1px solid #c2c2c2;
+  border-radius: 25px;
+  padding: 20px 35px;
   left: 50%;
   top: 130px;
   transform: translateX(-50%);
@@ -1215,7 +1234,9 @@ body {
 }
 
 .content_container_02901 {
-  margin-top: 5rem;
+  margin-top: 4rem;
+  width: 85%;
+  margin: 0px auto;
 }
 
 .food_desc_02901 {
@@ -1232,6 +1253,7 @@ body {
 .price_02901 {
   font-size: 22px;
   font-weight: 700;
+  padding: 10px;
   text-align: center;
 }
 
@@ -1305,7 +1327,7 @@ body {
 .decrement-button:active {
   transform: scale(0.7);
 }
-.in-btn{
+.in-btn {
   padding: 0 10px;
 }
 .counter-text {
@@ -1332,10 +1354,12 @@ body {
 }
 
 .sub_head_0291 {
-  font-size: 15px;
-  font-weight: 700;
-  color: #3c3c3c;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
   margin: 10px;
+  font-family: var(--poppins-font);
+  letter-spacing: 1px;
 }
 
 .menu_table_0291 {
@@ -1346,21 +1370,40 @@ body {
   font-size: 16px;
   margin-bottom: 10px;
 }
-
+.price-total {
+  color: #c11014;
+  font-family: var(--poppins-font);
+  font-weight: 600;
+  font-size: 18px;
+}
 .menu_table_0291 td:first-child {
   width: 70%;
 }
-
+.cancel-corner {
+  float: right;
+  border: none;
+  background-color: black;
+  width: 25px;
+  height: 25px;
+  font-weight: 700;
+  border-radius: 50%;
+  color: #fff;
+}
 .menu_table_0291 td:last-child {
   width: 30%;
   text-align: right;
+  color: #c11014;
+  font-weight: 600;
+  font-size: 18px;
+  font-family: var(--poppins-font);
 }
 
 .varient_name {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   padding-left: 10px;
   white-space: nowrap;
+  color: #000;
 }
 
 .varient_name.disabled {
@@ -1409,9 +1452,8 @@ body {
 
 .info_label_0291 {
   display: block;
-  font-size: 12px;
-  color: #064340;
-  padding: 5px 0;
+  font-size: 14px;
+  color: #ffffff;
   border-radius: 5px;
   user-select: none;
   margin: 0;
@@ -3298,9 +3340,30 @@ div.food_tile__.active img {
   font-family: 20px;
   color: black;
   font-weight: 500;
+  text-align: justify;
   padding-top: 10px;
 }
 .cont-order {
   padding: 10px;
   padding-left: 20px;
+}
+.toggle-dish {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #221c17;
+  color: #fff;
+  /* padding: 7px; */
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+.dishes-details {
+  padding: 10px;
+}
+.modalcotainer {
+  width: 90%;
+  margin: 0px auto;
+}
+.icon-dev {
+  cursor: pointer;
 }

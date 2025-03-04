@@ -18,6 +18,8 @@ import {
   getLocalStorageItem,
   setLocalStorageItem,
 } from "../../_utils/ClientUtils";
+import { GrClose } from "react-icons/gr";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
 let userId = getLocalStorageItem("UserPersistent");
 
@@ -35,7 +37,7 @@ function AddOnsModal(props) {
   });
   const [addOns, setAddOns] = useState({});
   const [masterAddons, setMasterAddons] = useState({});
-  const [masterIds, setMasterIds] = useState([]);
+  const [openIndex, setOpenIndex] = useState(null);
   const [limitExceeded, setLimitExceeded] = useState(false);
   const [itemData, setItemData] = useState(null);
   const [variationAddOns, setVariationAddOns] = useState(null);
@@ -355,98 +357,98 @@ function AddOnsModal(props) {
         id="modal_wrapper_02901"
       >
         <div className="moadl_02901 animate__animated" ref={modalRef}>
-          <div className="row">
-            {itemData &&
-              itemData?.photo !=
-                "https://development.foodpage.co.uk/theme/dish_placeholder.png" && (
-                <div className="col-md-3 col-sm-12">
-                  {" "}
-                  <div className="product_img_bg_029">
-                    <img
-                      src={itemData && itemData?.photo}
-                      alt=""
-                      referrerPolicy="no-referrer"
-                    />
-                  </div>
-                </div>
-              )}
-
-            <div className="col-md-8 col-sm-12">
-             
-              <div className="cont-order">
-                <h6 className="Head-dish">{itemData?.name ?? "N/A"}</h6>
-                <p className="dish-head-para">
-                  {itemData?.description &&
-                    Utils.removeSpecialCharacters(itemData?.description)}
-                </p>
-                <div className="btn_grp_8392">
-                  <div>
-                    <div className="order-modal-container">
-                      <input
-                        type="checkbox"
-                        id="toggle"
-                        className="toggle-checkbox"
+          {" "}
+          <button
+            type="button"
+            className="cancel-corner"
+            onClick={() => props.setShowModal(false)}
+          >
+            <GrClose />
+          </button>
+          <div className="modalcotainer">
+            <div className="row">
+              {itemData &&
+                itemData?.photo !=
+                  "https://development.foodpage.co.uk/theme/dish_placeholder.png" && (
+                  <div className="col-md-3 col-sm-12">
+                    {" "}
+                    <div className="product_img_bg_029">
+                      <img
+                        src={itemData && itemData?.photo}
+                        alt=""
+                        referrerPolicy="no-referrer"
                       />
-                      <div className="counter-container">
-                        <label
-                          htmlFor="toggle"
-                          className="in-btn"
-                          onClick={handleDecrement}
-                        >
-                          -
-                        </label>
-                        <span className="counter-text">{count}</span>
-                        <label
-                          htmlFor="toggle"
-                          className="in-btn"
-                          onClick={() => setCount(count + 1)}
-                        >
-                          +
-                        </label>
-                      </div>
                     </div>
                   </div>
-                  {foodValues?.online === "Yes" &&
-                    foodValues?.isAvailable != false &&
-                    foodValues?.availability != false && (
-                      <button
-                        type="button"
-                        className="submit_btn_8392 btn_8392"
-                        onClick={() => handleCart()}
-                        disabled={cartLoading}
-                      >
-                        {cartLoading ? (
-                          <Fragment>
-                            <span
-                              className="spinner-border spinner-border-sm"
-                              role="status"
-                              aria-hidden="true"
-                            ></span>
-                            <span className="sr-only"> Loading...</span>
-                          </Fragment>
-                        ) : (
-                          <Fragment>
-                            <i>
-                              <Bs.BsCart3 />
-                            </i>
-                            <span>Add to Cart</span>
-                          </Fragment>
-                        )}
-                      </button>
-                    )}
-
-                  {/* <button
-                    type="button"
-                    className="cancel_btn_8392 btn_8392"
-                    onClick={() => props.setShowModal(false)}
-                  >
-                    cancel
-                  </button> */}
+                )}
+              <div className="col-md-9 col-sm-12">
+                <div className="cont-order">
+                  <h6 className="Head-dish">{itemData?.name ?? "N/A"} </h6>
+                  <p className="price-total">£{cardTotal}</p>
+                  <p className="dish-head-para">
+                    {itemData?.description &&
+                      Utils.removeSpecialCharacters(itemData?.description)}
+                  </p>
+                  <div className="btn_grp_8392">
+                    <div>
+                      <div className="order-modal-container">
+                        <input
+                          type="checkbox"
+                          id="toggle"
+                          className="toggle-checkbox"
+                        />
+                        <div className="counter-container">
+                          <label
+                            htmlFor="toggle"
+                            className="in-btn"
+                            onClick={handleDecrement}
+                          >
+                            -
+                          </label>
+                          <span className="counter-text">{count}</span>
+                          <label
+                            htmlFor="toggle"
+                            className="in-btn"
+                            onClick={() => setCount(count + 1)}
+                          >
+                            +
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    {foodValues?.online === "Yes" &&
+                      foodValues?.isAvailable != false &&
+                      foodValues?.availability != false && (
+                        <button
+                          type="button"
+                          className="submit_btn_8392 btn_8392"
+                          onClick={() => handleCart()}
+                          disabled={cartLoading}
+                        >
+                          {cartLoading ? (
+                            <Fragment>
+                              <span
+                                className="spinner-border spinner-border-sm"
+                                role="status"
+                                aria-hidden="true"
+                              ></span>
+                              <span className="sr-only"> Loading...</span>
+                            </Fragment>
+                          ) : (
+                            <Fragment>
+                              <i>
+                                <Bs.BsCart3 />
+                              </i>
+                              <span>Add to Cart</span>
+                            </Fragment>
+                          )}
+                        </button>
+                      )}
+                  </div>
                 </div>
-              </div>
+              </div>{" "}
             </div>
           </div>
-
           <button
             className="close_02901"
             onClick={async () => {
@@ -455,168 +457,187 @@ function AddOnsModal(props) {
           >
             <Io5.IoCloseCircle />
           </button>
-          <div className="container content_container_02901">
-            {/* <h2 className="food_name_02901">{itemData?.name ?? "N/A"}</h2>
-            <p className="food_desc_02901">
-              {itemData?.description &&
-                Utils.removeSpecialCharacters(itemData?.description)}
-            </p> */}
-            <p className="price_02901">
-              {/* £{total && total.length != 0 ? total.toFixed(2) : 0} */}£
-              {cardTotal}
-            </p>
+          <div className="content_container_02901">
+            {foodValues &&
+              foodValues.variations &&
+              foodValues?.variations[0].name != null && (
+                <div className="row">
+                  <p className="sub_head_0291">Choose One</p>
+                  <table className="menu_table_0291">
+                    <tbody>
+                      {foodValues?.variations.length !== 0 &&
+                        foodValues.variations.map((varient, vindex) => {
+                          const variationName =
+                            varient?.name || foodValues?.name;
 
-            <div className="row">
-              {foodValues &&
-                foodValues.variations &&
-                foodValues?.variations[0].name != null && (
-                  <div className="col">
-                    <p className="sub_head_0291">Choose One</p>
-                    <table className="menu_table_0291">
-                      <tbody>
-                        {foodValues?.variations.length !== 0 &&
-                          foodValues.variations.map((varient, vindex) => {
-                            const variationName =
-                              varient?.name || foodValues?.name;
+                          if (!variationName) {
+                            setVariationValue({ name: foodValues.name });
+                          }
 
-                            if (!variationName) {
-                              setVariationValue({ name: foodValues.name });
-                            }
+                          return varient.name ? (
+                            <Fragment key={vindex}>
+                              <tr key={`tr-main-${vindex}`}>
+                                <td className="d-flex">
+                                  <label className="delivery_option_container">
+                                    <input
+                                      type="radio"
+                                      name="variationOption"
+                                      id="variations"
+                                      className="delivery_option"
+                                      checked={
+                                        variationValue.name === variationName &&
+                                        variationValue.pvID === varient?.pvID
+                                      }
+                                      onChange={() => {
+                                        setVariationValue({
+                                          name:
+                                            varient?.name || foodValues.name,
+                                          pvID: varient?.pvID,
+                                          price: varient?.price,
+                                        });
+                                        setCardTotal(varient?.price ?? 0);
+                                        setCount(1);
+                                        if (props?.productData?.isMeal) {
+                                          setMasterAddons({});
+                                        }
+                                      }}
+                                    />
+                                    <span className="checkmark"></span>
+                                    <span className="varient_name">
+                                      {varient?.name ?? "N/A"}
+                                    </span>
+                                  </label>
+                                </td>
+                                <td style={{ userSelect: "none" }}>
+                                  {varient?.displayPrice ?? "N/A"}
+                                </td>
+                              </tr>
+                              {/* <tr key={`tr-desc-${vindex}`}>
+                                  <td> */}
+                              <span className="small_desc">
+                                {Utils.stripHtml(varient?.ingredients) ?? ""}
+                              </span>
+                              {/* </td>
+                                </tr> */}
+                            </Fragment>
+                          ) : null;
+                        })}
+                    </tbody>
+                  </table>
+                </div>
+              )}
 
-                            return varient.name ? (
-                              <Fragment key={vindex}>
-                                <tr key={`tr-main-${vindex}`}>
+            {foodValues.addons &&
+              foodValues.addons.length !== 0 &&
+              foodValues.addons.map((item, findex) => (
+                <div key={findex} className="row">
+                  <div
+                    className="toggle-dish"
+                    onClick={() =>
+                      setOpenIndex(openIndex === findex ? null : findex)
+                    }
+                  >
+                    <p className="sub_head_0291">{item?.name ?? "N/A"}</p>
+                    <div
+                      className="icon-dev"
+                      onClick={() =>
+                        setOpenIndex(openIndex === findex ? null : findex)
+                      }
+                    >
+                      {openIndex === findex ? (
+                        <i>
+                          <IoIosArrowUp />
+                        </i>
+                      ) : (
+                        <i>
+                          <IoIosArrowDown />
+                        </i>
+                      )}
+                    </div>
+                  </div>
+
+                  {openIndex === findex && (
+                    <>
+                      <div className="card p-3 mb-3">
+                        <table className="menu_table_0291">
+                          <tbody>
+                            {item?.options &&
+                              item?.options.map((data, iindex) => (
+                                <tr key={iindex}>
                                   <td className="d-flex">
                                     <label className="delivery_option_container">
                                       <input
-                                        type="radio"
-                                        name="variationOption"
+                                        type="checkbox"
+                                        name={data}
                                         id="variations"
                                         className="delivery_option"
-                                        checked={
-                                          variationValue.name ===
-                                            variationName &&
-                                          variationValue.pvID === varient?.pvID
+                                        disabled={
+                                          variationValue &&
+                                          variationValue.name &&
+                                          variationValue.name.length !== 0
+                                            ? false
+                                            : true
                                         }
-                                        onChange={() => {
-                                          setVariationValue({
-                                            name:
-                                              varient?.name || foodValues.name,
-                                            pvID: varient?.pvID,
-                                            price: varient?.price,
+                                        onChange={(e) => {
+                                          const isChecked = e.target.checked;
+                                          const newValue =
+                                            data?.value.toString();
+                                          setAddOns((prev) => {
+                                            if (isChecked) {
+                                              return {
+                                                ...prev,
+                                                [item?.id]: [
+                                                  ...(prev[item?.id] ?? []),
+                                                  newValue,
+                                                ],
+                                              };
+                                            } else {
+                                              const updatedAddOns = { ...prev };
+                                              if (updatedAddOns[item?.id]) {
+                                                updatedAddOns[item?.id] =
+                                                  updatedAddOns[
+                                                    item?.id
+                                                  ].filter(
+                                                    (value) =>
+                                                      value !== newValue
+                                                  );
+                                              }
+                                              return updatedAddOns;
+                                            }
                                           });
-                                          setCardTotal(varient?.price ?? 0);
-                                          setCount(1);
-                                          if (props?.productData?.isMeal) {
-                                            setMasterAddons({});
-                                          }
                                         }}
                                       />
                                       <span className="checkmark"></span>
                                       <span className="varient_name">
-                                        {varient?.name ?? "N/A"}
+                                        {data?.text ?? "N/A"}
                                       </span>
                                     </label>
                                   </td>
-                                  <td style={{ userSelect: "none" }}>
-                                    {varient?.displayPrice ?? "N/A"}
+                                  <td
+                                    style={{
+                                      whiteSpace: "nowrap",
+                                      userSelect: "none",
+                                    }}
+                                  >
+                                    + {data?.price_formatted ?? "N/A"}
                                   </td>
                                 </tr>
-                                {/* <tr key={`tr-desc-${vindex}`}>
-                                  <td> */}
-                                <span className="small_desc">
-                                  {Utils.stripHtml(varient?.ingredients) ?? ""}
-                                </span>
-                                {/* </td>
-                                </tr> */}
-                              </Fragment>
-                            ) : null;
-                          })}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
-
-              {foodValues.addons &&
-                foodValues.addons.length !== 0 &&
-                foodValues.addons.map((item, findex) => (
-                  <div key={findex} className="col-auto">
-                    <p className="sub_head_0291">{item?.name ?? "N/A"} </p>
-                    <table className="menu_table_0291">
-                      <tbody>
-                        {item?.options &&
-                          item?.options.map((data, iindex) => (
-                            <tr key={iindex}>
-                              <td className="d-flex">
-                                <label className="delivery_option_container">
-                                  <input
-                                    type="checkbox"
-                                    name={data}
-                                    id="variations"
-                                    className="delivery_option"
-                                    disabled={
-                                      variationValue &&
-                                      variationValue.name &&
-                                      variationValue.name.length !== 0
-                                        ? false
-                                        : true
-                                    }
-                                    onChange={(e) => {
-                                      const isChecked = e.target.checked;
-                                      const newValue = data?.value.toString();
-                                      setAddOns((prev) => {
-                                        if (isChecked) {
-                                          return {
-                                            ...prev,
-                                            [item?.id]: [
-                                              ...(prev[item?.id] ?? []),
-                                              newValue,
-                                            ],
-                                          };
-                                        } else {
-                                          const updatedAddOns = { ...prev };
-                                          if (updatedAddOns[item?.id]) {
-                                            updatedAddOns[item?.id] =
-                                              updatedAddOns[item?.id].filter(
-                                                (value) => value !== newValue
-                                              );
-                                          }
-                                          return updatedAddOns;
-                                        }
-                                      });
-                                    }}
-                                  />
-                                  <span className="checkmark"></span>
-                                  <span className="varient_name">
-                                    {data?.text ?? "N/A"}
-                                  </span>
-                                </label>
-                              </td>
-                              <td
-                                style={{
-                                  whiteSpace: "nowrap",
-                                  userSelect: "none",
-                                }}
-                              >
-                                + {data?.price_formatted ?? "N/A"}
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
-                  </div>
-                ))}
-
-              <div className="col-auto">
-                <div className="row">
-                  <MasterAddOnsCheckbox
-                    foodValues={foodValues}
-                    setMasterAddons={setMasterAddons}
-                    variationValue={variationValue}
-                    setLimitExceeded={setLimitExceeded}
-                  />
+                              ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </>
+                  )}
                 </div>
-              </div>
+              ))}
+
+            <div className="row">
+              <MasterAddOnsCheckbox
+                foodValues={foodValues}
+                setMasterAddons={setMasterAddons}
+                variationValue={variationValue}
+                setLimitExceeded={setLimitExceeded}
+              />
             </div>
 
             {variationAddOns != null &&
