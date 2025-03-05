@@ -90,37 +90,36 @@ function OrderSummary() {
     removeSessionStorageItem("deliveryFee");
   };
 
-  const updateQuantity = (type, product, index) => {
-    setProduct(product);
-    console.log(product.quantity, "pro-qty");
+  const updateQuantity = async (type, product, index) => {
     if (!product) {
       toast.error("Something went wrong, Please try again!");
       return;
     }
+
     setUpdatedIndex(index);
+    setProduct(product);
 
-    setQuantity((prev) => {
-      const newQuantity =
-        type === "increase"
-          ? Number(prev) + 1
-          : Number(prev) > 1
-          ? Number(prev) - 1
-          : 1;
-      console.log(type, quantity, "updated qty");
-      // Ensure the updated quantity is passed to handleUpdateCart
-      handleUpdateCart(product, newQuantity);
+    const newQuantity =
+      type === "increase"
+        ? Number(product.quantity) + 1
+        : Number(product.quantity) > 1
+        ? Number(product.quantity) - 1
+        : 1;
 
-      return newQuantity;
-    });
+    // Immediately update UI with new quantity
+    setQuantity(newQuantity);
+
+    // Call API to update cart
+    await handleUpdateCart(product, newQuantity);
   };
 
-  const handleUpdateCart = async (product, qtyy) => {
-    return;
+  const handleUpdateCart = async (product, newQuantity) => {
     try {
-      if (qtyy < 1) {
+      if (newQuantity < 1) {
         toast.error("Please choose minimum quantity!");
         return;
       }
+
       setUpdateLoading(true);
       const cartId = product?.cartID;
       let userIdd;
@@ -142,7 +141,7 @@ function OrderSummary() {
       const payload = {
         pID: product.pID,
         rID: process.env.SHOP_ID,
-        qty: qtyy,
+        qty: newQuantity,
         cOption: parsedCOptions,
       };
 
@@ -153,20 +152,23 @@ function OrderSummary() {
       await updateCart(cartId, payload, {
         onSuccess: async (data) => {
           toast.success("Cart updated successfully!");
-          await fetchCartList(userIdd);
+          await fetchCartList(userId);
+          setProduct(null);
+          setQuantity(1);
         },
         onFailed: (err) => {
           toast.error(err.message || "Something went wrong!");
           console.error(err);
           setUpdateLoading(false);
+          setProduct(null);
         },
         headers,
       });
     } finally {
       setUpdateLoading(false);
+      setProduct(null);
     }
   };
-
   const calculateTakwawayDiscount = async () => {
     try {
       setLocationLoading(true);
