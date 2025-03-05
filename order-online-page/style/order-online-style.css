@@ -3173,6 +3173,7 @@ div.food_tile__.active img {
   align-items: center;
   padding-bottom: 20px;
   color: white;
+  z-index: 99;
   text-align: center;
 }
 
@@ -3241,9 +3242,11 @@ div.food_tile__.active img {
 }
 
 .app-buttons img {
-  margin-right: 10px;
+  margin-right: 0px;
 }
-
+.app-buttons {
+  display: flex;
+}
 @media (max-width: 768px) {
   .order-online-bg {
     margin: 10px auto;
@@ -3276,6 +3279,8 @@ div.food_tile__.active img {
   background-color: #03081f;
   padding: 20px 10px;
   display: flex;
+  position: relative;
+  left: -3%;
   border-radius: 0px 40px 40px 0px;
   justify-content: space-between;
   align-items: center;
@@ -3288,6 +3293,7 @@ div.food_tile__.active img {
 .ban-img-order {
   position: relative;
   left: -70px;
+  z-index: 999;
 }
 .btn-ad-cont {
   border: none;
