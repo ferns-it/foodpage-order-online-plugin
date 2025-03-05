@@ -90,29 +90,29 @@ function OrderSummary() {
     removeSessionStorageItem("deliveryFee");
   };
 
-  const updateQuantity = async (type, product, index) => {
-    if (!product) {
+  const updateQuantity = async (type, item, index) => {
+    if (!item) {
       toast.error("Something went wrong, Please try again!");
       return;
     }
 
     setUpdatedIndex(index);
-    setProduct(product);
+    setProduct(item);
 
-    const newQuantity =
-      type === "increase"
-        ? Number(product.quantity) + 1
-        : Number(product.quantity) > 1
-        ? Number(product.quantity) - 1
-        : 1;
+    let newQuantity;
+    if (type === "increase") {
+      newQuantity = Number(item.quantity) + 1;
+    } else {
+      // For decrease
+      newQuantity = Number(item.quantity) > 1 ? Number(item.quantity) - 1 : 1;
+    }
 
-    // Immediately update UI with new quantity
+    // Update UI immediately
     setQuantity(newQuantity);
 
-    // Call API to update cart
-    await handleUpdateCart(product, newQuantity);
+    // Update cart in backend
+    await handleUpdateCart(item, newQuantity);
   };
-
   const handleUpdateCart = async (product, newQuantity) => {
     try {
       if (newQuantity < 1) {
@@ -481,11 +481,12 @@ function OrderSummary() {
                                   onClick={() =>
                                     updateQuantity("decrease", item, mainIndex)
                                   }
-                                  disabled={quantity <= 1 || cartLoading}
-                                  className="cart_qty_btns dec-btn"
+                                  disabled={item.quantity <= 1 || updateLoading}
+                                  className="cart_qty_btns inc_btn"
                                 >
                                   -
                                 </button>
+
                                 {updatedIndex ? (
                                   <span className="px-3 f-16">
                                     {item.quantity}
