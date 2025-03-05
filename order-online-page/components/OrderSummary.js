@@ -410,7 +410,7 @@ function OrderSummary() {
                     <>
                       <div
                         className="position-relative mb-4"
-                        key={item.id || mainIndex}
+                        key={item.cartID || mainIndex}
                       >
                         <div className="d-flex">
                           <p className="food_menu m-0 food_title_299">
