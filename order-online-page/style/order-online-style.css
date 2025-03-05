@@ -3293,7 +3293,7 @@ div.food_tile__.active img {
 .ban-img-order {
   position: relative;
   left: -70px;
-  z-index: 999;
+  z-index: 99;
 }
 .btn-ad-cont {
   border: none;
