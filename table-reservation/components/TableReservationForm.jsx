@@ -21,6 +21,7 @@ import "react-calendar/dist/Calendar.css";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   getLocalStorageItem,
+  getSessionStorageItem,
   redirectToLocation,
   removeSessionStorageItem,
   setSessionStorageItem,
@@ -32,6 +33,7 @@ import Image from "next/image";
 import TableReservDisabled from "../assets/table-reservation-disabled.png";
 import dayjs from "dayjs";
 import { AppContext } from "../../order-online-page/context";
+import { jwtDecode } from "jwt-decode";
 
 const RECAPTCHA_SITE_KEY = "6LeXD-8pAAAAAOpi7gUuH5-DO0iMu7J6C-CBA2fo";
 
@@ -54,7 +56,7 @@ const findToday = () => {
 
 function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   const router = useRouter();
-  const { settings } = useContext(AppContext);
+  const { settings, fetchReservationList } = useContext(AppContext);
   const {
     getShopTiming,
     shopTiming,
@@ -103,6 +105,29 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   useEffect(() => {
     setInitialValues((prev) => ({ ...prev, noOfChairs: count }));
   }, [count]);
+
+  useEffect(() => {
+    const reservData = getSessionStorageItem("reservationData");
+
+    if (reservData && reservData.length != 0) {
+      const parsedData = JSON.parse(reservData) ?? null;
+
+      if (parsedData && typeof parsedData == "object") {
+        setInitialValues({
+          name: parsedData?.name ?? "",
+          email: parsedData?.email,
+          phone: parsedData?.phone,
+          bookingTime: parsedData?.bookingTime,
+          bookingDate: parsedData?.bookingDate,
+          noOfChairs: parsedData?.noOfChairs,
+          message: parsedData?.message,
+        });
+        const pickedDate = new Date(parsedData?.bookingDate) ?? new Date();
+
+        setDefaultDate(pickedDate);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     const today = new Date();
@@ -524,34 +549,35 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
           redirectToLocation(`/reservation-checkout?advance=${reserAdvAmt}`);
           return;
         } else {
-          await sendReservationOTP(payload, {
-            onSuccess: (res) => {
-              sessionStorage.setItem("hashcode", md5Num);
-              // localStorage.setItem("pageState");
-              setSecretKey(md5Num);
-              const errStatus = res.data.error;
+          // await sendReservationOTP(payload, {
+          //   onSuccess: (res) => {
+          //     sessionStorage.setItem("hashcode", md5Num);
+          //     // localStorage.setItem("pageState");
+          //     setSecretKey(md5Num);
+          //     const errStatus = res.data.error;
 
-              if (errStatus == false) {
-                const saveObj =
-                  initialValues && typeof initialValues == "object"
-                    ? JSON.stringify(initialValues)
-                    : initialValues;
+          //     if (errStatus == false) {
+          //       const saveObj =
+          //         initialValues && typeof initialValues == "object"
+          //           ? JSON.stringify(initialValues)
+          //           : initialValues;
 
-                toast.success("OTP send successfully!");
+          //       toast.success("OTP send successfully!");
 
-                setSessionStorageItem("reserv_details", saveObj);
-                setSessionStorageItem("secretKey", secretKey);
-                setIsActiveTablePage("otp-page");
-              } else {
-                toast.error("OTP not send!");
-              }
-            },
-            onFailed: (err) => {
-              toast.error("Error on sending OTP");
-              console.log("OTP ERROR", err);
-            },
-            headers: headers,
-          });
+          //       setSessionStorageItem("reserv_details", saveObj);
+          //       setSessionStorageItem("secretKey", secretKey);
+          //       setIsActiveTablePage("otp-page");
+          //     } else {
+          //       toast.error("OTP not send!");
+          //     }
+          //   },
+          //   onFailed: (err) => {
+          //     toast.error("Error on sending OTP");
+          //     console.log("OTP ERROR", err);
+          //   },
+          //   headers: headers,
+          // });
+          completeNewReservation();
         }
       }
     } finally {
@@ -560,30 +586,33 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   };
 
   const completeNewReservation = async () => {
+    if (initialValues == null || initialValues == undefined) {
+      toast.error("Please enter the reservation values and try again!");
+      return;
+    }
     const mergedBooking = Utils.mergeBookingDateTime(
       initialValues?.bookingDate,
       initialValues?.bookingTime
     );
-    const token = getLocalStorageItem("userToken");
-    const decodeBase64 = (str) => {
-      try {
-        return JSON.parse(atob(str));
-      } catch (e) {
-        console.error("Invalid Base64 string", e);
-        return null;
-      }
-    };
+    // const decodeBase64 = (str) => {
+    //   try {
+    //     return JSON.parse(atob(str));
+    //   } catch (e) {
+    //     console.error("Invalid Base64 string", e);
+    //     return null;
+    //   }
+    // };
 
-    const parts = token.split(".");
-    if (parts.length >= 2) {
-      const header = decodeBase64(parts[0]); // Decode Header
-      const payload = decodeBase64(parts[1]); // Decode Payload
-    } else {
-      console.error("Invalid token format");
-    }
+    // const parts = token.split(".");
+
+    const token = getLocalStorageItem("userToken");
+    const tokenData = jwtDecode(token);
+    const userId = tokenData?.data?.userID;
+    const parsedId = userId && typeof userId == "string" ? Number(userId) : 0;
+
     const payload = {
       shopID: shopId,
-      userID: 0,
+      userID: parsedId,
       name: initialValues?.name,
       phone: initialValues?.phone,
       email: initialValues?.email,
@@ -603,10 +632,12 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     };
 
     await completeReservation(payload, {
-      onSuccess: (res) => {
+      onSuccess: async (res) => {
         toast.success("Your request has been submitted successfully!");
         setSecretKey("");
         removeSessionStorageItem("reserv_details");
+        removeSessionStorageItem("reservationData");
+        await fetchReservationList(token);
         setTimeout(() => {
           setIsActiveTablePage("success-page");
         }, 1000);
@@ -696,8 +727,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
             </div>
           ) : (
             <>
-              {tableReservationSettings != null ? (
-                loading === false &&
+              {loading === false &&
                 tableReservationSettings?.active === true && (
                   <div className="row">
                     <div className="col-lg-8 col-md-8 col-sm-12 order-lg-1 order-md-1 order-sm-2">
@@ -951,6 +981,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                                       : "")
                                   }
                                   onChange={removeSpecialChars}
+                                  value={initialValues?.name}
                                 ></input>
                               </div>
                               {isReservErr &&
@@ -980,6 +1011,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                                       : "")
                                   }
                                   onChange={handleChange}
+                                  value={initialValues?.email}
                                 ></input>
                               </div>
                               {isReservErr &&
@@ -1011,6 +1043,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                                   }
                                   onChange={validatePhoneNumber}
                                   maxLength={15}
+                                  value={initialValues?.phone}
                                 ></input>
                               </div>
                               {isReservErr &&
@@ -1034,6 +1067,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                                 id=""
                                 className="textarea form-control table_reserv_textarea"
                                 onChange={handleChange}
+                                value={initialValues?.message}
                               ></textarea>
                             </div>
                           </div>
@@ -1233,14 +1267,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                       </div>
                     </div>
                   </div>
-                )
-              ) : (
-                <>
-                  <h3 className="text-center" style={{ color: "#7777" }}>
-                    Reservation settings unavailable
-                  </h3>
-                </>
-              )}
+                )}
               {tableReservationSettings &&
                 tableReservationSettings?.active === false && (
                   <>

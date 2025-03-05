@@ -233,6 +233,7 @@ const useProfile = () => {
       let headers = {
         "x-user": token,
       };
+      const type ="all"
       await BaseClient.get(
         APIEndpoints.getReservationList + `/${process.env.SHOP_ID}` + "/all",
         {},

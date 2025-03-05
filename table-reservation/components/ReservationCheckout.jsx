@@ -35,6 +35,7 @@ function ReservationCheckout() {
     paymentError,
     createReservPaymentIntent,
     settings,
+    fetchReservationList,
   } = useContext(AppContext);
   const { initialValues, setSecretKey, completeReservation } = useContext(
     TableReservationContext
@@ -161,10 +162,11 @@ function ReservationCheckout() {
     };
 
     await completeReservation(payload, {
-      onSuccess: (res) => {
+      onSuccess: async (res) => {
         toast.success("Your request has been submitted successfully!");
         setSecretKey("");
         removeSessionStorageItem("reservationData");
+        await fetchReservationList(token);
         setTimeout(() => {
           redirectToLocation("/");
         }, 1000);
