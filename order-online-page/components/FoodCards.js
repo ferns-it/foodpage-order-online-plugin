@@ -103,7 +103,6 @@ function FoodCards(category) {
                         <div className="row">
                           {products && products.length != 0 ? (
                             products?.map((data, index) => {
-                              console.log(data, "data");
                               return (
                                 <div
                                   className=" col-lg-12 col-md-12 col-sm-12 position-relative mb-3"
@@ -122,7 +121,7 @@ function FoodCards(category) {
                                         <div className="row">
                                           <div className="col-md-8 col-sm-12">
                                             {" "}
-                                            <div className="food_tile__ active mb-4 p-3">
+                                            <div className="food_tile__ active pb-2 mt-2">
                                               <h6 className="dish_name">
                                                 {data?.name}
                                               </h6>
@@ -155,9 +154,9 @@ function FoodCards(category) {
                                               <div className="col-md-4 col-sm-12">
                                                 <div className="container-img">
                                                   <Image
-                                                    layout="responsive"
+                                                    // layout="responsive"
                                                     src={data?.photo}
-                                                    width={0}
+                                                    width={100}
                                                     height={100}
                                                     alt=""
                                                     className="image-online "

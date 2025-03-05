@@ -11,6 +11,7 @@ import OrderSummary from "./OrderSummary";
 import { Toaster } from "react-hot-toast";
 import FoodCardsSkeleton from "./FoodCardsSkeleton";
 import SkeltLoader from "./SkeltLoader";
+import Image from "next/image";
 
 function FoodAccordian() {
   const {
@@ -275,7 +276,18 @@ function FoodAccordian() {
                                     >
                                       <div className="card accord_food_card_19">
                                         <div className="row">
-                                          <div className="col-9">
+                                          <div className="col-3">
+                                            <div className="accord_img_19">
+                                              <Image
+                                                width={100}
+                                                height={0}
+                                                src={data?.photo}
+                                                alt=""
+                                                referrerPolicy="no-referrer"
+                                              />
+                                            </div>
+                                          </div>
+                                          <div className="col-7">
                                             <h2 className="accord_food_name_19">
                                               {data?.name ?? "N/A"}
                                             </h2>
@@ -288,15 +300,9 @@ function FoodAccordian() {
                                             <p className="accord_price_19">
                                               {data?.price ?? "N/A"}
                                             </p>
-                                          </div>
-                                          <div className="col-2">
-                                            {/* <div className="accord_img_19">
-                                        <img
-                                          src={data?.photo}
-                                          alt=""
-                                          referrerPolicy="no-referrer"
-                                        />
-                                      </div> */}
+                                          </div>{" "}
+                                          <div className="col-1">
+                                            {" "}
                                             <button
                                               type="button"
                                               className="add_prod_"

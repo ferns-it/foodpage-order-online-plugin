@@ -64,9 +64,14 @@ input[type="checkbox"]:focus textarea,
   margin-bottom: 30px !important;
   font-weight: 700;
 }
-
+.prod_anchor {
+  padding: 0;
+  margin: 0;
+}
 .fda_food_row {
   flex-wrap: nowrap;
+  padding: 0;
+  margin: 0;
 }
 
 .fda_food_row > .col-9 {
@@ -130,7 +135,7 @@ input[type="checkbox"]:focus textarea,
 }
 
 .nav_profile p:hover {
-  color: #064340;
+  color: #c11014;
 }
 
 .nav_profile i {
@@ -199,7 +204,7 @@ input[type="checkbox"]:focus textarea,
   border: none;
   outline: none;
   padding: 0.7em 3em;
-  background-color: #064340;
+  background-color: #c11014;
   color: #fff;
   border-radius: 4px;
   margin: 0 auto;
@@ -226,7 +231,7 @@ input[type="checkbox"]:focus textarea,
 
 .food_count_399 {
   font-size: 15px;
-  color: #064340;
+  color: #c11014;
 }
 
 .add__order__online {
@@ -247,7 +252,7 @@ input[type="checkbox"]:focus textarea,
 }
 
 .add__order__online:hover {
-  background-color: #064340;
+  background-color: #c11014;
   color: #fff;
 }
 
@@ -256,7 +261,7 @@ input[type="checkbox"]:focus textarea,
   outline: none;
   border-radius: 3px;
   border: 1px solid #eee;
-  color: #064340;
+  color: #c11014;
   background-color: transparent;
   height: 35px;
   transition: all 0.2s ease-in-out;
@@ -264,7 +269,7 @@ input[type="checkbox"]:focus textarea,
 
 .order__online__count:hover {
   background-color: #f6bdbd;
-  color: #064340;
+  color: #c11014;
 }
 
 .small-screen-toast {
@@ -506,7 +511,7 @@ input[type="checkbox"]:focus textarea,
   font-size: 14px;
   transition: all 0.2s ease-in-out;
   width: 100px;
-  background-color: #064340;
+  background-color: #c11014;
   color: #fff;
   white-space: nowrap;
 }
@@ -1612,7 +1617,7 @@ deal_content p {
 }
 
 .table_reserv_form_input.err__ {
-  border-color: #064340 !important;
+  border-color: #c11014 !important;
   font-family: sans-serif !important;
 }
 
@@ -1631,7 +1636,7 @@ deal_content p {
   border-radius: 20px;
   margin: 0;
   overflow: hidden;
-  border: 1px solid #064340;
+  border: 1px solid #c11014;
 }
 
 .incDec_wrapper_0291 > .toggle-checkbox {
@@ -1654,7 +1659,7 @@ deal_content p {
   width: 200px;
   display: block;
   margin: 0 auto;
-  background-color: #064340;
+  background-color: #c11014;
   color: #fff;
   white-space: nowrap;
 }
@@ -1717,7 +1722,7 @@ deal_content p {
   position: absolute;
   width: 25px;
   height: 2px;
-  background-color: #064340;
+  background-color: #c11014;
   left: 0;
   bottom: 0;
 }
@@ -1789,7 +1794,7 @@ deal_content p {
 
 .resend_otp_reservv > span {
   font-size: 17px;
-  color: #064340;
+  color: #c11014;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
@@ -1809,7 +1814,7 @@ deal_content p {
   width: 20%;
   display: block;
   margin: 0 auto;
-  background-color: #064340;
+  background-color: #c11014;
   color: #fff;
 }
 
@@ -1863,7 +1868,7 @@ deal_content p {
   border: none;
   outline: none;
   padding: 0.7em 3em;
-  background-color: #064340;
+  background-color: #c11014;
   color: #fff;
   border-radius: 4px;
   margin: 0 auto;
@@ -1878,7 +1883,7 @@ deal_content p {
   font-size: 13px;
   padding: 10px;
   font-weight: 600;
-  color: #064340;
+  color: #c11014;
 }
 
 /* .banner-container {
@@ -1909,7 +1914,7 @@ deal_content p {
   /* left: 30px; */
   /* right: 20px; */
   float: right;
-  background-color: #064340;
+  background-color: #c11014;
   color: #fff;
   padding: 10px;
   outline: none;
@@ -1999,7 +2004,7 @@ deal_content p {
   display: block;
   margin: 0px auto;
   width: 25%;
-  color: #064340;
+  color: #c11014;
   font-size: 14px;
   cursor: pointer;
 }
@@ -2070,7 +2075,7 @@ deal_content p {
   margin-left: 30px;
   height: 30px;
   padding: 2px;
-  background-color: #064340;
+  background-color: #c11014;
   color: #fff;
   transition: all 0.2s ease-in-out; */
   border: none;
@@ -2082,7 +2087,7 @@ deal_content p {
 }
 
 .edit_btn_details i {
-  color: #064340;
+  color: #c11014;
   font-size: 25px;
   position: relative;
   top: -10px;
@@ -2417,7 +2422,7 @@ a {
   float: right;
   border: none;
   padding: 10px;
-  background-color: #064340;
+  background-color: #c11014;
   color: #fff;
   border-radius: 5px;
 }
@@ -2956,7 +2961,7 @@ a {
 .add_submit_btn {
   border: none;
   padding: 5px;
-  background-color: #064340;
+  background-color: #c11014;
   color: #fff;
   border-radius: 5px;
   width: 100%;
@@ -3054,7 +3059,7 @@ a {
     outline: none;
     font-size: 15px;
     background-color: transparent;
-    color: #064340;
+    color: #c11014;
     /* color: #fff; */
     border-radius: 4px;
     transition: all 0.2s ease-in-out;

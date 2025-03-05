@@ -13,6 +13,7 @@ import "../style/order-online-style.css";
 import { ImSpoonKnife } from "react-icons/im";
 import { BiFoodMenu } from "react-icons/bi";
 import Image from "next/image";
+import OnlineBanner from "../../../../../public/Assets/orde-ban.png";
 import "swiper/css";
 import "swiper/css/navigation";
 import Foodorder from "../../../../../public/Assets/order-food.png";
@@ -187,6 +188,9 @@ const OrderOnlineMain = () => {
                         </Fragment>
                       )}
                     </ul>
+                    <div className="p-3 mx-auto text-cenetr">
+                      <Image src={OnlineBanner} width={0} height={150} />
+                    </div>
                   </div>
                 </div>
                 <div className="col-lg-9 col-md-12 col-sm-12">
@@ -216,14 +220,11 @@ const OrderOnlineMain = () => {
         <LoaderComp />
       )}
       <Fragment>
-        <div className="Order-online-Section">
-          {" "}
-          <div className="sec-container">
-            <h1 className="head-order">How Does Muziris.uk Work</h1>
-          </div>
-        </div>
+        <div className="Order-online-Section"></div>
         <div className="order-banner">
           <div className="sec-container">
+            {" "}
+            <h1 className="head-order">How Does Muziris.uk Work</h1>
             <div className="row align-items-center">
               {/* Left Side - Order Steps */}
               <div className="col-md-7">

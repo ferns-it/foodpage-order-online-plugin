@@ -47,21 +47,14 @@ function OrderSummary() {
   const [takeawayTotal, setTakeawayTotal] = useState(null);
   const [postalCode, setPostalCode] = useState("");
   const [locationLoading, setLocationLoading] = useState(false);
-  const [quantities, setQuantities] = useState({});
+  const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState(null);
-  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [updateLoading, setUpdateLoading] = useState(false);
 
   useEffect(() => {
-    if (cartItems?.cartItems?.length) {
-      const initialQuantities = {};
-      cartItems.cartItems.forEach((item) => {
-        if (item?.id) {
-          initialQuantities[item.id] = Number(item.quantity) || 1;
-        }
-      });
-      setQuantities(initialQuantities);
-    }
-  }, [cartItems]);
+    if (!product) return;
+    setQuantity(product?.quantity ?? 1);
+  }, [product]);
 
   useEffect(() => {
     const value = cartItems?.cartTotal?.cartTotalPrice;
@@ -94,31 +87,38 @@ function OrderSummary() {
     removeSessionStorageItem("deliveryFee");
   };
 
-  const updateQuantity = (type, item) => {
-    console.log(item, "item");
-
-    if (!item || !item.cartID) {
+  const updateQuantity = (type, product) => {
+    setProduct(product);
+    if (!product) {
       toast.error("Something went wrong, Please try again!");
       return;
     }
-
-    setQuantities((prev) => {
-      const currentQty = prev[item.id] ?? Number(item.quantity) ?? 1;
-
+    // setSelectedIndex(index);
+    setQuantity((prev) => {
       const newQuantity =
-        type === "increase" ? currentQty + 1 : Math.max(currentQty - 1, 1);
-
-      handleUpdateCart(item, newQuantity);
-      return { ...prev, [item.id]: newQuantity };
+        type === "increase"
+          ? Number(prev) + 1
+          : Number(prev) > 1
+          ? Number(prev) - 1
+          : 1;
+      return newQuantity;
     });
+
+    const qty =
+      quantity && typeof quantity === "string" ? Number(quantity) : quantity;
+
+    const updatedQty = type === "increase" ? qty + 1 : qty > 1 ? qty - 1 : 1;
+
+    handleUpdateCart(product, updatedQty);
   };
 
-  const handleUpdateCart = async (item, qtyy) => {
+  const handleUpdateCart = async (product, qtyy) => {
     try {
       if (qtyy < 1) {
         toast.error("Please choose minimum quantity!");
         return;
       }
+      setUpdateLoading(true);
       const cartId = product?.cartID;
       let userIdd;
 
@@ -150,19 +150,21 @@ function OrderSummary() {
       await updateCart(cartId, payload, {
         onSuccess: async (data) => {
           toast.success("Cart updated successfully!");
-          await fetchCartList(token);
+          await fetchCartList(userIdd);
+          setUpdateLoading(false);
         },
         onFailed: (err) => {
           toast.error(err.message || "Something went wrong!");
           console.error(err);
+          setUpdateLoading(false);
         },
         headers,
       });
     } finally {
-      setProduct(null);
+      setUpdateLoading(false);
     }
   };
-
+  console.log(cartItems, "cart");
   const calculateTakwawayDiscount = async () => {
     try {
       setLocationLoading(true);
@@ -469,21 +471,23 @@ function OrderSummary() {
                           <div className="button-second">
                             <div className="d-flex cover-btn">
                               <button
-                                onClick={() => updateQuantity("decrease", item)}
-                                disabled={
-                                  quantities[item.id] <= 1 || cartLoading
+                                onClick={() =>
+                                  updateQuantity("decrease", item, mainIndex)
                                 }
+                                disabled={quantity <= 1 || cartLoading}
                                 className="cart_qty_btns dec-btn"
                               >
                                 -
                               </button>
                               <span className="px-3 f-16">
-                                {quantities[item.id] ?? item.quantity ?? 1}
+                                {product == null ? item.quantity : quantity}
                               </span>
 
                               <button
                                 className="cart_qty_btns inc_btn"
-                                onClick={() => updateQuantity("increase", item)}
+                                onClick={() =>
+                                  updateQuantity("increase", item, mainIndex)
+                                }
                                 disabled={cartLoading}
                               >
                                 +

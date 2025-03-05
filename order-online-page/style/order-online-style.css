@@ -38,7 +38,7 @@ body {
 .btn_check {
   width: 25%;
 
-  background-color: #064340;
+  background-color: #c11014;
   color: #fff;
   font-weight: 600;
   border-radius: 5px;
@@ -351,7 +351,7 @@ body {
 }
 
 .menu-list > li.active {
-  background-color: #064340;
+  background-color: #c11014;
   color: #fff !important;
   font-weight: 600;
 }
@@ -372,7 +372,7 @@ body {
   margin-bottom: 5px;
   padding-right: 30px;
   color: #000 !important;
-  font-size: 25px;
+  font-size: 18px;
   border-radius: 20px;
   font-family: sans-serif;
 }
@@ -641,7 +641,7 @@ body {
 }
 .strong-name {
   margin-left: 10px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
 
   font-family: var(--poppins-font);
@@ -853,12 +853,12 @@ body {
 }
 
 .food_category_009 a > li {
-  padding: 10px 15px;
+  padding: 0px 15px;
   font-weight: 600;
   text-transform: uppercase;
   white-space: nowrap;
   padding-right: 30px;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .food_category_009 a > i {
@@ -922,7 +922,7 @@ body {
   position: absolute;
   height: 100%;
   width: 5px;
-  background-color: #064340;
+  background-color: #c11014;
   right: 0;
   top: 0;
   /* opacity: 0; */
@@ -958,7 +958,7 @@ body {
   position: absolute;
   width: 40px;
   height: 2px;
-  background-color: #064340;
+  background-color: #c11014;
   left: 50%;
   bottom: -10px;
   transform: translateX(-50%);
@@ -1069,7 +1069,7 @@ body {
   display: block;
   border: none;
   outline: none;
-  background-color: #064340;
+  background-color: #c11014;
   color: #fff;
   padding: 10px 15px;
   border-radius: 4px;
@@ -1275,7 +1275,7 @@ body {
   width: 120px;
   margin: 0px auto !important;
   text-align: center !important;
-  border: 1px solid #064340; */
+  border: 1px solid #c11014; */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1317,7 +1317,7 @@ body {
 }
 
 .increment-button.red {
-  background-color: #064340 !important;
+  background-color: #c11014 !important;
   color: #fff;
 }
 
@@ -1533,6 +1533,7 @@ body {
   padding: 10px;
   overflow: hidden;
   margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .accord_food_name_19 {
@@ -1610,9 +1611,9 @@ body {
   display: none;
   position: fixed;
   width: 100%;
-  height: 50px;
-  background-color: #064340;
-  padding: 10px;
+  height: 70px;
+  background-color: #c11014;
+  padding: 20px;
   left: 0;
   transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
   opacity: 1;
@@ -1623,10 +1624,11 @@ body {
 
 .checkout_resp_btn_021 {
   width: 100%;
-  background-color: #064340;
+  background-color: #c11014;
   border: none;
   outline: none;
   border-radius: 5px;
+  padding: 5px;
   border: 1px solid #fff;
   color: #fff;
 }
@@ -1682,7 +1684,7 @@ body {
 }
 
 .summary_qty_btn:hover {
-  color: #064340;
+  color: #c11014;
 }
 
 .total_cost_summary {
@@ -1734,13 +1736,13 @@ a:focus {
 }
 
 .summary_addons_collapse_btn:hover {
-  color: #064340;
+  color: #c11014;
 }
 
 .err_msg_order_summary {
   font-size: 13px;
   font-weight: 600;
-  color: red;
+  color: #c11014;
   user-select: none;
 }
 
@@ -1756,7 +1758,7 @@ a:focus {
   padding: 0;
   font-size: 16px;
   border-radius: 50%;
-  color: #064340;
+  color: #c11014;
   font-weight: 700;
 }
 
@@ -1786,6 +1788,12 @@ a:focus {
   .order_summary_checkout {
     padding: 0 0 6rem 0;
   }
+  .span-for-online {
+    border-radius: 0 !important;
+  }
+  .ban-img-order {
+    display: none;
+  }
   .login_summary_card_0928 {
     padding: 10px;
   }
@@ -1803,7 +1811,7 @@ a:focus {
   height: 50px;
   background-color: #fff;
   /* box-shadow: 2px 0 10px #7777; */
-  background-color: #064340;
+  background-color: #c11014;
   color: #fff;
   right: 20px;
   top: -20px;
@@ -1878,7 +1886,7 @@ a:focus {
   font-size: 15px;
   border: none;
   outline: none;
-  background-color: #064340;
+  background-color: #c11014;
   color: #fff;
   font-weight: 600;
   border-radius: 5px;
@@ -1920,7 +1928,7 @@ a:focus {
 }
 
 .payment_card_order_online_093.selected {
-  border-color: #064340;
+  border-color: #c11014;
 }
 
 .payment_card_order_online_093.selected > i {
@@ -1977,7 +1985,7 @@ a:focus {
 }
 
 .checkout_summary_order_online_heads {
-  background-color: #064340;
+  background-color: #c11014;
   border-right: 10px;
   border-left: 15px;
   height: auto;
@@ -1985,7 +1993,7 @@ a:focus {
 }
 
 .checkout_btn_order_online {
-  background-color: #064340;
+  background-color: #c11014;
   color: #ffff;
   width: 50%;
   outline: none;
@@ -2002,7 +2010,7 @@ a:focus {
   margin-left: 30px;
   height: 30px;
   padding: 2px;
-  background-color: #064340;
+  background-color: #c11014;
   color: #fff;
   transition: all 0.2s ease-in-out; */
   border: none;
@@ -2014,7 +2022,7 @@ a:focus {
 }
 
 .edit_btn_details i {
-  color: #064340;
+  color: #c11014;
   font-size: 25px;
   position: relative;
   top: -10px;
@@ -2109,7 +2117,7 @@ a:focus {
   border: none;
   outline: none;
   border-radius: 50%;
-  background-color: #064340;
+  background-color: #c11014;
   color: #fff;
   padding: 10px 15px;
   transition: all 0.2s ease-in-out;
@@ -2148,6 +2156,7 @@ a:focus {
 }
 .dish-value {
   color: #221c17;
+  font-size: 16px;
 }
 .cash_payment_info_939 {
   margin: 10px 0;
@@ -2160,7 +2169,7 @@ a:focus {
   outline: none;
   width: 200px;
   font-weight: 500;
-  background-color: #064340;
+  background-color: #c11014;
   color: #fff;
   padding: 7px;
   border-radius: 4px;
@@ -2324,6 +2333,7 @@ a:focus {
 @media screen and (max-width: 600px) {
   .moadl_02901 {
     min-width: 90%;
+    margin-top: 20px;
     font-size: 14px;
   }
 
@@ -2340,7 +2350,7 @@ a:focus {
 }
 
 .red {
-  color: #064340;
+  color: #c11014;
   font-size: 13px;
   font-weight: 600;
 }
@@ -2349,7 +2359,7 @@ a:focus {
   position: fixed;
   width: 100%;
   height: 50px;
-  background-color: #064340;
+  background-color: #c11014;
   padding: 10px;
   left: 0;
   bottom: 0;
@@ -2363,7 +2373,7 @@ a:focus {
     position: fixed;
     width: 100%;
     height: 50px;
-    background-color: #064340;
+    background-color: #c11014;
     padding: 10px;
     left: 0;
     bottom: 0;
@@ -2599,7 +2609,7 @@ a:focus {
   border: none;
   outline: none;
   padding: 0.7em 3em;
-  background-color: #064340;
+  background-color: #c11014;
   color: #fff;
   border-radius: 4px;
   margin: 0 auto;
@@ -2648,7 +2658,7 @@ a:focus {
 
 .screen span {
   font-size: 18px;
-  color: #064340;
+  color: #c11014;
 }
 
 .add__order__online {
@@ -2669,7 +2679,7 @@ a:focus {
 }
 
 .add__order__online:hover {
-  background-color: #064340;
+  background-color: #c11014;
   color: #fff;
 }
 
@@ -2678,7 +2688,7 @@ a:focus {
   outline: none;
   border-radius: 3px;
   border: 1px solid #eee;
-  color: #064340;
+  color: #c11014;
   background-color: transparent;
   height: 35px;
   transition: all 0.2s ease-in-out;
@@ -2686,7 +2696,7 @@ a:focus {
 
 .order__online__count:hover {
   background-color: #f6bdbd;
-  color: #064340;
+  color: #c11014;
 }
 
 .cat_name__ {
@@ -2706,7 +2716,7 @@ a:focus {
   position: absolute;
   height: 3px;
   width: 15px;
-  background-color: #064340;
+  background-color: #c11014;
   bottom: -5px;
   left: 50%;
   transform: translateX(-50%);
@@ -2772,12 +2782,12 @@ div.food_tile__.active img {
 }
 
 .dish_name {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: 1px;
   text-align: left;
+  padding: 0;
   color: #222222;
-  margin-bottom: 12px;
   font-family: var(--poppins-font);
 }
 
@@ -2834,7 +2844,7 @@ div.food_tile__.active img {
   transform: translateX(-50%);
   font-size: 1.2rem;
   font-family: sans-serif;
-  color: #064340;
+  color: #c11014;
   font-weight: 500 !important;
 }
 .add_to_cart {
@@ -2845,7 +2855,7 @@ div.food_tile__.active img {
   border: none;
   outline: none;
   background-color: transparent;
-  background-color: #064340;
+  background-color: #c11014;
   font-size: 14px;
   padding: 3px 20px;
   border-radius: 5px;
@@ -2905,7 +2915,7 @@ div.food_tile__.active img {
   /* left: 30px; */
   /* right: 20px; */
   float: right;
-  background-color: #064340;
+  background-color: #c11014;
   color: #fff;
   padding: 10px;
   outline: none;
@@ -2968,7 +2978,7 @@ div.food_tile__.active img {
   border: none;
   background-color: transparent;
   outline: none;
-  color: #064340;
+  color: #c11014;
   font-size: 1.7rem !important;
 }
 
@@ -3022,7 +3032,7 @@ div.food_tile__.active img {
   color: #fff;
   font-size: 30px;
   padding: 30px 20px;
-  margin: 0;
+  margin: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -3103,7 +3113,7 @@ div.food_tile__.active img {
 .messasge-card {
   color: #c11014;
   font-family: var(--poppins-font);
-  font-size: 13px;
+  font-size: 12px;
 }
 .option-card.selected .card {
   border-color: #4caf50;
