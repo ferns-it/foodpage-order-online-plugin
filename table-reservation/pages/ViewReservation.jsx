@@ -31,9 +31,10 @@ export const mergeBookingDateTime = (bookingDate, bookingTime) => {
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
 
-  const timeWithSeconds = bookingTime.includes(":")
-    ? bookingTime
-    : `${bookingTime}:00`;
+  const timeWithSeconds =
+    bookingTime && bookingTime.includes(":")
+      ? bookingTime
+      : `${bookingTime}:00`;
 
   const formattedDateTime = `${year}-${month}-${day} ${timeWithSeconds}`;
 

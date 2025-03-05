@@ -179,7 +179,7 @@ function ReservationLogin() {
   const handleGuestLogin = () => {
     router.push("/reservation-guest");
   };
- 
+
   const completeNewReservation = async () => {
     const mergedBooking = Utils.mergeBookingDateTime(
       initialValues?.bookingDate,
@@ -204,7 +204,7 @@ function ReservationLogin() {
     } else {
       console.error("Invalid token format");
     }
-  
+
     const payload = {
       shopID: shopId,
       userID: userId?.userID,

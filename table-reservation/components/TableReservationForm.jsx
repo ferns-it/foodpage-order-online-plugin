@@ -19,6 +19,7 @@ import { toast, Toaster } from "react-hot-toast";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useRouter, useSearchParams } from "next/navigation";
+import "../style/Style.css";
 import {
   getLocalStorageItem,
   removeSessionStorageItem,
@@ -331,7 +332,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
       const errMsg =
         error.response?.data?.errormessage || "Something went wrong";
       toast.error(errMsg);
-  
+
       return false;
     }
   };
@@ -576,7 +577,6 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     if (parts.length >= 2) {
       const header = decodeBase64(parts[0]); // Decode Header
       const payload = decodeBase64(parts[1]); // Decode Payload
-
     } else {
       console.error("Invalid token format");
     }
@@ -683,7 +683,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
       setManageReservLoading(false);
     }
   };
-
+  console.log(tableReservationSettings, "tableReservationSettings");
   return (
     <div className="table_reserv__ position-relative">
       <Toaster />
