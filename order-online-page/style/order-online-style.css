@@ -1694,12 +1694,12 @@ body {
 }
 
 .total_cost_summary td:first-child {
-  width: 70%;
+  width: 38%;
 }
 
 .total_cost_summary td:last-child {
   font-size: 18px;
-  width: 30%;
+  width: 40%;
   text-align: right;
 }
 
@@ -2149,7 +2149,7 @@ a:focus {
   border: none;
   background-color: #c11014;
   color: #fff;
-  padding: 10px 15px;
+  padding: 5px 15px;
   font-weight: 600;
   font-size: 14px;
   border-radius: 6px;
