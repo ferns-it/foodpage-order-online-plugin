@@ -14,9 +14,7 @@ import {
   setLocalStorageItem,
   setSessionStorageItem,
 } from "../../_utils/ClientUtils";
-import { use } from "react";
 import { jwtDecode } from "jwt-decode";
-import { redirect } from "next/dist/server/api-utils";
 
 export const AppContext = createContext();
 
