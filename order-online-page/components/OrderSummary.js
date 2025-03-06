@@ -273,7 +273,6 @@ function OrderSummary() {
       setLocationLoading(false);
     }
   };
-  console.log(cartItems,"cartItems")
   const handleAddress = async () => {
     if (cartItems?.cartItems?.length === 0) {
       toast("Your cart is empty!");
@@ -754,8 +753,8 @@ function OrderSummary() {
                   {error && (
                     <div className="error-message messasge-card">{error}</div>
                   )}
-                  <div className="messasge-card">
-                    <small className="messasge-card">
+                  <div className="messasge-card text-center">
+                    <small className="messasge-card text-center">
                       Your Food will be ready in just
                       {" " + deliveryInfo?.minWaitingTime} minutes!{" "}
                     </small>
