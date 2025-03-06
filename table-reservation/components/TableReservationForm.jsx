@@ -476,9 +476,9 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
 
   const handleTableReservation = async (e) => {
     e.preventDefault();
+    setFormValidationLoading(true);
 
     try {
-      setFormValidationLoading(true);
       const isValid = validateReservForm();
 
       if (isValid) return;
@@ -637,10 +637,17 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
         setSecretKey("");
         removeSessionStorageItem("reserv_details");
         removeSessionStorageItem("reservationData");
+        setInitialValues({
+          name: "",
+          email: "",
+          phone: "",
+          bookingTime: 0,
+          bookingDate: "",
+          noOfChairs: 0,
+          message: "",
+        });
         await fetchReservationList(token);
-        setTimeout(() => {
-          setIsActiveTablePage("success-page");
-        }, 1000);
+        setIsActiveTablePage("success-page");
       },
       onFailed: (err) => {
         console.log(err);
@@ -840,7 +847,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                               </div>
                               {isReservErr &&
                                 initialValues.bookingDate.length === 0 && (
-                                  <span className="reserv_from_err">
+                                  <span className="reserv_from_err text-danger">
                                     Booking Date is Required!
                                   </span>
                                 )}
@@ -893,13 +900,13 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                                       </option>
                                     ))}
                                 </select>
+                                {isReservErr &&
+                                  initialValues.bookingTime == 0 && (
+                                    <span className="reserv_from_err text-danger">
+                                      Booking Time is Required!
+                                    </span>
+                                  )}
                               </div>
-                              {isReservErr &&
-                                initialValues.bookingTime == 0 && (
-                                  <span className="reserv_from_err">
-                                    Booking Time is Required!
-                                  </span>
-                                )}
                               {timeIntervals && timeIntervals.length == 0 && (
                                 <span className="text-danger fw-bold user-select-none m-2">
                                   No Slots Available!
@@ -952,7 +959,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                                 </p>
                               </div>
                               {isReservErr && initialValues.noOfChairs == 0 && (
-                                <span className="reserv_from_err">
+                                <span className="reserv_from_err text-danger">
                                   Select a valid number of chairs!
                                 </span>
                               )}
@@ -983,13 +990,13 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                                   onChange={removeSpecialChars}
                                   value={initialValues?.name}
                                 ></input>
-                              </div>
                               {isReservErr &&
                                 initialValues.name.length === 0 && (
-                                  <span className="reserv_from_err">
+                                  <span className="reserv_from_err text-danger">
                                     Name is Required!
                                   </span>
                                 )}
+                              </div>
                             </div>
                             <div className="col-lg-4 col-md-6 ol-sm-12">
                               <div className="form-group">
@@ -1013,13 +1020,13 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                                   onChange={handleChange}
                                   value={initialValues?.email}
                                 ></input>
+                                {isReservErr &&
+                                  initialValues.email.length === 0 && (
+                                    <span className="reserv_from_err text-danger">
+                                      Email Address is Required!
+                                    </span>
+                                  )}
                               </div>
-                              {isReservErr &&
-                                initialValues.email.length === 0 && (
-                                  <span className="reserv_from_err">
-                                    Email Address is Required!
-                                  </span>
-                                )}
                             </div>
 
                             <div className="col-lg-4 col-md-6 ol-sm-12">
@@ -1045,13 +1052,13 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                                   maxLength={15}
                                   value={initialValues?.phone}
                                 ></input>
+                                {isReservErr &&
+                                  initialValues.phone.length === 0 && (
+                                    <span className="reserv_from_err text-danger text-danger">
+                                      Phone Number is Required!
+                                    </span>
+                                  )}
                               </div>
-                              {isReservErr &&
-                                initialValues.phone.length === 0 && (
-                                  <span className="reserv_from_err">
-                                    Phone Number is Required!
-                                  </span>
-                                )}
                             </div>
                           </div>
                           <div className="row my-4">
@@ -1074,9 +1081,12 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                           <button
                             type="submit"
                             className="submit_reserv_btn"
-                            disabled={formValidationLoading}
+                            disabled={
+                              formValidationLoading || reservationLoading
+                            }
                           >
-                            {formValidationLoading === false ? (
+                            {formValidationLoading === false &&
+                            reservationLoading === false ? (
                               <Fragment>
                                 <span>Proceed to Booking</span>
                                 <i className="ps-2">
