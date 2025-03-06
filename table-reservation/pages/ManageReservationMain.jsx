@@ -71,7 +71,7 @@ function ManageReservationMain() {
                       reservationList.map((data, index) => {
                         const time = data?.bookingTime.split(" ")[1];
                         return (
-                          <tr>
+                          <tr key={index}>
                             <th scope="row">{index + 1}</th>
                             <td>{data?.formattedID ?? "N/A"}</td>
                             <td>{data?.name ?? "N/A"}</td>

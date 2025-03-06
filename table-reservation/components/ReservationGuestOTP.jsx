@@ -14,12 +14,14 @@ import { AppContext } from "../../order-online-page/context";
 import { TableReservationContext } from "../context/TableReservationContext";
 import Utils from "../utils/Utils";
 import {
+  getLocalStorageItem,
   getSessionStorageItem,
   removeLocalStorageItem,
   removeSessionStorageItem,
   setLocalStorageItem,
   setSessionStorageItem,
 } from "../../_utils/ClientUtils";
+import { jwtDecode } from "jwt-decode";
 
 function ReservationGuestOTP() {
   const { authLoading, settings, sentOTPtoUser } = useContext(AppContext);
@@ -131,9 +133,13 @@ function ReservationGuestOTP() {
       initialValues?.bookingTime
     );
 
+    const token = getLocalStorageItem("userToken");
+    const tokenData = jwtDecode(token);
+    const userId = tokenData?.data?.userID ?? 0;
+
     const payload = {
       shopID: process.env.SHOP_ID,
-      userID: 0,
+      userID: userId,
       name: initialValues?.name,
       phone: initialValues?.phone,
       email: initialValues?.email,
@@ -156,7 +162,8 @@ function ReservationGuestOTP() {
       onSuccess: (res) => {
         removeSessionStorageItem("reserv_details");
         removeLocalStorageItem("userToken");
-        localStorage.removeItem("userToken");
+        removeLocalStorageItem("userToken");
+        removeSessionStorageItem("reservationData");
         setTimeout(() => {
           router.push("/reserv-success");
         }, 1000);

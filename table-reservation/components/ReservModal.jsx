@@ -1,15 +1,13 @@
 "use client";
-import React, { Fragment, useContext, useEffect, useRef } from "react";
-
-
+import React, {Fragment, useContext, useEffect, useRef} from "react";
 import CryptoJS from "crypto-js";
-import { TableReservationContext } from "../context/TableReservationContext";
+import {TableReservationContext} from "../context/TableReservationContext";
 import toast from "react-hot-toast";
 import * as Io5 from "react-icons/io5";
 import * as Gr from "react-icons/gr";
-import { appContext } from "../../order-online-page/context";
+import {appContext} from "../../order-online-page/context";
 import Utils from "../utils/Utils";
-
+import "../../order-online-page/style/order-online-style.css"
 function ReservModal(props) {
   const modalRef = useRef(null);
 
@@ -65,7 +63,6 @@ function ReservModal(props) {
   const validateLateCancel = () => {
     const lateCancelMinutes = parseInt(lateCancel);
     if (isNaN(lateCancelMinutes) || lateCancelMinutes < 0) {
-     
       return false;
     }
 
@@ -76,7 +73,6 @@ function ReservModal(props) {
     const bookingDateTime = new Date(`${bookingDate}T${bookingTime}`);
 
     if (isNaN(bookingDateTime)) {
-  
       return false;
     }
 
@@ -158,7 +154,7 @@ function ReservModal(props) {
             onClick={async () => {
               props.setShowModal(false);
             }}
-            style={{ color: "#252525" }}
+            style={{color: "#252525"}}
           >
             <Io5.IoCloseCircle />
           </button>
@@ -195,7 +191,7 @@ function ReservModal(props) {
                     props.setShowModal(false);
                   }}
                 >
-                  Disacrd
+                  Discard
                 </button>
               </div>
             </Fragment>

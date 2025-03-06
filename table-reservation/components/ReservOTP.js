@@ -146,6 +146,7 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
         toast.success("OTP has been verified!");
         setSecretKey("");
         removeSessionStorageItem("reserv_details");
+        removeSessionStorageItem("reservationData");
         setTimeout(() => {
           setIsActiveTablePage("success-page");
         }, 1000);
@@ -160,7 +161,6 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
     const encryptOTP = encryptToMD5(reservOTP);
 
     if (secretKey.length == 0) {
-     
     }
     if (secretKey === encryptOTP) {
       await completeNewReservation();

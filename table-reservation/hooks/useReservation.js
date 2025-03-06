@@ -86,6 +86,8 @@ const useReservation = () => {
             onSuccess: (res) => {
               if (res && res.data && res.data.error == false && res.data.data) {
                 // debugger;
+                console.log(res.data,"response table");
+                debugger;
                 const reservResponse = res.data.data?.ReservationData;
                 const msgResponse = res.data.data?.chatMessages;
 

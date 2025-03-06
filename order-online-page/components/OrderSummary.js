@@ -273,9 +273,14 @@ function OrderSummary() {
       setLocationLoading(false);
     }
   };
+  console.log(cartItems,"cartItems")
   const handleAddress = async () => {
     if (cartItems?.cartItems?.length === 0) {
       toast("Your cart is empty!");
+      return;
+    }
+    if(cartItems?.cartTotal?.cartTotalPrice ===0){
+      toast.error("Cart Total Should be morethan 1!");
       return;
     }
     setSessionStorageItem("path", "checkout");
@@ -729,7 +734,7 @@ function OrderSummary() {
                   </div>
                 </div>
               ) : (
-                <div style={{ width: "100%", padding: "10px" }}>
+                <div style={{ width: "90%", padding: "10px", margin: "0px auto" }}>
                   <label htmlFor="takeaway-time" className="opt_label_827">
                     Pickup Time
                   </label>

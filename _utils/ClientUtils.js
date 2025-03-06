@@ -46,3 +46,8 @@ export const redirectToLocation = (url) => {
     window.location.href = url;
   }
 };
+export const reloadCurrentLocation = () => {
+  if (isClient) {
+    window.location.reload();
+  }
+};

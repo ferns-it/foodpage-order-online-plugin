@@ -44,10 +44,11 @@ input {
 }
 
 #alter_card {
-  width: 70%;
+  width: 100%;
   padding: 10px;
   float: right;
   transition: all 0.2s ease-in-out;
+  /* overflow: scroll; */
 }
 @media screen and (max-width: 991px) {
   #alter_card {
@@ -123,7 +124,8 @@ input {
   text-align: center;
   line-height: 30px;
   cursor: pointer;
-  background-color: #fff;
+ color: #fff !important;
+ background-color: #c11014 !important;
   border-radius: 50%;
   box-shadow: 0 2px 5px #3c3c3c;
   transition: all 0.2s ease-in-out;
@@ -346,11 +348,27 @@ input {
     width: 100% !important;
   }
 }
-
+.reserv-list{
+  min-height: 70vh;
+}
+.back-btn {
+  background-color: #c11014;
+  color: #fff;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+.box-opening {
+  display: flex; /* Enables flexbox */
+  align-items: center; /* Centers vertically */
+  justify-content: center; /* Centers horizontally */
+  z-index: 9999 !important;
+  height: 100%; /* Ensure it takes full height */
+}
 .reserv_content_success__ {
   width: 55%;
   margin: 0 auto;
   text-align: center;
+  min-height: 70vh;
   user-select: none;
 }
 
@@ -1795,9 +1813,46 @@ abbr[title] {
   color: #252525;
   text-decoration: dashed underline !important;
 }
+.otp-page {
+  padding-top: 200px;
+  min-height: 1100px;
+}
+.eye_btn {
+  position: absolute;
+  right: 5px;
+  top: 0;
+  background-color: transparent;
+}
+.btn-warning {
+  color: #212529;
+  background-color: #ffc107;
+  border-color: #ffc107;
+}
+.eye_btn_fgt {
+  position: relative;
+  right: 5px;
+  top: -40px !important;
+  float: right;
+  border: none;
+  background-color: transparent;
+}
+.passwordin {
+  height: 50px;
+}
+.login_btn_new {
+  width: 100%;
+  padding: 7px 0;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  background-color: #c11014 !important;
+  color: #fff !important;
+  margin: 0 auto;
+  transition: all 0.2s ease-in-out;
+}
 .reserv_btn {
   float: right;
-  width: 50%;
+  width: 190px;
   padding: 10px 20px;
   border: none;
   outline: none;
@@ -1908,10 +1963,10 @@ abbr[title] {
 }
 @media screen and (max-width: 600px) {
   .reser_table_value {
-    font-size: 10px;
+    font-size: 12px;
   }
   .reserv_table_sub_head {
-    font-size: 10px !important;
+    font-size: 12px !important;
   }
 }
 .reserv_table_sub_head {
@@ -1921,8 +1976,13 @@ abbr[title] {
   width: 50%;
   user-select: none;
 }
+.cancel-modal{
+  width: 50%;
+  padding: 10px;
+  margin: 20px;
+}
 .btn_grp {
-  display: flex;
+  /* display: flex; */
   align-items: center;
   justify-content: center;
 }
@@ -1935,6 +1995,11 @@ abbr[title] {
   font-weight: 600;
   border-radius: 5px;
   transition: all 0.2s ease-in-out;
+}
+button:focus,
+button:active {
+  outline: none !important;
+  border: none !important;
 }
 .resrv_btnn i {
   font-size: 14px;
@@ -1951,9 +2016,15 @@ abbr[title] {
   position: absolute;
   background-color: transparent;
   /* color: #252525; */
-  right: -70px;
-  width: 50%;
+  right: 0 !important;
+  width: 100px;
   float: right;
+  border: none !important;
+  outline: none !important;
+}
+
+#new_update {
+  right: 0;
 }
 .update_reserv:hover {
   background-color: transparent;

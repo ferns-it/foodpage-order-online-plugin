@@ -1,12 +1,12 @@
 "use client";
-import { AppContext } from "../order-online-page/context/index";
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import {AppContext} from "../order-online-page/context/index";
+import React, {Fragment, useContext, useEffect, useState} from "react";
 import OTPInput from "react-otp-input";
 import * as Go from "react-icons/go";
 import CryptoJS from "crypto-js";
-import toast, { Toaster } from "react-hot-toast";
+import toast, {Toaster} from "react-hot-toast";
 import Utils from "../_utils/Utils";
-import { usePathname, useRouter } from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 import {
   getLocalStorageItem,
   getSessionStorageItem,
@@ -19,7 +19,7 @@ import "./style.css";
 function OtpVerification() {
   const path = usePathname();
 
-  const { authLoading, settings, sentOTPtoUser } = useContext(AppContext);
+  const {authLoading, settings, sentOTPtoUser} = useContext(AppContext);
   const router = useRouter();
   const [reservOTP, setResertOTP] = useState("");
   const [loginMail, setLoginMail] = useState(null);
@@ -66,7 +66,7 @@ function OtpVerification() {
       email: getSessionStorageItem("loginMail"),
       role: "guest",
     };
-    const payload = { data };
+    const payload = {data};
 
     const header = {
       alg: "FP2024",
@@ -118,7 +118,7 @@ function OtpVerification() {
               renderInput={(props) => <input {...props} />}
             />
             <p className="resend_otp_reservv">
-              Didn't get any OTP? <br />
+              {"Didn't get any OTP?"} <br />
               {!authLoading ? (
                 <span onClick={resendOTP}>Resend OTP</span>
               ) : (

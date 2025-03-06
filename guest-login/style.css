@@ -186,6 +186,7 @@ input[type="checkbox"]:focus textarea,
   margin: 0 auto;
   text-align: center;
   user-select: none;
+  min-height: 50vh;
 }
 
 .reserv_content_success__ > h1 {
@@ -404,7 +405,7 @@ input[type="checkbox"]:focus textarea,
   border-radius: 5px;
   border: none;
   outline: none;
-  background-color: #00574b;
+  background-color: #c11014;
   color: #fff;
   margin: 0 auto;
   transition: all 0.2s ease-in-out;
@@ -1989,14 +1990,14 @@ deal_content p {
   border-radius: 5px;
   border: none;
   outline: none;
-  background-color: #00574b !important;
+  background-color: #c11014 !important;
   color: #fff;
   margin: 0 auto;
   transition: all 0.2s ease-in-out;
 }
 
 .continue_btn:disabled {
-  background-color: #00574b;
+  background-color: #c11014;
   cursor: not-allowed;
 }
 
