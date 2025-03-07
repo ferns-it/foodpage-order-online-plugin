@@ -22,8 +22,6 @@ import Delivery from "../../../../../public/Assets/del.png";
 import BannerCont from "../../../../../public/Assets/order-fd.png";
 import AppStore from "../../../../../public/Assets/appstore.png";
 import PlayStore from "../../../../../public/Assets/playstore.png";
-import "swiper/css";
-import "swiper/css/navigation";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";

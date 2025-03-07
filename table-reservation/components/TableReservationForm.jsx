@@ -683,7 +683,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
       setManageReservLoading(false);
     }
   };
-  console.log(tableReservationSettings, "tableReservationSettings");
+  
   return (
     <div className="table_reserv__ position-relative">
       <Toaster />
