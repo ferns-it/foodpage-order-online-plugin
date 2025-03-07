@@ -11,7 +11,7 @@ import OrderSummary from "./OrderSummary";
 import toast, { Toaster } from "react-hot-toast";
 import FoodCardsSkeleton from "./FoodCardsSkeleton";
 import SkeltLoader from "./SkeltLoader";
-import { getSessionStorageItem, setSessionStorageItem } from "../../_utils/ClientUtils";
+import { getLocalStorageItem, getSessionStorageItem, setSessionStorageItem } from "../../_utils/ClientUtils";
 import { useRouter } from "next/navigation";
 
 function FoodAccordian() {

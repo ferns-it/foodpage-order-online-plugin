@@ -377,7 +377,6 @@ function OrderSummaryCheckout() {
           pickupTimeData && pickupTimeData.length != 0
             ? pickupTimeData.split(" ")[1]
             : null;
-        debugger;
         //!payload here
         const payload = {
           shopID: process.env.SHOP_ID,
