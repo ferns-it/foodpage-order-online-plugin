@@ -278,6 +278,10 @@ function OrderSummary() {
       toast("Your cart is empty!");
       return;
     }
+    if(cartItems?.cartTotal?.cartTotalPrice ===0){
+      toast.error("Cart Total Should be morethan 1!");
+      return;
+    }
     setSessionStorageItem("path", "checkout");
     if (delivery == false || delivery == "false") {
       if (postalCode == "" || postalCode == null) {
@@ -729,7 +733,7 @@ function OrderSummary() {
                   </div>
                 </div>
               ) : (
-                <div style={{ width: "100%", padding: "10px" }}>
+                <div style={{ width: "90%", padding: "10px", margin: "0px auto" }}>
                   <label htmlFor="takeaway-time" className="opt_label_827">
                     Pickup Time
                   </label>
@@ -749,8 +753,8 @@ function OrderSummary() {
                   {error && (
                     <div className="error-message messasge-card">{error}</div>
                   )}
-                  <div className="messasge-card">
-                    <small className="messasge-card">
+                  <div className="messasge-card text-center">
+                    <small className="messasge-card text-center">
                       Your Food will be ready in just
                       {" " + deliveryInfo?.minWaitingTime} minutes!{" "}
                     </small>

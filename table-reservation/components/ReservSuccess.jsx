@@ -7,9 +7,9 @@ function ReservSuccess() {
   const router = useRouter();
   return (
     <Fragment>
-      <div className="container mt-5 mb-5">
+      <div className="reserv-page container-fluid p-0 m-0">
        
-        <div className="reserv_content_success__">
+        <div className="container">
           <h1> Congratulations! 🎉</h1>
           <p>
             Your table reservation request has been successfully sent. Our team

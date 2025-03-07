@@ -14,6 +14,7 @@ import {
   redirectToLocation,
   removeSessionStorageItem,
   setLocalStorageItem,
+  setSessionStorageItem,
 } from "../../_utils/ClientUtils";
 import { AppContext } from "../../order-online-page/context";
 import { TableReservationContext } from "../context/TableReservationContext";
@@ -29,6 +30,7 @@ function ReservationLogin() {
     shopId,
     transferCartItem,
     setIsUserLogged,
+    fetchReservationList,
   } = useContext(AppContext);
   const {
     initialValues,
@@ -162,7 +164,8 @@ function ReservationLogin() {
 
             if (havAdvance) {
               router.push(`/reservation-checkout?advance=${reserAdvAmt}`);
-              return;
+            } else {
+              redirectToLocation("/tablereservation");
             }
             completeNewReservation();
             if (guestId) {
@@ -185,29 +188,15 @@ function ReservationLogin() {
       initialValues?.bookingDate,
       initialValues?.bookingTime
     );
-    const token = getLocalStorageItem("userToken");
-    let userId;
-    const decodeBase64 = (str) => {
-      try {
-        return JSON.parse(atob(str));
-      } catch (e) {
-        console.error("Invalid Base64 string", e);
-        return null;
-      }
-    };
 
-    const parts = token.split(".");
-    if (parts.length >= 2) {
-      const header = decodeBase64(parts[0]); // Decode Header
-      const payload = decodeBase64(parts[1]); // Decode Payload
-      userId = payload.data;
-    } else {
-      console.error("Invalid token format");
-    }
+    const token = getLocalStorageItem("userToken");
+    const tokenData = jwtDecode(token);
+    const userId = tokenData?.data?.userID;
+    const parsedId = userId && typeof userId == "string" ? Number(userId) : 0;
 
     const payload = {
       shopID: shopId,
-      userID: userId?.userID,
+      userID: parsedId,
       name: initialValues?.name,
       phone: initialValues?.phone,
       email: initialValues?.email,
@@ -226,9 +215,11 @@ function ReservationLogin() {
     };
 
     await completeReservation(payload, {
-      onSuccess: (res) => {
+      onSuccess: async (res) => {
         setSecretKey("");
         removeSessionStorageItem("reserv_details");
+        removeSessionStorageItem("reservationData");
+        await fetchReservationList(token);
         toast.success("Reservation completed successfully");
         router.push("/");
       },
@@ -241,7 +232,7 @@ function ReservationLogin() {
   return (
     <Fragment>
       <div className="container">
-        <div className="login_wrapper ">
+        <div className="login_wrapper mb-3">
           <div className="card login_comp col-md-6 col-lg-4 col-sm-12 mx-auto">
             <h2>Please login and continue</h2>
             <p className="sub_title_login">

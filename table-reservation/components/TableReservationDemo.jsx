@@ -42,7 +42,11 @@ const findToday = () => {
   return dayName;
 };
 
-function TableReservationFormDemo({ setIsActiveTablePage, encryptToMD5, shopId }) {
+function TableReservationFormDemo({
+  setIsActiveTablePage,
+  encryptToMD5,
+  shopId,
+}) {
   const router = useRouter();
   const searchparams = useSearchParams();
   const {
@@ -502,8 +506,6 @@ function TableReservationFormDemo({ setIsActiveTablePage, encryptToMD5, shopId }
     if (parts.length >= 2) {
       const header = decodeBase64(parts[0]); // Decode Header
       const payload = decodeBase64(parts[1]); // Decode Payload
-
-  
     } else {
       console.error("Invalid token format");
     }
@@ -533,6 +535,7 @@ function TableReservationFormDemo({ setIsActiveTablePage, encryptToMD5, shopId }
         toast.success("Your request has been submitted successfully!");
         setSecretKey("");
         removeSessionStorageItem("reserv_details");
+        removeSessionStorageItem("reservationData");
         setTimeout(() => {
           setIsActiveTablePage("success-page");
         }, 1000);

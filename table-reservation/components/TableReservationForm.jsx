@@ -19,9 +19,10 @@ import { toast, Toaster } from "react-hot-toast";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useRouter, useSearchParams } from "next/navigation";
-import "../style/Style.css";
 import {
   getLocalStorageItem,
+  getSessionStorageItem,
+  redirectToLocation,
   removeSessionStorageItem,
   setSessionStorageItem,
 } from "../../_utils/ClientUtils";
@@ -32,6 +33,7 @@ import Image from "next/image";
 import TableReservDisabled from "../assets/table-reservation-disabled.png";
 import dayjs from "dayjs";
 import { AppContext } from "../../order-online-page/context";
+import { jwtDecode } from "jwt-decode";
 
 const RECAPTCHA_SITE_KEY = "6LeXD-8pAAAAAOpi7gUuH5-DO0iMu7J6C-CBA2fo";
 
@@ -54,7 +56,7 @@ const findToday = () => {
 
 function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   const router = useRouter();
-  const { settings } = useContext(AppContext);
+  const { settings, fetchReservationList } = useContext(AppContext);
   const {
     getShopTiming,
     shopTiming,
@@ -103,6 +105,29 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   useEffect(() => {
     setInitialValues((prev) => ({ ...prev, noOfChairs: count }));
   }, [count]);
+
+  useEffect(() => {
+    const reservData = getSessionStorageItem("reservationData");
+
+    if (reservData && reservData.length != 0) {
+      const parsedData = JSON.parse(reservData) ?? null;
+
+      if (parsedData && typeof parsedData == "object") {
+        setInitialValues({
+          name: parsedData?.name ?? "",
+          email: parsedData?.email,
+          phone: parsedData?.phone,
+          bookingTime: parsedData?.bookingTime,
+          bookingDate: parsedData?.bookingDate,
+          noOfChairs: parsedData?.noOfChairs,
+          message: parsedData?.message,
+        });
+        const pickedDate = new Date(parsedData?.bookingDate) ?? new Date();
+
+        setDefaultDate(pickedDate);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     const today = new Date();
@@ -451,9 +476,9 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
 
   const handleTableReservation = async (e) => {
     e.preventDefault();
+    setFormValidationLoading(true);
 
     try {
-      setFormValidationLoading(true);
       const isValid = validateReservForm();
 
       if (isValid) return;
@@ -516,42 +541,44 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
       setSessionStorageItem("reservationData", JSON.stringify(initialValues));
 
       if (token == null || token == undefined) {
-        router.push("/reservation-login");
-
-        // await sendReservationOTP(payload, {
-        //   onSuccess: (res) => {
-        //     sessionStorage.setItem("hashcode", md5Num);
-        //     // localStorage.setItem("pageState");
-        //     setSecretKey(md5Num);
-        //     const errStatus = res.data.error;
-        //     // console.log("OTP", res.data);
-
-        //     if (errStatus == false) {
-        //       const saveObj =
-        //         initialValues && typeof initialValues == "object"
-        //           ? JSON.stringify(initialValues)
-        //           : initialValues;
-
-        //       setSessionStorageItem("reserv_details", saveObj);
-        //       setSessionStorageItem("secretKey", secretKey);
-
-        //       // if (token == null || token == undefined) {
-        //       //   router.push("/reservation-login");
-        //       // } else {
-        //       //   completeNewReservation();
-        //       // }
-        //     } else {
-        //       toast.error("OTP not send!");
-        //     }
-        //   },
-        //   onFailed: (err) => {
-        //     toast.error("Error on sending OTP");
-        //     console.log("OTP ERROR", err);
-        //   },
-        //   headers: headers,
-        // });
+        toast.success("Please Complete the Authentication!");
+        redirectToLocation("/reservation-login");
       } else {
-        router.push(`/reservation-checkout?advance=${reserAdvAmt}`);
+        //** Check if the settings has advance amout for reservation */
+        if (havAdvance) {
+          redirectToLocation(`/reservation-checkout?advance=${reserAdvAmt}`);
+          return;
+        } else {
+          // await sendReservationOTP(payload, {
+          //   onSuccess: (res) => {
+          //     sessionStorage.setItem("hashcode", md5Num);
+          //     // localStorage.setItem("pageState");
+          //     setSecretKey(md5Num);
+          //     const errStatus = res.data.error;
+
+          //     if (errStatus == false) {
+          //       const saveObj =
+          //         initialValues && typeof initialValues == "object"
+          //           ? JSON.stringify(initialValues)
+          //           : initialValues;
+
+          //       toast.success("OTP send successfully!");
+
+          //       setSessionStorageItem("reserv_details", saveObj);
+          //       setSessionStorageItem("secretKey", secretKey);
+          //       setIsActiveTablePage("otp-page");
+          //     } else {
+          //       toast.error("OTP not send!");
+          //     }
+          //   },
+          //   onFailed: (err) => {
+          //     toast.error("Error on sending OTP");
+          //     console.log("OTP ERROR", err);
+          //   },
+          //   headers: headers,
+          // });
+          completeNewReservation();
+        }
       }
     } finally {
       setFormValidationLoading(false);
@@ -559,30 +586,33 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   };
 
   const completeNewReservation = async () => {
+    if (initialValues == null || initialValues == undefined) {
+      toast.error("Please enter the reservation values and try again!");
+      return;
+    }
     const mergedBooking = Utils.mergeBookingDateTime(
       initialValues?.bookingDate,
       initialValues?.bookingTime
     );
-    const token = getLocalStorageItem("userToken");
-    const decodeBase64 = (str) => {
-      try {
-        return JSON.parse(atob(str));
-      } catch (e) {
-        console.error("Invalid Base64 string", e);
-        return null;
-      }
-    };
+    // const decodeBase64 = (str) => {
+    //   try {
+    //     return JSON.parse(atob(str));
+    //   } catch (e) {
+    //     console.error("Invalid Base64 string", e);
+    //     return null;
+    //   }
+    // };
 
-    const parts = token.split(".");
-    if (parts.length >= 2) {
-      const header = decodeBase64(parts[0]); // Decode Header
-      const payload = decodeBase64(parts[1]); // Decode Payload
-    } else {
-      console.error("Invalid token format");
-    }
+    // const parts = token.split(".");
+
+    const token = getLocalStorageItem("userToken");
+    const tokenData = jwtDecode(token);
+    const userId = tokenData?.data?.userID;
+    const parsedId = userId && typeof userId == "string" ? Number(userId) : 0;
+
     const payload = {
       shopID: shopId,
-      userID: 0,
+      userID: parsedId,
       name: initialValues?.name,
       phone: initialValues?.phone,
       email: initialValues?.email,
@@ -602,13 +632,22 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     };
 
     await completeReservation(payload, {
-      onSuccess: (res) => {
+      onSuccess: async (res) => {
         toast.success("Your request has been submitted successfully!");
         setSecretKey("");
         removeSessionStorageItem("reserv_details");
-        setTimeout(() => {
-          setIsActiveTablePage("success-page");
-        }, 1000);
+        removeSessionStorageItem("reservationData");
+        setInitialValues({
+          name: "",
+          email: "",
+          phone: "",
+          bookingTime: 0,
+          bookingDate: "",
+          noOfChairs: 0,
+          message: "",
+        });
+        await fetchReservationList(token);
+        setIsActiveTablePage("success-page");
       },
       onFailed: (err) => {
         console.log(err);
@@ -664,6 +703,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
         onSuccess: (res) => {
           if (res?.data?.error === false) {
             const reserVData = res?.data?.data?.enquiryList;
+            console.log(reserVData,"data")
             if (reserVData && reserVData.length == 0) {
               toast.error("No reservations found!");
               return;
@@ -683,7 +723,6 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
       setManageReservLoading(false);
     }
   };
-  
   return (
     <div className="table_reserv__ position-relative">
       <Toaster />
@@ -695,8 +734,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
             </div>
           ) : (
             <>
-              {tableReservationSettings != null ? (
-                loading === false &&
+              {loading === false &&
                 tableReservationSettings?.active === true && (
                   <div className="row">
                     <div className="col-lg-8 col-md-8 col-sm-12 order-lg-1 order-md-1 order-sm-2">
@@ -809,7 +847,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                               </div>
                               {isReservErr &&
                                 initialValues.bookingDate.length === 0 && (
-                                  <span className="reserv_from_err">
+                                  <span className="reserv_from_err text-danger">
                                     Booking Date is Required!
                                   </span>
                                 )}
@@ -862,13 +900,13 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                                       </option>
                                     ))}
                                 </select>
+                                {isReservErr &&
+                                  initialValues.bookingTime == 0 && (
+                                    <span className="reserv_from_err text-danger">
+                                      Booking Time is Required!
+                                    </span>
+                                  )}
                               </div>
-                              {isReservErr &&
-                                initialValues.bookingTime == 0 && (
-                                  <span className="reserv_from_err">
-                                    Booking Time is Required!
-                                  </span>
-                                )}
                               {timeIntervals && timeIntervals.length == 0 && (
                                 <span className="text-danger fw-bold user-select-none m-2">
                                   No Slots Available!
@@ -921,7 +959,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                                 </p>
                               </div>
                               {isReservErr && initialValues.noOfChairs == 0 && (
-                                <span className="reserv_from_err">
+                                <span className="reserv_from_err text-danger">
                                   Select a valid number of chairs!
                                 </span>
                               )}
@@ -950,14 +988,15 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                                       : "")
                                   }
                                   onChange={removeSpecialChars}
+                                  value={initialValues?.name}
                                 ></input>
-                              </div>
                               {isReservErr &&
                                 initialValues.name.length === 0 && (
-                                  <span className="reserv_from_err">
+                                  <span className="reserv_from_err text-danger">
                                     Name is Required!
                                   </span>
                                 )}
+                              </div>
                             </div>
                             <div className="col-lg-4 col-md-6 ol-sm-12">
                               <div className="form-group">
@@ -979,14 +1018,15 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                                       : "")
                                   }
                                   onChange={handleChange}
+                                  value={initialValues?.email}
                                 ></input>
+                                {isReservErr &&
+                                  initialValues.email.length === 0 && (
+                                    <span className="reserv_from_err text-danger">
+                                      Email Address is Required!
+                                    </span>
+                                  )}
                               </div>
-                              {isReservErr &&
-                                initialValues.email.length === 0 && (
-                                  <span className="reserv_from_err">
-                                    Email Address is Required!
-                                  </span>
-                                )}
                             </div>
 
                             <div className="col-lg-4 col-md-6 ol-sm-12">
@@ -1010,14 +1050,15 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                                   }
                                   onChange={validatePhoneNumber}
                                   maxLength={15}
+                                  value={initialValues?.phone}
                                 ></input>
+                                {isReservErr &&
+                                  initialValues.phone.length === 0 && (
+                                    <span className="reserv_from_err text-danger text-danger">
+                                      Phone Number is Required!
+                                    </span>
+                                  )}
                               </div>
-                              {isReservErr &&
-                                initialValues.phone.length === 0 && (
-                                  <span className="reserv_from_err">
-                                    Phone Number is Required!
-                                  </span>
-                                )}
                             </div>
                           </div>
                           <div className="row my-4">
@@ -1033,15 +1074,19 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                                 id=""
                                 className="textarea form-control table_reserv_textarea"
                                 onChange={handleChange}
+                                value={initialValues?.message}
                               ></textarea>
                             </div>
                           </div>
                           <button
                             type="submit"
                             className="submit_reserv_btn"
-                            disabled={formValidationLoading}
+                            disabled={
+                              formValidationLoading || reservationLoading
+                            }
                           >
-                            {formValidationLoading === false ? (
+                            {formValidationLoading === false &&
+                            reservationLoading === false ? (
                               <Fragment>
                                 <span>Proceed to Booking</span>
                                 <i className="ps-2">
@@ -1232,14 +1277,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                       </div>
                     </div>
                   </div>
-                )
-              ) : (
-                <>
-                  <h3 className="text-center" style={{ color: "#7777" }}>
-                    Reservation settings unavailable
-                  </h3>
-                </>
-              )}
+                )}
               {tableReservationSettings &&
                 tableReservationSettings?.active === false && (
                   <>

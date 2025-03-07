@@ -429,7 +429,7 @@ function OrderSummaryCheckout() {
 
   return (
     <Fragment>
-      <section className="order_summary_checkout">
+      <section className="order_summary_checkout pt-100 pb-50">
         {/* <button type="button" onClick={completeOrder}>
           click
         </button> */}
@@ -761,7 +761,7 @@ function OrderSummaryCheckout() {
                         value={formState.notes}
                       ></textarea>
                     </div>
-                    <div className="form-group mz-auto text-center">
+                    <div className="form-group mz-auto text-center mt-3">
                       <button type="submit" className="btn_check">
                         Submit
                       </button>
@@ -863,7 +863,7 @@ function OrderSummaryCheckout() {
                             </div>
                             {paymentOption === "cash" && (
                               <Fragment>
-                                <p className="cash_payment_info_939">
+                                <p className="cash_payment_info_939 mt-3">
                                   <IoInformationCircleOutline />{" "}
                                   <span>
                                     You are Choosing Cash on Delivery Press
@@ -873,7 +873,7 @@ function OrderSummaryCheckout() {
                                 <br />
                                 <button
                                   type="button"
-                                  className="cash_payment_submit_btn_order_online"
+                                  className="cash_payment_submit_btn_order_online mt-3"
                                   onClick={completeOrder}
                                   disabled={loading}
                                 >

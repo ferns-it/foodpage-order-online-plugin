@@ -1304,6 +1304,7 @@ body {
   background-color: #fff;
   box-shadow: 0 2px 5px #3c3c3c;
   border-radius: 0;
+color: #fff;
   transition: all 0.2s ease-in-out;
   font-weight: 700;
   user-select: none;
