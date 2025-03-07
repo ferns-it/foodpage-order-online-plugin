@@ -11,7 +11,7 @@ import OrderSummary from "./OrderSummary";
 import toast, { Toaster } from "react-hot-toast";
 import FoodCardsSkeleton from "./FoodCardsSkeleton";
 import SkeltLoader from "./SkeltLoader";
-import { getSessionStorageItem } from "../../_utils/ClientUtils";
+import { getSessionStorageItem, setSessionStorageItem } from "../../_utils/ClientUtils";
 import { useRouter } from "next/navigation";
 
 function FoodAccordian() {
@@ -72,11 +72,12 @@ function FoodAccordian() {
     accordionStates && accordionStates.some((state) => state);
 
   const addOnsModalData = (product) => {
-    const token = getSessionStorageItem("userToken");
-    if (!token) {
-      toast.error("Please Login and continue!");
+    const token = getLocalStorageItem("userToken");
+    if(token == null || token == undefined){
+      setSessionStorageItem("path","/order-online")
+      toast.error("Please Login Before Adding an Item!");
       router.push("/login");
-      return;
+      return
     }
     setShowRespModal(true);
     setProductRespDataValues(product);
