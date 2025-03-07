@@ -150,7 +150,7 @@ function LoginPage() {
           <div className="card login_comp col-md-6 col-lg-4 col-sm-12 mx-auto">
             <h2>Please login and continue</h2>
             <p className="sub_title_login">
-              Welcome to <strong>OTARU Sushi & Grill</strong>! To access your
+              Welcome to <strong>Muziris </strong>! To access your
               account and continue exploring all the features we offer, please
               log in with your credentials. If you don’t have an account yet,
               you can sign up to get started. If you encounter any issues, feel
