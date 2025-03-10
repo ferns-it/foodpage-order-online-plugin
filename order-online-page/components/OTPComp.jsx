@@ -6,6 +6,8 @@ import Image from "next/image";
 import CryptoJS from "crypto-js";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Logo from "../../../../../public/Assets/logo.png";
+import "../../guest-login/style.css"
 import {
   getLocalStorageItem,
   getSessionStorageItem,
@@ -153,7 +155,7 @@ function OTPComp() {
           </div>
         </div>
       </div>
-      <section className="table_reserv__">
+      <section className="pt-3">
         <div className="container">
           <div className="card table_reservation_card col-lg-7 col-md-9 col-sm-10 mb-3">
             <h3 className="table-reservation-form-head text-center">
