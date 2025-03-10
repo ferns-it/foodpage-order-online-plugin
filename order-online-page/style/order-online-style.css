@@ -2786,9 +2786,9 @@ a:focus {
 div.food_tile__.active img {
   background-color: rgba(220, 230, 252, 0.85);
 }
-.food-card-pro {
-  width: 50%;
-}
+/* .food-card-pro {
+  width: 70%;
+} */
 .dish_name {
   font-size: 16px;
   font-weight: 700;
@@ -3213,7 +3213,6 @@ div.food_tile__.active img {
   margin: 10px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
   min-height: 200px;
-  margin-top: 100px;
 }
 
 .head-one {
@@ -3278,11 +3277,11 @@ div.food_tile__.active img {
 }
 .sec1-head {
   color: #03081f;
-  font-size: 53px;
+  font-size: 58px;
   text-wrap: no-wrap;
   font-family: var(--poppins-font);
   font-weight: 800;
-  padding-top: 103px;
+  padding-top: 50px;
 }
 .span-for-online {
   background-color: #03081f;
