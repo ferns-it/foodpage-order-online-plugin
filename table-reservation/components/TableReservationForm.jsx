@@ -57,6 +57,7 @@ const findToday = () => {
 function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   const router = useRouter();
   const { settings, fetchReservationList } = useContext(AppContext);
+  const searchParams = useSearchParams();
   const {
     getShopTiming,
     shopTiming,
@@ -92,6 +93,11 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
   const memoizedHolidayIntervals = useMemo(() => {
     return generateHolidayIntervals();
   }, [upcomingHolidays, tableReservationSettings]);
+
+  // useEffect(() => {
+  //   const start = searchParams.get("start");
+  //   const end = searchParams.get("end");
+  // }, [searchParams]);
 
   useEffect(() => {
     setInitialValues((prev) => ({ ...prev, bookingDate: defaultDate }));
@@ -793,7 +799,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                             onChange={(e) => handleDateChange(e)}
                             defaultValue={defaultDate}
                             tileDisabled={({ date }) => isHoliday(date)}
-
+                            // tileClassName="special"
                             // tileContent={({ date }) => {
                             //   // Find the holiday reason for this date
                             //   const holiday =
@@ -990,12 +996,12 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
                                   onChange={removeSpecialChars}
                                   value={initialValues?.name}
                                 ></input>
-                              {isReservErr &&
-                                initialValues.name.length === 0 && (
-                                  <span className="reserv_from_err text-danger">
-                                    Name is Required!
-                                  </span>
-                                )}
+                                {isReservErr &&
+                                  initialValues.name.length === 0 && (
+                                    <span className="reserv_from_err text-danger">
+                                      Name is Required!
+                                    </span>
+                                  )}
                               </div>
                             </div>
                             <div className="col-lg-4 col-md-6 ol-sm-12">
