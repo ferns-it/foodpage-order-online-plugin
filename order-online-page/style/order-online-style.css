@@ -1304,7 +1304,7 @@ body {
   background-color: #fff;
   box-shadow: 0 2px 5px #3c3c3c;
   border-radius: 0;
-color: #fff;
+  color: #fff;
   transition: all 0.2s ease-in-out;
   font-weight: 700;
   user-select: none;
@@ -2349,6 +2349,11 @@ a:focus {
     flex-direction: row-reverse;
   }
 }
+@media screen and (max-width: 1400px) {
+  .food-card-pro {
+    width: 100% !important;
+  }
+}
 
 .red {
   color: #c11014;
@@ -2781,11 +2786,13 @@ a:focus {
 div.food_tile__.active img {
   background-color: rgba(220, 230, 252, 0.85);
 }
-
+.food-card-pro {
+  width: 50%;
+}
 .dish_name {
   font-size: 16px;
-  font-weight: 600;
-  letter-spacing: 1px;
+  font-weight: 700;
+  letter-spacing: 0px;
   text-align: left;
   padding: 0;
   color: #222222;
@@ -3033,7 +3040,7 @@ div.food_tile__.active img {
   color: #fff;
   font-size: 30px;
   padding: 30px 20px;
-  margin: 20px;
+  /* margin: 20px; */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -3206,6 +3213,7 @@ div.food_tile__.active img {
   margin: 10px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
   min-height: 200px;
+  margin-top: 100px;
 }
 
 .head-one {
@@ -3270,11 +3278,11 @@ div.food_tile__.active img {
 }
 .sec1-head {
   color: #03081f;
-  font-size: 58px;
+  font-size: 53px;
   text-wrap: no-wrap;
   font-family: var(--poppins-font);
   font-weight: 800;
-  padding-top: 50px;
+  padding-top: 103px;
 }
 .span-for-online {
   background-color: #03081f;

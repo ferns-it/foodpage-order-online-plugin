@@ -105,7 +105,7 @@ function FoodCards(category) {
                             products?.map((data, index) => {
                               return (
                                 <div
-                                  className=" col-lg-12 col-md-12 col-sm-12 position-relative mb-3"
+                                  className="food-card-pro position-relative mb-3"
                                   key={index}
                                 >
                                   <div id="fda_product_tile">
@@ -122,7 +122,7 @@ function FoodCards(category) {
                                           <div className="col-md-8 col-sm-12">
                                             {" "}
                                             <div className="food_tile__ active pb-2 mt-2">
-                                              <h6 className="dish_name">
+                                              <h6 className="dish_name mt-3">
                                                 {data?.name}
                                               </h6>
                                               <span className="food_detail">
@@ -130,7 +130,7 @@ function FoodCards(category) {
                                                   data?.description ?? "N/A"
                                                 )}
                                               </span>
-                                              <div className="online-card">
+                                              <div className="online-card mb-3">
                                                 <h4 className="dish-value">
                                                   {" "}
                                                   <b>{data?.price ?? "N/A"}</b>
@@ -149,23 +149,25 @@ function FoodCards(category) {
                                             </div>{" "}
                                           </div>
                                           {data?.photo !=
-                                            "https://development.foodpage.co.uk/theme/dish_placeholder.png" && (
-                                            <>
-                                              <div className="col-md-4 col-sm-12">
-                                                <div className="container-img">
-                                                  <Image
-                                                    // layout="responsive"
-                                                    src={data?.photo}
-                                                    width={100}
-                                                    height={100}
-                                                    alt=""
-                                                    className="image-online "
-                                                    referrerPolicy="no-referrer"
-                                                  />
+                                            "https://development.foodpage.co.uk/theme/dish_placeholder.png" ||
+                                            (data?.photo !=
+                                              "https://foodpage.co.uk/theme/dish_placeholder.png" && (
+                                              <>
+                                                <div className="col-md-4 col-sm-12">
+                                                  <div className="container-img">
+                                                    <Image
+                                                      // layout="responsive"
+                                                      src={data?.photo}
+                                                      width={150}
+                                                      height={150}
+                                                      alt=""
+                                                      className="image-online "
+                                                      referrerPolicy="no-referrer"
+                                                    />
+                                                  </div>
                                                 </div>
-                                              </div>
-                                            </>
-                                          )}
+                                              </>
+                                            ))}
                                         </div>
                                       </div>
                                     </div>
