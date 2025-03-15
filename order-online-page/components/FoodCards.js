@@ -108,7 +108,7 @@ function FoodCards(category) {
                                 "https://development.foodpage.co.uk/theme/dish_placeholder.png";
                               return (
                                 <div
-                                  className=" col-lg-12 col-md-12 col-sm-12 position-relative mb-3"
+                                  className="food-card-pro position-relative mb-3"
                                   key={index}
                                 >
                                   <div id="fda_product_tile">

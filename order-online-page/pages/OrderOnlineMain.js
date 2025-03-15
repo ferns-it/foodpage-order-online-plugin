@@ -109,7 +109,7 @@ const OrderOnlineMain = () => {
           <div className="food_order_area mt-4">
             <div className="order_block">
               <div className="row">
-                <div className="col-lg-3 col-md-3 col-sm-none cat_col_0229">
+                <div className="col-lg-3 col-md-12 col-sm-none cat_col_0229">
                   <div className="card category_card_009">
                     <ul className="food_category_009">
                       {categoryLoading ? (
@@ -223,7 +223,7 @@ const OrderOnlineMain = () => {
           <div className="sec-container">
             {" "}
             <h1 className="head-order">How Does Muziris.uk Work</h1>
-            <div className="row align-items-center">
+            <div className="row ">
               {/* Left Side - Order Steps */}
               <div className="col-md-7">
                 <div className="row">

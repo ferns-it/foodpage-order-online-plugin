@@ -2357,6 +2357,11 @@ a:focus {
     flex-direction: row-reverse;
   }
 }
+@media screen and (max-width: 1400px) {
+  .food-card-pro {
+    width: 100% !important;
+  }
+}
 
 .red {
   color: #c11014;
@@ -2786,11 +2791,13 @@ a:focus {
 div.food_tile__.active img {
   background-color: rgba(220, 230, 252, 0.85);
 }
-
+/* .food-card-pro {
+  width: 70%;
+} */
 .dish_name {
   font-size: 16px;
-  font-weight: 600;
-  letter-spacing: 1px;
+  font-weight: 700;
+  letter-spacing: 0px;
   text-align: left;
   padding: 0;
   color: #222222;
