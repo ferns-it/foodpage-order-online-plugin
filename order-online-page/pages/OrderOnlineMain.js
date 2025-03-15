@@ -23,8 +23,10 @@ import BannerCont from "../../../../../public/Assets/order-fd.png";
 import AppStore from "../../../../../public/Assets/appstore.png";
 import PlayStore from "../../../../../public/Assets/playstore.png";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 
 const testimonials = [
   { name: "Arakkal Abu", img: "/Assets/testimonials/user1.jpg" },
@@ -36,6 +38,18 @@ const testimonials = [
   },
   { name: "Kolapulli Leela", img: "/Assets/testimonials/user5.jpg" },
 ];
+
+const PrevArrow = ({ onClick }) => (
+  <button className="custom-prev" onClick={onClick}>
+    <FaChevronLeft size={14} />
+  </button>
+);
+
+const NextArrow = ({ onClick }) => (
+  <button className="custom-next" onClick={onClick}>
+    <FaChevronRight size={14} />
+  </button>
+);
 
 const OrderOnlineMain = () => {
   const router = useRouter();
@@ -51,6 +65,7 @@ const OrderOnlineMain = () => {
   const [activeChipIndex, setActiveChipIndex] = useState(-1);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [isSticky, setIsSticky] = useState(false);
+  const [activeSliderIndex, setActiveSliderIndex] = useState(0);
 
   useEffect(() => {
     if (!categoryList) return;
@@ -63,6 +78,49 @@ const OrderOnlineMain = () => {
   //   if (!shopId) return;
   //   getShopTiming(shopId);
   // }, [shopId]);
+
+  var sliderSettings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3, // Default for large screens
+    slidesToScroll: 1,
+    autoplay: true,
+    loop: true,
+    arrows: true,
+    centerMode: true,
+    afterChange: (current) => setActiveSliderIndex(current),
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+
+    responsive: [
+      {
+        breakpoint: 1024, 
+        settings: {
+          slidesToShow: 2,
+          centerMode: false,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+          arrows: false, 
+          dots: true,
+          centerMode: false,
+        },
+      },
+      {
+        breakpoint: 480, 
+        settings: {
+          slidesToShow: 1,
+          arrows: false,
+          dots: true,
+          centerMode: false,
+        },
+      },
+    ],
+  };
 
   const handleChipClick = async (index, catName, cID) => {
     setActiveChipIndex(index);
@@ -332,46 +390,77 @@ const OrderOnlineMain = () => {
         </div>
       </Fragment>
       <Fragment>
-        <div className="container-fluid p-0 m-0 bg-last-order-online">
-          <div className="col-md-8 col-sm-12 mx-auto text-center">
-            <div className="content-order-online">
-              <h4>Peoples's Talk</h4>
-              <h6>WHAT CUSTOMER SAY ABOUT US</h6>
-              <br />
-              <p>
-                Lorem readable content of a page when looking at its layout. The
-                point of using Lorem Ipsum is that it has a more-or-less normal
-                distribution of letters, as opposed to using 'Content here,
-                content here', making it look like readable English.
-              </p>
-            </div>
-            <div className="flex flex-col">
-              <div className="relative w-full max-w-xl">
-                <Swiper
-                  modules={[Navigation]}
-                  spaceBetween={20}
-                  slidesPerView={3} // Adjust this value
-                  navigation
-                >
-                  {testimonials.map((item, index) => (
-                    <SwiperSlide key={index} className="flex justify-center">
-                      <div
-                        className={`${
-                          index === 2
-                            ? "scale-125 border-yellow-500"
-                            : "opacity-50"
-                        }`}
-                      >
-                        <Image
-                          width={100}
-                          height={100}
-                          src={item.img}
-                          alt={item.name}
-                        />
-                      </div>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
+        <div className="bg_section_new">
+          <div className="container-fluid p-0 m-0 bg-last-order-online">
+            <div className="col-md-8 col-sm-12 mx-auto text-center">
+              <div className="content-order-online">
+                <h4>Peoples's Talk</h4>
+                <h6>WHAT CUSTOMER SAY ABOUT US</h6>
+                <br />
+                <p>
+                  Lorem readable content of a page when looking at its layout.
+                  The point of using Lorem Ipsum is that it has a more-or-less
+                  normal distribution of letters, as opposed to using 'Content
+                  here, content here', making it look like readable English.
+                </p>
+              </div>
+              <div className="flex flex-col">
+                <div className="relative w-full max-w-xl">
+                  {/* <Swiper
+                    modules={[Navigation]}
+                    spaceBetween={20}
+                    slidesPerView={3} 
+                    navigation
+                    loop
+                    autoplay={true}
+                  >
+                    {testimonials.map((item, index) => (
+                      <SwiperSlide key={index} className="flex justify-center">
+                        <div
+                          className={`${
+                            index === 2
+                              ? "scale-125 border-yellow-500"
+                              : "opacity-50"
+                          }`}
+                        >
+                          <Image
+                            width={100}
+                            height={100}
+                            src={item.img}
+                            alt={item.name}
+                          />
+                        </div>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper> */}
+                  <div className="slider_outer_wrap position-relative">
+                    <Slider {...sliderSettings}>
+                      {testimonials &&
+                        testimonials.length != 0 &&
+                        testimonials.map((item, index) => {
+                          return (
+                            <div
+                              key={index}
+                              className={`d-flex align-items-center justify-content-center transition-all duration-300 ${
+                                index === activeSliderIndex
+                                  ? "opacity-100"
+                                  : "opacity-50"
+                              }`}
+                            >
+                              <div className="slider_wrapper_new ">
+                                <Image
+                                  width={100}
+                                  height={100}
+                                  src={item.img}
+                                  alt={item.name}
+                                />
+                              </div>
+                            </div>
+                          );
+                        })}
+                    </Slider>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
