@@ -74,6 +74,11 @@ input[type="checkbox"]:focus textarea,
   margin: 0;
 }
 
+.cust_row {
+  display: flex;
+  justify-content: space-between;
+}
+
 .fda_food_row > .col-9 {
   max-width: 245px;
 }
@@ -82,12 +87,6 @@ input[type="checkbox"]:focus textarea,
   margin-left: -15px;
 }
 
-#fda_product_tile {
-  position: relative;
-  margin-top: 10px;
-  margin-bottom: 0 !important;
-  text-align: center;
-}
 
 .fda_product_img.fd_card_grayscale {
   filter: gray;

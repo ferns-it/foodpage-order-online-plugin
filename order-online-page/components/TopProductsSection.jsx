@@ -63,7 +63,7 @@ const TopProductsSection = () => {
     speed: 500,
     slidesToShow: 6,
     slidesToScroll: 1,
-    autoplay: true,
+    autoplay: false,
     autoplaySpeed: 2500,
     responsive: [
       {
@@ -123,29 +123,31 @@ const TopProductsSection = () => {
           </h2>
         </div>
         <Slider {...settings}>
-          {foodCategories.map((category) => (
-            <div key={category.id} className="cat-block">
-              <div className="food-category-item">
-                <div className="food-image-container">
-                  <Image
-                    src={category.image}
-                    width={200}
-                    height={0}
-                    alt={category.title}
-                    layout="cover"
-                    className="food-image"
-                  />
-                </div>
-                <div
-                  className="food-info"
-                  style={{ backgroundColor: category.bgColor }}
-                >
-                  <h3>{category.title}</h3>
-                  <p>{category.subtitle}</p>
+          {foodCategories &&
+            foodCategories.length != 0 &&
+            foodCategories.map((category) => (
+              <div key={category.id} className="cat-block">
+                <div className="food-category-item">
+                  <div className="food-image-container">
+                    <Image
+                      src={category.image}
+                      width={200}
+                      height={0}
+                      alt={category.title}
+                      layout="cover"
+                      className="food-image"
+                    />
+                  </div>
+                  <div
+                    className="food-info"
+                    style={{ backgroundColor: category.bgColor }}
+                  >
+                    <h3>{category.title}</h3>
+                    <p>{category.subtitle}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
         </Slider>
       </div>
     </div>

@@ -1,11 +1,19 @@
 "use client";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import * as Tb from "react-icons/tb";
 
 function MasterAddOnsCheckbox({ foodValues, setMasterAddons, variationValue }) {
   const [checkedState, setCheckedState] = useState({});
   const [checkedBoxCount, setCheckedBoxCount] = useState(0);
-  const [openIndex, setOpenIndex] = useState(null);
+  const [openIndex, setOpenIndex] = useState([]);
+
+  useEffect(() => {
+    if (!foodValues) return;
+    if (foodValues?.masterAddons && Array.isArray(foodValues.masterAddons)) {
+      setOpenIndex([...Array(foodValues.masterAddons.length).keys()]);
+    }
+  }, [foodValues]);
 
   const handleCheckboxChange = (item, option, e, index) => {
     const containerClass = `${item.name}${item?.id}${item.minimumRequired}${item?.maximumRequired}${index}`;
@@ -78,6 +86,15 @@ function MasterAddOnsCheckbox({ foodValues, setMasterAddons, variationValue }) {
 
   return (
     <Fragment>
+      {/* {foodValues?.masterAddons && foodValues?.masterAddons.length !== 0 && (
+        <button
+          type="button"
+          className="collapse_btn"
+          onClick={() => setOpenIndex([])}
+        >
+          <Tb.TbLayoutNavbarCollapseFilled /> Collapse All
+        </button>
+      )} */}
       {foodValues?.masterAddons &&
         foodValues?.masterAddons.length !== 0 &&
         foodValues?.masterAddons.map((item, key) => {
@@ -97,7 +114,13 @@ function MasterAddOnsCheckbox({ foodValues, setMasterAddons, variationValue }) {
               <div className="row mb-3 m-0 p-0">
                 <div
                   className="toggle-dish"
-                  onClick={() => setOpenIndex(openIndex === key ? null : key)}
+                  onClick={() => {
+                    setOpenIndex((prev) =>
+                      prev.includes(key)
+                        ? prev.filter((index) => index !== key)
+                        : [...prev, key]
+                    );
+                  }}
                 >
                   <h6 className="sub_head_0291"> {item?.name ?? "N/A"} </h6>{" "}
                   <p className="sub_head_0291 ">
@@ -116,9 +139,15 @@ function MasterAddOnsCheckbox({ foodValues, setMasterAddons, variationValue }) {
                   </p>
                   <div
                     className="icon-dev"
-                    onClick={() => setOpenIndex(openIndex === key ? null : key)}
+                    onClick={() => {
+                      setOpenIndex((prev) =>
+                        prev.includes(key)
+                          ? prev.filter((index) => index !== key)
+                          : [...prev, key]
+                      );
+                    }}
                   >
-                    {openIndex === key ? (
+                    {openIndex.includes(key) ? (
                       <i>
                         <IoIosArrowUp />
                       </i>
@@ -129,7 +158,7 @@ function MasterAddOnsCheckbox({ foodValues, setMasterAddons, variationValue }) {
                     )}
                   </div>
                 </div>
-                {openIndex === key && (
+                {openIndex.includes(key) && (
                   <>
                     {" "}
                     <div className={`card p-3 ${containerClass}`}>
