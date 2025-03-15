@@ -95,7 +95,7 @@ const OrderOnlineMain = () => {
 
     responsive: [
       {
-        breakpoint: 1024, 
+        breakpoint: 1024,
         settings: {
           slidesToShow: 2,
           centerMode: false,
@@ -105,13 +105,13 @@ const OrderOnlineMain = () => {
         breakpoint: 768,
         settings: {
           slidesToShow: 1,
-          arrows: false, 
+          arrows: false,
           dots: true,
           centerMode: false,
         },
       },
       {
-        breakpoint: 480, 
+        breakpoint: 480,
         settings: {
           slidesToShow: 1,
           arrows: false,
@@ -397,11 +397,10 @@ const OrderOnlineMain = () => {
                 <h4>Peoples's Talk</h4>
                 <h6>WHAT CUSTOMER SAY ABOUT US</h6>
                 <br />
-                <p>
-                  Lorem readable content of a page when looking at its layout.
-                  The point of using Lorem Ipsum is that it has a more-or-less
-                  normal distribution of letters, as opposed to using 'Content
-                  here, content here', making it look like readable English.
+                <p className="online_adsss">
+                  The food(Onam Sadhya) we ordered from Muzris was very tasty.
+                  It was for around 65 people in Brentwood and the review we got
+                  from everyone was very good.. We'll done Sal.
                 </p>
               </div>
               <div className="flex flex-col">
