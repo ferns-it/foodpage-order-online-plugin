@@ -81,6 +81,7 @@ function ViewReservation() {
     };
 
     fetchData();
+
     if (reservationDetails && !reservationLoading) {
       const [date, time] = (reservationDetails?.bookingTime ?? "").split(" ");
 
@@ -300,8 +301,6 @@ function ViewReservation() {
         chatContainerRef.current.scrollHeight;
     }
   };
-
-  
 
   return (
     <Fragment>

@@ -11,7 +11,6 @@ const useReservation = () => {
   const [chatMessages, setChatMessages] = useState(null);
   const [messageLoading, setMessageLoading] = useState(false);
   const [upcomingHolidays, setUpcomingHolidays] = useState(null);
-  
 
   const sendReservationOTP = async (
     payload,
@@ -85,13 +84,13 @@ const useReservation = () => {
             headers: headers,
             onSuccess: (res) => {
               if (res && res.data && res.data.error == false && res.data.data) {
-                // debugger;
                 const reservResponse = res.data.data?.ReservationData;
                 const msgResponse = res.data.data?.chatMessages;
 
                 if (reservResponse) {
                   setReservationDetails(reservResponse);
                   setChatMessages(msgResponse);
+
                   resolve(res.data.data?.ReservationData);
                 } else {
                   let errResp = {
