@@ -1874,6 +1874,11 @@ abbr[title] {
   padding-top: 3rem;
   padding-bottom: 3rem;
   height: 100%;
+  margin: 0px auto;
+  min-height: 50vh;
+}
+.manage_reserv_card{
+  min-height: 50vh;
 }
 .message-area::-webkit-scrollbar {
   width: 10px;
@@ -2690,4 +2695,7 @@ a:focus {
   border: none;
   outline: none !important;
   background-color: transparent;
+}
+.reser-page{
+  min-height: 100vh;
 }

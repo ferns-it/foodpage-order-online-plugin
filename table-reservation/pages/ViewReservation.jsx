@@ -315,7 +315,7 @@ function ViewReservation() {
         bookingDate={updatedValues?.bookingDate}
         bookingTime={updatedValues?.bookingTime}
       />
-      <section className="tbl_reserv_section">
+      <section className="tbl_reserv_section mx-auto">
         <div className="container mx-auto">
           {/* <button
             className="go_back mb-2"
@@ -323,9 +323,9 @@ function ViewReservation() {
           >
             <Go.GoArrowLeft /> Back
           </button> */}
-          <div className="row pt-50">
+          <div className="row pt-50 mx-auto">
             <div className="col-lg-8 col-md-12 col-sm-12 position-relative mx-auto">
-              <div className="card manage_reserv_card " id="alter_card">
+              <div className="card manage_reserv_card mx-auto" id="alter_card">
                 <h3 className="table-reservation-form-head">
                   Reservation Details
                 </h3>

@@ -9,12 +9,14 @@ import Image from "next/image";
 import { AppContext } from "../context";
 
 const TopProductsSection = () => {
-  const {categoryList} =useContext(AppContext);
-  const [foodCategories,setFoodCategories] = useState(null);
-  useEffect(() =>{
-const filteredData = categoryList && categoryList.filter((data)=>data.)
-  },[])
-  console.log(categoryList,"list")
+  const { categoryList } = useContext(AppContext);
+  const [foodCategories, setFoodCategories] = useState(null);
+  useEffect(() => {
+    const filteredData =
+      categoryList && categoryList.filter((data) => data.image != null);
+      console.log(filteredData,"data")
+  }, []);
+  console.log(categoryList, "list");
   const settings = {
     dots: false,
     infinite: true,
