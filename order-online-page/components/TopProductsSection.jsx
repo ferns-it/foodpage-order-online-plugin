@@ -17,7 +17,7 @@ const TopProductsSection = () => {
       setFoodCategories(filteredData);
     }
   }, [categoryList]);
-// console.log(categoryList,"lisy");
+  
   const settings = {
     dots: false,
     infinite: true,
@@ -25,7 +25,7 @@ const TopProductsSection = () => {
     slidesToShow: 6,
     slidesToScroll: 1,
     autoplay: true,
-    loop:true,
+    loop: false,
     autoplaySpeed: 2000,
     responsive: [
       {
@@ -35,6 +35,7 @@ const TopProductsSection = () => {
           slidesToScroll: 1,
           autoplay: true,
           autoplaySpeed: 2500,
+          loop: false,
         },
       },
       {
@@ -44,6 +45,7 @@ const TopProductsSection = () => {
           slidesToScroll: 1,
           autoplay: true,
           autoplaySpeed: 2500,
+          loop: false,
         },
       },
       {
@@ -53,6 +55,7 @@ const TopProductsSection = () => {
           slidesToScroll: 1,
           autoplay: true,
           autoplaySpeed: 2500,
+          loop: false,
         },
       },
       {
@@ -62,6 +65,7 @@ const TopProductsSection = () => {
           slidesToScroll: 1,
           autoplay: true,
           autoplaySpeed: 2500,
+          loop: false,
         },
       },
       {
@@ -71,11 +75,12 @@ const TopProductsSection = () => {
           slidesToScroll: 1,
           autoplay: true,
           autoplaySpeed: 2500,
+          loop: false,
         },
       },
     ],
   };
-
+  console.log(foodCategories, "categ");
   return (
     <div className="container-fluid">
       <div className="food-container">
@@ -87,29 +92,32 @@ const TopProductsSection = () => {
         <Slider {...settings}>
           {foodCategories &&
             foodCategories.length != 0 &&
-            foodCategories.map((category) => (
-              <div key={category.id} className="cat-block">
-                <div className="food-category-item">
-                  <div className="food-image-container">
-                    <Image
-                      src={category.image}
-                      width={200}
-                      height={0}
-                      alt={category.name}
-                      layout="cover"
-                      className="food-image"
-                    />
-                  </div>
-                  <div
-                    className="food-info"
-                    style={{ backgroundColor: category.bgColor }}
-                  >
-                    <h3 className="text-center">{category.name}</h3>
-                    {/* <p>{category.subtitle}</p> */}
+            foodCategories.map((category, index) => {
+              console.log(category, "cat");
+              return (
+                <div key={index} className="cat-block">
+                  <div className="food-category-item">
+                    <div className="food-image-container">
+                      <Image
+                        src={category.image}
+                        width={200}
+                        height={0}
+                        alt={category.name}
+                        layout="cover"
+                        className="food-image"
+                      />
+                    </div>
+                    <div
+                      className="food-info"
+                      style={{ backgroundColor: category.bgColor }}
+                    >
+                      <h3 className="text-center">{category.name}</h3>
+                      {/* <p>{category.subtitle}</p> */}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
         </Slider>
       </div>
     </div>

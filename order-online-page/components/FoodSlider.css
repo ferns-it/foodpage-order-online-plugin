@@ -6,8 +6,11 @@
 
 .food-container {
   width: 92%;
+  height: 50vh;
   margin: 0 auto;
+  overflow: hidden;
   background-color: #fbf7ee;
+  
 }
 
 .slider-header {
