@@ -17,7 +17,7 @@ const TopProductsSection = () => {
       setFoodCategories(filteredData);
     }
   }, [categoryList]);
-console.log(categoryList,"lisy")
+// console.log(categoryList,"lisy");
   const settings = {
     dots: false,
     infinite: true,

@@ -859,6 +859,9 @@ body {
   white-space: nowrap;
   padding-right: 30px;
   font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .food_category_009 a > i {
@@ -1100,6 +1103,9 @@ body {
   }
   .online-card {
     width: 300px;
+  }
+  .food-info h3{
+    font-size: 14px;
   }
 }
 
