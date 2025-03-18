@@ -2,7 +2,7 @@
 import React, {Fragment, useContext, useEffect, useRef} from "react";
 import CryptoJS from "crypto-js";
 import {TableReservationContext} from "../context/TableReservationContext";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import * as Io5 from "react-icons/io5";
 import * as Gr from "react-icons/gr";
 import {appContext} from "../../order-online-page/context";

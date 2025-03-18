@@ -4,7 +4,7 @@ import OTPInput from "react-otp-input";
 import * as Go from "react-icons/go";
 import Image from "next/image";
 import CryptoJS from "crypto-js";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Logo from "../../../../../public/Assets/logo.png";
 import "../../guest-login/style.css"

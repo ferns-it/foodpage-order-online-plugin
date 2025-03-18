@@ -19,7 +19,7 @@ import { AppContext } from "../../order-online-page/context";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Elements } from "@stripe/react-stripe-js";
 import StripePaymentElementOrderOnline from "../../order-online-page/components/StripePaymentElementOrderOnline";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import { TableReservationContext } from "../context/TableReservationContext";
 
 function ReservationCheckout() {

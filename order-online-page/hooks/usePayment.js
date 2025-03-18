@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import BaseClient from "../helper/Baseclients";
 import { APIEndpoints } from "../constants/APIEndpoints";
 import { loadStripe } from "@stripe/stripe-js";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import { ReservationAPIEndpoints } from "../../table-reservation/constants/ReservationAPIEndpoints";
 
 export default function usePayment() {

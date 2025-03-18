@@ -5,7 +5,7 @@ import React, {useContext, useState} from "react";
 import OTPInput from "react-otp-input";
 import * as Fi from "react-icons/fi";
 import Image from "next/image";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import {AppContext} from "../../order-online-page/context";
 import {useRouter} from "next/navigation";
 import {getSessionStorageItem} from "../../_utils/ClientUtils";

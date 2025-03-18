@@ -2,7 +2,7 @@
 import React, { Fragment, useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import { setSessionStorageItem } from "../../_utils/ClientUtils";
 import { AppContext } from "../../order-online-page/context";
 

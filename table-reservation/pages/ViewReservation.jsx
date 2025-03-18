@@ -19,7 +19,7 @@ import * as Io from "react-icons/io";
 import ReservModal from "../components/ReservModal";
 import { useRouter, useSearchParams } from "next/navigation";
 import CryptoJS from "crypto-js";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import Skeleton from "react-loading-skeleton";
 
 import "../style/Style.css";

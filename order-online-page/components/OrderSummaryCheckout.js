@@ -3,8 +3,7 @@ import React, { Fragment, useContext, useEffect, useState } from "react";
 import { PiKey } from "react-icons/pi";
 import { RiMoneyEuroCircleLine } from "react-icons/ri";
 // import * as Bs from "react-icons/bs";
-
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import { AppContext } from "../context/index";
 import CheckoutSummaryComp from "./CheckoutSummaryComp";
 import { Elements } from "@stripe/react-stripe-js";
