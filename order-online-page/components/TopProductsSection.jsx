@@ -1,62 +1,20 @@
 "use client";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Slider from "react-slick";
 import { Anchor } from "lucide-react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./FoodSlider.css";
 import Image from "next/image";
-const foodCategories = [
-  {
-    id: 1,
-    title: "Chicken Biriyani",
-    subtitle: "Best-Sellers Dish",
-    image:
-      "https://images.unsplash.com/photo-1633945274405-b6c8069047b0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-    bgColor: "#c41e1e",
-  },
-  {
-    id: 2,
-    title: "Salads",
-    subtitle: "Top Rated Dish",
-    image:
-      "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-    bgColor: "#c41e1e",
-  },
-  {
-    id: 3,
-    title: "Pasta & Casuals",
-    subtitle: "Muziris Signature",
-    image:
-      "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-    bgColor: "#c41e1e",
-  },
-  {
-    id: 4,
-    title: "Pizza",
-    subtitle: "Popular Picks",
-    image:
-      "https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-    bgColor: "#c41e1e",
-  },
-  {
-    id: 5,
-    title: "Breakfast",
-    subtitle: "Chef's Special",
-    image:
-      "https://images.unsplash.com/photo-1525351484163-7529414344d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-    bgColor: "#c41e1e",
-  },
-  {
-    id: 6,
-    title: "Soups",
-    subtitle: "Must-Try Dishes",
-    image:
-      "https://images.unsplash.com/photo-1547592180-85f173990554?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-    bgColor: "#c41e1e",
-  },
-];
+import { AppContext } from "../context";
+
 const TopProductsSection = () => {
+  const {categoryList} =useContext(AppContext);
+  const [foodCategories,setFoodCategories] = useState(null);
+  useEffect(() =>{
+const filteredData = categoryList && categoryList.filter((data)=>data.)
+  },[])
+  console.log(categoryList,"list")
   const settings = {
     dots: false,
     infinite: true,
@@ -123,7 +81,7 @@ const TopProductsSection = () => {
           </h2>
         </div>
         <Slider {...settings}>
-          {foodCategories &&
+          {/* {foodCategories &&
             foodCategories.length != 0 &&
             foodCategories.map((category) => (
               <div key={category.id} className="cat-block">
@@ -147,7 +105,7 @@ const TopProductsSection = () => {
                   </div>
                 </div>
               </div>
-            ))}
+            ))} */}
         </Slider>
       </div>
     </div>
