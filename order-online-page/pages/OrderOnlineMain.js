@@ -158,7 +158,7 @@ const OrderOnlineMain = () => {
   }
 
   // const title = settings && settings?.themeTitle ? JSON.parse(settings?.themeTitle) : "";
-  // console.log("title", title);
+
   return (
     <Fragment>
       {!settingsLoading ? (

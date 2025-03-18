@@ -12,19 +12,21 @@ const TopProductsSection = () => {
   const { categoryList } = useContext(AppContext);
   const [foodCategories, setFoodCategories] = useState(null);
   useEffect(() => {
-    const filteredData =
-      categoryList && categoryList.filter((data) => data.image != null);
-      console.log(filteredData,"data")
-  }, []);
-  console.log(categoryList, "list");
+    if (categoryList) {
+      const filteredData = categoryList.filter((data) => data.image != null);
+      setFoodCategories(filteredData);
+    }
+  }, [categoryList]);
+console.log(categoryList,"lisy")
   const settings = {
     dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 6,
     slidesToScroll: 1,
-    autoplay: false,
-    autoplaySpeed: 2500,
+    autoplay: true,
+    loop:true,
+    autoplaySpeed: 2000,
     responsive: [
       {
         breakpoint: 1700,
@@ -83,7 +85,7 @@ const TopProductsSection = () => {
           </h2>
         </div>
         <Slider {...settings}>
-          {/* {foodCategories &&
+          {foodCategories &&
             foodCategories.length != 0 &&
             foodCategories.map((category) => (
               <div key={category.id} className="cat-block">
@@ -93,7 +95,7 @@ const TopProductsSection = () => {
                       src={category.image}
                       width={200}
                       height={0}
-                      alt={category.title}
+                      alt={category.name}
                       layout="cover"
                       className="food-image"
                     />
@@ -102,12 +104,12 @@ const TopProductsSection = () => {
                     className="food-info"
                     style={{ backgroundColor: category.bgColor }}
                   >
-                    <h3>{category.title}</h3>
-                    <p>{category.subtitle}</p>
+                    <h3 className="text-center">{category.name}</h3>
+                    {/* <p>{category.subtitle}</p> */}
                   </div>
                 </div>
               </div>
-            ))} */}
+            ))}
         </Slider>
       </div>
     </div>
