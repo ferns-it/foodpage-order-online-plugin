@@ -8,6 +8,7 @@ export const APIEndpoints = {
   menulist: `products/${id}/0`,
   categoryList: `categories/${shopId}`,
   cartCreation: "user/web/carts",
+  allProducts: `products/${shopId}/0/0/all`,
   getCartItems: "user/web/carts",
   deleteCartItem: "user/web/carts",
   clearCart: "user/web/carts/clear",

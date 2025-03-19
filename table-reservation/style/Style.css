@@ -38,7 +38,7 @@ input {
   padding: 10px;
   /* width: 75%; */
   margin: 0 auto;
-   border: 1px solid rgb(179, 179, 179) !important;
+  border: 1px solid rgb(179, 179, 179) !important;
   border-width: 0 1px 0 0;
   border-radius: 0;
   font-family: "Poppins", serif;
@@ -2695,9 +2695,13 @@ a:focus {
   color: #fff;
 }
 .new-reser-btn {
-  border: none;
+  width: 30%;
+  margin: 0px auto;
   outline: none !important;
-  background-color: transparent;
+  background-color: #c11014;
+  padding: 5px;
+  border-radius: 7px;
+  color: #fff;
 }
 .reser-page {
   min-height: 100vh;
