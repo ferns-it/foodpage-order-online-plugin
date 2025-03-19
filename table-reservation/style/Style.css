@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 textarea:focus,
 input[type="text"]:focus,
 input[type="password"]:focus,
@@ -29,7 +30,7 @@ input {
   border: none;
   margin-left: 5px;
   outline: none;
-  font-family: "Roboto", sans-serif !important;
+  font-family: "Poppins", serif;
 }
 
 /* table reservation */
@@ -37,10 +38,10 @@ input {
   padding: 10px;
   /* width: 75%; */
   margin: 0 auto;
-  border-color: #eee;
+   border: 1px solid rgb(179, 179, 179) !important;
   border-width: 0 1px 0 0;
   border-radius: 0;
-  font-family: "Roboto", sans-serif !important;
+  font-family: "Poppins", serif;
 }
 
 #alter_card {
@@ -59,7 +60,7 @@ input {
 .table_reserv_form_input_select {
   border: 1px solid gray !important;
   border-radius: 4px;
-  font-family: "Roboto", sans-serif !important;
+  font-family: "Poppins", serif;
 }
 .table-reservation-form-head {
   text-transform: uppercase;
@@ -70,7 +71,7 @@ input {
   text-align: left;
   margin: 0;
   font-weight: 500;
-  font-family: "Roboto", sans-serif !important;
+  font-family: "Poppins", serif;
   font-weight: 600;
   letter-spacing: 0.1rem;
 }
@@ -78,7 +79,7 @@ input {
 .table_reserv_form_label {
   font-size: 13px;
   font-weight: 600;
-  font-family: "Roboto", sans-serif !important;
+  font-family: "Poppins", serif;
 }
 
 .table_reserv_form_input.err__ {
@@ -124,8 +125,8 @@ input {
   text-align: center;
   line-height: 30px;
   cursor: pointer;
- color: #fff !important;
- background-color: #c11014 !important;
+  color: #fff !important;
+  background-color: #c11014 !important;
   border-radius: 50%;
   box-shadow: 0 2px 5px #3c3c3c;
   transition: all 0.2s ease-in-out;
@@ -348,7 +349,7 @@ input {
     width: 100% !important;
   }
 }
-.reserv-list{
+.reserv-list {
   min-height: 70vh;
 }
 .back-btn {
@@ -1787,6 +1788,8 @@ abbr[title] {
 }
 .reserve_table {
   font-size: 14px;
+  font-weight: 500;
+  font-family: "Poppins", serif;
 }
 .go_back {
   border: none;
@@ -1877,7 +1880,7 @@ abbr[title] {
   margin: 0px auto;
   min-height: 50vh;
 }
-.manage_reserv_card{
+.manage_reserv_card {
   min-height: 50vh;
 }
 .message-area::-webkit-scrollbar {
@@ -1981,7 +1984,7 @@ abbr[title] {
   width: 50%;
   user-select: none;
 }
-.cancel-modal{
+.cancel-modal {
   width: 50%;
   padding: 10px;
   margin: 20px;
@@ -2083,7 +2086,7 @@ button:active {
   font-size: 0.9rem;
   user-select: none;
   padding: 0;
-  font-family: "Roboto", sans-serif !important;
+  font-family: "Poppins", serif;
 }
 .poweredBy_ {
   position: absolute;
@@ -2226,7 +2229,7 @@ button:active {
   padding-top: 20px;
   border: 0;
   border-bottom: 1px solid #eee;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-family: "Poppins", serif;
   border-radius: 0;
   font-size: 14px;
 }
@@ -2696,6 +2699,6 @@ a:focus {
   outline: none !important;
   background-color: transparent;
 }
-.reser-page{
+.reser-page {
   min-height: 100vh;
 }

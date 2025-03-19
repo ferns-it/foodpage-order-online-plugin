@@ -87,7 +87,6 @@ input[type="checkbox"]:focus textarea,
   margin-left: -15px;
 }
 
-
 .fda_product_img.fd_card_grayscale {
   filter: gray;
   /* IE6-9 */
@@ -308,6 +307,7 @@ input[type="checkbox"]:focus textarea,
 .login_comp {
   padding: 2rem;
   margin-top: 2rem;
+  font-family: "Poppins", serif;
 }
 
 .table_reserv_info_sub_head {
@@ -1595,7 +1595,7 @@ deal_content p {
 .table_reservation_card {
   padding: 10px;
   /* width: 75%; */
-  border: 1px solid rgb(179, 179, 179);
+    border: 1px solid rgb(179, 179, 179) !important;
   margin: 0 auto;
   border-radius: 4px;
 }
