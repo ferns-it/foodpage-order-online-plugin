@@ -64,31 +64,50 @@ function OrderSummaryCheckout() {
   // const { fetchCartList } = useContext(AppContext);
   console.log(userInfo, "USER");
   const [paymentOption, setPaymentOption] = useState("");
-  const [addressDefault, setAddressDefault] = useState(null);
-  // useEffect(() => {
-  //   const storeDefaultAddressDetails = JSON.parse(getSessionStorageItem("defaultAddressDetails"))
-  //   if (storeDefaultAddressDetails) {
-  //     setAddressDefault(storeDefaultAddressDetails)
-  //   }
-  // }, [addressDefault])
-  const savedAddress = JSON.parse(
-    getSessionStorageItem("defaultAddressDetails")
-  );
-  console.log(userInfo, "saved");
+
   const [formState, setFormState] = useState({
-    fullname:
-      (userInfo && userInfo?.firstName + " " + userInfo?.lastName) || "",
+    fullname: "",
     postalCode: "",
     emailAddress:
       (isUserLogged != null && isUserLogged?.payload?.data?.userEmail) || "",
     phone:
       (isUserLogged != null && isUserLogged?.payload?.data?.userMobile) || "",
-    addressLine1: (userInfo && userInfo?.line1) || "",
-    addressLine2: (userInfo && userInfo?.line2) || "",
-    townCity: (userInfo && userInfo?.town) || "",
-    county: (userInfo && userInfo?.county) || "",
+    addressLine1: "",
+    addressLine2: "",
+    townCity: "",
+    county: "",
     notes: "",
   });
+
+  useEffect(() => {
+    if (userInfo) {
+      setFormState((prevState) => ({
+        ...prevState,
+        fullname: `${userInfo.firstName || ""} ${
+          userInfo.lastName || ""
+        }`.trim(),
+        addressLine1: userInfo.line1 || "",
+        addressLine2: userInfo.line2 || "",
+        townCity: userInfo.town || "",
+        county: userInfo.county || "",
+      }));
+    }
+  }, [userInfo]);
+
+  useEffect(() => {
+    if (userInfo) {
+      setFormState((prevState) => ({
+        ...prevState,
+        fullname: `${userInfo.firstName || ""} ${
+          userInfo.lastName || ""
+        }`.trim(),
+        addressLine1: userInfo.line1 || "",
+        addressLine2: userInfo.line2 || "",
+        townCity: userInfo.town || "",
+        county: userInfo.county || "",
+      }));
+    }
+  }, [userInfo]);
 
   const [fieldError, setFieldError] = useState(false);
   const [discountData, setDiscountData] = useState(null);
@@ -116,20 +135,6 @@ function OrderSummaryCheckout() {
     }
   }, [formState]);
 
-  // useEffect(() => {
-  //   const handleBeforeUnload = (event) => {
-  //     event.preventDefault();
-
-  //     event.returnValue = "Are you sure you want to leave?";
-  //   };
-
-  //   window.addEventListener("beforeunload", handleBeforeUnload);
-
-  //   return () => {
-  //     window.removeEventListener("beforeunload", handleBeforeUnload);
-  //   };
-  // }, []);
-
   useEffect(() => {
     if (delivery == false) {
       const postalCode = getSessionStorageItem("postcode");
@@ -139,18 +144,12 @@ function OrderSummaryCheckout() {
       }
       setFormState({ ...formState, postalCode });
     } else {
-      // setActiveCard("payment");
+    
       const postalCode =
         isUserLogged != null && isUserLogged?.payload?.data?.userPostCode;
       setFormState({ ...formState, postalCode });
     }
   }, [delivery]);
-
-  // useEffect(() => {
-  //   if (delivery === null) return;
-
-  //   setActiveCard(!delivery ? "login" : "payment");
-  // }, [delivery]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

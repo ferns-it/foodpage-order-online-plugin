@@ -314,7 +314,6 @@ function AddOnsModal(props) {
         return;
       }
     }
-    console.log(variationValue, "variatu=ion");
     let cOptionObj = {
       pvID: variationValue?.pvID,
       addons: addOns,
@@ -329,7 +328,7 @@ function AddOnsModal(props) {
     let headers = {
       User: userId,
     };
-    console.log(payload, "payload");
+
     await addToCart(payload, {
       headers: headers,
       onSuccess: async (res) => {
