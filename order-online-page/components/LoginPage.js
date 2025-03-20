@@ -1,7 +1,7 @@
 "use client";
 import React, { Fragment, useContext, useState } from "react";
 import * as Fa6 from "react-icons/fa6";
-import toast, { Toaster } from "react-hot-toast";
+import { toast } from "react-toastify";
 import { AppContext } from "../context";
 import { useRouter } from "next/navigation";
 import jwt from "jsonwebtoken";

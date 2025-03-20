@@ -1595,7 +1595,7 @@ deal_content p {
 .table_reservation_card {
   padding: 10px;
   /* width: 75%; */
-    border: 1px solid rgb(179, 179, 179) !important;
+  border: 1px solid rgb(179, 179, 179) !important;
   margin: 0 auto;
   border-radius: 4px;
 }
@@ -3217,5 +3217,23 @@ a {
 @media screen and (max-width: 600px) {
   .login_comp {
     width: 100%;
+    margin-top: 120px;
+  }
+  .logo-container123 {
+    margin-bottom: 20px;
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+  }
+  .comp-head {
+    margin-top: 120px;
+  }
+  .otp_validation_reserv div > input {
+    border: 1px solid #eee;
+    border-radius: 4px;
+    padding: 0px;
+    width: 70px;
+    height: 70px;
+    font-size: 19px !important;
   }
 }

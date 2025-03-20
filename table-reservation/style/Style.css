@@ -1827,9 +1827,10 @@ abbr[title] {
   background-color: transparent;
 }
 .btn-warning {
-  color: #212529;
-  background-color: #ffc107;
-  border-color: #ffc107;
+  color: #ffffff;
+  background-color: #c11014;
+  padding: 5px 15px;
+  border-color: #c11014;
 }
 .eye_btn_fgt {
   position: relative;
@@ -2261,7 +2262,7 @@ button:active {
 
 /* Header Styles */
 .checkout7821_header {
-  background-color: #f4b223;
+  background-color: #f0d2d2;
   padding: 1.5rem 2rem;
   color: white;
 }
@@ -2269,6 +2270,7 @@ button:active {
 .checkout7821_header h1 {
   font-size: 1.5rem;
   font-weight: 700;
+  color: #c11014;
   margin: 0;
   letter-spacing: 1px;
 }
@@ -2277,6 +2279,7 @@ button:active {
   margin-top: 0.25rem;
   color: #e0e7ff;
   font-size: 0.95rem;
+  color: #c11014;
 }
 
 /* Confirmation Banner */
@@ -2628,7 +2631,7 @@ button:active {
 }
 
 .checkout7821_submit_button:hover {
-  background-color: #f4b223;
+  background-color: #c11014;
 }
 
 .checkout7821_lock_icon {
@@ -2649,6 +2652,7 @@ button:active {
 
 .checkout7821_footer p {
   margin: 0 0 0.5rem 0;
+  color: #c11014;
 }
 
 .checkout7821_footer p:last-child {

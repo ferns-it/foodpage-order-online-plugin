@@ -10,7 +10,7 @@ import React, {
 import * as Io5 from "react-icons/io5";
 import * as Bs from "react-icons/bs";
 import Utils from "../utils/Utils";
-import toast, { Toaster } from "react-hot-toast";
+import { toast, ToastContainer } from "react-toastify";
 import { AppContext } from "../context";
 import MasterAddOnsCheckbox from "./MasterAddOnsCheckbox";
 import VariationMasterAddons from "./variationMasterAddons";
@@ -353,7 +353,7 @@ function AddOnsModal(props) {
 
   return (
     <Fragment>
-      <Toaster />
+      <ToastContainer />
       <div
         className={
           props.showModal

@@ -175,7 +175,6 @@ export const AppContextProvider = (props) => {
     if (!decodedToken || !decodedToken.exp) {
       return true; // Assume expired if token is invalid
     }
-
     const expiryTime = decodedToken.exp * 1000; // Convert to milliseconds
     return Date.now() >= expiryTime;
   }

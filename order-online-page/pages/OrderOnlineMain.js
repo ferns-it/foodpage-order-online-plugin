@@ -244,9 +244,9 @@ const OrderOnlineMain = () => {
                         </Fragment>
                       )}
                     </ul>
-                    {/* <div className="p-3 mx-auto text-cenetr">
-                      <Image src={OnlineBanner} width={0} height={150} />
-                    </div> */}
+                  </div>
+                  <div className="p-3 mx-auto text-cenetr">
+                    <Image src={OnlineBanner} width={0} height={250} layout="responsive" />
                   </div>
                 </div>
                 <div className="col-lg-9 col-md-12 col-sm-12">

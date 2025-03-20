@@ -392,18 +392,22 @@ function OrderSummary() {
             <BsFillBasket2Fill size={24} />
             <small> My Basket</small>
           </div>
-          {cartLoading ? (
-            <button disabled className="clr_cart_btn col-md-6">
-              ..
-            </button>
-          ) : (
-            <button
-              type="button"
-              className="clr_cart_btn col-md-6"
-              onClick={clearcart}
-            >
-              Clear Cart
-            </button>
+          {cartItems && cartItems?.cartItems.length >= 1 && (
+            <>
+              {cartLoading ? (
+                <button disabled className="clr_cart_btn col-md-6">
+                  ..
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="clr_cart_btn col-md-6"
+                  onClick={clearcart}
+                >
+                  Clear Cart
+                </button>
+              )}
+            </>
           )}
         </div>
 

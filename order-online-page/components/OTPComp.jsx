@@ -7,7 +7,7 @@ import CryptoJS from "crypto-js";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Logo from "../../../../../public/Assets/logo.png";
-import "../../guest-login/style.css"
+import "../../guest-login/style.css";
 import {
   getLocalStorageItem,
   getSessionStorageItem,
@@ -17,7 +17,7 @@ import {
   setSessionStorageItem,
 } from "../../_utils/ClientUtils";
 import { AppContext } from "../context";
-import Utils from "../utils/Utils";
+import Utils from "../../_utils/Utils";
 
 function OTPComp() {
   const { sentOTPtoUser, settings, authLoading, registerUser } =
@@ -148,7 +148,7 @@ function OTPComp() {
 
   return (
     <div className="container-fluid">
-      <div className="row">
+      <div className="row comp-head">
         <div className="col-lg-12">
           <div className="pt-50 section-title-area text-center">
             <Image src={Logo} height={0} width={350} layout="contain" />

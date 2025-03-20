@@ -1,13 +1,8 @@
 "use client";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import * as Fa6 from "react-icons/fa6";
-import toast, { Toaster } from "react-hot-toast";
+import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import jwt from "jsonwebtoken";
-import CryptoJS from "crypto-js";
-
-import { Tab } from "react-tabs";
-
 import {
   getSessionStorageItem,
   getLocalStorageItem,

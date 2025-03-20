@@ -757,7 +757,7 @@ body {
   padding: 7px 0;
   border: none;
   outline: none;
-  background-color: #252525;
+  background-color: #028643;
   color: #fff;
   font-size: 16px;
   display: flex;
@@ -853,17 +853,17 @@ body {
 }
 
 .food_category_009 a > li {
-  padding: 0px 15px;
+  padding: 0px 16px;
   font-weight: 600;
   text-transform: uppercase;
+  font-family: var(--poppins-font);
   white-space: nowrap;
   padding-right: 30px;
-  font-size: 14px;
+  font-size: 18px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 .food_category_009 a > i {
   position: absolute;
   top: 50%;
@@ -3433,6 +3433,7 @@ div.food_tile__.active img {
 }
 .dishes-details {
   padding: 10px;
+  font-family: var(--poppins-font);
 }
 .modalcotainer {
   width: 90%;

@@ -13,7 +13,9 @@ export default class Utils {
 
     return words.join("");
   }
-
+  static generateOTP = () => {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+  };
   static generateRandomId() {
     const timestamp = new Date().getTime();
     let idBase = timestamp.toString();
