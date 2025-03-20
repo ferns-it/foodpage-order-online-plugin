@@ -12,6 +12,7 @@ import {
   setLocalStorageItem,
   setSessionStorageItem,
 } from "../../_utils/ClientUtils";
+import { jwtDecode } from "jwt-decode";
 
 function LoginPage() {
   const router = useRouter();
@@ -23,6 +24,7 @@ function LoginPage() {
     shopId,
     transferCartItem,
     setIsUserLogged,
+    setUserInformation,
   } = useContext(AppContext);
   const [showpass, setShowPass] = useState(false);
   const [userState, setUserState] = useState({
@@ -106,7 +108,8 @@ function LoginPage() {
           const userFirstName = res?.data?.data?.user?.userFirstName;
           const guestId = getLocalStorageItem("UserPersistent");
           const user = res?.data?.data?.user;
-
+          const decodedToken = jwtDecode(token);
+          setUserInformation(decodedToken);
           setLocalStorageItem("UserPersistent", userId);
           setLocalStorageItem("userToken", token);
           setLocalStorageItem("guest", false);
@@ -115,7 +118,6 @@ function LoginPage() {
             "userDetails",
             user ? JSON.stringify(user) : ""
           );
-        
 
           if (guestId) {
             await transferCartItems(guestId, userId);
@@ -133,7 +135,7 @@ function LoginPage() {
             }
           }, 800);
         },
-        onFailed: (err) => { 
+        onFailed: (err) => {
           toast.error(
             err?.response?.data?.errorMessage?.message ||
               "Authentication Failed"
@@ -150,11 +152,11 @@ function LoginPage() {
           <div className="card login_comp col-md-6 col-lg-4 col-sm-12 mx-auto">
             <h2>Please login and continue</h2>
             <p className="sub_title_login">
-              Welcome to <strong>Muziris </strong>! To access your
-              account and continue exploring all the features we offer, please
-              log in with your credentials. If you don’t have an account yet,
-              you can sign up to get started. If you encounter any issues, feel
-              free to reach out to our support team for assistance.
+              Welcome to <strong>Muziris </strong>! To access your account and
+              continue exploring all the features we offer, please log in with
+              your credentials. If you don’t have an account yet, you can sign
+              up to get started. If you encounter any issues, feel free to reach
+              out to our support team for assistance.
             </p>
 
             <div className="">

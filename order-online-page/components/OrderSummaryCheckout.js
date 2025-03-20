@@ -61,21 +61,19 @@ function OrderSummaryCheckout() {
     userInfo,
   } = useContext(AppContext);
 
-  // const { fetchCartList } = useContext(AppContext);
-  console.log(userInfo, "USER");
   const [paymentOption, setPaymentOption] = useState("");
 
   const [formState, setFormState] = useState({
-    fullname: "",
+    fullname: (userInfo && userInfo?.firstName) || "",
     postalCode: "",
     emailAddress:
       (isUserLogged != null && isUserLogged?.payload?.data?.userEmail) || "",
     phone:
       (isUserLogged != null && isUserLogged?.payload?.data?.userMobile) || "",
-    addressLine1: "",
-    addressLine2: "",
-    townCity: "",
-    county: "",
+    addressLine1: (userInfo && userInfo?.line1) || "",
+    addressLine2: (userInfo && userInfo?.line2) || "",
+    townCity: (userInfo && userInfo?.town) || "",
+    county: (userInfo && userInfo?.county) || "",
     notes: "",
   });
 
@@ -92,7 +90,7 @@ function OrderSummaryCheckout() {
         county: userInfo.county || "",
       }));
     }
-  }, [userInfo]);
+  }, [userInfo, formState]);
 
   useEffect(() => {
     if (userInfo) {
@@ -112,7 +110,7 @@ function OrderSummaryCheckout() {
   const [fieldError, setFieldError] = useState(false);
   const [discountData, setDiscountData] = useState(null);
   const [intentLoading, setIntentLoading] = useState(false);
-
+  console.log(userInfo, "useinfo");
   useEffect(() => {
     const price = searchParams.get("price");
     const deliveryCharge = searchParams.get("deliveryCharge");
@@ -144,7 +142,6 @@ function OrderSummaryCheckout() {
       }
       setFormState({ ...formState, postalCode });
     } else {
-    
       const postalCode =
         isUserLogged != null && isUserLogged?.payload?.data?.userPostCode;
       setFormState({ ...formState, postalCode });
@@ -298,8 +295,6 @@ function OrderSummaryCheckout() {
         }
       }
     }
-
-    console.log(emptyKeys);
     return emptyKeys;
   };
   const completeOrder = async () => {
@@ -777,7 +772,7 @@ function OrderSummaryCheckout() {
                 </div> */}
 
                 {!paymentLoading ? (
-                  <Fragment id="payment">
+                  <div id="payment">
                     {cartItems?.paymentOptions != null &&
                     cartItems?.paymentOptions.shopStatus != "closed" ? (
                       <>
@@ -901,7 +896,7 @@ function OrderSummaryCheckout() {
                     ) : (
                       <h6 style={{ color: "red" }}></h6>
                     )}
-                  </Fragment>
+                  </div>
                 ) : (
                   <PleaseWait />
                 )}

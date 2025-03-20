@@ -414,6 +414,7 @@ export const AppContextProvider = (props) => {
         setMergedState,
         fetchAllProducts,
         allProductsList,
+        setUserInformation,
       }}
     >
       {props.children}
