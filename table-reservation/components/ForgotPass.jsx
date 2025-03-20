@@ -1,17 +1,17 @@
 "use client";
-import React, {useContext, useState} from "react";
+import React, { useContext, useState } from "react";
 
 // import Logo from "../../../public/img/logo.png";
 import OTPInput from "react-otp-input";
 import * as Fi from "react-icons/fi";
 import Image from "next/image";
 import { toast } from "react-toastify";
-import {AppContext} from "../../order-online-page/context";
-import {useRouter} from "next/navigation";
-import {getSessionStorageItem} from "../../_utils/ClientUtils";
+import { AppContext } from "../../order-online-page/context";
+import { useRouter } from "next/navigation";
+import { getSessionStorageItem } from "../../_utils/ClientUtils";
 import "../style/Style.css";
 function ForgotPass() {
-  const {authLoading, resetPassword, passwordResetMail} =
+  const { authLoading, resetPassword, passwordResetMail } =
     useContext(AppContext);
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
@@ -47,7 +47,16 @@ function ForgotPass() {
       toast.error("Please enter OTP and a new password.");
       return;
     }
-    
+    if (userPassword.length < 8) {
+      toast.error("Password must be at least 8 characters long.");
+      return;
+    }
+
+    if (/\s/.test(userPassword)) {
+      toast.error("Password must not contain white spaces.");
+      return;
+    }
+
     const payload = {
       shopID: process.env.SHOP_ID,
       useremailid: emailaddress,
