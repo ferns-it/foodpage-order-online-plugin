@@ -1,7 +1,6 @@
 "use client";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import * as Fa6 from "react-icons/fa6";
-import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import {
   getSessionStorageItem,
@@ -14,6 +13,8 @@ import {
 import { AppContext } from "../../order-online-page/context";
 import { TableReservationContext } from "../context/TableReservationContext";
 import Utils from "../utils/Utils";
+import { toast } from "react-toastify";
+import { jwtDecode } from "jwt-decode";
 
 function ReservationLogin() {
   const router = useRouter();
@@ -26,6 +27,8 @@ function ReservationLogin() {
     transferCartItem,
     setIsUserLogged,
     fetchReservationList,
+    setUserInformation,
+    userInformation
   } = useContext(AppContext);
   const {
     initialValues,
@@ -149,25 +152,32 @@ function ReservationLogin() {
             toast.error(errMsg);
             return;
           } else {
+            console.log(res, "response");
             const userId = res?.data?.data?.user?.userID;
             const token = res?.data?.data?.token;
             const guestId = getLocalStorageItem("UserPersistent");
-
+            const decodedToken = jwtDecode(token);
+            const user = res?.data?.data?.user;
+            setUserInformation(decodedToken);
             setLocalStorageItem("UserPersistent", userId);
             setLocalStorageItem("userToken", token);
             setLocalStorageItem("guest", false);
-
+            setSessionStorageItem(
+              "userDetails",
+              user ? JSON.stringify(user) : ""
+            );
             if (havAdvance) {
               router.push(`/reservation-checkout?advance=${reserAdvAmt}`);
             } else {
               redirectToLocation("/tablereservation");
             }
-            completeNewReservation();
+
             if (guestId) {
               await transferCartItems(guestId, userId);
             } else {
               console.log("GUEST ID IS NOT AVAILABLE");
             }
+            completeNewReservation();
           }
         },
         onFailed: (err) => {},
@@ -183,10 +193,7 @@ function ReservationLogin() {
       initialValues?.bookingDate,
       initialValues?.bookingTime
     );
-
-    const token = getLocalStorageItem("userToken");
-    const tokenData = jwtDecode(token);
-    const userId = tokenData?.data?.userID;
+    const userId = userInformation?.data?.userID;
     const parsedId = userId && typeof userId == "string" ? Number(userId) : 0;
 
     const payload = {

@@ -3,6 +3,7 @@ import React, { Fragment, useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { toast } from "react-toastify";
+import Logo from "../../../../../public/Assets/logo.png";
 import { setSessionStorageItem } from "../../_utils/ClientUtils";
 import { AppContext } from "../../order-online-page/context";
 
@@ -43,11 +44,11 @@ function Step() {
       <div className="container pt-100">
         <div className="col-md-6 col-sm-12 mx-auto mb-3 pb-150">
           <div className="text-center pb-30 mx-auto">
-            {/* <Image src={Logo} alt="Logo" layout="contain" /> */}
+            <Image src={Logo} alt="Logo" layout="contain" />
           </div>
-          <small className="text-center">
+          <p className="text-center">
             To reset your password, please submit your registered email.
-          </small>
+          </p>
           <div className="card p-3">
             <form
               onSubmit={(e) => handleSubmit(e)}

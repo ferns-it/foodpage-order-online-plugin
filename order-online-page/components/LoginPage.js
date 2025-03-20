@@ -200,7 +200,7 @@ function LoginPage() {
                 </div>
                 <p
                   className="forgot_pass"
-                  onClick={() => router.push("/forgotpassword")}
+                  onClick={() => router.push("/forgotpasswordStep")}
                 >
                   Forgot Password?
                 </p>
