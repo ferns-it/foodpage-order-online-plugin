@@ -4,7 +4,7 @@ import React, { Fragment, useContext, useEffect, useState } from "react";
 import OTPInput from "react-otp-input";
 import * as Go from "react-icons/go";
 import CryptoJS from "crypto-js";
-import toast, { Toaster } from "react-hot-toast";
+import { toast } from "react-toastify";
 import Utils from "../_utils/Utils";
 import { usePathname, useRouter } from "next/navigation";
 import {

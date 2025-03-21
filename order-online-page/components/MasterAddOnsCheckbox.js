@@ -139,7 +139,8 @@ function MasterAddOnsCheckbox({ foodValues, setMasterAddons, variationValue }) {
                   </p>
                   <div
                     className="icon-dev"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       setOpenIndex((prev) =>
                         prev.includes(key)
                           ? prev.filter((index) => index !== key)

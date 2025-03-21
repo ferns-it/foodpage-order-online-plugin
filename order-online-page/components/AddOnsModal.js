@@ -550,7 +550,8 @@ function AddOnsModal(props) {
                       <p className="sub_head_0291">{item?.name ?? "N/A"}</p>
                       <div
                         className="icon-dev"
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           setOpenIndex((prev) =>
                             prev.includes(findex)
                               ? prev.filter((index) => index !== findex)

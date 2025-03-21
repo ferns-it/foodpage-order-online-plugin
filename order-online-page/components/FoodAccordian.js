@@ -276,7 +276,6 @@ function FoodAccordian() {
                                     >
                                       <div className="card accord_food_card_19">
                                         <div className="d-flex justify-content-between">
-                                          
                                           <div className="p-2">
                                             <h2 className="accord_food_name_19">
                                               {data?.name ?? "N/A"}

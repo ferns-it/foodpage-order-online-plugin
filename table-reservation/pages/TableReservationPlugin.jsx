@@ -4,7 +4,7 @@ import React, {useState} from "react";
 import TableReservationForm from "../components/TableReservationForm";
 import ReservOtp from "../components/ReservOTP";
 import CryptoJS from "crypto-js";
-import {Toaster} from "react-hot-toast";
+import { toast } from "react-toastify";
 import ReservSuccess from "../components/ReservSuccess";
 
 function TableReservationPlugin(props) {

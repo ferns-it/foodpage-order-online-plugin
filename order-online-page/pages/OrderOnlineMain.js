@@ -245,15 +245,24 @@ const OrderOnlineMain = () => {
                       )}
                     </ul>
                   </div>
-                  <div className="p-3 mx-auto text-cenetr">
-                    <Image src={OnlineBanner} width={0} height={250} layout="responsive" />
-                  </div>
                 </div>
                 <div className="col-lg-9 col-md-12 col-sm-12">
                   <section className="foodmenuList">
                     <FoodCards category={selectedCategory} />
                     <FoodAccordian />
                   </section>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-md-3 col-sm-12 card mt-3 mb-3">
+                  <div className="p-3">
+                    <Image
+                      src={OnlineBanner}
+                      width={0}
+                      height={270}
+                      layout="responsive"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
