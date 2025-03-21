@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { getSessionStorageItem } from "../../_utils/ClientUtils";
 import "../style/Style.css";
 function ForgotPass() {
-  const { authLoading, resetPassword, passwordResetMail } =
+  const { authLoading, resetPassword,otpLoading, passwordResetMail } =
     useContext(AppContext);
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
@@ -138,7 +138,7 @@ function ForgotPass() {
             </div>
 
             <p className="resend_otp_reservv red cursor-pointer">
-              {!authLoading ? (
+              {!otpLoading ? (
                 <span onClick={resendOTP}>Resend OTP?</span>
               ) : (
                 <span

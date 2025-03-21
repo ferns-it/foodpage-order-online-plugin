@@ -41,7 +41,7 @@ function Step() {
   };
   return (
     <section className="table_reserv__">
-      <div className="container pt-100">
+      <div className="container">
         <div className="col-md-6 col-sm-12 mx-auto mb-3 pb-150">
           <div className="text-center pb-30 mx-auto">
             <Image src={Logo} alt="Logo" layout="contain" />
