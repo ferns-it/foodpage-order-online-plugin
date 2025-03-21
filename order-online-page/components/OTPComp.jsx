@@ -20,7 +20,7 @@ import { AppContext } from "../context";
 import Utils from "../../_utils/Utils";
 
 function OTPComp() {
-  const { sentOTPtoUser, settings, authLoading, registerUser } =
+  const { sentOTPtoUser, settings, authLoading, registerUser, otpLoading } =
     useContext(AppContext);
   const [reservOTP, setResertOTP] = useState("");
   const registerForm = getSessionStorageItem("register");
@@ -175,7 +175,7 @@ function OTPComp() {
               />
               <p className="resend_otp_reservv">
                 Didn't get any OTP? <br />
-                {!authLoading ? (
+                {!otpLoading ? (
                   <span onClick={resendOTP} type="button">
                     Resend OTP
                   </span>

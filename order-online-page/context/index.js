@@ -109,6 +109,7 @@ export const AppContextProvider = (props) => {
     registerUser,
     transferCartItem,
     passwordResetMail,
+    otpLoading,
     resetPassword,
   } = useAuth();
   const {
@@ -415,6 +416,7 @@ export const AppContextProvider = (props) => {
         fetchAllProducts,
         allProductsList,
         setUserInformation,
+        otpLoading,
       }}
     >
       {props.children}

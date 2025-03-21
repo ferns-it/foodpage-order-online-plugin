@@ -24,7 +24,8 @@ import {
 import { jwtDecode } from "jwt-decode";
 
 function ReservationGuestOTP() {
-  const { authLoading, settings, sentOTPtoUser } = useContext(AppContext);
+  const { authLoading, settings, otpLoading, sentOTPtoUser } =
+    useContext(AppContext);
   const {
     initialValues,
     completeReservation,
@@ -195,7 +196,7 @@ function ReservationGuestOTP() {
               />
               <p className="resend_otp_reservv">
                 Didn't get any OTP? <br />
-                {!authLoading ? (
+                {!otpLoading ? (
                   <span onClick={resendOTP}>Resend OTP</span>
                 ) : (
                   <span
