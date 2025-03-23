@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import Skeleton from "react-loading-skeleton";
 
 function FoodCardsSkeleton() {
-  const items = Array.from({ length: 4 });
+  const items = Array.from({ length: 3 });
   return (
     <Fragment>
       <div className="web-view">
@@ -15,49 +15,35 @@ function FoodCardsSkeleton() {
             <div className="row">
               {items.map((_, index) => {
                 return (
-                  <div className="col-md-12 col-lg-12 col-sm-12" key={index}>
-                    <div id="fda_product_tile">
-                      <div className="row fda_food_row position-relative">
-                        <div className="w-100">
-                          <a
-                            className="prod_anchor"
-                            style={{
-                              textDecoration: "none",
-                            }}
-                          >
+                  <div className="tab-pane fade show active mt-3">
+                    <div className="row">
+                      <div
+                        className=" col-lg-12 col-md-12 col-sm-12 position-relative mb-3"
+                        key={index}
+                      >
+                        <div id="fda_product_tile">
+                          <div className="row fda_food_row">
                             <div
-                              className="food_tile__ active mb-4 p-3"
-                              id="skelt_food_card"
+                              className="prod_anchor"
+                              style={{
+                                textDecoration: "none",
+                              }}
                             >
-                              <img
-                                // src={data?.photo}
-                                alt=""
-                                className="fda_product_img"
-                                style={{ opacity: 0 }}
-                              />
-                              {/* <div className="skeliton_round">
-                                <Skeleton circle height={130} width={130} />
-                              </div> */}
-                              <h6 className="dish_name">
-                                <Skeleton
-                                  className="mx-auto"
-                                  height={20}
-                                  width={100}
-                                />
-                              </h6>
-                              <span className="food_detail">
-                                <Skeleton height={100} />
-                              </span>
-
-                              <div className="mb-3">
-                                <h4 className="dish-value">
-                                  <b>
-                                    <Skeleton />
-                                  </b>
-                                </h4>
+                              <div className="cust_row">
+                                <div className="food_tile__ active pb-2 mt-2">
+                                  <div className="wrapped">
+                                    <span className="food_detail">
+                                      <Skeleton width={150} />
+                                    </span>
+                                  </div>
+                                  <Skeleton width={150} count={2} />
+                                </div>
+                                <div className="d-flex h-100 justify-content-center">
+                                  <Skeleton width={100} height={100} circle />
+                                </div>
                               </div>
                             </div>
-                          </a>
+                          </div>
                         </div>
                       </div>
                     </div>

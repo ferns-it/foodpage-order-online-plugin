@@ -1,6 +1,6 @@
 "use client"
 import React, { Fragment, useContext } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import { toast } from "react-toastify";
 import CryptoJS from "crypto-js";
 import Utils from "../utils/Utils";
 

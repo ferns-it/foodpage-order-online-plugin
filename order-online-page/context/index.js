@@ -98,6 +98,8 @@ export const AppContextProvider = (props) => {
     fetchCurrentShopStatus,
     currentStatus,
     updateCart,
+    fetchAllProducts,
+    allProductsList,
   } = useMenus();
   const {
     authLoading,
@@ -107,6 +109,7 @@ export const AppContextProvider = (props) => {
     registerUser,
     transferCartItem,
     passwordResetMail,
+    otpLoading,
     resetPassword,
   } = useAuth();
   const {
@@ -173,7 +176,6 @@ export const AppContextProvider = (props) => {
     if (!decodedToken || !decodedToken.exp) {
       return true; // Assume expired if token is invalid
     }
-
     const expiryTime = decodedToken.exp * 1000; // Convert to milliseconds
     return Date.now() >= expiryTime;
   }
@@ -185,6 +187,7 @@ export const AppContextProvider = (props) => {
     fetchCartList(userId);
     diningMenuList();
     fetchMenuList();
+    fetchAllProducts();
     fetchCurrentShopStatus();
 
     if (userToken) {
@@ -410,6 +413,10 @@ export const AppContextProvider = (props) => {
         userInformation,
         mergedState,
         setMergedState,
+        fetchAllProducts,
+        allProductsList,
+        setUserInformation,
+        otpLoading,
       }}
     >
       {props.children}

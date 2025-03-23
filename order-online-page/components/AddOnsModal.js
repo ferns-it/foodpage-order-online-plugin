@@ -10,7 +10,7 @@ import React, {
 import * as Io5 from "react-icons/io5";
 import * as Bs from "react-icons/bs";
 import Utils from "../utils/Utils";
-import toast, { Toaster } from "react-hot-toast";
+import { toast, ToastContainer } from "react-toastify";
 import { AppContext } from "../context";
 import MasterAddOnsCheckbox from "./MasterAddOnsCheckbox";
 import VariationMasterAddons from "./variationMasterAddons";
@@ -37,12 +37,18 @@ function AddOnsModal(props) {
   });
   const [addOns, setAddOns] = useState({});
   const [masterAddons, setMasterAddons] = useState({});
-  const [openIndex, setOpenIndex] = useState(null);
+  const [openIndex, setOpenIndex] = useState([]);
   const [limitExceeded, setLimitExceeded] = useState(false);
   const [itemData, setItemData] = useState(null);
   const [variationAddOns, setVariationAddOns] = useState(null);
-  // const [variationAddOnsData, ]
   const foodValues = props.productData;
+
+  useEffect(() => {
+    if (!foodValues) return;
+    if (foodValues?.addons && Array.isArray(foodValues.addons)) {
+      setOpenIndex([...Array(foodValues.addons.length).keys()]);
+    }
+  }, [foodValues]);
 
   const emptyStates = () => {
     setCount(1);
@@ -308,7 +314,6 @@ function AddOnsModal(props) {
         return;
       }
     }
-    console.log(variationValue, "variatu=ion");
     let cOptionObj = {
       pvID: variationValue?.pvID,
       addons: addOns,
@@ -323,7 +328,7 @@ function AddOnsModal(props) {
     let headers = {
       User: userId,
     };
-    console.log(payload, "payload");
+
     await addToCart(payload, {
       headers: headers,
       onSuccess: async (res) => {
@@ -347,7 +352,7 @@ function AddOnsModal(props) {
 
   return (
     <Fragment>
-      <Toaster />
+      <ToastContainer />
       <div
         className={
           props.showModal
@@ -529,107 +534,120 @@ function AddOnsModal(props) {
 
             {foodValues.addons &&
               foodValues.addons.length !== 0 &&
-              foodValues.addons.map((item, findex) => (
-                <div key={findex} className="row">
-                  <div
-                    className="toggle-dish"
-                    onClick={() =>
-                      setOpenIndex(openIndex === findex ? null : findex)
-                    }
-                  >
-                    <p className="sub_head_0291">{item?.name ?? "N/A"}</p>
+              foodValues.addons.map((item, findex) => {
+                return (
+                  <div key={findex} className="row">
                     <div
-                      className="icon-dev"
-                      onClick={() =>
-                        setOpenIndex(openIndex === findex ? null : findex)
-                      }
+                      className="toggle-dish"
+                      onClick={() => {
+                        setOpenIndex((prev) =>
+                          prev.includes(findex)
+                            ? prev.filter((index) => index !== findex)
+                            : [...prev, findex]
+                        );
+                      }}
                     >
-                      {openIndex === findex ? (
-                        <i>
-                          <IoIosArrowUp />
-                        </i>
-                      ) : (
-                        <i>
-                          <IoIosArrowDown />
-                        </i>
-                      )}
-                    </div>
-                  </div>
-
-                  {openIndex === findex && (
-                    <>
-                      <div className="card p-3 mb-3">
-                        <table className="menu_table_0291">
-                          <tbody>
-                            {item?.options &&
-                              item?.options.map((data, iindex) => (
-                                <tr key={iindex}>
-                                  <td className="d-flex">
-                                    <label className="delivery_option_container">
-                                      <input
-                                        type="checkbox"
-                                        name={data}
-                                        id="variations"
-                                        className="delivery_option"
-                                        disabled={
-                                          variationValue &&
-                                          variationValue.name &&
-                                          variationValue.name.length !== 0
-                                            ? false
-                                            : true
-                                        }
-                                        onChange={(e) => {
-                                          const isChecked = e.target.checked;
-                                          const newValue =
-                                            data?.value.toString();
-                                          setAddOns((prev) => {
-                                            if (isChecked) {
-                                              return {
-                                                ...prev,
-                                                [item?.id]: [
-                                                  ...(prev[item?.id] ?? []),
-                                                  newValue,
-                                                ],
-                                              };
-                                            } else {
-                                              const updatedAddOns = { ...prev };
-                                              if (updatedAddOns[item?.id]) {
-                                                updatedAddOns[item?.id] =
-                                                  updatedAddOns[
-                                                    item?.id
-                                                  ].filter(
-                                                    (value) =>
-                                                      value !== newValue
-                                                  );
-                                              }
-                                              return updatedAddOns;
-                                            }
-                                          });
-                                        }}
-                                      />
-                                      <span className="checkmark"></span>
-                                      <span className="varient_name">
-                                        {data?.text ?? "N/A"}
-                                      </span>
-                                    </label>
-                                  </td>
-                                  <td
-                                    style={{
-                                      whiteSpace: "nowrap",
-                                      userSelect: "none",
-                                    }}
-                                  >
-                                    + {data?.price_formatted ?? "N/A"}
-                                  </td>
-                                </tr>
-                              ))}
-                          </tbody>
-                        </table>
+                      <p className="sub_head_0291">{item?.name ?? "N/A"}</p>
+                      <div
+                        className="icon-dev"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setOpenIndex((prev) =>
+                            prev.includes(findex)
+                              ? prev.filter((index) => index !== findex)
+                              : [...prev, findex]
+                          );
+                        }}
+                      >
+                        {openIndex && openIndex.includes(findex) ? (
+                          <i>
+                            <IoIosArrowUp />
+                          </i>
+                        ) : (
+                          <i>
+                            <IoIosArrowDown />
+                          </i>
+                        )}
                       </div>
-                    </>
-                  )}
-                </div>
-              ))}
+                    </div>
+
+                    {openIndex.includes(findex) && (
+                      <>
+                        <div className="card p-3 mb-3">
+                          <table className="menu_table_0291">
+                            <tbody>
+                              {item?.options &&
+                                item?.options.map((data, iindex) => (
+                                  <tr key={iindex}>
+                                    <td className="d-flex">
+                                      <label className="delivery_option_container">
+                                        <input
+                                          type="checkbox"
+                                          name={data}
+                                          id="variations"
+                                          className="delivery_option"
+                                          disabled={
+                                            variationValue &&
+                                            variationValue.name &&
+                                            variationValue.name.length !== 0
+                                              ? false
+                                              : true
+                                          }
+                                          onChange={(e) => {
+                                            const isChecked = e.target.checked;
+                                            const newValue =
+                                              data?.value.toString();
+                                            setAddOns((prev) => {
+                                              if (isChecked) {
+                                                return {
+                                                  ...prev,
+                                                  [item?.id]: [
+                                                    ...(prev[item?.id] ?? []),
+                                                    newValue,
+                                                  ],
+                                                };
+                                              } else {
+                                                const updatedAddOns = {
+                                                  ...prev,
+                                                };
+                                                if (updatedAddOns[item?.id]) {
+                                                  updatedAddOns[item?.id] =
+                                                    updatedAddOns[
+                                                      item?.id
+                                                    ].filter(
+                                                      (value) =>
+                                                        value !== newValue
+                                                    );
+                                                }
+                                                return updatedAddOns;
+                                              }
+                                            });
+                                          }}
+                                        />
+                                        <span className="checkmark"></span>
+                                        <span className="varient_name">
+                                          {data?.text ?? "N/A"}
+                                        </span>
+                                      </label>
+                                    </td>
+                                    <td
+                                      style={{
+                                        whiteSpace: "nowrap",
+                                        userSelect: "none",
+                                      }}
+                                    >
+                                      + {data?.price_formatted ?? "N/A"}
+                                    </td>
+                                  </tr>
+                                ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                );
+              })}
 
             <div className="row">
               <MasterAddOnsCheckbox

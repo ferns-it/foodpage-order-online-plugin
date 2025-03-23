@@ -5,7 +5,7 @@ import OTPInput from "react-otp-input";
 import * as Go from "react-icons/go";
 import jwt from "jsonwebtoken";
 import CryptoJS from "crypto-js";
-import toast, { Toaster } from "react-hot-toast";
+import { toast } from "react-toastify";
 
 import { useRouter } from "next/navigation";
 
@@ -24,7 +24,8 @@ import {
 import { jwtDecode } from "jwt-decode";
 
 function ReservationGuestOTP() {
-  const { authLoading, settings, sentOTPtoUser } = useContext(AppContext);
+  const { authLoading, settings, otpLoading, sentOTPtoUser } =
+    useContext(AppContext);
   const {
     initialValues,
     completeReservation,
@@ -195,7 +196,7 @@ function ReservationGuestOTP() {
               />
               <p className="resend_otp_reservv">
                 Didn't get any OTP? <br />
-                {!authLoading ? (
+                {!otpLoading ? (
                   <span onClick={resendOTP}>Resend OTP</span>
                 ) : (
                   <span

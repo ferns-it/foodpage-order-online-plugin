@@ -112,7 +112,7 @@ function FoodAccordian() {
           {isAnyAccordionOpen && (
             <button
               type="button"
-              className="collapse_accordion_001"
+              className="collapse_accordion_001 text-dark"
               onClick={collapseAll}
             >
               <Tb.TbLayoutNavbarCollapseFilled /> <span>Collapse All</span>
@@ -137,7 +137,7 @@ function FoodAccordian() {
                           className="accor_btn_001"
                           onClick={() => handleToggleAccordion(index, list)}
                         >
-                          <span className="accord_category_name_19">
+                          <span className="accord_category_name_19 text-dark">
                             {list?.name ?? "N/A"}
                           </span>
                           <span
@@ -275,19 +275,8 @@ function FoodAccordian() {
                                       onClick={() => addOnsModalData(data)}
                                     >
                                       <div className="card accord_food_card_19">
-                                        <div className="row">
-                                          <div className="col-3">
-                                            <div className="accord_img_19">
-                                              <Image
-                                                width={100}
-                                                height={0}
-                                                src={data?.photo}
-                                                alt=""
-                                                referrerPolicy="no-referrer"
-                                              />
-                                            </div>
-                                          </div>
-                                          <div className="col-7">
+                                        <div className="d-flex justify-content-between">
+                                          <div className="p-2">
                                             <h2 className="accord_food_name_19">
                                               {data?.name ?? "N/A"}
                                             </h2>
@@ -297,11 +286,11 @@ function FoodAccordian() {
                                                   data?.description
                                                 )}
                                             </p>
-                                            <p className="accord_price_19">
+                                            <p className="accord_price_19 text-danger">
                                               {data?.price ?? "N/A"}
                                             </p>
                                           </div>{" "}
-                                          <div className="col-1">
+                                          <div className="p-2">
                                             {" "}
                                             <button
                                               type="button"
@@ -382,6 +371,7 @@ function FoodAccordian() {
               </div>
             </div>
           </div>
+          <br />
           <div className="row">
             <OrderSummary />
           </div>

@@ -6,7 +6,7 @@ import * as Go from "react-icons/go";
 import * as Fa from "react-icons/fa";
 import * as Md from "react-icons/md";
 import Utils from "../utils/Utils";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import {
   getSessionStorageItem,

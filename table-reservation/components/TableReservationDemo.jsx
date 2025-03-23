@@ -8,7 +8,7 @@ import * as Fa from "react-icons/fa6";
 import { GrLocation } from "react-icons/gr";
 import { TableReservationContext } from "../context/TableReservationContext";
 import Utils from "../utils/Utils";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useRouter, useSearchParams } from "next/navigation";

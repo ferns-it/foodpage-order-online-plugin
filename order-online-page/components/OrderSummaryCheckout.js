@@ -3,8 +3,7 @@ import React, { Fragment, useContext, useEffect, useState } from "react";
 import { PiKey } from "react-icons/pi";
 import { RiMoneyEuroCircleLine } from "react-icons/ri";
 // import * as Bs from "react-icons/bs";
-
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import { AppContext } from "../context/index";
 import CheckoutSummaryComp from "./CheckoutSummaryComp";
 import { Elements } from "@stripe/react-stripe-js";
@@ -62,23 +61,10 @@ function OrderSummaryCheckout() {
     userInfo,
   } = useContext(AppContext);
 
-  // const { fetchCartList } = useContext(AppContext);
-  console.log(userInfo, "USER");
   const [paymentOption, setPaymentOption] = useState("");
-  const [addressDefault, setAddressDefault] = useState(null);
-  // useEffect(() => {
-  //   const storeDefaultAddressDetails = JSON.parse(getSessionStorageItem("defaultAddressDetails"))
-  //   if (storeDefaultAddressDetails) {
-  //     setAddressDefault(storeDefaultAddressDetails)
-  //   }
-  // }, [addressDefault])
-  const savedAddress = JSON.parse(
-    getSessionStorageItem("defaultAddressDetails")
-  );
-  console.log(userInfo, "saved");
+
   const [formState, setFormState] = useState({
-    fullname:
-      (userInfo && userInfo?.firstName + " " + userInfo?.lastName) || "",
+    fullname: (userInfo && userInfo?.firstName) || "",
     postalCode: "",
     emailAddress:
       (isUserLogged != null && isUserLogged?.payload?.data?.userEmail) || "",
@@ -91,10 +77,40 @@ function OrderSummaryCheckout() {
     notes: "",
   });
 
+  useEffect(() => {
+    if (userInfo) {
+      setFormState((prevState) => ({
+        ...prevState,
+        fullname: `${userInfo.firstName || ""} ${
+          userInfo.lastName || ""
+        }`.trim(),
+        addressLine1: userInfo.line1 || "",
+        addressLine2: userInfo.line2 || "",
+        townCity: userInfo.town || "",
+        county: userInfo.county || "",
+      }));
+    }
+  }, [userInfo, formState]);
+
+  useEffect(() => {
+    if (userInfo) {
+      setFormState((prevState) => ({
+        ...prevState,
+        fullname: `${userInfo.firstName || ""} ${
+          userInfo.lastName || ""
+        }`.trim(),
+        addressLine1: userInfo.line1 || "",
+        addressLine2: userInfo.line2 || "",
+        townCity: userInfo.town || "",
+        county: userInfo.county || "",
+      }));
+    }
+  }, [userInfo]);
+
   const [fieldError, setFieldError] = useState(false);
   const [discountData, setDiscountData] = useState(null);
   const [intentLoading, setIntentLoading] = useState(false);
-
+  console.log(userInfo, "useinfo");
   useEffect(() => {
     const price = searchParams.get("price");
     const deliveryCharge = searchParams.get("deliveryCharge");
@@ -117,20 +133,6 @@ function OrderSummaryCheckout() {
     }
   }, [formState]);
 
-  // useEffect(() => {
-  //   const handleBeforeUnload = (event) => {
-  //     event.preventDefault();
-
-  //     event.returnValue = "Are you sure you want to leave?";
-  //   };
-
-  //   window.addEventListener("beforeunload", handleBeforeUnload);
-
-  //   return () => {
-  //     window.removeEventListener("beforeunload", handleBeforeUnload);
-  //   };
-  // }, []);
-
   useEffect(() => {
     if (delivery == false) {
       const postalCode = getSessionStorageItem("postcode");
@@ -140,18 +142,11 @@ function OrderSummaryCheckout() {
       }
       setFormState({ ...formState, postalCode });
     } else {
-      // setActiveCard("payment");
       const postalCode =
         isUserLogged != null && isUserLogged?.payload?.data?.userPostCode;
       setFormState({ ...formState, postalCode });
     }
   }, [delivery]);
-
-  // useEffect(() => {
-  //   if (delivery === null) return;
-
-  //   setActiveCard(!delivery ? "login" : "payment");
-  // }, [delivery]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -300,8 +295,6 @@ function OrderSummaryCheckout() {
         }
       }
     }
-
-    console.log(emptyKeys);
     return emptyKeys;
   };
   const completeOrder = async () => {
@@ -779,7 +772,7 @@ function OrderSummaryCheckout() {
                 </div> */}
 
                 {!paymentLoading ? (
-                  <Fragment id="payment">
+                  <div id="payment">
                     {cartItems?.paymentOptions != null &&
                     cartItems?.paymentOptions.shopStatus != "closed" ? (
                       <>
@@ -903,7 +896,7 @@ function OrderSummaryCheckout() {
                     ) : (
                       <h6 style={{ color: "red" }}></h6>
                     )}
-                  </Fragment>
+                  </div>
                 ) : (
                   <PleaseWait />
                 )}

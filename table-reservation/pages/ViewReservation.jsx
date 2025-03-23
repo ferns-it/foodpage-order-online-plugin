@@ -19,7 +19,7 @@ import * as Io from "react-icons/io";
 import ReservModal from "../components/ReservModal";
 import { useRouter, useSearchParams } from "next/navigation";
 import CryptoJS from "crypto-js";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import Skeleton from "react-loading-skeleton";
 
 import "../style/Style.css";
@@ -31,7 +31,7 @@ export const mergeBookingDateTime = (bookingDate, bookingTime) => {
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
 
-  const timeWithSeconds = bookingTime.includes(":")
+  const timeWithSeconds = bookingTime && bookingTime.includes(":")
     ? bookingTime
     : `${bookingTime}:00`;
 
@@ -315,7 +315,7 @@ function ViewReservation() {
         bookingDate={updatedValues?.bookingDate}
         bookingTime={updatedValues?.bookingTime}
       />
-      <section className="tbl_reserv_section">
+      <section className="tbl_reserv_section mx-auto">
         <div className="container mx-auto">
           {/* <button
             className="go_back mb-2"
@@ -323,9 +323,9 @@ function ViewReservation() {
           >
             <Go.GoArrowLeft /> Back
           </button> */}
-          <div className="row pt-50">
+          <div className="row pt-50 mx-auto">
             <div className="col-lg-8 col-md-12 col-sm-12 position-relative mx-auto">
-              <div className="card manage_reserv_card " id="alter_card">
+              <div className="card manage_reserv_card mx-auto" id="alter_card">
                 <h3 className="table-reservation-form-head">
                   Reservation Details
                 </h3>

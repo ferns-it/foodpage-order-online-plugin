@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 textarea:focus,
 input[type="text"]:focus,
 input[type="password"]:focus,
@@ -29,7 +30,7 @@ input {
   border: none;
   margin-left: 5px;
   outline: none;
-  font-family: "Roboto", sans-serif !important;
+  font-family: "Poppins", serif;
 }
 
 /* table reservation */
@@ -37,10 +38,10 @@ input {
   padding: 10px;
   /* width: 75%; */
   margin: 0 auto;
-  border-color: #eee;
+  border: 1px solid rgb(179, 179, 179) !important;
   border-width: 0 1px 0 0;
   border-radius: 0;
-  font-family: "Roboto", sans-serif !important;
+  font-family: "Poppins", serif;
 }
 
 #alter_card {
@@ -59,7 +60,7 @@ input {
 .table_reserv_form_input_select {
   border: 1px solid gray !important;
   border-radius: 4px;
-  font-family: "Roboto", sans-serif !important;
+  font-family: "Poppins", serif;
 }
 .table-reservation-form-head {
   text-transform: uppercase;
@@ -70,7 +71,7 @@ input {
   text-align: left;
   margin: 0;
   font-weight: 500;
-  font-family: "Roboto", sans-serif !important;
+  font-family: "Poppins", serif;
   font-weight: 600;
   letter-spacing: 0.1rem;
 }
@@ -78,7 +79,7 @@ input {
 .table_reserv_form_label {
   font-size: 13px;
   font-weight: 600;
-  font-family: "Roboto", sans-serif !important;
+  font-family: "Poppins", serif;
 }
 
 .table_reserv_form_input.err__ {
@@ -124,8 +125,8 @@ input {
   text-align: center;
   line-height: 30px;
   cursor: pointer;
- color: #fff !important;
- background-color: #c11014 !important;
+  color: #fff !important;
+  background-color: #c11014 !important;
   border-radius: 50%;
   box-shadow: 0 2px 5px #3c3c3c;
   transition: all 0.2s ease-in-out;
@@ -348,7 +349,7 @@ input {
     width: 100% !important;
   }
 }
-.reserv-list{
+.reserv-list {
   min-height: 70vh;
 }
 .back-btn {
@@ -1787,6 +1788,8 @@ abbr[title] {
 }
 .reserve_table {
   font-size: 14px;
+  font-weight: 500;
+  font-family: "Poppins", serif;
 }
 .go_back {
   border: none;
@@ -1824,9 +1827,10 @@ abbr[title] {
   background-color: transparent;
 }
 .btn-warning {
-  color: #212529;
-  background-color: #ffc107;
-  border-color: #ffc107;
+  color: #ffffff;
+  background-color: #c11014;
+  padding: 5px 15px;
+  border-color: #c11014;
 }
 .eye_btn_fgt {
   position: relative;
@@ -1874,6 +1878,11 @@ abbr[title] {
   padding-top: 3rem;
   padding-bottom: 3rem;
   height: 100%;
+  margin: 0px auto;
+  min-height: 50vh;
+}
+.manage_reserv_card {
+  min-height: 50vh;
 }
 .message-area::-webkit-scrollbar {
   width: 10px;
@@ -1976,7 +1985,7 @@ abbr[title] {
   width: 50%;
   user-select: none;
 }
-.cancel-modal{
+.cancel-modal {
   width: 50%;
   padding: 10px;
   margin: 20px;
@@ -2078,7 +2087,7 @@ button:active {
   font-size: 0.9rem;
   user-select: none;
   padding: 0;
-  font-family: "Roboto", sans-serif !important;
+  font-family: "Poppins", serif;
 }
 .poweredBy_ {
   position: absolute;
@@ -2221,7 +2230,7 @@ button:active {
   padding-top: 20px;
   border: 0;
   border-bottom: 1px solid #eee;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-family: "Poppins", serif;
   border-radius: 0;
   font-size: 14px;
 }
@@ -2253,7 +2262,7 @@ button:active {
 
 /* Header Styles */
 .checkout7821_header {
-  background-color: #f4b223;
+  background-color: #f0d2d2;
   padding: 1.5rem 2rem;
   color: white;
 }
@@ -2261,6 +2270,7 @@ button:active {
 .checkout7821_header h1 {
   font-size: 1.5rem;
   font-weight: 700;
+  color: #c11014;
   margin: 0;
   letter-spacing: 1px;
 }
@@ -2269,6 +2279,7 @@ button:active {
   margin-top: 0.25rem;
   color: #e0e7ff;
   font-size: 0.95rem;
+  color: #c11014;
 }
 
 /* Confirmation Banner */
@@ -2620,7 +2631,7 @@ button:active {
 }
 
 .checkout7821_submit_button:hover {
-  background-color: #f4b223;
+  background-color: #c11014;
 }
 
 .checkout7821_lock_icon {
@@ -2641,6 +2652,7 @@ button:active {
 
 .checkout7821_footer p {
   margin: 0 0 0.5rem 0;
+  color: #c11014;
 }
 
 .checkout7821_footer p:last-child {
@@ -2687,7 +2699,14 @@ a:focus {
   color: #fff;
 }
 .new-reser-btn {
-  border: none;
+  width: 30%;
+  margin: 0px auto;
   outline: none !important;
-  background-color: transparent;
+  background-color: #c11014;
+  padding: 5px;
+  border-radius: 7px;
+  color: #fff;
+}
+.reser-page {
+  min-height: 100vh;
 }

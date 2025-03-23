@@ -103,9 +103,12 @@ function FoodCards(category) {
                         <div className="row">
                           {products && products.length != 0 ? (
                             products?.map((data, index) => {
+                              const isImg =
+                                data?.photo !=
+                                "https://development.foodpage.co.uk/theme/dish_placeholder.png";
                               return (
                                 <div
-                                  className=" col-lg-12 col-md-12 col-sm-12 position-relative mb-3"
+                                  className="food-card-pro position-relative mb-3"
                                   key={index}
                                 >
                                   <div id="fda_product_tile">
@@ -114,14 +117,15 @@ function FoodCards(category) {
                                         className="prod_anchor"
                                         style={{
                                           textDecoration: "none",
-                                          // cursor: "pointer",
                                         }}
-                                        // onClick={() => handleModal(data)}
                                       >
-                                        <div className="row">
-                                          <div className="col-md-8 col-sm-12">
-                                            {" "}
-                                            <div className="food_tile__ active pb-2 mt-2">
+                                        <div className="cust_row">
+                                          {" "}
+                                          <div
+                                            className="food_tile__ active pb-2 mt-2"
+                                            id={isImg === false ? "new_dish_wrap" : ""}
+                                          >
+                                            <div className="wrapped">
                                               <h6 className="dish_name">
                                                 {data?.name}
                                               </h6>
@@ -130,39 +134,36 @@ function FoodCards(category) {
                                                   data?.description ?? "N/A"
                                                 )}
                                               </span>
-                                              <div className="online-card">
-                                                <h4 className="dish-value">
-                                                  {" "}
-                                                  <b>{data?.price ?? "N/A"}</b>
-                                                </h4>
+                                            </div>
+                                            <div className="online-card">
+                                              <h4 className="dish-value">
+                                                {" "}
+                                                <b>{data?.price ?? "N/A"}</b>
+                                              </h4>
 
-                                                <button
-                                                  type="button"
-                                                  className="dish-btn"
-                                                  onClick={() =>
-                                                    handleModal(data)
-                                                  }
-                                                >
-                                                  Add to cart
-                                                </button>
-                                              </div>
-                                            </div>{" "}
-                                          </div>
-                                          {data?.photo !=
-                                            "https://development.foodpage.co.uk/theme/dish_placeholder.png" && (
+                                              <button
+                                                type="button"
+                                                className="dish-btn"
+                                                onClick={() =>
+                                                  handleModal(data)
+                                                }
+                                              >
+                                                Add to cart
+                                              </button>
+                                            </div>
+                                          </div>{" "}
+                                          {isImg && (
                                             <>
-                                              <div className="col-md-4 col-sm-12">
-                                                <div className="container-img">
-                                                  <Image
-                                                    // layout="responsive"
-                                                    src={data?.photo}
-                                                    width={100}
-                                                    height={100}
-                                                    alt=""
-                                                    className="image-online "
-                                                    referrerPolicy="no-referrer"
-                                                  />
-                                                </div>
+                                              <div className="food_img_wrapper_">
+                                                <Image
+                                                  // layout="responsive"
+                                                  src={data?.photo}
+                                                  width={100}
+                                                  height={100}
+                                                  alt=""
+                                                  className="image-online "
+                                                  referrerPolicy="no-referrer"
+                                                />
                                               </div>
                                             </>
                                           )}

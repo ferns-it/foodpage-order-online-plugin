@@ -1,6 +1,6 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { AppContext } from "../context";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import { getSessionStorageItem } from "../../_utils/ClientUtils";
 function CheckoutSummaryComp() {
   const {

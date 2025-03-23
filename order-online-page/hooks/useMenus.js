@@ -10,6 +10,7 @@ const useMenus = () => {
   const [cartLoading, setCartLoading] = useState(false);
   const [categoryList, setCategoryList] = useState(null);
   const [diningList, setDiningList] = useState(null);
+  const [allProductsList, setAllProductsList] = useState(null);
   const [settings, setSettings] = useState(null);
   const [diningLoading, setDiningLoading] = useState(false);
   const [deliveryInfo, setDeliveryInfo] = useState(null);
@@ -26,6 +27,21 @@ const useMenus = () => {
       await BaseClient.get(APIEndpoints.menulist, [], {
         onSuccess: (res) => {
           setMenuList(res?.data);
+        },
+        onFailed: (err) => {
+          console.log("Error on fetching menus", err);
+        },
+      });
+    } finally {
+      setMenuLoading(false);
+    }
+  };
+  const fetchAllProducts = async () => {
+    try {
+      setMenuLoading(true);
+      await BaseClient.get(APIEndpoints.allProducts, [], {
+        onSuccess: (res) => {
+          setAllProductsList(res?.data);
         },
         onFailed: (err) => {
           console.log("Error on fetching menus", err);
@@ -290,6 +306,8 @@ const useMenus = () => {
     fetchCurrentShopStatus,
     currentStatus,
     updateCart,
+    fetchAllProducts,
+    allProductsList
   };
 };
 

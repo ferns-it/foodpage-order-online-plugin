@@ -1,6 +1,6 @@
 "use client";
 import React, { Fragment, useContext, useEffect, useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import { toast } from "react-toastify";
 import CryptoJS from "crypto-js";
 import Utils from "../_utils/Utils";
 
@@ -35,7 +35,7 @@ function GuestLogin() {
       [name]: value,
     }));
   };
-  const { userLoading, sentOTPtoUser, settings, authLoading } =
+  const { userLoading, sentOTPtoUser, settings, otpLoading } =
     useContext(AppContext);
 
   const encryptToMD5 = (number) => {
@@ -137,7 +137,7 @@ function GuestLogin() {
                 type="button"
                 className="login_btn"
                 onClick={handleGuestSubmit}
-                disabled={authLoading}
+                disabled={otpLoading}
               >
                 Continue
               </button>

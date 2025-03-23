@@ -278,7 +278,7 @@ function OrderSummary() {
       toast("Your cart is empty!");
       return;
     }
-    if(cartItems?.cartTotal?.cartTotalPrice ===0){
+    if (cartItems?.cartTotal?.cartTotalPrice === 0) {
       toast.error("Cart Total Should be morethan 1!");
       return;
     }
@@ -392,18 +392,22 @@ function OrderSummary() {
             <BsFillBasket2Fill size={24} />
             <small> My Basket</small>
           </div>
-          {cartLoading ? (
-            <button disabled className="clr_cart_btn col-md-6">
-              ..
-            </button>
-          ) : (
-            <button
-              type="button"
-              className="clr_cart_btn col-md-6"
-              onClick={clearcart}
-            >
-              Clear Cart
-            </button>
+          {cartItems && cartItems?.cartItems.length >= 1 && (
+            <>
+              {cartLoading ? (
+                <button disabled className="clr_cart_btn col-md-6">
+                  ..
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="clr_cart_btn col-md-6"
+                  onClick={clearcart}
+                >
+                  Clear Cart
+                </button>
+              )}
+            </>
           )}
         </div>
 
@@ -733,7 +737,9 @@ function OrderSummary() {
                   </div>
                 </div>
               ) : (
-                <div style={{ width: "90%", padding: "10px", margin: "0px auto" }}>
+                <div
+                  style={{ width: "90%", padding: "10px", margin: "0px auto" }}
+                >
                   <label htmlFor="takeaway-time" className="opt_label_827">
                     Pickup Time
                   </label>
@@ -810,16 +816,21 @@ function OrderSummary() {
                   locationLoading === true
                 }
               >
-                <i className="icon-next">
-                  <Fa.FaArrowAltCircleRight />
-                </i>
                 {!locationLoading ? (
-                  "Order Now"
+                  <>
+                    <i className="icon-next">
+                      <Fa.FaArrowAltCircleRight />
+                    </i>
+                    Order Now
+                  </>
                 ) : (
-                  <div
-                    className="spinner-border spinner-border-sm text-light"
-                    role="status"
-                  ></div>
+                  <div className="text-center d-flex align-items-center mx-auto">
+                    <div
+                      className="spinner-border spinner-border-sm text-light"
+                      role="status"
+                    ></div>{" "}
+                    <span className="ps-3">Please Wait!</span>
+                  </div>
                 )}
               </button>
             </div>

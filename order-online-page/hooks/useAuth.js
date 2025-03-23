@@ -5,8 +5,10 @@ import { APIEndpoints } from "../constants/APIEndpoints";
 
 const useAuth = () => {
   const [authLoading, setAuthLoading] = useState(false);
+  const [otpLoading, setOTPLaoding] = useState(false);
   const sentOTPtoUser = async (payload, { onSuccess, onFailed }) => {
     try {
+      setOTPLaoding(true);
       setAuthLoading(true);
       await BaseClient.post(APIEndpoints.sendOTP, payload, {
         onSuccess: onSuccess,
@@ -14,6 +16,7 @@ const useAuth = () => {
       });
     } finally {
       setAuthLoading(false);
+      setOTPLaoding(false);
     }
   };
   const registerUser = async (payload, { onSuccess, onFailed }) => {
@@ -73,7 +76,10 @@ const useAuth = () => {
     }
   };
 
-  const transferCartItem = async (payload, { headers, onSuccess, onFailed }) => {
+  const transferCartItem = async (
+    payload,
+    { headers, onSuccess, onFailed }
+  ) => {
     try {
       setAuthLoading(true);
 
@@ -89,6 +95,7 @@ const useAuth = () => {
   return {
     authLoading,
     sentOTPtoUser,
+    otpLoading,
     userLogin,
     confirmPassword,
     registerUser,
