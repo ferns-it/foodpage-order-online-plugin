@@ -115,7 +115,7 @@ function LoginPage() {
             "userDetails",
             user ? JSON.stringify(user) : ""
           );
-        
+
 
           if (guestId) {
             await transferCartItems(guestId, userId);
@@ -127,16 +127,18 @@ function LoginPage() {
 
           setTimeout(() => {
             if (location == "checkout" || location == "/checkout") {
+              sessionStorage.removeItem("location");
               redirectToLocation("/checkout");
+
             } else {
               redirectToLocation("/");
             }
           }, 800);
         },
-        onFailed: (err) => { 
+        onFailed: (err) => {
           toast.error(
             err?.response?.data?.errorMessage?.message ||
-              "Authentication Failed"
+            "Authentication Failed"
           );
         },
       });
@@ -183,7 +185,7 @@ function LoginPage() {
                       className="form-control"
                       value={userState.password}
                       onChange={handleInputChange}
-                      autocomplete="off"
+                      autoComplete="off"
                     />
                     <button
                       type="button"
