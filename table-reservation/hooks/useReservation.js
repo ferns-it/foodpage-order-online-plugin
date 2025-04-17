@@ -36,7 +36,6 @@ const useReservation = () => {
         [],
         {
           onSuccess: (res) => {
-            console.log("response", res);
             
             if (res && res.data && res.data.data) {
               setShopTiming(res.data.data);

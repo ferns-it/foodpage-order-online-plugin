@@ -46,9 +46,7 @@ function TableReservationForm({ setIsActiveTablePage, encryptToMD5, shopId }) {
     setMinDate(formattedToday);
   }, []);
 
-  console.log(shopTiming, "shopTiming");
   
-
   let oneTimePass;
   const handleChange = (e) => {
     const { name, value } = e.target;

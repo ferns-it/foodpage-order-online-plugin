@@ -13,6 +13,8 @@ function CheckoutSummaryComp() {
     settings,
     setAmount,
     amount,
+    takeawayTime,
+    setTakeawayTime,
   } = useContext(AppContext);
 
   const [deliveryInfo, setDeliveryInfo] = useState(null);
@@ -24,6 +26,7 @@ function CheckoutSummaryComp() {
   const [deliveryCharge, setDeliveryCharge] = useState(null);
   const [postcodeData, setPostcodeData] = useState(null);
   const [time, setTime] = useState(null);
+
   const [details, setDetails] = useState(null);
   useEffect(() => {
     const data = sessionStorage.getItem("postcode");
@@ -36,6 +39,7 @@ function CheckoutSummaryComp() {
     setCode(data);
     setType(datatype);
     setTime(time);
+    setTakeawayTime(time);
     sessionStorage.setItem("deliveryFee", amount);
   }, []);
 
@@ -125,7 +129,6 @@ function CheckoutSummaryComp() {
       }
     } else if (typeofDelivery === "byDistance") {
       const charge = sessionStorage.getItem("newfee");
-      console.log(charge, "charge");
       deliveryCharge = charge && charge != undefined && charge / 100;
     } else if (typeofDelivery === "byPostCode") {
       const postcodelist = deliveryInfo?.FixedDeliveryLocationList;

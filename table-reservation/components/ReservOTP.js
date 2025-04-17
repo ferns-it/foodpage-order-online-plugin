@@ -17,7 +17,7 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
   } = useContext(TableReservationContext);
   const [reservOTP, setResertOTP] = useState("");
   const [resendLoading, setResendLoading] = useState(false);
-  console.log(initialValues, "initialValues");
+
   // const {otp,
   //     setOtp,
   //     clearOtp}=useContext(TableReservationContext)
@@ -70,7 +70,7 @@ function ReservOtp({ setIsActiveTablePage, encryptToMD5, shopId }) {
         },
         onFailed: (err) => {
           toast.error("Error on sending OTP");
-          console.log("OTP ERROR", err);
+        
         },
         headers: headers,
       });

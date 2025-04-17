@@ -35,7 +35,7 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
       [name]: value,
     }));
   };
-  console.log(settings, "settings");
+
   const validateLoginForm = () => {
     let valid = true;
     let errors = {};
@@ -54,7 +54,7 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
   };
 
   const transferCartItems = async (guestId, userId) => {
-    console.log(guestId, userId);
+
     // debugger;
     const payload = {
       guestId,
@@ -123,7 +123,7 @@ function LoginPage({ handleGuestLogin, errors, setErrors }) {
           }, 800);
         },
         onFailed: (err) => {
-          console.log("error=>", err);
+       
           toast.error(err?.response?.data?.errorMessage?.message ||"Authentication Failed");
         },
       });

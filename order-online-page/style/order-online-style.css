@@ -2083,7 +2083,15 @@ body {
     display: block;
   }
 }
-
+.cat_col_0229 {
+  border: 1px solid #bcbcbc;
+  border-radius: 10px;
+  padding: 0;
+  background-color: #fff;
+  margin: 0;
+  min-height: auto !important;
+  height: 100%;
+}
 @media screen and (max-width: 800px) {
   .cat_col_0229 {
     display: none;
@@ -2481,7 +2489,17 @@ body {
   background-color: #f6bdbd;
   color: #e03f3f;
 }
-
+.nav-link-static {
+  text-decoration: none;
+  cursor: pointer;
+  padding: 15px 10px;
+  background-color: #e03f3f;
+  margin-bottom: 5px;
+  padding-right: 30px;
+  color: #ffffff !important;
+  font-size: 16px;
+  font-family: sans-serif;
+}
 .cat_name__ {
   position: relative;
   font-size: 20px;

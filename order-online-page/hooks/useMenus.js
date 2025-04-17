@@ -32,17 +32,44 @@ const useMenus = () => {
       setMenuLoading(false);
     }
   };
+
   const deleteSingleCartItem = async (id, { onSuccess, onFailed }) => {
     try {
       setCartLoading(true);
+      let userToken = getLocalStorageItem("userToken");
+      if (!userToken) {
+        userToken = getLocalStorageItem("UserPersistent");
+      }
+      if (!userToken) {
+        onFailed(new Error("User is not authenticated"));
+        return;
+      }
+      const headers = {
+        "user": userToken,
+      };
       await BaseClient.delete(APIEndpoints.deleteCartItem + `/${id}`, {
+        headers: headers,
         onSuccess: onSuccess,
         onFailed: onFailed,
       });
+    } catch (error) {
+      onFailed(error);
     } finally {
       setCartLoading(false);
     }
   };
+
+  // const deleteSingleCartItem = async (id, { onSuccess, onFailed }) => {
+  //   try {
+  //     setCartLoading(true);
+  //     await BaseClient.delete(APIEndpoints.deleteCartItem + `/${id}`, {
+  //       onSuccess: onSuccess,
+  //       onFailed: onFailed,
+  //     });
+  //   } finally {
+  //     setCartLoading(false);
+  //   }
+  // };
   const fetchCategoriesList = async () => {
     try {
       setCategoryLoading(true);
@@ -121,9 +148,7 @@ const useMenus = () => {
       setSettingsLoading(true);
       await BaseClient.get(APIEndpoints.shopSettings, [], {
         onSuccess: (res) => {
-          console.log("settings",res.data.data);
-
-          setSettings(res?.data?.data);
+        setSettings(res?.data?.data);
           setDeliveryInfo(res?.data?.data?.deliveryInfo);
         },
         onFailed: (err) => {

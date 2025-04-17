@@ -157,7 +157,7 @@ function OrderSummary() {
             setTakeaway(res?.data?.discountAmount);
             sessionStorage.setItem("type", delivery);
             sessionStorage.setItem("discount", takeaway);
-            sessionStorage.setItem("takeawaytime", takeawayTime);
+            setSessionStorageItem("takeawaytime", takeawayTime);
             sessionStorage.setItem("location", "checkout");
             const pathname = `/checkout?price=${deliveryResp?.cart_NetAmount}&&deliveryCharge=0&&discount=${deliveryResp?.discountAmount}`;
             setLocalStorageItem("path", pathname);
@@ -200,7 +200,6 @@ function OrderSummary() {
       await GuestDeliveryDetails(payload, {
         headers: headers,
         onSuccess: async (res) => {
-          console.log(res, ":respones");
           if (res?.data?.error == false) {
             const deliveryResp = res.data.data;
             if (deliveryResp) {
@@ -288,7 +287,7 @@ function OrderSummary() {
     setDeleteIndex(index);
     await deleteSingleCartItem(id, {
       onSuccess: async (res) => {
-        const userId = getSessionStorageItem("UserPersistent");
+        const userId = getLocalStorageItem("UserPersistent");
         await fetchCartList(userId);
         toast.success("Item removed from your cart");
       },
@@ -605,7 +604,7 @@ function OrderSummary() {
                     Pickup Time
                   </label>
                   <div className="inp_wrapper_827">
-                    {/* <input
+                    <input
                       type="time"
                       name=""
                       id=""
@@ -615,9 +614,9 @@ function OrderSummary() {
                           : "opt_input_827"
                       }
                       onChange={validateCurrentTime}
-                    /> */}
+                    />
 
-                    <select
+                    {/* <select
                       name=""
                       id=""
                       onChange={validateCurrentTime}
@@ -637,7 +636,7 @@ function OrderSummary() {
                       ) : (
                         <option>No Timing</option>
                       )}
-                    </select>
+                    </select> */}
                   </div>
                   {error && <div className="error-message">{error}</div>}
                   <div className="mt-2 text-center">

@@ -26,6 +26,7 @@ import {
 function OrderSummaryCheckout() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [pageLoading, setPageLoading] = useState(false);
   const orderType = sessionStorage.getItem("type");
   const details = JSON.parse(getSessionStorageItem("deliveryResponse"));
   const [paramsValues, setParamsValues] = useState({
@@ -41,6 +42,7 @@ function OrderSummaryCheckout() {
     setActiveCard,
     deliveryFee,
     createPaymentIntent,
+    takeawayTime,
     paymentData,
     setStripeClientSecret,
     stripePaymentClientSecret,
@@ -55,6 +57,7 @@ function OrderSummaryCheckout() {
     shopId,
     isUserLogged,
     cartItems,
+    setTakeawayTime,
     clearCartItems,
   } = useContext(AppContext);
 
@@ -187,7 +190,6 @@ function OrderSummaryCheckout() {
 
       deliveryTypeData = "Home Delivery";
       const isValid = handleEmptyValidation();
-      console.log(isValid);
 
       if (isValid && isValid.length != 0) {
         setFieldError(true);
@@ -202,7 +204,6 @@ function OrderSummaryCheckout() {
       setActiveCard("payment");
       deliveryTypeData = "Take Away";
       const isValid = handleEmptyValidation();
-      console.log(isValid);
 
       if (isValid && isValid.length != 0) {
         setFieldError(true);
@@ -315,7 +316,7 @@ function OrderSummaryCheckout() {
         setPaymentOption("");
         return;
       }
-
+      setPageLoading(true);
       const data = paymentData?.data?.data;
       const discount = sessionStorage.getItem("discount");
       const details = JSON.parse(getSessionStorageItem("deliveryResponse"));
@@ -332,7 +333,7 @@ function OrderSummaryCheckout() {
       const userID = getLocalStorageItem("UserPersistent");
       const isGuest = getLocalStorageItem("guest");
       const userToken = getLocalStorageItem("userToken");
-
+      const time = getSessionStorageItem("takeawaytime");
       if (
         (paymentMethod === "STRIPE" && paymentData != null) ||
         (paymentMethod === "COD" && paymentData === null)
@@ -367,11 +368,9 @@ function OrderSummaryCheckout() {
               ? settings?.deliveryInfo?.minWaitingTime
               : "",
           deliveryNotes: formState?.notes,
-          deliveryLocation: formState?.postalCode,
-          takeawayTime:
-            deliveryType === "store_pickup"
-              ? sessionStorage.getItem("takeawaytime")
-              : "",
+          deliveryLocation:
+            deliveryType === "store_pickup" ? "" : formState?.postalCode,
+          takeawayTime: deliveryType === "store_pickup" ? takeawayTime : "",
           customer: {
             customerName: formState?.fullname,
             line1: formState?.addressLine1,
@@ -399,25 +398,22 @@ function OrderSummaryCheckout() {
           onSuccess: async (res) => {
             toast.success("Order Confirmed!");
             //! user token removed here
-            router.push("/order-online");
+
             // removeLocalStorageItem("userToken");
             // removeSessionStorageItem("userInfo");
 
             await fetchCartList(userID);
             await clearCartItems(userID, {
-              onSuccess: (res) => {
-                console.log("cart cleared", res);
-              },
-              onFailed: (err) => {
-                console.log("Error on cart clear", err);
-              },
-            });        
-           
+              onSuccess: (res) => {},
+              onFailed: (err) => {},
+            });
+            await fetchCartList(userID);
             setActiveCard("login");
             setPaymentData(null);
+            redirectToLocation("/order-online");
+            setPageLoading(false);
           },
           onFailed: (err) => {
-            console.log("error message for confirm payment", err);
             toast.error(err.message);
           },
         });
@@ -484,6 +480,7 @@ function OrderSummaryCheckout() {
                   // className="login_order_online_form_0283"
                 >
                   <p id="sub_summary_txt">Enter your details</p>
+
                   <form onSubmit={(e) => handleSubmit(e)}>
                     <div className="row">
                       <div className="col-lg-4 col-md-4 col-sm-4">
@@ -872,7 +869,6 @@ function OrderSummaryCheckout() {
                                           await completeOrder();
                                         }}
                                         paymentFailure={(err) => {
-                                          console.log("error =>", err.message);
                                           toast.error(err.message);
                                         }}
                                         discount={discountData}
@@ -899,7 +895,7 @@ function OrderSummaryCheckout() {
                                   onClick={completeOrder}
                                   disabled={loading}
                                 >
-                                  {!loading ? (
+                                  {!loading && !pageLoading ? (
                                     "Submit"
                                   ) : (
                                     <Fragment>

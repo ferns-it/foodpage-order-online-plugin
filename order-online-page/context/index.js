@@ -26,6 +26,7 @@ export const AppContextProvider = (props) => {
   const [amount, setAmount] = useState(0);
   const [deliveryFee, setDeliveryFee] = useState(null);
   const shopId = process.env.SHOP_ID;
+  const [takeawayTime, setTakeawayTime] = useState(null);
   const [activeCard, setActiveCard] = useState("login");
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [filterLoading, setFilterLoading] = useState(false);
@@ -60,7 +61,7 @@ export const AppContextProvider = (props) => {
       const encodedToken = getLocalStorageItem("userToken");
 
       const decodedToken = jwt.decode(encodedToken, { complete: true });
-      console.log(decodedToken, "encodedToken");
+
       setIsUserLogged(decodedToken);
     }
   }, []);
@@ -159,17 +160,22 @@ export const AppContextProvider = (props) => {
       setSelectedCategory(categoryList[0].cID);
     }
   }, [categoryList]);
+
   useEffect(() => {
     if (productsList.length == 0) {
       if (!categoryList || categoryList.length === 0) return;
-      console.log(categoryList, "catehoskg");
+
+      if (!categoryList) return;
+
+      const validCategories = categoryList.filter(
+        (list) => list.productsCount?.online > 0
+      );
+
       const catId =
-        categoryList &&
-        Array.isArray(categoryList) &&
-        categoryList.length != 0 &&
-        categoryList &&
-        categoryList[0]?.cID;
-      console.log(categoryList && categoryList[0], catId, "categoryList1");
+        validCategories &&
+        validCategories.length > 0 &&
+        validCategories[0]?.cID;
+
       const isCheck =
         productsList &&
         productsList.length != 0 &&
@@ -320,6 +326,8 @@ export const AppContextProvider = (props) => {
         deliveryLoading,
         GuestDiscountoftakeaway,
         GuestDeliveryDetails,
+        takeawayTime,
+        setTakeawayTime,
       }}
     >
       {props.children}

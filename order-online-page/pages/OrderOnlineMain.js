@@ -12,6 +12,8 @@ import { TableReservationContext } from "../../table-reservation/context/TableRe
 import Utils from "../../table-reservation/utils/Utils";
 import "../../table-reservation/style/style.css";
 import "../style/order-online-style.css";
+import { FaSpoon } from "react-icons/fa6";
+import { MenuSquare } from "lucide-react";
 
 const ThemeTitle = ({ htmlString }) => {
   const cleanHtmlString = htmlString.replace(/\r\n/g, "");
@@ -108,9 +110,7 @@ const OrderOnlineMain = () => {
           <div className="food_order_area mt-4">
             <div className="order_block">
               <div className="row position-relative">
-                <div
-                  className="col-lg-3 col-md-3 col-sm-none cat_col_0229 "
-                >
+                <div className="col-lg-3 col-md-3 col-sm-none cat_col_0229 ">
                   <div className="card category_card_009">
                     <ul className="food_category_009">
                       {categoryLoading ? (
@@ -123,30 +123,66 @@ const OrderOnlineMain = () => {
                         </Fragment>
                       ) : (
                         <Fragment>
+                          <div className="nav-link-static">
+                            <FaSpoon size={16} /> <MenuSquare size={16} />{" "}
+                            <b>Menu</b>
+                          </div>
                           {categoryList &&
-                            categoryList.length != 0 &&
+                            categoryList.length > 0 &&
                             categoryList.map((list, index) => {
-                              return (
-                                <a
-                                  // href={`#category-${index}`}
-                                  className={
-                                    index === activeChipIndex
-                                      ? "nav-link active_009"
-                                      : "nav-link"
-                                  }
-                                  key={index}
-                                  onClick={() =>
-                                    handleChipClick(
-                                      index,
-                                      list?.name,
-                                      list?.cID
-                                    )
-                                  }
-                                >
-                                  <li>{list?.name}</li>
-                                  <i>{/* <Lu.LuArrowRightToLine /> */}</i>
-                                </a>
-                              );
+                              const children = list?.childrens;
+
+                              if (children && children.length > 0) {
+                                const hasValidChildren = children.some(
+                                  (child) => child.productsCount?.online > 0
+                                );
+
+                                if (hasValidChildren) {
+                                  return (
+                                    <a
+                                      key={index}
+                                      className={
+                                        index === activeChipIndex
+                                          ? "nav-link active_009"
+                                          : "nav-link"
+                                      }
+                                      onClick={() =>
+                                        handleChipClick(
+                                          index,
+                                          list?.name,
+                                          list?.cID
+                                        )
+                                      }
+                                    >
+                                      <li>{list?.name}</li>
+                                      <i>{/* Optional icon */}</i>
+                                    </a>
+                                  );
+                                }
+                              } else if (list.productsCount?.online > 0) {
+                                return (
+                                  <a
+                                    key={index}
+                                    className={
+                                      index === activeChipIndex
+                                        ? "nav-link active_009"
+                                        : "nav-link"
+                                    }
+                                    onClick={() =>
+                                      handleChipClick(
+                                        index,
+                                        list?.name,
+                                        list?.cID
+                                      )
+                                    }
+                                  >
+                                    <li>{list?.name}</li>
+                                    <i>{/* Optional icon */}</i>
+                                  </a>
+                                );
+                              }
+
+                              return null;
                             })}
                         </Fragment>
                       )}
